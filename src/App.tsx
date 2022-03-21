@@ -1,5 +1,8 @@
-function App() {
-  return <div>Minimetis Dashboard</div>;
-}
+import { Header } from "components";
+import { Theme } from "theme";
 
-export default App;
+export const App: React.FunctionComponent = () => (
+  <Theme>
+    <Header />
+  </Theme>
+);
