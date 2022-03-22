@@ -1,6 +1,9 @@
-import { defineConfig } from "vite";
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import react from "@vitejs/plugin-react";
 import { resolve, join } from "path";
+import { defineConfig } from "vite";
 
 import { readdirSync } from "fs";
 
@@ -27,5 +30,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: { ...rootFolders },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/utils/testUtils/setup.ts"],
   },
 });
