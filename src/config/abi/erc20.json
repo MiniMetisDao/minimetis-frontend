@@ -1,0 +1,1229 @@
+[
+	{
+	  "type": "constructor",
+	  "stateMutability": "payable",
+	  "inputs": [
+		{
+		  "type": "string",
+		  "name": "name_",
+		  "internalType": "string"
+		},
+		{
+		  "type": "string",
+		  "name": "symbol_",
+		  "internalType": "string"
+		},
+		{
+		  "type": "uint256",
+		  "name": "totalSupply_",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "address",
+		  "name": "rewardToken_",
+		  "internalType": "address"
+		},
+		{
+		  "type": "address",
+		  "name": "router_",
+		  "internalType": "address"
+		},
+		{
+		  "type": "uint256[6]",
+		  "name": "feeSettings_",
+		  "internalType": "uint256[6]"
+		}
+	  ]
+	},
+	{
+	  "type": "event",
+	  "name": "Approval",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "owner",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "address",
+		  "name": "spender",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "uint256",
+		  "name": "value",
+		  "internalType": "uint256",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "event",
+	  "name": "AutoLiquify",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "amountBNB",
+		  "internalType": "uint256",
+		  "indexed": false
+		},
+		{
+		  "type": "uint256",
+		  "name": "amountBOG",
+		  "internalType": "uint256",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "event",
+	  "name": "BuybackMultiplierActive",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "duration",
+		  "internalType": "uint256",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "event",
+	  "name": "OwnershipTransferred",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "owner",
+		  "internalType": "address",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "event",
+	  "name": "TokenCreated",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "owner",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "address",
+		  "name": "token",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "uint8",
+		  "name": "tokenType",
+		  "internalType": "enum TokenType",
+		  "indexed": false
+		},
+		{
+		  "type": "uint256",
+		  "name": "version",
+		  "internalType": "uint256",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "event",
+	  "name": "Transfer",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "from",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "address",
+		  "name": "to",
+		  "internalType": "address",
+		  "indexed": true
+		},
+		{
+		  "type": "uint256",
+		  "name": "value",
+		  "internalType": "uint256",
+		  "indexed": false
+		}
+	  ],
+	  "anonymous": false
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "VERSION",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "allowance",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "holder",
+		  "internalType": "address"
+		},
+		{
+		  "type": "address",
+		  "name": "spender",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "approve",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "spender",
+		  "internalType": "address"
+		},
+		{
+		  "type": "uint256",
+		  "name": "amount",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "approveMax",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "spender",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "authorize",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "adr",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "autoBuybackAccumulator",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "autoBuybackAmount",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "autoBuybackBlockLast",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "autoBuybackBlockPeriod",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "autoBuybackCap",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "autoBuybackEnabled",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ],
+	  "name": "autoLiquidityReceiver",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "balanceOf",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "account",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "buyBacker",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "buybackFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "buybackMultiplierDenominator",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "buybackMultiplierLength",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "buybackMultiplierNumerator",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "buybackMultiplierTriggeredAt",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "clearBuybackMultiplier",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "pure",
+	  "outputs": [
+		{
+		  "type": "uint8",
+		  "name": "",
+		  "internalType": "uint8"
+		}
+	  ],
+	  "name": "decimals",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "contract DividendDistributor"
+		}
+	  ],
+	  "name": "distributor",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "distributorGas",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "feeDenominator",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "getCirculatingSupply",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "getLiquidityBacking",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "accuracy",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "getMultipliedFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "getTotalFee",
+	  "inputs": [
+		{
+		  "type": "bool",
+		  "name": "selling",
+		  "internalType": "bool"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "isAuthorized",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "adr",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "isDividendExempt",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "isFeeExempt",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "isOverLiquified",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "target",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "accuracy",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "isOwner",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "account",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "liquidityFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "marketingFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ],
+	  "name": "marketingFeeReceiver",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "string",
+		  "name": "",
+		  "internalType": "string"
+		}
+	  ],
+	  "name": "name",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ],
+	  "name": "pair",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "reflectionFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ],
+	  "name": "rewardToken",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "contract IUniswapV2Router02"
+		}
+	  ],
+	  "name": "router",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setAutoBuybackSettings",
+	  "inputs": [
+		{
+		  "type": "bool",
+		  "name": "_enabled",
+		  "internalType": "bool"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_cap",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_amount",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_period",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setBuyBacker",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "acc",
+		  "internalType": "address"
+		},
+		{
+		  "type": "bool",
+		  "name": "add",
+		  "internalType": "bool"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setBuybackMultiplierSettings",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "numerator",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "denominator",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "length",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setDistributionCriteria",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "_minPeriod",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_minDistribution",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setDistributorSettings",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "gas",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setFeeReceivers",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "_autoLiquidityReceiver",
+		  "internalType": "address"
+		},
+		{
+		  "type": "address",
+		  "name": "_marketingFeeReceiver",
+		  "internalType": "address"
+		},
+		{
+		  "type": "address",
+		  "name": "_treasuryFeeReceiver",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setFees",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "_liquidityFee",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_buybackFee",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_reflectionFee",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_marketingFee",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_treasuryFee",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_feeDenominator",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setIsDividendExempt",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "holder",
+		  "internalType": "address"
+		},
+		{
+		  "type": "bool",
+		  "name": "exempt",
+		  "internalType": "bool"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setIsFeeExempt",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "holder",
+		  "internalType": "address"
+		},
+		{
+		  "type": "bool",
+		  "name": "exempt",
+		  "internalType": "bool"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setSwapBackSettings",
+	  "inputs": [
+		{
+		  "type": "bool",
+		  "name": "_enabled",
+		  "internalType": "bool"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_amount",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "setTargetLiquidity",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "_target",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "uint256",
+		  "name": "_denominator",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "swapEnabled",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "swapThreshold",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "string",
+		  "name": "",
+		  "internalType": "string"
+		}
+	  ],
+	  "name": "symbol",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "targetLiquidity",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "targetLiquidityDenominator",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "totalFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "totalSupply",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "transfer",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "recipient",
+		  "internalType": "address"
+		},
+		{
+		  "type": "uint256",
+		  "name": "amount",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [
+		{
+		  "type": "bool",
+		  "name": "",
+		  "internalType": "bool"
+		}
+	  ],
+	  "name": "transferFrom",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "sender",
+		  "internalType": "address"
+		},
+		{
+		  "type": "address",
+		  "name": "recipient",
+		  "internalType": "address"
+		},
+		{
+		  "type": "uint256",
+		  "name": "amount",
+		  "internalType": "uint256"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "transferOwnership",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "adr",
+		  "internalType": "address payable"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "uint256",
+		  "name": "",
+		  "internalType": "uint256"
+		}
+	  ],
+	  "name": "treasuryFee",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "view",
+	  "outputs": [
+		{
+		  "type": "address",
+		  "name": "",
+		  "internalType": "address"
+		}
+	  ],
+	  "name": "treasuryFeeReceiver",
+	  "inputs": []
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "triggerZeusBuyback",
+	  "inputs": [
+		{
+		  "type": "uint256",
+		  "name": "amount",
+		  "internalType": "uint256"
+		},
+		{
+		  "type": "bool",
+		  "name": "triggerBuybackMultiplier",
+		  "internalType": "bool"
+		}
+	  ]
+	},
+	{
+	  "type": "function",
+	  "stateMutability": "nonpayable",
+	  "outputs": [],
+	  "name": "unauthorize",
+	  "inputs": [
+		{
+		  "type": "address",
+		  "name": "adr",
+		  "internalType": "address"
+		}
+	  ]
+	},
+	{
+	  "type": "receive",
+	  "stateMutability": "payable"
+	}
+  ]
