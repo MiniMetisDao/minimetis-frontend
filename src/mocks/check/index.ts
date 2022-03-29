@@ -1,4 +1,4 @@
-import { getCheck } from "./check" 
+import { getCheck } from "./getCheck" 
 
 export default [
     getCheck
