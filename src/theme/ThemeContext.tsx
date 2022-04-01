@@ -1,6 +1,5 @@
 import React from "react";
-
-export type Mode = "dark" | "light";
+import { Mode } from "./types";
 
 export type ThemeContext = {
   mode: Mode;
