@@ -1,0 +1,1 @@
+export { useGetWalletDetails } from "./useGetWalletDetails";
