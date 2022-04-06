@@ -1,8 +1,14 @@
-import { Header } from "components";
+import { Header, AccountChainIdListener } from "components";
+
+import { queryClient } from "queryClient";
+import { QueryClientProvider } from "react-query";
 import { Theme } from "theme";
 
 export const App: React.FunctionComponent = () => (
   <Theme>
-    <Header />
+    <QueryClientProvider client={queryClient}>
+      <AccountChainIdListener />
+      <Header />
+    </QueryClientProvider>
   </Theme>
 );

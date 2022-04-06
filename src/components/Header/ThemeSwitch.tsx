@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
 import { useToggleTheme } from "theme";
 
 type IconProps = {
@@ -40,7 +40,9 @@ const Moon: React.FunctionComponent<IconProps> = ({ onClick }) => (
   </svg>
 );
 
-export const ThemeSwitch: React.FunctionComponent = () => {
+export const ThemeSwitch: React.FunctionComponent<{
+  css?: Interpolation<Theme>;
+}> = (props) => {
   const [theme, switchTheme] = useToggleTheme();
 
   return (
@@ -50,6 +52,7 @@ export const ThemeSwitch: React.FunctionComponent = () => {
         width: 24px;
         cursor: pointer;
       `}
+      {...props}
     >
       {theme === "dark" ? (
         <Sun onClick={switchTheme} />
