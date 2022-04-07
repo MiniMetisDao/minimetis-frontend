@@ -1,19 +1,47 @@
-import { css } from "@emotion/react";
+import { Link } from "@tanstack/react-location";
 import { ConnectWallet } from "components/ConnectWallet";
-import { styles } from "./styles";
 import { ThemeSwitch } from "./ThemeSwitch";
+import { useTranslation } from "react-i18next";
+import { styles } from "./styles";
 
-export const Header: React.FunctionComponent = () => (
-  <div css={styles}>
-    <div>Minimetis Dashboard</div>
+export const Header: React.FunctionComponent = () => {
+  const { t } = useTranslation();
 
-    <div className="rightSection">
-      <ConnectWallet
-        css={css`
-          cursor: pointer;
-        `}
-      />
-      <ThemeSwitch />
+  return (
+    <div css={styles}>
+      <div className="left-wrapper">
+        <div className="logo">
+          <h1>
+            <Link to="/">{t("siteName")}</Link>
+          </h1>
+        </div>
+        <ul className="menu">
+          <li>
+            <Link to="/trade">{t("trade")}</Link>
+          </li>
+          <li>
+            <Link to="/stake">{t("stake")}</Link>
+          </li>
+          <li>
+            <Link to="/pool">{t("pool")}</Link>
+          </li>
+          <li>
+            <Link to="/farm">{t("farm")}</Link>
+          </li>
+          <li>
+            <Link to="/zap">{t("zap")}</Link>
+          </li>
+          <li>
+            <Link to="/">{t("Dashboard")}</Link>
+          </li>
+        </ul>
+      </div>
+      <div className="right-wrapper">
+        <ThemeSwitch />
+        <div className="wallet-connection">
+          <ConnectWallet />
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};

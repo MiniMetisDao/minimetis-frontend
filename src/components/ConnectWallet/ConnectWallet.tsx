@@ -1,6 +1,7 @@
 import { css, Interpolation, Theme } from "@emotion/react";
 import { useGetWalletDetails } from "queries";
 import { connectWallet } from "utils";
+import { styles } from "./styles";
 
 export const ConnectWallet: React.FunctionComponent<{
   css?: Interpolation<Theme>;
@@ -26,15 +27,17 @@ export const ConnectWallet: React.FunctionComponent<{
   }
 
   return (
-    <button
-      css={css`
-        outline: none;
-        min-width: 70px;
-      `}
-      {...props}
-      onClick={handleConnectWallet}
-    >
-      {text}
-    </button>
+    <div css={styles}>
+      <button
+        css={css`
+          outline: none;
+          min-width: 70px;
+        `}
+        {...props}
+        onClick={handleConnectWallet}
+      >
+        {text}
+      </button>
+    </div>
   );
 };

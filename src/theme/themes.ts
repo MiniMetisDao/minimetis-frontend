@@ -2,14 +2,48 @@ import { Theme } from "@emotion/react";
 
 export const darkTheme: Theme = {
   color: {
-    primary: "white",
-    background: "black",
+    text: {
+      primary: "#ffffff",
+      secondary: "#c39cf9",
+      alternative: "#000000",
+      color1: "#00dacc",
+    },
+    button: {
+      primary: "#00dacc",
+      hover: "#00dacbdc",
+      active: "#00dacbdc",
+      disabled: "#c8bed6",
+    },
+    primary: "#3b005f",
+    secondary: "#58008e",
+    alternative: "#00dacc",
+    color1: "#4d007c",
+    color2: "#8755cd",
+    color3: "#8755cd",
+    color4: "#58008e",
   },
 };
 
 export const lightTheme: Theme = {
   color: {
-    primary: "black",
-    background: "white",
+    text: {
+      primary: "#000000",
+      secondary: "#8755cd",
+      alternative: "#000000",
+      color1: "#00dacc",
+    },
+    button: {
+      primary: "#00dacc",
+      hover: "#00dacbdc",
+      active: "#00dacbdc",
+      disabled: "#c8bed6",
+    },
+    primary: "#ffffff",
+    secondary: "#7300b9",
+    alternative: "#9600f1",
+    color1: "#4d007c",
+    color2: "#8755cd",
+    color3: "#8755cd",
+    color4: "#00a6da",
   },
 };

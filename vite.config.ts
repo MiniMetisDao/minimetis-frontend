@@ -11,7 +11,7 @@ const rootFolders: { [key: string]: string } = {};
 
 const srcPath = resolve("./src");
 const srcFolders = readdirSync(srcPath, { withFileTypes: true }).map((dirent) =>
-  dirent.name.replace(/(\.ts){1}(x?)/, "")
+  dirent.name.replace(/(\.ts){1}(x?)|(\.svg)/, "")
 );
 
 srcFolders.forEach((folder) => {

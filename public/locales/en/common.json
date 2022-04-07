@@ -1,0 +1,11 @@
+{
+    "siteName": "Mini Metis",
+    "dashboard":"Dashboard",
+    "trade":"Trade",
+    "stake":"Stake",
+    "pool":"Pool",
+    "farm":"Farm",
+    "zap":"Zap",
+    "connectWallet": "Connect Wallet",
+    "toggleTheme":"Toggle Theme"
+}
