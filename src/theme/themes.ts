@@ -14,6 +14,14 @@ export const darkTheme: Theme = {
       active: "#00dacbdc",
       disabled: "#c8bed6",
     },
+    connectButton: {
+      primary: "#8755cd",
+      text: "#ffffff",
+    },
+    connectInfo: {
+      primary: "#C8BED6",
+      text: "#6C3DAD",
+    },
     primary: "#3b005f",
     secondary: "#58008e",
     alternative: "#00dacc",
@@ -37,6 +45,14 @@ export const lightTheme: Theme = {
       hover: "#00dacbdc",
       active: "#00dacbdc",
       disabled: "#c8bed6",
+    },
+    connectButton: {
+      primary: "#8755cd",
+      text: "#ffffff",
+    },
+    connectInfo: {
+      primary: "#C8BED6",
+      text: "#6C3DAD",
     },
     primary: "#ffffff",
     secondary: "#7300b9",

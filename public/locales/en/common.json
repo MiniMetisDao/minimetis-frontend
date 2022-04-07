@@ -6,6 +6,12 @@
     "pool":"Pool",
     "farm":"Farm",
     "zap":"Zap",
-    "connectWallet": "Connect Wallet",
+    "connectWallet": "Connect to a wallet",
+    "connectionDetails":{
+        "INVALID_NETWORK": "Switch to Andromeda (Metis)",
+        "WALLET_NOT_CONNECTED": "No wallet connected",
+        "CONNECTED": "Andromeda (Metis)",
+        "NO_METAMASK": "No Metamask found"
+    },
     "toggleTheme":"Toggle Theme"
 }

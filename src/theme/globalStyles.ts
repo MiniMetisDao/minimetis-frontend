@@ -7,8 +7,9 @@ export const globalStyles = (theme: Theme) => css`
     padding: 0;
     margin: 0;
 
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: "Rambla", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+      sans-serif;
 
     background: ${theme.color.primary};
     color: ${theme.color.text.primary};
@@ -20,5 +21,8 @@ export const globalStyles = (theme: Theme) => css`
   body {
     flex: 1;
     padding-bottom: 650px; // move it to footer
+  }
+  button {
+    font-family: "Rambla", sans-serif;
   }
 `;

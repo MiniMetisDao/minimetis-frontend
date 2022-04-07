@@ -69,6 +69,7 @@ export const themeSwitchStyle =
       line-height: 35px;
       cursor: pointer;
       color: ${color.text.secondary};
+      flex-shrink: 0;
 
       &::after {
         content: "";

@@ -21,7 +21,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status,
       address,
-      label: "No Metamask",
+      label: "",
     };
   }
 
@@ -31,7 +31,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status: "INVALID_NETWORK",
       address,
-      label: "Connect to MiniMetis",
+      label: "",
     };
   }
 
@@ -41,14 +41,15 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status: "WALLET_NOT_CONNECTED",
       address,
-      label: "Connect Wallet",
+      label: "",
     };
   }
 
   return {
     status: "CONNECTED",
     address,
-    label: address.slice(0, 8),
+    label:
+      address.substring(0, 6) + "..." + address.substring(address.length - 4),
   };
 };
 

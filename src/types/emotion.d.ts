@@ -15,6 +15,14 @@ declare module "@emotion/react" {
         active: string;
         disabled: string;
       };
+      connectButton: {
+        primary: string;
+        text: string;
+      };
+      connectInfo: {
+        primary: string;
+        text: string;
+      };
       // colors used as background colors
       primary: string;
       secondary: string;

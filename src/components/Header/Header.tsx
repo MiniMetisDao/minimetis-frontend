@@ -38,9 +38,7 @@ export const Header: React.FunctionComponent = () => {
       </div>
       <div className="right-wrapper">
         <ThemeSwitch />
-        <div className="wallet-connection">
-          <ConnectWallet />
-        </div>
+        <ConnectWallet />
       </div>
     </div>
   );
