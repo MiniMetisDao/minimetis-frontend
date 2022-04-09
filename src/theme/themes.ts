@@ -6,6 +6,8 @@ export const darkTheme: Theme = {
       primary: "#ffffff",
       secondary: "#c39cf9",
       alternative: "#000000",
+      white: "#ffffff",
+      black: "#000000",
       color1: "#00dacc",
     },
     button: {
@@ -13,6 +15,7 @@ export const darkTheme: Theme = {
       hover: "#00dacbdc",
       active: "#00dacbdc",
       disabled: "#c8bed6",
+      shadow: { start: "#00000026", end: "#0ec4a5" },
     },
     connectButton: {
       primary: "#8755cd",
@@ -29,6 +32,12 @@ export const darkTheme: Theme = {
     color2: "#8755cd",
     color3: "#8755cd",
     color4: "#58008e",
+    color5: "#00DACC",
+    color5Shadow: { start: "#00000026", end: "#0ec4a5" },
+    color6: "#01A69B",
+    color7: "#7300b9",
+    color7Shadow1: "#00000040",
+    color7Shadow2: "#4e007e4d",
   },
 };
 
@@ -37,7 +46,9 @@ export const lightTheme: Theme = {
     text: {
       primary: "#000000",
       secondary: "#8755cd",
-      alternative: "#000000",
+      alternative: "#ffffff",
+      white: "#ffffff",
+      black: "#000000",
       color1: "#00dacc",
     },
     button: {
@@ -45,6 +56,7 @@ export const lightTheme: Theme = {
       hover: "#00dacbdc",
       active: "#00dacbdc",
       disabled: "#c8bed6",
+      shadow: { start: "#00000026", end: "#0ec4a5" },
     },
     connectButton: {
       primary: "#8755cd",
@@ -61,5 +73,11 @@ export const lightTheme: Theme = {
     color2: "#8755cd",
     color3: "#8755cd",
     color4: "#00a6da",
+    color5: "#00DACC",
+    color5Shadow: { start: "#00000026", end: "#0ec4a5" },
+    color6: "#01A69B",
+    color7: "#7300b9",
+    color7Shadow1: "#00000040",
+    color7Shadow2: "#4e007e4d",
   },
 };

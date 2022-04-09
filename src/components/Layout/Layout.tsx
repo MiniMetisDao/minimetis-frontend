@@ -7,7 +7,7 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <div css={styles}>
       <Header />
-      {children}
+      <div className="container group">{children}</div>
       <Footer />
     </div>
   );

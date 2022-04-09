@@ -14,5 +14,8 @@
         "CONNECTED": "Andromeda (Metis)",
         "NO_METAMASK": "No Metamask found"
     },
-    "toggleTheme":"Toggle Theme"
+    "toggleTheme":"Toggle Theme",
+    "currency": "{{value, formatCurrency}}",
+    "tokenCurrency": "{{value, formatToken(tokenSymbol:MiniMe)}}"
+
 }

@@ -17,12 +17,28 @@ export const globalStyles = (theme: Theme) => css`
   html {
     position: relative;
     display: flex;
+    box-sizing: border-box;
   }
   body {
     flex: 1;
     padding-bottom: 650px; // move it to footer
   }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
   button {
     font-family: "Rambla", sans-serif;
+  }
+
+  .group:before,
+  .group:after {
+    content: "";
+    display: table;
+  }
+  .group:after {
+    clear: both;
   }
 `;

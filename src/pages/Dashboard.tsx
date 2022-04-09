@@ -1,8 +1,10 @@
+import { UserBalance } from "components/dashboard/UserBalance";
+import { UserDividends } from "components/dashboard/UserDividends";
+import { Layout } from "components/Layout";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
-import { Layout } from "components/Layout";
 import { useMinimeConstants } from "queries";
 
 export const Dashboard: React.FC = () => {
@@ -19,8 +21,8 @@ export const Dashboard: React.FC = () => {
         <title>{t("title")}</title>
         <meta name="description" content={t("description")} />
       </ReactMetaTags>
-      {/* Placeholder for now to push the footer down */}
-      <div style={{ height: 600 }} />
+      <UserBalance />
+      <UserDividends />
     </Layout>
   );
 };

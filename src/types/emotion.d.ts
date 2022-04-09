@@ -7,6 +7,8 @@ declare module "@emotion/react" {
         primary: string;
         secondary: string;
         alternative: string;
+        white: string;
+        black: string;
         color1: string;
       };
       button: {
@@ -14,6 +16,10 @@ declare module "@emotion/react" {
         hover: string;
         active: string;
         disabled: string;
+        shadow: {
+          start: string;
+          end: string;
+        };
       };
       connectButton: {
         primary: string;
@@ -31,6 +37,15 @@ declare module "@emotion/react" {
       color2: string;
       color3: string;
       color4: string;
+      color5: string;
+      color5Shadow: {
+        start: string;
+        end: string;
+      };
+      color6: string;
+      color7: string;
+      color7Shadow1: string;
+      color7Shadow2: string;
       // put other specific colors like chart colors into its own group
     };
   }
