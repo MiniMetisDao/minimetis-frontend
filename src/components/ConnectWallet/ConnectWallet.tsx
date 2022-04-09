@@ -1,10 +1,12 @@
-import { css, Interpolation, Theme } from "@emotion/react";
-import { useGetWalletDetails } from "queries";
+import { Interpolation, Theme } from "@emotion/react";
 import { useTranslation } from "react-i18next";
+
+import { useGetWalletDetails } from "queries";
 import { connectWallet } from "utils";
+
 import { styles } from "./styles";
 
-export const ConnectWallet: React.FunctionComponent<{
+export const ConnectWallet: React.FC<{
   css?: Interpolation<Theme>;
 }> = (props) => {
   const { t } = useTranslation();

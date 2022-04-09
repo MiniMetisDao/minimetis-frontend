@@ -4,7 +4,7 @@ import { ThemeSwitch } from "./ThemeSwitch";
 import { useTranslation } from "react-i18next";
 import { styles } from "./styles";
 
-export const Header: React.FunctionComponent = () => {
+export const Header: React.FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -32,7 +32,7 @@ export const Header: React.FunctionComponent = () => {
             <Link to="/zap">{t("zap")}</Link>
           </li>
           <li>
-            <Link to="/">{t("Dashboard")}</Link>
+            <Link to="/">{t("dashboard")}</Link>
           </li>
         </ul>
       </div>

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useToggleTheme } from "theme";
 import { themeSwitchStyle } from "./styles";
 
-export const ThemeSwitch: React.FunctionComponent<{
+export const ThemeSwitch: React.FC<{
   css?: Interpolation<Theme>;
 }> = (props) => {
   const { t } = useTranslation();

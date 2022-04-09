@@ -2,7 +2,7 @@ import { useGetWalletDetails } from "queries";
 import React from "react";
 import { listen, unlisten } from "utils";
 
-export const AccountChainIdListener: React.FunctionComponent = () => {
+export const AccountChainIdListener: React.FC = () => {
   const { refetch } = useGetWalletDetails();
 
   React.useEffect(() => {

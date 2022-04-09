@@ -1,6 +1,6 @@
 import { styles } from "./styles";
 
-export const Footer: React.FunctionComponent = () => {
+export const Footer: React.FC = () => {
   return (
     <div css={styles}>
       <div className="waves-container">

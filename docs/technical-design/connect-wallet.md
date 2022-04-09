@@ -45,7 +45,7 @@ On these occasions our cache should be updated and we should re render the whole
 One possible approach is have a component mounted in `App` level or high in the tree which has the below functionality to listen to those events
 
 ```tsx
-const AccountChainIdListener: React.FunctionComponent = () => {
+const AccountChainIdListener: React.FC = () => {
   const { refetch } = useGetWalletDetails();
 
   React.useEffect(() => {

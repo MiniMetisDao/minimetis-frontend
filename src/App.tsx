@@ -1,12 +1,14 @@
+import { Outlet, ReactLocation, Router } from "@tanstack/react-location";
+import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 import { AccountChainIdListener } from "components";
 import { Dashboard } from "pages/Dashboard";
-
-import { queryClient } from "queryClient";
-import { QueryClientProvider } from "react-query";
-import { Theme } from "theme";
-import { Outlet, ReactLocation, Router } from "@tanstack/react-location";
 import { Trade } from "pages/Trade";
 import { NotFound } from "pages/NotFound";
+import { Theme } from "theme";
+import { queryClient } from "queryClient";
+
 const location = new ReactLocation();
 
 export const App: React.FC = () => (
@@ -23,6 +25,7 @@ export const App: React.FC = () => (
       >
         <Outlet />
       </Router>
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </Theme>
 );

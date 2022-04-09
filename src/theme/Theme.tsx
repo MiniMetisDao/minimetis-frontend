@@ -9,7 +9,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const ThemeProvider: React.FunctionComponent<Props> = ({ children }) => {
+export const ThemeProvider: React.FC<Props> = ({ children }) => {
   const [mode, setMode] = React.useState<Mode>(
     (localStorage.getItem("mode") as Mode) || "dark"
   );

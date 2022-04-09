@@ -1,7 +1,7 @@
 # Contract Queries
 
-onetime api call (https://andromeda-explorer.metis.io/address/0x6d8534326415Ff9966b387615e576A109aC01AC1/read-contract)
-  - minime contract variables
+[onetime api call](https://andromeda-explorer.metis.io/address/0x6d8534326415Ff9966b387615e576A109aC01AC1/read-contract)
+  **minime contract variables**
     -- name (token name)
     -- symbol (token symbol)
     -- decimals (decimal points to divide the number to get actual value)
@@ -15,7 +15,7 @@ onetime api call (https://andromeda-explorer.metis.io/address/0x6d8534326415Ff99
     -- token0 (this is m.usdt)
     -- token1 (metis)
 
-your minimetis balance
+**your minimetis balance**
   - minime contract address -> config/CONTRACT_ADDRESS
   - balanceOf(address)
   - Find price of minimetis -> get balanceOf(token0) and balanceOf(token1), pair is the LP address
@@ -24,15 +24,15 @@ your minimetis balance
     -- 1 metis  = balanceOf(token1)/balanceOf(token0)
   - minimetis in dollars [1 minime = (1141/74,493,146,636,647.639) * the above line value]
 
-your minimetis divident share percentage
+**your minimetis divident share percentage**
   -   textYourDividendShare = ((yourBalance/(totalShares/1000000000000000000000000000000))*100).toFixed(4).concat("%"); [get clarification on the calculation]
   - totalShares - get from the distributor contract ( method name is "totalShares")
 
-your claimed dividents
+**your claimed dividents**
   - textTotalClaimed
   - userShares - get from distributor contract (method: 'shares', args: [address])
 
-your unclaimed dividents
+**your unclaimed dividents**
   - textUnpaidEarning
   - userUnpaidShares - get from distributor contract (method: 'getUnpaidEarnings', args: [address])
 

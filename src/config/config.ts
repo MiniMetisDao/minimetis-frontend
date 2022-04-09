@@ -7,3 +7,7 @@ export const METIS_MINIME_LP_CONTRACT_ADDRESS = "0x8Ad9B0ddCD5E8385FE04C66308771
 export const METIS_USDT_LP_CONTRACT_ADDRESS = "0x8121113eB9952086deC3113690Af0538BB5506fd"; // tethys LP metis-m.usdt
 
 export const METIS_CHAIN_ID = 1088;
+
+// TODO: Added for dev. Will remove it later.
+export const POLYGON_RPC_URL = "https://polygon-rpc.com/"
+export const METIS_RPC_URL = "https://andromeda.metis.io/?owner=1088"

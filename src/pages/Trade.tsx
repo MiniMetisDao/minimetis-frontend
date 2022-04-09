@@ -1,11 +1,12 @@
-import { ConnectWallet } from "components/ConnectWallet";
-import { Layout } from "components/Layout";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
+import { Layout } from "components/Layout";
+
 export const Trade: React.FC = () => {
   const { t } = useTranslation("dex");
+
   return (
     <Layout>
       <ReactMetaTags>
