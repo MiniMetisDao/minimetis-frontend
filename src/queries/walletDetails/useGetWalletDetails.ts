@@ -10,7 +10,7 @@ export type WalletStatus =
 export type WalletDetails = {
   address: string;
   status: WalletStatus;
-  label: string;
+  label?: string;
 };
 
 const fetchWalletDetails = async (): Promise<WalletDetails> => {
@@ -21,7 +21,6 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status,
       address,
-      label: "",
     };
   }
 
@@ -31,7 +30,6 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status: "INVALID_NETWORK",
       address,
-      label: "",
     };
   }
 
@@ -41,7 +39,6 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     return {
       status: "WALLET_NOT_CONNECTED",
       address,
-      label: "",
     };
   }
 

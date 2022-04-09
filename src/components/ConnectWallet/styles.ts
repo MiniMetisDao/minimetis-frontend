@@ -4,6 +4,10 @@ export const styles = ({ color }: Theme) => css`
   display: flex;
   margin-left: 10px;
 
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
   button {
     position: relative;
     background: ${color.connectButton.primary};

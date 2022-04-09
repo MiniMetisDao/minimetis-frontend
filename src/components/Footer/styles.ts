@@ -66,6 +66,10 @@ export const styles = css`
     height: 133px;
     left: 10%;
     top: 280px;
+
+    @media (max-width: 1024px) {
+      display: none;
+    }
   }
   .planet-2 {
     background: url(${planet2}) no-repeat;

@@ -22,6 +22,25 @@ export const connectWallet = async () =>
     []
   );
 
+//TODO: move to somewhere configurable to easily switch netween multiple networks
+export const switchNetwork = async () =>
+  await new ethers.providers.Web3Provider(window.ethereum).send(
+    "wallet_addEthereumChain",
+    [
+      {
+        chainId: "0x440",
+        rpcUrls: ["https://andromeda.metis.io/?owner=1088"],
+        chainName: "Metis Andromeda Mainnet",
+        nativeCurrency: {
+          name: "METIS",
+          symbol: "METIS",
+          decimals: 18,
+        },
+        blockExplorerUrls: ["https://andromeda-explorer.metis.io"],
+      },
+    ]
+  );
+
 export const listen = async (
   eventName: ethers.providers.EventType,
   listener: ethers.providers.Listener

@@ -1,12 +1,10 @@
 import { Interpolation, Theme } from "@emotion/react";
-import { useTranslation } from "react-i18next";
-
 import { useGetWalletDetails } from "queries";
-import { connectWallet } from "utils";
-
+import { useTranslation } from "react-i18next";
+import { connectWallet, switchNetwork } from "utils";
 import { styles } from "./styles";
 
-export const ConnectWallet: React.FC<{
+export const ConnectWallet: React.FunctionComponent<{
   css?: Interpolation<Theme>;
 }> = (props) => {
   const { t } = useTranslation();
@@ -16,18 +14,24 @@ export const ConnectWallet: React.FC<{
     if (data?.status === "CONNECTED") {
       return;
     }
-
-    await connectWallet();
+    if (data?.status === "INVALID_NETWORK") {
+      await switchNetwork();
+    } else {
+      await connectWallet();
+    }
     refetch();
   };
 
   let text: string;
-
   // TODO: Revisit the loading case.
   if (isLoading || error || !data) {
     text = t("connectWallet");
   } else {
-    text = data?.label || t("connectWallet");
+    text =
+      data?.label ||
+      (data?.status === "INVALID_NETWORK"
+        ? t("switchWallet")
+        : t("connectWallet"));
   }
 
   return (

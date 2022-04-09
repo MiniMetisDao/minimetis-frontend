@@ -5,7 +5,7 @@ import night from "assets/images/night.svg";
 
 export const styles = ({ color }: Theme) =>
   css`
-    margin: 50px 20px;
+    margin: 50px 20px 100px;
     display: flex;
     justify-content: space-between;
 
@@ -18,8 +18,8 @@ export const styles = ({ color }: Theme) =>
     .logo {
       h1 {
         margin: 0 50px 0 0;
-        height: 80px;
-        width: 270px;
+        height: 83px;
+        width: 245px;
         line-height: 0;
         font-size: 0;
         color: transparent;
@@ -49,11 +49,10 @@ export const styles = ({ color }: Theme) =>
         text-decoration: none;
         line-height: 2;
       }
-    }
 
-    .wallet-connection {
-      margin-left: 10px;
-      display: flex;
+      @media (max-width: 1024px) {
+        display: none;
+      }
     }
   `;
 
@@ -70,6 +69,10 @@ export const themeSwitchStyle =
       cursor: pointer;
       color: ${color.text.secondary};
       flex-shrink: 0;
+
+      @media (max-width: 1024px) {
+        display: none;
+      }
 
       &::after {
         content: "";

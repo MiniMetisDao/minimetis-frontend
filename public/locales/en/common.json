@@ -7,8 +7,9 @@
     "farm":"Farm",
     "zap":"Zap",
     "connectWallet": "Connect to a wallet",
+    "switchWallet": "Switch to Andromeda(Metis)",
     "connectionDetails":{
-        "INVALID_NETWORK": "Switch to Andromeda (Metis)",
+        "INVALID_NETWORK": "Invalid network",
         "WALLET_NOT_CONNECTED": "No wallet connected",
         "CONNECTED": "Andromeda (Metis)",
         "NO_METAMASK": "No Metamask found"
