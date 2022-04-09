@@ -13,6 +13,7 @@ export type Options = {
   refetchInterval?: number | false | ((data: any, query: any) => number | false) | undefined;
   staleTime?: number;
   cacheTime?: number;
+  select?: ((data: any) => any) | undefined;
 };
 
 export const useMultiCallContract = (
@@ -24,5 +25,6 @@ export const useMultiCallContract = (
     refetchInterval: options.refetchInterval ?? 5_000,
     staleTime: options.staleTime,
     cacheTime: options.cacheTime,
+    select: options.select,
   });
 };
