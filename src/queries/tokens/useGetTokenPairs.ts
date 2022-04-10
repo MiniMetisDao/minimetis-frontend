@@ -7,6 +7,23 @@ import {
 } from "config";
 import { useMultiCallContract } from "utils";
 
+type TokenPairs = {
+  metisUsdtPair: {
+    metisTokens: number;
+    usdtTokens: number;
+  };
+  metisMinimetisPair: {
+    metisTokens: number;
+    miniMetisTokens: number;
+  };
+};
+
+type Result = {
+  isLoading: boolean;
+  isError: boolean;
+  data?: TokenPairs;
+};
+
 const metisUsdtPairQuery = [
   {
     address: METIS_CONTRACT_ADDRESS,
@@ -33,19 +50,8 @@ const miniMetisMetisPairQuery = (metisMinimetisLpContractAddress: string) => [
   },
 ];
 
-type TokenPairs = {
-  metisUsdtPair: {
-    metisTokens: number;
-    usdtTokens: number;
-  };
-  metisMinimetisPair: {
-    metisTokens: number;
-    miniMetisTokens: number;
-  };
-};
-
-export const useGetTokenPairs = () => {
-  const { data: minimeConstants } = useMinimeConstants();
+export const useGetTokenPairs = (): Result => {
+  const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
 
   const tokenPairs = useMultiCallContract(
     "tokenPairs",
@@ -71,5 +77,5 @@ export const useGetTokenPairs = () => {
     };
   }
 
-  return { ...tokenPairs, data };
+  return { isLoading, isError, data };
 };

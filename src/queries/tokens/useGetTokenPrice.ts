@@ -2,14 +2,23 @@ import { Decimals } from "config";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
 
-export const useGetTokenPrice = () => {
-  const tokenPairs = useGetTokenPairs();
+type Result = {
+  isLoading: boolean;
+  isError: boolean;
+  data?: {
+    metis: number;
+    miniMetis: number;
+  };
+};
 
-  if (!tokenPairs.data) {
-    return tokenPairs;
+export const useGetTokenPrice = (): Result => {
+  const { data, isLoading, isError } = useGetTokenPairs();
+
+  if (!data) {
+    return { isLoading, isError };
   }
 
-  const { metisUsdtPair, metisMinimetisPair } = tokenPairs.data;
+  const { metisUsdtPair, metisMinimetisPair } = data;
 
   // prettier-ignore
   const metisPriceInDollars = 
@@ -22,7 +31,8 @@ export const useGetTokenPrice = () => {
   miniMetisPriceInDollars *= metisPriceInDollars;
 
   return {
-    ...tokenPairs,
+    isLoading,
+    isError,
     data: {
       metis: metisPriceInDollars,
       miniMetis: miniMetisPriceInDollars,
