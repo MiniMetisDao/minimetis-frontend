@@ -8,9 +8,9 @@ export type WalletStatus =
   | "CONNECTED";
 
 export type WalletDetails = {
-  address: string;
+  address?: string;
   status: WalletStatus;
-  label?: string;
+  shortAddress?: string;
 };
 
 const fetchWalletDetails = async (): Promise<WalletDetails> => {
@@ -20,7 +20,6 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
   if (!window.ethereum) {
     return {
       status,
-      address,
     };
   }
 
@@ -29,7 +28,6 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
   if (!isValidNetworkConnected) {
     return {
       status: "INVALID_NETWORK",
-      address,
     };
   }
 
@@ -38,14 +36,13 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
   if (!address) {
     return {
       status: "WALLET_NOT_CONNECTED",
-      address,
     };
   }
 
   return {
     status: "CONNECTED",
     address,
-    label:
+    shortAddress:
       address.substring(0, 6) + "..." + address.substring(address.length - 4),
   };
 };

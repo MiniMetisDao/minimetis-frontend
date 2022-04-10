@@ -1,4 +1,4 @@
-import { CONTRACT_ADDRESS } from "config";
+import { MINIMETIS_CONTRACT_ADDRESS } from "config";
 import { UseQueryResult } from "react-query";
 import { useMultiCallContract } from "utils";
 
@@ -17,7 +17,7 @@ type ResultSet = Record<Methods, any>;
 
 const query = methods.map((method) => ({
   method,
-  address: CONTRACT_ADDRESS,
+  address: MINIMETIS_CONTRACT_ADDRESS,
 }));
 
 const selector = (results: string[]): ResultSet => {

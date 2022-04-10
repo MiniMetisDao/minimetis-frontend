@@ -14,6 +14,7 @@ export type Options = {
   staleTime?: number;
   cacheTime?: number;
   select?: ((data: any) => any) | undefined;
+  enabled?: boolean;
 };
 
 export const useMultiCallContract = (
@@ -26,5 +27,6 @@ export const useMultiCallContract = (
     staleTime: options.staleTime,
     cacheTime: options.cacheTime,
     select: options.select,
+    enabled: options.enabled,
   });
 };

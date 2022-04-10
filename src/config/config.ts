@@ -1,5 +1,5 @@
 export const DISTRIBUTOR_CONTRACT_ADDRESS = "0xF2C0e8b0785727726119FdE77e56d6E6E3Ed342E";
-export const CONTRACT_ADDRESS = "0x6d8534326415Ff9966b387615e576A109aC01AC1";
+export const MINIMETIS_CONTRACT_ADDRESS = "0x6d8534326415Ff9966b387615e576A109aC01AC1";
 export const METIS_CONTRACT_ADDRESS = "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000";
 export const USDT_CONTRACT_ADDRESS = "0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC";
 
@@ -14,3 +14,9 @@ export const BASE_CURRENCY_CODE = 'USD'
 export const POLYGON_RPC_URL = "https://polygon-rpc.com/"
 export const METIS_RPC_URL = "https://andromeda.metis.io/?owner=1088"
 
+// TODO: Change this name. Also try get it from api.
+export const Decimals = {
+  metis: 1000000000000000000,
+  usdt: 1000000,
+  miniMetis: 1000000000000000000,
+}

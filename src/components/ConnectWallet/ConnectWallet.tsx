@@ -23,12 +23,13 @@ export const ConnectWallet: React.FunctionComponent<{
   };
 
   let text: string;
+
   // TODO: Revisit the loading case.
   if (isLoading || error || !data) {
     text = t("connectWallet");
   } else {
     text =
-      data?.label ||
+      data?.shortAddress ||
       (data?.status === "INVALID_NETWORK"
         ? t("switchWallet")
         : t("connectWallet"));

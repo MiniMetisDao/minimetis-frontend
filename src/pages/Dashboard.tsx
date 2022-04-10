@@ -5,16 +5,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
-import { useMinimeConstants } from "queries";
 import { TokenStats } from "components/dashboard/TokenStats";
 
 export const Dashboard: React.FC = () => {
   const { t } = useTranslation("dashboard");
-
-  // TODO: Added to test the hook.
-  const minimeConstantsQuery = useMinimeConstants();
-
-  console.log(minimeConstantsQuery.data);
 
   return (
     <Layout>
