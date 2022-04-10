@@ -18,6 +18,8 @@ i18next
   });
 
 i18next.services.formatter!.add("formatToken", (value, lng, options) => {
+  if (value === undefined || isNaN(value)) return "--";
+
   return `${new Intl.NumberFormat(lng, {
     notation: options.isCompact ? "compact" : "standard",
     maximumSignificantDigits: 4,
@@ -26,11 +28,14 @@ i18next.services.formatter!.add("formatToken", (value, lng, options) => {
 });
 
 i18next.services.formatter!.add("formatCurrency", (value, lng, options) => {
+  if (value === undefined || isNaN(value)) return "--";
+
   return new Intl.NumberFormat(lng, {
     style: "currency",
     notation: options.isCompact ? "compact" : "standard",
     currency: BASE_CURRENCY_CODE,
     maximumSignificantDigits: 4,
+    maximumFractionDigits: 2,
     compactDisplay: "long",
   }).format(value);
 });

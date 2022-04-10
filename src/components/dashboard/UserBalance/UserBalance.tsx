@@ -1,9 +1,30 @@
-import { BASE_CURRENCY_CODE } from "config";
-import { Trans, useTranslation } from "react-i18next";
+import { DisplayPrice } from "components/DisplayPrice";
+import {
+  BASE_CURRENCY_CODE,
+  Decimals,
+  MINIMETIS_CONTRACT_ADDRESS,
+} from "config";
+import { useGetWalletDetails } from "queries";
+import { useGetTokenPrice } from "queries/tokens";
+import { useTranslation } from "react-i18next";
+import { useMultiCallContract } from "utils";
 import { styles } from "./styles";
 
-export const UserBalance: React.FunctionComponent = () => {
+export const UserBalance: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
+  const { data } = useGetWalletDetails();
+  const { data: tokenPrice } = useGetTokenPrice();
+  const { data: userBalanceData } = useMultiCallContract(
+    "userBalance",
+    [
+      {
+        address: MINIMETIS_CONTRACT_ADDRESS,
+        method: "balanceOf",
+        params: [data?.address!],
+      },
+    ],
+    { enabled: Boolean(data?.address) }
+  );
 
   return (
     <div css={styles}>
@@ -12,18 +33,27 @@ export const UserBalance: React.FunctionComponent = () => {
         <div>
           <span className="title">{t("myMiniMetisBalance")}</span>
           <span className="token-value">
-            {t("tokenCurrency", {
-              value: 1.726175820364038e-9,
-              isCompact: true,
-            })}
+            <DisplayPrice
+              price={userBalanceData}
+              decimals={Decimals.miniMetis}
+            />
           </span>
           <div className="base-value">
-            <span>$1,000,0000</span>
+            <span>
+              <DisplayPrice
+                price={userBalanceData}
+                decimals={Decimals.miniMetis}
+                baseFactor={tokenPrice?.miniMetis}
+                isBasePrice
+              />
+            </span>
             <span className="base-value-symbol">{BASE_CURRENCY_CODE}</span>
           </div>
         </div>
         <div>
-          <span className="title">{t("yourDividendSharePercentage")}</span>
+          <span className="title percentage-title">
+            {t("yourDividendSharePercentage")}
+          </span>
           <div className="percentage-value">
             <span>3.056%</span>
           </div>

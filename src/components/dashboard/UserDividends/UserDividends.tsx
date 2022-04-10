@@ -2,7 +2,7 @@ import { BASE_CURRENCY_CODE } from "config";
 import { Trans, useTranslation } from "react-i18next";
 import { styles } from "./styles";
 
-export const UserDividends: React.FunctionComponent = () => {
+export const UserDividends: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
 
   return (

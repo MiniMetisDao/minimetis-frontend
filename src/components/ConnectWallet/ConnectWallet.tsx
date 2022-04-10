@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { connectWallet, switchNetwork } from "utils";
 import { styles } from "./styles";
 
-export const ConnectWallet: React.FunctionComponent<{
+export const ConnectWallet: React.FC<{
   css?: Interpolation<Theme>;
 }> = (props) => {
   const { t } = useTranslation();
