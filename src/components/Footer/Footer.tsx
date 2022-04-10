@@ -1,9 +1,11 @@
 import { t } from "i18next";
+import { useToggleTheme } from "theme";
 import { styles } from "./styles";
 
 export const Footer: React.FC = () => {
+  const [theme] = useToggleTheme();
   return (
-    <div css={styles}>
+    <div css={styles({ theme })}>
       <div className="social container">
         <ul>
           <li>
