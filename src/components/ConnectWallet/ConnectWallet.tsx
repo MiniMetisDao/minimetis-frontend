@@ -37,7 +37,13 @@ export const ConnectWallet: React.FunctionComponent<{
   return (
     <div css={styles}>
       {data && (
-        <div className="connection-info">
+        <div
+          className={
+            data?.status === "INVALID_NETWORK"
+              ? "connection-info cry"
+              : "connection-info"
+          }
+        >
           {t(`connectionDetails.${data.status}`)}
         </div>
       )}

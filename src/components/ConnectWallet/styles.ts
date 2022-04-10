@@ -1,5 +1,7 @@
 import { css, Theme } from "@emotion/react";
 import metamask from "assets/images/metamask.svg";
+import minimeCry from "assets/images/minime-cry.svg";
+
 export const styles = ({ color }: Theme) => css`
   display: flex;
   margin-left: 10px;
@@ -41,5 +43,20 @@ export const styles = ({ color }: Theme) => css`
     line-height: 1.2;
     border-radius: 5px;
     margin-right: 10px;
+
+    &.cry {
+      position: relative;
+      padding-right: 60px;
+      ::after {
+        content: "";
+        background: url(${minimeCry}) no-repeat;
+        width: 48px;
+        height: 35px;
+        position: absolute;
+        background-size: 100%;
+        top: 3px;
+        right: 3px;
+      }
+    }
   }
 `;

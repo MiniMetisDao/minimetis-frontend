@@ -9,10 +9,10 @@
     "connectWallet": "Connect to a wallet",
     "switchWallet": "Switch to Andromeda(Metis)",
     "connectionDetails":{
-        "INVALID_NETWORK": "Invalid network",
-        "WALLET_NOT_CONNECTED": "No wallet connected",
+        "INVALID_NETWORK": "Invalid Network!",
+        "WALLET_NOT_CONNECTED": "No Wallet Connected!",
         "CONNECTED": "Andromeda (Metis)",
-        "NO_METAMASK": "No Metamask found"
+        "NO_METAMASK": "No Metamask Found"
     },
     "toggleTheme":"Toggle Theme",
     "currency": "{{value, formatCurrency}}",
