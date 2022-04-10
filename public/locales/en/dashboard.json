@@ -2,8 +2,14 @@
     "title":"Mini Metis Dashboard",
     "myMiniMetis": "My MiniMetis",
     "myMiniMetisBalance": "My MiniMetis Balance",
-    "yourDividentSharePercentage": "Your Divident Share Percentage",
+    "yourDividendSharePercentage": "Your Dividend Share Percentage",
     "myClaimedDividends":"My claimed dividends | <strong>{{tokenName}}</strong>",
-    "myUnclaimedDividends":"My unclaimed dividends | {{tokenName}}",
-    "dividendInfo":"Once you have accumulated {{minimumAmount}} <strong>{{tokenName}}</strong> in unpaid dividends, your dividend will be added into the queue and paid out to you automatically. <strong>IF YOU WOULD LIKE TO CLAIM YOUR DIVIDENDS NOW FEEL FREE TO USE THE CLAIM DIVIDEND</strong>"
+    "myUnclaimedDividends":"My unclaimed dividends | <strong>{{tokenName}}</strong>",
+    "dividendInfo":"Once you have accumulated {{minimumAmount}} <strong>{{tokenName}}</strong> in unpaid dividends, your dividend will be added into the queue and paid out to you automatically. <strong>IF YOU WOULD LIKE TO CLAIM YOUR DIVIDENDS NOW FEEL FREE TO USE THE CLAIM DIVIDEND</strong>",
+    "miniMetisStats": "MiniMetis Stats",
+    "miniMetisPrice": "MiniMetis Price",
+    "totalDividendsPaid": "Total Dividends Paid",
+    "totalTreasury": "Total Treasury",
+    "markeCap": "Market Cap",
+    "totalBurned": "Total Burned"  
 }

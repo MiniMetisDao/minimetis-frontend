@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
 import { useMinimeConstants } from "queries";
+import { TokenStats } from "components/dashboard/TokenStats";
 
 export const Dashboard: React.FC = () => {
   const { t } = useTranslation("dashboard");
@@ -23,6 +24,7 @@ export const Dashboard: React.FC = () => {
       </ReactMetaTags>
       <UserBalance />
       <UserDividends />
+      <TokenStats />
     </Layout>
   );
 };

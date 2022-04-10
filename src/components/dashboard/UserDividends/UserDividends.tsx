@@ -1,3 +1,4 @@
+import { BASE_CURRENCY_CODE } from "config";
 import { Trans, useTranslation } from "react-i18next";
 import { styles } from "./styles";
 
@@ -16,11 +17,11 @@ export const UserDividends: React.FunctionComponent = () => {
             />
           </span>
           <span className="token-value">
-            {t("tokenCurrency", { value: 100000000000000 })}
+            {t("tokenCurrency", { value: 100000000000, isCompact: true })}
           </span>
           <div className="base-value">
-            <span> {t("currency", { value: 100000000000000 })}</span>
-            <span className="base-value-symbol">USD</span>
+            <span> {t("currency", { value: 100000000000 })}</span>
+            <span className="base-value-symbol">{BASE_CURRENCY_CODE}</span>
           </div>
         </div>
       </div>
@@ -33,11 +34,11 @@ export const UserDividends: React.FunctionComponent = () => {
           />
         </span>
         <span className="token-value">
-          {t("tokenCurrency", { value: 100000000000000 })}
+          {t("tokenCurrency", { value: 100000000, isCompact: true })}
         </span>
         <div className="base-value">
-          <span> {t("currency", { value: 100000000000000 })}</span>
-          <span className="base-value-symbol">USD</span>
+          <span> {t("currency", { value: 100000000 })}</span>
+          <span className="base-value-symbol">{BASE_CURRENCY_CODE}</span>
         </div>
       </div>
       <div className="claim">

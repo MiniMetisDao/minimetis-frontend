@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
+import { BASE_CURRENCY_CODE } from "./config";
 
 i18next
   .use(Backend)
@@ -17,17 +18,18 @@ i18next
   });
 
 i18next.services.formatter!.add("formatToken", (value, lng, options) => {
-  return new Intl.NumberFormat(lng, {
-    notation: "compact",
+  return `${new Intl.NumberFormat(lng, {
+    notation: options.isCompact ? "compact" : "standard",
     compactDisplay: "long",
-  }).format(value);
-  // console.log("string", string, value, lng, options);
+  }).format(value)} ${options.tokenSymbol || ""}`;
 });
 
 i18next.services.formatter!.add("formatCurrency", (value, lng, options) => {
   return new Intl.NumberFormat(lng, {
     style: "currency",
-    currency: "USD",
+    notation: options.isCompact ? "compact" : "standard",
+    currency: BASE_CURRENCY_CODE,
+    maximumFractionDigits: 18,
     compactDisplay: "long",
   }).format(value);
 });

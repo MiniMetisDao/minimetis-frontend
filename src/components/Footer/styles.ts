@@ -1,19 +1,24 @@
-import { css } from "@emotion/react";
+import { css, Theme } from "@emotion/react";
 
 import minimePlanet from "assets/images/minime-planet.svg";
 import planet1 from "assets/images/planet-1.svg";
 import planet2 from "assets/images/planet-2.svg";
 import star from "assets/images/star.svg";
 import logoFooter from "assets/images/logo-footer.svg";
+import socialBg from "assets/images/social-bg.svg";
+import twitterIcon from "assets/images/twitter-icon.svg";
+import telegramIcon from "assets/images/telegram-icon.svg";
+import discordIcon from "assets/images/discord-icon.svg";
 
-export const styles = css`
-  width: 100%;
-  height: 650px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  overflow: hidden;
-
+export const styles = ({ color }: Theme) => css`
+  .footer-section {
+    width: 100%;
+    height: 650px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
   .waves-container {
     position: absolute;
     width: 4200px;
@@ -189,6 +194,57 @@ export const styles = css`
       background: url(${logoFooter}) no-repeat;
       width: 285px;
       height: 83px;
+    }
+  }
+
+  .container {
+    max-wdith: 992px;
+  }
+  .social {
+    display: flex;
+    width: 78%;
+    margin-bottom: 100px;
+    justify-content: center;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      max-width: 85%;
+    }
+    li {
+      background: url(${socialBg}) no-repeat;
+      background-size: cover;
+      min-width: 241px;
+      min-height: 82px;
+      aspect-ratio: 241/82;
+      padding: 10px 18px;
+      margin: 0 10px;
+      width: 33%;
+      display: flex;
+    }
+    a {
+      color: ${color.text.primary};
+      text-decoration: none;
+      min-height: 40px;
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+    }
+    .twitter {
+      background: url(${twitterIcon}) no-repeat left center;
+      padding-left: 60px;
+    }
+    .telegram {
+      background: url(${telegramIcon}) no-repeat left center;
+      padding-left: 65px;
+    }
+    .discord {
+      background: url(${discordIcon}) no-repeat left center;
+      padding-left: 65px;
     }
   }
 `;

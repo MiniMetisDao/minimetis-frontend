@@ -8,6 +8,9 @@ export const METIS_USDT_LP_CONTRACT_ADDRESS = "0x8121113eB9952086deC3113690Af053
 
 export const METIS_CHAIN_ID = 1088;
 
+export const BASE_CURRENCY_CODE = 'USD'
+
 // TODO: Added for dev. Will remove it later.
 export const POLYGON_RPC_URL = "https://polygon-rpc.com/"
 export const METIS_RPC_URL = "https://andromeda.metis.io/?owner=1088"
+

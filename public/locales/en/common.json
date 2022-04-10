@@ -16,6 +16,9 @@
     },
     "toggleTheme":"Toggle Theme",
     "currency": "{{value, formatCurrency}}",
-    "tokenCurrency": "{{value, formatToken(tokenSymbol:MiniMe)}}"
-
+    "tokenCurrency": "{{value, formatToken}}",
+    "twitter": "follow us on twitter",
+    "telegram": "join our community",
+    "discord": "join our discord",
+    "total":"Total"
 }
