@@ -42,7 +42,6 @@ export const styles = ({ color }: Theme) => css`
         right: 0;
         top: 0px;
         background-size: contain;
-        opacity: 0.25;
       }
     }
     > div {
@@ -53,6 +52,9 @@ export const styles = ({ color }: Theme) => css`
       border-top: 1px solid ${color.color6};
       position: relative;
       z-index: 1;
+      @media (max-width: 1024px) {
+        padding: 12px 0;
+      }
 
       &:first-of-type {
         border-top: none;
@@ -67,8 +69,12 @@ export const styles = ({ color }: Theme) => css`
     font-weight: 700;
     line-height: 1;
   }
+  .percentage-title {
+    font-weight: normal;
+  }
   .token-value {
     font-size: 40px;
+    text-transform: capitalize;
   }
   .percentage-value {
     font-size: 35px;

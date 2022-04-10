@@ -18,6 +18,14 @@ export const styles = ({ color }: Theme) => css`
     align-items: center;
     position: relative;
     z-index: 1;
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      padding: 20px;
+
+      span {
+        margin-bottom: 10px;
+      }
+    }
   }
   > .dividend {
     background: ${color.color1};
@@ -41,6 +49,10 @@ export const styles = ({ color }: Theme) => css`
   }
   .token-value {
     font-size: 60px;
+
+    @media (max-width: 1024px) {
+      font-size: 45px;
+    }
   }
   .base-value {
     display: flex;
@@ -81,6 +93,14 @@ export const styles = ({ color }: Theme) => css`
     display: flex;
     align-items: center;
     min-height: 175px;
+
+    @media (max-width: 1024px) {
+      width: 100%;
+      padding-right: 0;
+      padding-top: 180px;
+      text-align: justify;
+    }
+
     ::after {
       content: "";
       background: url(${minimeSuper}) no-repeat;
@@ -89,6 +109,11 @@ export const styles = ({ color }: Theme) => css`
       position: absolute;
       right: 0;
       top: 0;
+      @media (max-width: 1024px) {
+        right: 50%;
+        top: 5px;
+        margin-right: -62px;
+      }
     }
   }
 `;

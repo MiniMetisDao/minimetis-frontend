@@ -15,7 +15,7 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
   );
 
   const toggleTheme = () => {
-    setMode((currentMode) => (currentMode === "dark" ? "light" : "dark"));
+    setMode((currentMode: Mode) => (currentMode === "dark" ? "light" : "dark"));
   };
 
   React.useEffect(() => {

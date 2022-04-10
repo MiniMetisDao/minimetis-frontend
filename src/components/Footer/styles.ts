@@ -201,14 +201,15 @@ export const styles =
         }
       }
 
-      .container {
-        max-wdith: 992px;
-      }
       .social {
         display: flex;
         width: 78%;
         margin-bottom: 100px;
         justify-content: center;
+
+        @media (max-width: 1024px) {
+          width: 100%;
+        }
 
         ul {
           margin: 0;
@@ -216,6 +217,12 @@ export const styles =
           list-style: none;
           display: flex;
           max-width: 85%;
+          @media (max-width: 1024px) {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+          }
         }
         li {
           background: url(${theme === "dark" ? socialBgDark : socialBgLight})
@@ -228,6 +235,10 @@ export const styles =
           margin: 0 10px;
           width: 33%;
           display: flex;
+
+          @media (max-width: 1024px) {
+            margin-bottom: 20px;
+          }
         }
         a {
           color: ${color.text.white};
@@ -249,7 +260,7 @@ export const styles =
         }
         .discord {
           background: url(${discordIcon}) no-repeat left center;
-          padding-left: 65px;
+          padding-left: 70px;
         }
       }
     `;

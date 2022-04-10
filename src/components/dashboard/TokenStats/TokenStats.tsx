@@ -12,7 +12,8 @@ export const TokenStats: React.FC = () => {
           <div className="stat">
             <h4>{t("miniMetisPrice")}</h4>
             <span>
-              {t("currency", { value: 0.000_000_000_125 })} {BASE_CURRENCY_CODE}
+              {t("currency", { value: 1.726175820364038e-9 })}{" "}
+              {BASE_CURRENCY_CODE}
             </span>
           </div>
           <div className="stat">
@@ -42,7 +43,7 @@ export const TokenStats: React.FC = () => {
 
             <span>
               {t("tokenCurrency", {
-                value: 360000000000000,
+                value: 1000000123412342,
                 tokenSymbol: "MiniMetis",
               })}
             </span>

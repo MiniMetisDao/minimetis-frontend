@@ -6,4 +6,6 @@ export type ThemeContext = {
   toggleTheme: () => void;
 };
 
+export { type Mode };
+
 export const ThemeContext = React.createContext<ThemeContext | null>(null);

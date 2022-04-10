@@ -12,7 +12,10 @@ export const UserBalance: React.FunctionComponent = () => {
         <div>
           <span className="title">{t("myMiniMetisBalance")}</span>
           <span className="token-value">
-            {t("tokenCurrency", { value: 100000000000000, isCompact: true })}
+            {t("tokenCurrency", {
+              value: 1.726175820364038e-9,
+              isCompact: true,
+            })}
           </span>
           <div className="base-value">
             <span>$1,000,0000</span>

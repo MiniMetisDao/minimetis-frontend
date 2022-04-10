@@ -48,6 +48,9 @@ export const styles = ({ color }: Theme) =>
         color: ${color.text.primary};
         text-decoration: none;
         line-height: 2;
+        &.active {
+          border-bottom: 3px solid ${color.text.color1};
+        }
       }
 
       @media (max-width: 1024px) {
