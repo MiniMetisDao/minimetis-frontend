@@ -19,6 +19,9 @@ export const styles = ({ color }: Theme) => css`
     cursor: pointer;
     margin-right: 45px;
     flex-shrink: 0;
+    :hover {
+      background: ${color.connectButton.hover};
+    }
     ::after {
       content: "";
       background: url(${metamask}) no-repeat;

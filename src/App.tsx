@@ -5,8 +5,9 @@ import { ToastContainer } from "react-toastify";
 
 import { AccountChainIdListener } from "components";
 import { DashboardPage } from "pages/DashboardPage";
-import { Trade } from "pages/Trade";
-import { NotFound } from "pages/NotFound";
+import { ComingSoonPage } from "pages/ComingSoonPage";
+import { NotFoundPage } from "pages/NotFoundPage";
+import { TradePage } from "pages/TradePage";
 import { Theme } from "theme";
 import { queryClient } from "queryClient";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,8 +22,9 @@ export const App: React.FC = () => (
         location={location}
         routes={[
           { path: "/", element: <DashboardPage /> },
-          { path: "trade", element: <Trade /> },
-          { path: "*", element: <NotFound /> },
+          { path: "trade", element: <TradePage /> },
+          { path: "stake", element: <ComingSoonPage /> },
+          { path: "*", element: <NotFoundPage /> },
         ]}
       >
         <Outlet />
