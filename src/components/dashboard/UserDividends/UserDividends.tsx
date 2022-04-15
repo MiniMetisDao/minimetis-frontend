@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { DisplayPrice } from "components/DisplayPrice";
 import { BASE_CURRENCY_CODE, EXPLORER_URL } from "config";
 import { useGetWalletDetails } from "queries";
@@ -147,6 +148,9 @@ export const UserDividends: React.FC = () => {
         <button
           onClick={handleClick}
           disabled={walletData?.status !== "CONNECTED"}
+          className={classNames({
+            disabled: walletData?.status !== "CONNECTED",
+          })}
         >
           {claimInProgress ? t("claiming") : t("claimNow")}
         </button>

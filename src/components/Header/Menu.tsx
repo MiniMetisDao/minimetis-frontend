@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import { Link } from "@tanstack/react-location";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +11,7 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
 
   return (
     <ul
-      className={classnames("menu", {
+      className={classNames("menu", {
         "desktop-menu": !isMobile,
         "mobile-menu": isMobile,
         open,

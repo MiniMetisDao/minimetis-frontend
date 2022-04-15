@@ -1,12 +1,14 @@
 import { css, Theme } from "@emotion/react";
 
-import minimePlanet from "assets/images/minime-planet.svg";
+import minimetisPlanet from "assets/images/minimetis-planet.svg";
 import planet1 from "assets/images/planet-1.svg";
 import planet2 from "assets/images/planet-2.svg";
 import star from "assets/images/star.svg";
 import logoFooter from "assets/images/logo-footer.svg";
 import socialBgDark from "assets/images/social-bg-dark.svg";
+import socialBgDarkHover from "assets/images/social-bg-dark-hover.svg";
 import socialBgLight from "assets/images/social-bg-light.svg";
+import socialBgLightHover from "assets/images/social-bg-light-hover.svg";
 import twitterIcon from "assets/images/twitter-icon.svg";
 import telegramIcon from "assets/images/telegram-icon.svg";
 import discordIcon from "assets/images/discord-icon.svg";
@@ -155,8 +157,8 @@ export const styles =
         top: 345px;
       }
 
-      .minime-planet {
-        background: url(${minimePlanet}) no-repeat;
+      .minimetis-planet {
+        background: url(${minimetisPlanet}) no-repeat;
         width: 196px;
         height: 280px;
         left: 50%;
@@ -197,8 +199,8 @@ export const styles =
         .logo {
           display: inline-block;
           background: url(${logoFooter}) no-repeat;
-          width: 285px;
-          height: 83px;
+          width: 316px;
+          height: 107px;
         }
         a {
           color: ${color.text.white};
@@ -246,6 +248,11 @@ export const styles =
 
           @media (max-width: 1024px) {
             margin-bottom: 20px;
+          }
+          :hover {
+            background-image: url(${theme === "dark"
+              ? socialBgDarkHover
+              : socialBgLightHover});
           }
         }
         a {

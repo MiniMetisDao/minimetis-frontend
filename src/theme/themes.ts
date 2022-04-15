@@ -14,7 +14,7 @@ export const darkTheme: Theme = {
       primary: "#00dacc",
       hover: "#00dacbdc",
       active: "#00dacbdc",
-      disabled: "#c8bed6",
+      disabled: "#b991d1",
       shadow: { start: "#00000026", end: "#0ec4a5" },
     },
     connectButton: {

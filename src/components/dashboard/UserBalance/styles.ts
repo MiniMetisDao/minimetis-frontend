@@ -1,5 +1,5 @@
 import { css, Theme } from "@emotion/react";
-import minimeCoin from "assets/images/minime-coin.png";
+import minimetisCoin from "assets/images/minimetis-coin.png";
 
 export const styles = ({ color }: Theme) => css`
   color: ${color.text.black};
@@ -28,7 +28,7 @@ export const styles = ({ color }: Theme) => css`
 
     ::after {
       content: "";
-      background: url(${minimeCoin}) no-repeat right top;
+      background: url(${minimetisCoin}) no-repeat right top;
       width: 337px;
       height: 226px;
       display: block;
