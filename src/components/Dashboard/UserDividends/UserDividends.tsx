@@ -150,7 +150,10 @@ export const UserDividends: React.FC = () => {
       <div className="claim">
         <button
           onClick={handleClick}
-          disabled={walletData?.status !== "CONNECTED"}
+          disabled={
+            walletData?.status !== "CONNECTED" ||
+            Number(dividendShareData?.unclaimedDividend) === 0
+          }
           className={classNames({
             disabled: walletData?.status !== "CONNECTED",
           })}
