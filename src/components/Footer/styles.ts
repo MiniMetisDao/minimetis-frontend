@@ -250,9 +250,7 @@ export const styles =
             margin-bottom: 20px;
           }
           :hover {
-            background-image: url(${theme === "dark"
-              ? socialBgDarkHover
-              : socialBgLightHover});
+            background-position: 0 100%;
           }
         }
         a {
