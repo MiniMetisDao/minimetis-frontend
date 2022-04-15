@@ -28,21 +28,6 @@ export const styles = ({ color }: Theme) => css`
       right: -45px;
       top: -4px;
     }
-
-    @media (max-width: 1024px) {
-      background: none;
-      padding: 0;
-      margin: 0;
-      width: 50px;
-      height: 50px;
-      span {
-        display: none;
-      }
-      ::after {
-        right: 0;
-        top: 0;
-      }
-    }
   }
   .connection-info {
     background: ${color.connectInfo.primary};
@@ -54,10 +39,6 @@ export const styles = ({ color }: Theme) => css`
     line-height: 1.2;
     border-radius: 5px;
     margin-right: 10px;
-
-    @media (max-width: 1024px) {
-      display: none;
-    }
 
     &.cry {
       position: relative;
@@ -72,6 +53,18 @@ export const styles = ({ color }: Theme) => css`
         top: 3px;
         right: 3px;
       }
+    }
+  }
+
+  .mobile-menu-wrapper & {
+    flex-direction: column;
+    width: 100%;
+    > * {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .connection-info {
+      margin-right: 0;
     }
   }
 `;

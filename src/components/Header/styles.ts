@@ -5,14 +5,26 @@ import night from "assets/images/night.svg";
 
 export const styles = ({ color }: Theme) =>
   css`
-    margin: 50px 20px 100px;
-    display: flex;
-    justify-content: space-between;
-
+    margin-bottom: 50px;
+    .header {
+      margin: 50px 20px;
+      display: flex;
+      justify-content: space-between;
+    }
     .left-wrapper,
     .right-wrapper {
       display: flex;
       align-items: end;
+    }
+
+    @media (max-width: 1024px) {
+      .right-wrapper {
+        display: none;
+      }
+      .left-wrapper {
+        flex: 1;
+        justify-content: space-between;
+      }
     }
 
     .logo {
@@ -54,10 +66,99 @@ export const styles = ({ color }: Theme) =>
           border-bottom: 3px solid ${color.text.color1};
         }
       }
-
+    }
+    .desktop-menu {
       @media (max-width: 1024px) {
         display: none;
       }
+    }
+    .mobile-menu-wrapper {
+      background: ${color.color5};
+      padding: 0 20px;
+      transition: max-height 0.25s ease-out;
+      max-height: 0;
+      overflow: hidden;
+      align-items: flex-end;
+      flex-direction: column;
+      display: flex;
+
+      ul {
+        padding: 20px 0;
+        width: 100%;
+      }
+
+      &.open {
+        transition: max-height 0.4s ease-in;
+      }
+
+      @media (max-width: 1024px) {
+        &.open {
+          max-height: 600px;
+        }
+      }
+    }
+    .mobile-menu {
+      flex-direction: column;
+
+      li {
+        margin: 0;
+      }
+      a {
+        display: block;
+        padding: 0 18px;
+        &.active {
+          border-radius: 5px;
+          background: ${color.text.alternative};
+          border: none;
+        }
+      }
+    }
+
+    // Hamburger menu animation: https://codepen.io/ainalem/pen/wvKOEMV
+    .hamburger-menu {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: none;
+
+      @media (max-width: 1024px) {
+        display: flex;
+      }
+    }
+    .line {
+      fill: none;
+      stroke: ${color.text.primary};
+      stroke-width: 6;
+      transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .line1 {
+      stroke-dasharray: 60 207;
+      stroke-width: 6;
+    }
+    .line2 {
+      stroke-dasharray: 60 60;
+      stroke-width: 6;
+    }
+    .line3 {
+      stroke-dasharray: 60 207;
+      stroke-width: 6;
+    }
+    .open .line1 {
+      stroke-dasharray: 90 207;
+      stroke-dashoffset: -134;
+      stroke-width: 6;
+    }
+    .open .line2 {
+      stroke-dasharray: 1 60;
+      stroke-dashoffset: -30;
+      stroke-width: 6;
+    }
+    .open .line3 {
+      stroke-dasharray: 90 207;
+      stroke-dashoffset: -134;
+      stroke-width: 6;
     }
   `;
 
@@ -83,17 +184,7 @@ export const themeSwitchStyle =
         right: 0;
         background: url(${theme === "dark" ? day : night});
       }
-
-      @media (max-width: 1024px) {
-        width: 35px;
-        height: 35px;
-        padding-right: 0;
-
-        span {
-          display: none;
-        }
-        &::after {
-          top: 0;
-        }
+      .mobile-menu-wrapper & {
+        margin-bottom: 20px;
       }
     `;
