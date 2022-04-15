@@ -78,6 +78,9 @@ export const styles = ({ color }: Theme) => css`
   }
   .percentage-value {
     font-size: 35px;
+    justify-content: end;
+    flex: 1;
+    display: flex;
   }
   .base-value {
     display: flex;
@@ -88,10 +91,5 @@ export const styles = ({ color }: Theme) => css`
   }
   .base-value-symbol {
     font-size: 10px;
-  }
-  .percentage-value {
-    justify-content: center;
-    flex: 1;
-    display: flex;
   }
 `;
