@@ -1,0 +1,1 @@
+export { useGetDividendShare } from "./useGetDividendShare";

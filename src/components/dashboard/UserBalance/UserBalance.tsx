@@ -5,6 +5,7 @@ import {
   MINIMETIS_CONTRACT_ADDRESS,
 } from "config";
 import { useGetWalletDetails } from "queries";
+import { useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
 import { useTranslation } from "react-i18next";
 import { useMultiCallContract } from "utils";
@@ -14,6 +15,8 @@ export const UserBalance: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
   const { data } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
+  const { data: dividendShare } = useGetDividendShare();
+
   const { data: userBalanceData } = useMultiCallContract(
     "userBalance",
     [
@@ -33,16 +36,12 @@ export const UserBalance: React.FC = () => {
         <div>
           <span className="title">{t("myMiniMetisBalance")}</span>
           <span className="token-value">
-            <DisplayPrice
-              price={userBalanceData}
-              decimals={Decimals.miniMetis}
-            />
+            <DisplayPrice price={userBalanceData} />
           </span>
           <div className="base-value">
             <span>
               <DisplayPrice
                 price={userBalanceData}
-                decimals={Decimals.miniMetis}
                 baseFactor={tokenPrice?.miniMetis}
                 isBasePrice
               />
@@ -55,7 +54,9 @@ export const UserBalance: React.FC = () => {
             {t("yourDividendSharePercentage")}
           </span>
           <div className="percentage-value">
-            <span>3.056%</span>
+            <span>
+              {t("number", { value: dividendShare?.sharePercentage })}%
+            </span>
           </div>
         </div>
       </div>

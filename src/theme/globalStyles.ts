@@ -41,4 +41,9 @@ export const globalStyles = (theme: Theme) => css`
   .group:after {
     clear: both;
   }
+
+  //TODO: move this later
+  .Toastify__toast-body a {
+    color: #fff;
+  }
 `;

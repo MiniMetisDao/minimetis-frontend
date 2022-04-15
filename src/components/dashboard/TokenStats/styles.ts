@@ -21,6 +21,9 @@ export const styles = ({ color }: Theme) => css`
     padding: 30px 40px;
     border-top: 5px solid ${color.text.secondary};
     border-bottom: 5px solid ${color.text.secondary};
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
   }
 
   .stat-group {

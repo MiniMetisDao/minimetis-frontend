@@ -1,0 +1,1 @@
+export { useGetTreasury } from "./useGetTreasury";

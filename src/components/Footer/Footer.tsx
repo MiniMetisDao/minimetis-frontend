@@ -44,7 +44,10 @@ export const Footer: React.FC = () => {
         <div className="object minime-planet" />
         <div className="footer">
           <div className="logo" />
-          <p>Learn More at WWW.MINIMETIS.COM</p>
+          <p>
+            Learn More at{" "}
+            <a href="https://www.minimetis.com">WWW.MINIMETIS.COM</a>
+          </p>
         </div>
       </div>
     </div>

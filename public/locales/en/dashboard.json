@@ -11,5 +11,7 @@
     "totalDividendsPaid": "Total Dividends Paid",
     "totalTreasury": "Total Treasury",
     "marketCap": "Market Cap",
-    "totalBurned": "Total Burned"  
+    "totalBurned": "Total Burned" ,
+    "claimNow":"Claim Now",
+    "claiming":"Claiming..."
 }

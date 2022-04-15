@@ -1,11 +1,16 @@
 import { useQuery } from "react-query";
 
 import { Batch, QueryInfo } from "utils";
-import { multicall } from "./multicall";
+import { multicall, multicallDistributor } from "./multicall";
 
 const batchLoader = new Batch({
-  batchSize: 10,
+  batchSize: 20,
   multiCallFn: async (queryInfos) => multicall(queryInfos),
+});
+
+const batchLoaderDistributor = new Batch({
+  batchSize: 20,
+  multiCallFn: async (queryInfos) => multicallDistributor(queryInfos),
 });
 
 export type Options = {
@@ -29,4 +34,22 @@ export const useMultiCallContract = (
     select: options.select,
     enabled: options.enabled,
   });
+};
+
+export const useMultiCallContractDistributor = (
+  key: any,
+  queryInfo: QueryInfo | QueryInfo[],
+  options: Options = {}
+) => {
+  return useQuery(
+    [key, queryInfo],
+    () => batchLoaderDistributor.load(queryInfo),
+    {
+      refetchInterval: options.refetchInterval ?? 5_000,
+      staleTime: options.staleTime,
+      cacheTime: options.cacheTime,
+      select: options.select,
+      enabled: options.enabled,
+    }
+  );
 };

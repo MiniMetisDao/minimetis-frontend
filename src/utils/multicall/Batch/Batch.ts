@@ -31,7 +31,7 @@ export class Batch {
     const newBatch = { hasDispatched: false, queryInfos: [], callbacks: [] };
     this._batchQueue = newBatch;
 
-    setTimeout(() => void this._dispatchBatch(newBatch), 200);
+    setTimeout(() => void this._dispatchBatch(newBatch), 1000);
 
     return this._pushToBatchQueue(queryInfo);
   }

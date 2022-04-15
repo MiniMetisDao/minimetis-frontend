@@ -187,6 +187,7 @@ export const styles =
       }
 
       .footer {
+        color: ${color.text.white};
         position: relative;
         text-align: center;
         margin-top: 480px;
@@ -198,6 +199,13 @@ export const styles =
           background: url(${logoFooter}) no-repeat;
           width: 285px;
           height: 83px;
+        }
+        a {
+          color: ${color.text.white};
+          text-decoration: none;
+          :hover {
+            border-bottom: 1px dashed ${color.text.white};
+          }
         }
       }
 

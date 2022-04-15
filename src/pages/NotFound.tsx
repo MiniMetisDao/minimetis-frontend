@@ -5,7 +5,7 @@ import ReactMetaTags from "react-meta-tags";
 import { Layout } from "components/Layout";
 
 export const NotFound: React.FC = () => {
-  const { t } = useTranslation("dex");
+  const { t } = useTranslation();
 
   return (
     <Layout>

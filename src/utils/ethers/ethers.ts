@@ -22,7 +22,7 @@ export const connectWallet = async () =>
     []
   );
 
-//TODO: move to somewhere configurable to easily switch netween multiple networks
+//TODO: move to somewhere configurable to easily switch between multiple networks
 export const switchNetwork = async () =>
   await new ethers.providers.Web3Provider(window.ethereum).send(
     "wallet_addEthereumChain",

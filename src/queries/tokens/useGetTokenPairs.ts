@@ -77,5 +77,6 @@ export const useGetTokenPairs = (): Result => {
     };
   }
 
+  //TODO: isLoading and isError need to consider the above multicall also, right?
   return { isLoading, isError, data };
 };

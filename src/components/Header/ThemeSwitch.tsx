@@ -11,7 +11,7 @@ export const ThemeSwitch: React.FC<{
 
   return (
     <button css={themeSwitchStyle({ theme })} onClick={switchTheme}>
-      {theme === "light" ? t("darkMode") : t("lightMode")}
+      <span>{theme === "light" ? t("darkMode") : t("lightMode")}</span>
     </button>
   );
 };

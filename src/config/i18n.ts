@@ -35,8 +35,18 @@ i18next.services.formatter!.add("formatCurrency", (value, lng, options) => {
     notation: options.isCompact ? "compact" : "standard",
     currency: BASE_CURRENCY_CODE,
     maximumSignificantDigits: 4,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
     compactDisplay: "long",
+  }).format(value);
+});
+
+i18next.services.formatter!.add("formatNumber", (value, lng, options) => {
+  if (value === undefined || isNaN(value)) return "--";
+
+  return new Intl.NumberFormat(lng, {
+    notation: options.isCompact ? "compact" : "standard",
+    maximumSignificantDigits: 4,
+    maximumFractionDigits: 2,
   }).format(value);
 });
 

@@ -20,3 +20,5 @@ export const Decimals = {
   usdt: 1000000,
   miniMetis: 1000000000000000000,
 }
+
+export const EXPLORER_URL = "https://andromeda-explorer.metis.io/"

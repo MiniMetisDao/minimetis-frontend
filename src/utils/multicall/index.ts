@@ -1,4 +1,7 @@
 export { Batch } from "./Batch";
-export { useMultiCallContract } from "./useMultiCallContract";
+export {
+  useMultiCallContract,
+  useMultiCallContractDistributor,
+} from "./useMultiCallContract";
 
 export { type QueryInfo } from "./Batch";

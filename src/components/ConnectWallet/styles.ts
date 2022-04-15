@@ -6,10 +6,6 @@ export const styles = ({ color }: Theme) => css`
   display: flex;
   margin-left: 10px;
 
-  @media (max-width: 1024px) {
-    display: none;
-  }
-
   button {
     position: relative;
     background: ${color.connectButton.primary};
@@ -32,6 +28,21 @@ export const styles = ({ color }: Theme) => css`
       right: -45px;
       top: -4px;
     }
+
+    @media (max-width: 1024px) {
+      background: none;
+      padding: 0;
+      margin: 0;
+      width: 50px;
+      height: 50px;
+      span {
+        display: none;
+      }
+      ::after {
+        right: 0;
+        top: 0;
+      }
+    }
   }
   .connection-info {
     background: ${color.connectInfo.primary};
@@ -43,6 +54,10 @@ export const styles = ({ color }: Theme) => css`
     line-height: 1.2;
     border-radius: 5px;
     margin-right: 10px;
+
+    @media (max-width: 1024px) {
+      display: none;
+    }
 
     &.cry {
       position: relative;

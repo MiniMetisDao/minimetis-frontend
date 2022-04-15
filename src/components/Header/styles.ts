@@ -25,7 +25,9 @@ export const styles = ({ color }: Theme) =>
         color: transparent;
         background: url(${logo}) no-repeat;
         position: relative;
-
+        @media (max-width: 1024px) {
+          margin-right: 10px;
+        }
         a {
           position: absolute;
           width: 100%;
@@ -73,10 +75,6 @@ export const themeSwitchStyle =
       color: ${color.text.secondary};
       flex-shrink: 0;
 
-      @media (max-width: 1024px) {
-        display: none;
-      }
-
       &::after {
         content: "";
         width: 35px;
@@ -84,5 +82,18 @@ export const themeSwitchStyle =
         position: absolute;
         right: 0;
         background: url(${theme === "dark" ? day : night});
+      }
+
+      @media (max-width: 1024px) {
+        width: 35px;
+        height: 35px;
+        padding-right: 0;
+
+        span {
+          display: none;
+        }
+        &::after {
+          top: 0;
+        }
       }
     `;

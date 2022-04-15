@@ -77,7 +77,7 @@ export const styles = ({ color }: Theme) => css`
         0px 4px 25px ${color.button.shadow.end};
 
       font-size: 20px;
-      color: ${color.text.primary};
+      color: ${color.text.white};
       border: none;
       text-transform: uppercase;
       padding: 10px 60px;
@@ -86,8 +86,9 @@ export const styles = ({ color }: Theme) => css`
   }
 
   .info {
+    color: ${color.text.primary};
     position: relative;
-    width: 60%;
+    width: 62.5%;
     padding-right: 145px;
     margin: 0 auto;
     display: flex;

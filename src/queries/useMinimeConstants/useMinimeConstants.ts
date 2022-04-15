@@ -9,6 +9,9 @@ const methods = [
   "rewardToken",
   "distributor",
   "pair",
+  "totalSupply",
+  "getCirculatingSupply",
+  "treasuryFeeReceiver",
 ] as const;
 
 type Methods = typeof methods[number];

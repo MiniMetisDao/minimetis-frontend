@@ -49,7 +49,7 @@ export const ConnectWallet: React.FC<{
         </div>
       )}
       <button {...props} onClick={handleConnectWallet}>
-        {text}
+        <span>{text}</span>
       </button>
     </div>
   );
