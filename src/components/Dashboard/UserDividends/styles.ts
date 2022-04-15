@@ -1,6 +1,6 @@
 import { type Theme, css } from "@emotion/react";
 
-import minimetisSuper from "assets/images/minimetis-super.png";
+import minimetisSuper from "assets/images/minimetis-super.svg";
 
 export const styles = ({ color }: Theme) => css`
   color: ${color.text.white};
