@@ -1,5 +1,6 @@
-import { MINIMETIS_CONTRACT_ADDRESS } from "config";
 import { UseQueryResult } from "react-query";
+
+import { MINIMETIS_CONTRACT_ADDRESS } from "config";
 import { useMultiCallContract } from "utils";
 
 const methods = [

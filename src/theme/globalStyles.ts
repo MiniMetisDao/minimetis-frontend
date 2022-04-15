@@ -1,4 +1,4 @@
-import { css, Theme } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
 
 // TODO: Put the proper resets here.
 export const globalStyles = (theme: Theme) => css`

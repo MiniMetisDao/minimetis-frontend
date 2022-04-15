@@ -1,5 +1,6 @@
-import { Decimals } from "config";
 import { useTranslation } from "react-i18next";
+
+import { Decimals } from "config";
 import { getDisplayPrice } from "utils";
 
 type DisplayPriceProps = {
@@ -20,6 +21,7 @@ export const DisplayPrice: React.FC<DisplayPriceProps> = ({
 }) => {
   const { t } = useTranslation();
   const translationKey = isBasePrice ? "currency" : "tokenCurrency";
+
   return t(translationKey, {
     value: getDisplayPrice(price, decimals, baseFactor, isBasePrice),
     isCompact:

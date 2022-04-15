@@ -1,5 +1,7 @@
 import { t } from "i18next";
+
 import { useTheme } from "theme";
+
 import { styles } from "./styles";
 
 export const Footer: React.FC = () => {

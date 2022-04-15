@@ -27,11 +27,13 @@ export const useGetDividendShare = (): Result => {
       {
         address: minimeConstants?.distributor,
         method: "shares",
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [userData?.address!],
       },
       {
         address: minimeConstants?.distributor,
         method: "getUnpaidEarnings",
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [userData?.address!],
       },
     ],
@@ -40,6 +42,7 @@ export const useGetDividendShare = (): Result => {
       enabled: Boolean(minimeConstants?.distributor && userData?.address),
     }
   );
+
   const distibutorData = useMultiCallContractDistributor(
     "distributor",
     [

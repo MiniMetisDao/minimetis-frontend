@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import { Link } from "@tanstack/react-location";
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 interface MenuProps {

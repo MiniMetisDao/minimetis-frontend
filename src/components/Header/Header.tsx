@@ -1,18 +1,22 @@
 import { Link } from "@tanstack/react-location";
-import { ConnectWallet } from "components/ConnectWallet";
-import { ThemeSwitch } from "./ThemeSwitch";
-import { useTranslation } from "react-i18next";
-import { styles } from "./styles";
-import { Menu } from "./Menu";
-import React from "react";
 import classNames from "classnames";
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+import { ConnectWallet } from "components/ConnectWallet";
+
+import { Menu } from "./Menu";
+import { ThemeSwitch } from "./ThemeSwitch";
+import { styles } from "./styles";
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = React.useState(false);
+
   const handleMenuClick = () => {
     setMenuOpen((prev) => !prev);
   };
+
   return (
     <div css={styles}>
       <div className="header">

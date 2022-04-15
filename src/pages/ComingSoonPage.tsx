@@ -2,8 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
-import { Layout } from "components/Layout";
 import { ComingSoon } from "components/ComingSoon";
+import { Layout } from "components/Layout";
 
 export const ComingSoonPage: React.FC = () => {
   const { t } = useTranslation();

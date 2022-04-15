@@ -1,5 +1,5 @@
-import { useMinimeConstants } from "queries";
 import { METIS_CONTRACT_ADDRESS, MINIMETIS_CONTRACT_ADDRESS } from "config";
+import { useMinimeConstants } from "queries";
 import { useMultiCallContract } from "utils";
 
 type TreasuryData = {

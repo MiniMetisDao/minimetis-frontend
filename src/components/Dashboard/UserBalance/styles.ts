@@ -1,4 +1,5 @@
-import { css, Theme } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
+
 import minimetisCoin from "assets/images/minimetis-coin.png";
 
 export const styles = ({ color }: Theme) => css`

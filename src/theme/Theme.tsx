@@ -1,9 +1,9 @@
-import React from "react";
 import { Global, ThemeProvider as ThemeProviderBase } from "@emotion/react";
+import React from "react";
 
+import { type Mode, ThemeContext } from "./ThemeContext";
 import { globalStyles } from "./globalStyles";
 import { darkTheme, lightTheme } from "./themes";
-import { type Mode, ThemeContext } from "./ThemeContext";
 
 type ThemeProviderProps = {
   children: React.ReactNode;

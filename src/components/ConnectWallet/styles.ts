@@ -1,4 +1,5 @@
-import { css, Theme } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
+
 import metamask from "assets/images/metamask.svg";
 import minimetisCry from "assets/images/minimetis-cry.svg";
 
