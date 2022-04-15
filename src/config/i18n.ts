@@ -1,8 +1,10 @@
 import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
+import { initReactI18next } from "react-i18next";
+
 import { BASE_CURRENCY_CODE } from "./config";
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18next
   .use(Backend)
   .use(initReactI18next)
@@ -17,7 +19,7 @@ i18next
     },
   });
 
-i18next.services.formatter!.add("formatToken", (value, lng, options) => {
+i18next.services.formatter?.add("formatToken", (value, lng, options) => {
   if (value === undefined || isNaN(value)) return "--";
 
   return `${new Intl.NumberFormat(lng, {
@@ -27,7 +29,7 @@ i18next.services.formatter!.add("formatToken", (value, lng, options) => {
   }).format(value)} ${options.tokenSymbol || ""}`;
 });
 
-i18next.services.formatter!.add("formatCurrency", (value, lng, options) => {
+i18next.services.formatter?.add("formatCurrency", (value, lng, options) => {
   if (value === undefined || isNaN(value)) return "--";
 
   return new Intl.NumberFormat(lng, {
@@ -40,7 +42,7 @@ i18next.services.formatter!.add("formatCurrency", (value, lng, options) => {
   }).format(value);
 });
 
-i18next.services.formatter!.add("formatNumber", (value, lng, options) => {
+i18next.services.formatter?.add("formatNumber", (value, lng, options) => {
   if (value === undefined || isNaN(value)) return "--";
 
   return new Intl.NumberFormat(lng, {

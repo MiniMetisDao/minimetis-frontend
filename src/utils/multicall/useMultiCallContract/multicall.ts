@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
 import { Contract, Provider } from "ethcall";
 
 import { DistributorAbi, ERC20Abi, METIS_RPC_URL } from "config";
+import { ethers } from "ethers";
 import { QueryInfo } from "utils";
 
 const ethcallProvider = new Provider();
@@ -12,12 +12,14 @@ export const multicall = async (queryInfos: readonly QueryInfo[]) => {
     const calls = queryInfos.map(({ address, method, params = [] }) => {
       const contract = new Contract(address, ERC20Abi);
       const balanceCall = contract[method](...params);
+
       return balanceCall;
     });
 
     await ethcallProvider.init(provider);
 
     const data = await ethcallProvider?.all(calls);
+
     // TODO: Is this formatting fine this way?
     return data?.map((record: any) => record?.toString());
   } catch (err) {
@@ -36,12 +38,14 @@ export const multicallDistributor = async (
     const calls = queryInfos.map(({ address, method, params = [] }) => {
       const contract = new Contract(address, DistributorAbi);
       const balanceCall = contract[method](...params);
+
       return balanceCall;
     });
 
     await ethcallProvider.init(provider);
 
     const data = await ethcallProvider?.all(calls);
+
     // TODO: Is this formatting fine this way?
     return data?.map((record: any) => record?.toString());
   } catch (err) {

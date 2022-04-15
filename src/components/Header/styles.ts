@@ -1,6 +1,7 @@
-import { css, Theme } from "@emotion/react";
-import logo from "assets/images/logo.svg";
+import { type Theme, css } from "@emotion/react";
+
 import day from "assets/images/day.svg";
+import logo from "assets/images/logo.svg";
 import night from "assets/images/night.svg";
 
 export const styles = ({ color }: Theme) =>

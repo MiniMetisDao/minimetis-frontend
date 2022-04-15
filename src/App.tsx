@@ -4,12 +4,13 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 
 import { AccountChainIdListener } from "components";
-import { DashboardPage } from "pages/DashboardPage";
 import { ComingSoonPage } from "pages/ComingSoonPage";
+import { DashboardPage } from "pages/DashboardPage";
 import { NotFoundPage } from "pages/NotFoundPage";
 import { TradePage } from "pages/TradePage";
-import { Theme } from "theme";
 import { queryClient } from "queryClient";
+import { Theme } from "theme";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const location = new ReactLocation();

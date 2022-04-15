@@ -1,5 +1,6 @@
-import { useGetWalletDetails } from "queries";
 import React from "react";
+
+import { useGetWalletDetails } from "queries";
 import { listen, unlisten } from "utils";
 
 export const AccountChainIdListener: React.FC = () => {
@@ -13,7 +14,7 @@ export const AccountChainIdListener: React.FC = () => {
       unlisten("accountsChanged", refetch);
       unlisten("chainChanged", refetch);
     };
-  }, []);
+  }, [refetch]);
 
   return null;
 };

@@ -1,13 +1,14 @@
 import classNames from "classnames";
+import React from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+
 import { DisplayPrice } from "components/DisplayPrice";
 import { BASE_CURRENCY_CODE, EXPLORER_URL } from "config";
 import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useClaimDividend } from "queries/distributor/useClaimDividend";
 import { useGetTokenPrice } from "queries/tokens";
-import React from "react";
-import { Trans, useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { getShortTransactionHash } from "utils";
 
 import { styles } from "./styles";
@@ -19,6 +20,7 @@ export const UserDividends: React.FC = () => {
   const { data: dividendShareData } = useGetDividendShare();
   const { data: walletData } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
+
   const {
     mutate,
     isError,
@@ -34,13 +36,14 @@ export const UserDividends: React.FC = () => {
   React.useEffect(() => {
     if (isError && error) {
       toast.error(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         (error as any).code! === 4001
           ? t("transactionCancelled")
           : t("transactionError")
       );
       setClaimInProgress(false);
     }
-  }, [error, isError]);
+  }, [error, isError, t]);
 
   React.useEffect(() => {
     const { txHash, txReceipt } = claimDividendData || {};
@@ -94,7 +97,7 @@ export const UserDividends: React.FC = () => {
         })
         .finally(() => setClaimInProgress(false));
     }
-  }, [claimDividendData]);
+  }, [claimDividendData, t]);
 
   return (
     <div css={styles}>

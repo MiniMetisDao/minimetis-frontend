@@ -1,15 +1,15 @@
-import { css, Theme } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
 
+import discordIcon from "assets/images/discord-icon.svg";
+import logoFooter from "assets/images/logo-footer.svg";
 import minimetisPlanet from "assets/images/minimetis-planet.svg";
 import planet1 from "assets/images/planet-1.svg";
 import planet2 from "assets/images/planet-2.svg";
-import star from "assets/images/star.svg";
-import logoFooter from "assets/images/logo-footer.svg";
 import socialBgDark from "assets/images/social-bg-dark.svg";
 import socialBgLight from "assets/images/social-bg-light.svg";
-import twitterIcon from "assets/images/twitter-icon.svg";
+import star from "assets/images/star.svg";
 import telegramIcon from "assets/images/telegram-icon.svg";
-import discordIcon from "assets/images/discord-icon.svg";
+import twitterIcon from "assets/images/twitter-icon.svg";
 
 export const styles =
   ({ theme }: { theme: string }) =>
