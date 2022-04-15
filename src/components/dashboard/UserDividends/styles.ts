@@ -1,5 +1,5 @@
 import { css, Theme } from "@emotion/react";
-import minimeSuper from "assets/images/minime-super.png";
+import minimetisSuper from "assets/images/minimetis-super.png";
 
 export const styles = ({ color }: Theme) => css`
   color: ${color.text.white};
@@ -73,15 +73,25 @@ export const styles = ({ color }: Theme) => css`
     button {
       cursor: pointer;
       background: ${color.button.primary};
-      box-shadow: 0px 4px 5px ${color.button.shadow.start},
-        0px 4px 25px ${color.button.shadow.end};
-
       font-size: 20px;
       color: ${color.text.white};
       border: none;
       text-transform: uppercase;
       padding: 10px 60px;
       border-radius: 0 0 8px 8px;
+
+      :hover {
+        box-shadow: 0px 4px 5px ${color.button.shadow.start},
+          0px 4px 25px ${color.button.shadow.end};
+      }
+      :disabled,
+      [disabled] {
+        cursor: not-allowed;
+        background: ${color.button.disabled};
+        :hover {
+          box-shadow: none;
+        }
+      }
     }
   }
 
@@ -104,7 +114,7 @@ export const styles = ({ color }: Theme) => css`
 
     ::after {
       content: "";
-      background: url(${minimeSuper}) no-repeat;
+      background: url(${minimetisSuper}) no-repeat;
       width: 124px;
       height: 176px;
       position: absolute;

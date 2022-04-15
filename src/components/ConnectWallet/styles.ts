@@ -1,6 +1,6 @@
 import { css, Theme } from "@emotion/react";
 import metamask from "assets/images/metamask.svg";
-import minimeCry from "assets/images/minime-cry.svg";
+import minimetisCry from "assets/images/minimetis-cry.svg";
 
 export const styles = ({ color }: Theme) => css`
   display: flex;
@@ -45,7 +45,7 @@ export const styles = ({ color }: Theme) => css`
       padding-right: 60px;
       ::after {
         content: "";
-        background: url(${minimeCry}) no-repeat;
+        background: url(${minimetisCry}) no-repeat;
         width: 48px;
         height: 35px;
         position: absolute;

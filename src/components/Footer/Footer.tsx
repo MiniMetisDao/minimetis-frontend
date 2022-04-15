@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
         ))}
         <div className="object planet-1" />
         <div className="object planet-2" />
-        <div className="object minime-planet" />
+        <div className="object minimetis-planet" />
         <div className="footer">
           <div className="logo" />
           <p>
