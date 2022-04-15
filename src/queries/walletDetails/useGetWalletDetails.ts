@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+
 import { getWalletAddress, isMetisConnected } from "utils";
 
 export type WalletStatus =
@@ -14,8 +15,8 @@ export type WalletDetails = {
 };
 
 const fetchWalletDetails = async (): Promise<WalletDetails> => {
-  let status: WalletStatus = "NO_METAMASK";
-  let address: string = "";
+  const status: WalletStatus = "NO_METAMASK";
+  let address = "";
 
   if (!window.ethereum) {
     return {

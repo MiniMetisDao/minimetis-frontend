@@ -1,9 +1,9 @@
-import { css, Theme } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
 
 export const styles = ({ color }: Theme) => css`
   color: ${color.text.primary};
   font-size: 20px;
-  lin-height: 1.2;
+  line-height: 1.2;
   margin: 0 0 160px;
 
   .title,

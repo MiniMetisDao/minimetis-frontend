@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { render, screen, userEvent } from "utils";
 
 import { App } from "App";
+import { render, screen, userEvent } from "utils";
 
 describe("App", () => {
   it("render the App component", () => {

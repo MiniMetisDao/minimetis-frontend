@@ -1,2 +1,3 @@
-import { worker } from './browser';
+import { worker } from "./browser";
+
 worker.start();

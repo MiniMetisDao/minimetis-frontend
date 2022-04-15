@@ -1,5 +1,3 @@
-import { getCheck } from "./getCheck" 
+import { getCheck } from "./getCheck";
 
-export default [
-    getCheck
-  ]
+export default [getCheck];

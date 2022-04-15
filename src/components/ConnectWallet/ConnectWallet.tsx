@@ -1,6 +1,8 @@
-import { useGetWalletDetails } from "queries";
 import { useTranslation } from "react-i18next";
+
+import { useGetWalletDetails } from "queries";
 import { connectWallet, switchNetwork } from "utils";
+
 import { styles } from "./styles";
 
 export const ConnectWallet: React.FC = () => {

@@ -1,5 +1,3 @@
-import { Provider } from "ethcall";
-
 export type QueryInfo = {
   address: string;
   method: string;

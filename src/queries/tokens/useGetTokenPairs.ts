@@ -1,10 +1,10 @@
-import { useMinimeConstants } from "queries";
 import {
   METIS_CONTRACT_ADDRESS,
   METIS_USDT_LP_CONTRACT_ADDRESS,
   MINIMETIS_CONTRACT_ADDRESS,
   USDT_CONTRACT_ADDRESS,
 } from "config";
+import { useMinimeConstants } from "queries";
 import { useMultiCallContract } from "utils";
 
 type TokenPairs = {

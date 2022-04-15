@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+
 import { useTheme } from "theme";
+
 import { themeSwitchStyle } from "./styles";
 
 export const ThemeSwitch: React.FC = () => {

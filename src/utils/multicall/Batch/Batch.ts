@@ -37,10 +37,10 @@ export class Batch {
   }
 
   private _pushToBatchQueue(queryInfo: QueryInfo) {
-    this._batchQueue!.queryInfos.push(queryInfo);
+    this._batchQueue?.queryInfos.push(queryInfo);
 
     const promise = new Promise<any>((resolve, reject) => {
-      this._batchQueue!.callbacks.push({ resolve, reject });
+      this._batchQueue?.callbacks.push({ resolve, reject });
     });
 
     return promise;

@@ -1,5 +1,6 @@
-import { Theme } from "theme";
 import { render } from "@testing-library/react";
+
+import { type Theme } from "theme";
 
 const customRender = (ui: React.ReactElement, options = {}) =>
   render(ui, {
@@ -10,4 +11,4 @@ const customRender = (ui: React.ReactElement, options = {}) =>
 export * from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
 
-export { render, customRender };
+export { customRender };

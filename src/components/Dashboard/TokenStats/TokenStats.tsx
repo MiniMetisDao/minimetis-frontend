@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next";
+
 import { DisplayPrice } from "components/DisplayPrice";
 import { BASE_CURRENCY_CODE, Decimals } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetTreasury } from "queries/treasury";
-import { useTranslation } from "react-i18next";
+
 import { styles } from "./styles";
 
 export const TokenStats: React.FC = () => {

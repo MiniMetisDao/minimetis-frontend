@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+
 import { styles } from "./styles";
 
 type ComingSoonProps = {
@@ -11,6 +12,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
   description,
 }) => {
   const { t } = useTranslation();
+
   return (
     <div css={styles}>
       <div className="wrapper">
