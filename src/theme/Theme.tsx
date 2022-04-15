@@ -5,11 +5,11 @@ import { globalStyles } from "./globalStyles";
 import { darkTheme, lightTheme } from "./themes";
 import { type Mode, ThemeContext } from "./ThemeContext";
 
-type Props = {
+type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
-export const ThemeProvider: React.FC<Props> = ({ children }) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [mode, setMode] = React.useState<Mode>(
     (localStorage.getItem("mode") as Mode) || "dark"
   );

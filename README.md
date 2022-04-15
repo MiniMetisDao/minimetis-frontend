@@ -1,3 +1,3 @@
-# Minimetis Dashboard
+# Minimetis frontend
 
-A dashboard for Minimetis meme coin.
+Minimetis Dapp.

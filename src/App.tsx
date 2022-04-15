@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 
 import { AccountChainIdListener } from "components";
-import { Dashboard } from "pages/Dashboard";
+import { DashboardPage } from "pages/DashboardPage";
 import { Trade } from "pages/Trade";
 import { NotFound } from "pages/NotFound";
 import { Theme } from "theme";
@@ -20,7 +20,7 @@ export const App: React.FC = () => (
       <Router
         location={location}
         routes={[
-          { path: "/", element: <Dashboard /> },
+          { path: "/", element: <DashboardPage /> },
           { path: "trade", element: <Trade /> },
           { path: "*", element: <NotFound /> },
         ]}

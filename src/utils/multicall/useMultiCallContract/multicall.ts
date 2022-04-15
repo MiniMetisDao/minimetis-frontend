@@ -27,6 +27,8 @@ export const multicall = async (queryInfos: readonly QueryInfo[]) => {
   return [];
 };
 
+// TODO: Remove this duplicate code. Added temporarily to have
+// multiple abi files.
 export const multicallDistributor = async (
   queryInfos: readonly QueryInfo[]
 ) => {

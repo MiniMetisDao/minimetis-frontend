@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { Batch, QueryInfo } from "utils";
 import { multicall, multicallDistributor } from "./multicall";
 
+// TODO: Remove the duplicates here in batchLoader, multicontract hooks.
 const batchLoader = new Batch({
   batchSize: 20,
   multiCallFn: async (queryInfos) => multicall(queryInfos),

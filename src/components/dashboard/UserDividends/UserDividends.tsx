@@ -1,5 +1,5 @@
 import { DisplayPrice } from "components/DisplayPrice";
-import { BASE_CURRENCY_CODE, Decimals, EXPLORER_URL } from "config";
+import { BASE_CURRENCY_CODE, EXPLORER_URL } from "config";
 import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useClaimDividend } from "queries/distributor/useClaimDividend";
@@ -15,7 +15,7 @@ export const UserDividends: React.FC = () => {
   const { t } = useTranslation("dashboard");
   const [claimInProgress, setClaimInProgress] = React.useState(false);
 
-  const { data } = useGetDividendShare();
+  const { data: dividendShareData } = useGetDividendShare();
   const { data: walletData } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
   const {
@@ -107,12 +107,12 @@ export const UserDividends: React.FC = () => {
             />
           </span>
           <span className="token-value">
-            <DisplayPrice price={data?.claimedDividend} />
+            <DisplayPrice price={dividendShareData?.claimedDividend} />
           </span>
           <div className="base-value">
             <span>
               <DisplayPrice
-                price={data?.claimedDividend}
+                price={dividendShareData?.claimedDividend}
                 baseFactor={tokenPrice?.metis}
                 isBasePrice
               />
@@ -130,12 +130,12 @@ export const UserDividends: React.FC = () => {
           />
         </span>
         <span className="token-value">
-          <DisplayPrice price={data?.unclaimedDividend} />
+          <DisplayPrice price={dividendShareData?.unclaimedDividend} />
         </span>
         <div className="base-value">
           <span>
             <DisplayPrice
-              price={data?.unclaimedDividend}
+              price={dividendShareData?.unclaimedDividend}
               baseFactor={tokenPrice?.metis}
               isBasePrice
             />

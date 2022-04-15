@@ -1,9 +1,5 @@
 import { DisplayPrice } from "components/DisplayPrice";
-import {
-  BASE_CURRENCY_CODE,
-  Decimals,
-  MINIMETIS_CONTRACT_ADDRESS,
-} from "config";
+import { BASE_CURRENCY_CODE, MINIMETIS_CONTRACT_ADDRESS } from "config";
 import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";

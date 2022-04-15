@@ -1,12 +1,9 @@
-import { Interpolation, Theme } from "@emotion/react";
 import { useGetWalletDetails } from "queries";
 import { useTranslation } from "react-i18next";
 import { connectWallet, switchNetwork } from "utils";
 import { styles } from "./styles";
 
-export const ConnectWallet: React.FC<{
-  css?: Interpolation<Theme>;
-}> = (props) => {
+export const ConnectWallet: React.FC = () => {
   const { t } = useTranslation();
   const { isLoading, data, error, refetch } = useGetWalletDetails();
 
@@ -48,7 +45,7 @@ export const ConnectWallet: React.FC<{
           {t(`connectionDetails.${data.status}`)}
         </div>
       )}
-      <button {...props} onClick={handleConnectWallet}>
+      <button onClick={handleConnectWallet}>
         <span>{text}</span>
       </button>
     </div>

@@ -1,13 +1,10 @@
-import { Interpolation, Theme } from "@emotion/react";
 import { useTranslation } from "react-i18next";
-import { useToggleTheme } from "theme";
+import { useTheme } from "theme";
 import { themeSwitchStyle } from "./styles";
 
-export const ThemeSwitch: React.FC<{
-  css?: Interpolation<Theme>;
-}> = (props) => {
+export const ThemeSwitch: React.FC = () => {
   const { t } = useTranslation();
-  const [theme, switchTheme] = useToggleTheme();
+  const [theme, switchTheme] = useTheme();
 
   return (
     <button css={themeSwitchStyle({ theme })} onClick={switchTheme}>
