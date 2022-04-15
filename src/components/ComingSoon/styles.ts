@@ -16,6 +16,10 @@ export const styles = css`
       height: 252px;
       display: block;
       margin: 0 auto;
+      @media (max-width: 1024px) {
+        width: 300px;
+        background-size: 100%;
+      }
     }
   }
   h2 {
