@@ -1,17 +1,18 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
-import react from "@vitejs/plugin-react";
-import { resolve, join } from "path";
-import { defineConfig } from "vite";
-
 import { readdirSync } from "fs";
+import { join, resolve } from "path";
+
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 const rootFolders: { [key: string]: string } = {};
 
 const srcPath = resolve("./src");
-const srcFolders = readdirSync(srcPath, { withFileTypes: true }).map((dirent) =>
-  dirent.name.replace(/(\.ts){1}(x?)|(\.svg)|(\.png)|(\.pdf)/, "")
+
+const srcFolders = readdirSync(srcPath, { withFileTypes: true }).map((dir) =>
+  dir.name.replace(/(\.ts){1}(x?)|(\.svg)|(\.png)|(\.pdf)/, "")
 );
 
 srcFolders.forEach((folder) => {
