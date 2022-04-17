@@ -12,6 +12,7 @@ export const globalStyles = (theme: Theme) => css`
       sans-serif;
 
     background: ${theme.color.primary};
+    transition: background 0.5s;
     color: ${theme.color.text.primary};
   }
   html {

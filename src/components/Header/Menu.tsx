@@ -24,7 +24,16 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
         <Link to="/stake">{t("stake")}</Link>
       </li>
       <li>
+        <Link to="/hugs-not-rugs">{t("hugs")}</Link>
+      </li>
+      <li>
         <Link to="/">{t("dashboard")}</Link>
+      </li>
+      <li>
+        <Link to="/about-us">{t("aboutUs")}</Link>
+      </li>
+      <li>
+        <Link to="/mint">{t("mint")}</Link>
       </li>
     </ul>
   );

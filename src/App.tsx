@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 
 import { AccountChainIdListener } from "components";
+import { AboutUsPage } from "pages/AboutUsPage";
 import { ComingSoonPage } from "pages/ComingSoonPage";
 import { DashboardPage } from "pages/DashboardPage";
 import { NotFoundPage } from "pages/NotFoundPage";
@@ -25,6 +26,9 @@ export const App: React.FC = () => (
           { path: "/", element: <DashboardPage /> },
           { path: "trade", element: <TradePage /> },
           { path: "stake", element: <ComingSoonPage /> },
+          { path: "about-us", element: <AboutUsPage /> },
+          { path: "hugs-not-rugs", element: <ComingSoonPage /> },
+          { path: "mint", element: <ComingSoonPage /> },
           { path: "*", element: <NotFoundPage /> },
         ]}
       >
