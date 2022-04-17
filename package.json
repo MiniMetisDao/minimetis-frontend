@@ -16,6 +16,7 @@
     "@emotion/react": "^11.9.0",
     "@tanstack/react-location": "^3.7.4",
     "axios": "^0.26.1",
+    "beautiful-react-hooks": "^1.2.0",
     "classnames": "^2.3.1",
     "ethcall": "^4.5.3",
     "ethers": "^5.6.1",
@@ -25,6 +26,7 @@
     "react-dom": "^17.0.2",
     "react-i18next": "^11.16.2",
     "react-meta-tags": "^1.0.1",
+    "react-pdf": "^5.7.2",
     "react-query": "^3.34.19",
     "react-toastify": "^8.2.0"
   },
@@ -35,6 +37,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/react-pdf": "^5.7.0",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "@vitejs/plugin-react": "^1.2.0",

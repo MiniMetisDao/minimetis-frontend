@@ -17,8 +17,11 @@ export const styles = ({ color }: Theme) =>
       display: flex;
       align-items: end;
     }
+    .right-wrapper {
+      flex-shrink: 0;
+    }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
       .right-wrapper {
         display: none;
       }
@@ -38,7 +41,7 @@ export const styles = ({ color }: Theme) =>
         color: transparent;
         background: url(${logo}) no-repeat;
         position: relative;
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
           margin-right: 10px;
         }
         a {
@@ -55,6 +58,7 @@ export const styles = ({ color }: Theme) =>
       list-style: none;
       display: flex;
       font-size: 20px;
+      flex-flow: wrap;
 
       li {
         margin: 0 18px;
@@ -69,7 +73,7 @@ export const styles = ({ color }: Theme) =>
       }
     }
     .desktop-menu {
-      @media (max-width: 1024px) {
+      @media (max-width: 1200px) {
         display: none;
       }
     }
@@ -92,7 +96,7 @@ export const styles = ({ color }: Theme) =>
         transition: max-height 0.4s ease-in;
       }
 
-      @media (max-width: 1024px) {
+      @media (max-width: 1200px) {
         &.open {
           max-height: 600px;
         }
@@ -123,7 +127,7 @@ export const styles = ({ color }: Theme) =>
       padding: 0;
       display: none;
 
-      @media (max-width: 1024px) {
+      @media (max-width: 1200px) {
         display: flex;
       }
     }

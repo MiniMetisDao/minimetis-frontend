@@ -6,6 +6,9 @@
     "pool":"Pool",
     "farm":"Farm",
     "zap":"Zap",
+    "aboutUs":"About Us",
+    "hugs":"Hugs",
+    "mint":"Mint",
     "connectWallet": "Connect to a wallet",
     "switchWallet": "Switch to Andromeda(Metis)",
     "connectionDetails":{
