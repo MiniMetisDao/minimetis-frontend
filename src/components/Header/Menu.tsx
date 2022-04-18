@@ -1,5 +1,5 @@
+import { cx } from "@emotion/css";
 import { Link } from "@tanstack/react-location";
-import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 interface MenuProps {
@@ -11,7 +11,7 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
 
   return (
     <ul
-      className={classNames("menu", {
+      className={cx("menu", {
         "desktop-menu": !isMobile,
         "mobile-menu": isMobile,
         open,

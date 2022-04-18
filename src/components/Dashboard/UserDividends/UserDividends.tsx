@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import { cx } from "@emotion/css";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -154,7 +154,7 @@ export const UserDividends: React.FC = () => {
             walletData?.status !== "CONNECTED" ||
             Number(dividendShareData?.unclaimedDividend) === 0
           }
-          className={classNames({
+          className={cx({
             disabled: walletData?.status !== "CONNECTED",
           })}
         >
