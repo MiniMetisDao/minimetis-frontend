@@ -11,7 +11,7 @@ export const styles = ({ color }: Theme) => css`
       color: ${color.text.white};
       padding: 10px;
       border-radius: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       display: inline-block;
       text-decoration: none;
       font-size: 20px;

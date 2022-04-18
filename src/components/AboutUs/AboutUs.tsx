@@ -1,10 +1,10 @@
 import useResizeObserver from "beautiful-react-hooks/useResizeObserver";
-import { t } from "i18next";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import whitepaper from "assets/whitepaper.pdf";
+import { LoadingSpinner } from "components/LoadingSpinner";
 
 import { styles } from "./styles";
 
@@ -27,7 +27,11 @@ export const AboutUs: React.FC = () => {
           {t("downloadWhitepaper")}
         </a>
       </div>
-      <Document file={whitepaper} onLoadSuccess={handleDocumentLoadSuccess}>
+      <Document
+        loading={<LoadingSpinner />}
+        file={whitepaper}
+        onLoadSuccess={handleDocumentLoadSuccess}
+      >
         {Array.from(new Array(pageNumbers), (_, index) => (
           <Page
             width={parentRect?.width}

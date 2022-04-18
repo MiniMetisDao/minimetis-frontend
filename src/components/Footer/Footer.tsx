@@ -1,4 +1,4 @@
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 import { useTheme } from "theme";
 
@@ -6,6 +6,7 @@ import { styles } from "./styles";
 
 export const Footer: React.FC = () => {
   const [theme] = useTheme();
+  const { t } = useTranslation();
 
   return (
     <div css={styles({ theme })}>
