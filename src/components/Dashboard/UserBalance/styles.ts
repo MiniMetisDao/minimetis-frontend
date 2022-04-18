@@ -25,6 +25,7 @@ export const styles = ({ color }: Theme) => css`
 
     @media (max-width: 1024px) {
       padding: 30px;
+      margin-bottom: 310px;
     }
 
     ::after {
@@ -38,11 +39,10 @@ export const styles = ({ color }: Theme) => css`
       top: -13px;
 
       @media (max-width: 1024px) {
-        width: 100%;
-        height: 100%;
-        right: 0;
-        top: 0px;
-        background-size: contain;
+        right: 50%;
+        top: 100%;
+        margin-right: -169px;
+        margin-top: 40px;
       }
     }
     > div {

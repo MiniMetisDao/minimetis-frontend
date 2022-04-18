@@ -190,7 +190,7 @@ export const styles =
         color: ${color.text.white};
         position: relative;
         text-align: center;
-        margin-top: 480px;
+        margin-top: 490px;
         font-size: 18px;
         font-weight: 500;
         text-transform: uppercase;

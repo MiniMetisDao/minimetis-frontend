@@ -48,10 +48,6 @@ export const Footer: React.FC = () => {
         <div className="object minimetis-planet" />
         <div className="footer">
           <div className="logo" />
-          <p>
-            Learn More at{" "}
-            <a href="https://www.minimetis.com">WWW.MINIMETIS.COM</a>
-          </p>
         </div>
       </div>
     </div>
