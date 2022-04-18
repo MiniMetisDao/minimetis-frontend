@@ -181,6 +181,10 @@ export const themeSwitchStyle =
       color: ${color.text.secondary};
       flex-shrink: 0;
 
+      @media (max-width: 1200px) {
+        color: ${color.text.primary};
+      }
+
       &::after {
         content: "";
         width: 35px;
