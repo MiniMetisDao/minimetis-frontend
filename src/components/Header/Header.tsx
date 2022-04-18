@@ -1,5 +1,5 @@
+import { cx } from "@emotion/css";
 import { Link } from "@tanstack/react-location";
-import classNames from "classnames";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -49,7 +49,7 @@ export const Header: React.FC = () => {
           <ConnectWallet />
         </div>
       </div>
-      <div className={classNames("mobile-menu-wrapper", { open: menuOpen })}>
+      <div className={cx("mobile-menu-wrapper", { open: menuOpen })}>
         <Menu isMobile open={menuOpen} />
 
         <ThemeSwitch />
