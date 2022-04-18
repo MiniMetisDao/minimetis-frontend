@@ -1,7 +1,10 @@
+import { type JsonFragment } from "@ethersproject/abi";
+
 export type QueryInfo = {
   address: string;
   method: string;
   params?: string[];
+  abi?: JsonFragment[];
 };
 
 export type Options = {

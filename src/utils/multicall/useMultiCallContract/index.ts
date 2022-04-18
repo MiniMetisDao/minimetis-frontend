@@ -1,4 +1,1 @@
-export {
-  useMultiCallContract,
-  useMultiCallContractDistributor,
-} from "./useMultiCallContract";
+export { useMultiCallContract } from "./useMultiCallContract";

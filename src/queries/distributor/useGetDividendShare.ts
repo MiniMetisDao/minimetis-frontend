@@ -1,6 +1,7 @@
+import { DistributorAbi } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContractDistributor } from "utils";
+import { useMultiCallContract } from "utils";
 
 type DistributorData = {
   totalShares: number;
@@ -21,7 +22,7 @@ export const useGetDividendShare = (): Result => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
   const { data: userData } = useGetWalletDetails();
 
-  const distibutorUserData = useMultiCallContractDistributor(
+  const distibutorUserData = useMultiCallContract(
     "distributorUser",
     [
       {
@@ -29,12 +30,14 @@ export const useGetDividendShare = (): Result => {
         method: "shares",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [userData?.address!],
+        abi: DistributorAbi,
       },
       {
         address: minimeConstants?.distributor,
         method: "getUnpaidEarnings",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [userData?.address!],
+        abi: DistributorAbi,
       },
     ],
     {
@@ -43,16 +46,18 @@ export const useGetDividendShare = (): Result => {
     }
   );
 
-  const distibutorData = useMultiCallContractDistributor(
+  const distibutorData = useMultiCallContract(
     "distributor",
     [
       {
         address: minimeConstants?.distributor,
         method: "totalShares",
+        abi: DistributorAbi,
       },
       {
         address: minimeConstants?.distributor,
         method: "totalDistributed",
+        abi: DistributorAbi,
       },
     ],
     {
@@ -61,23 +66,18 @@ export const useGetDividendShare = (): Result => {
     }
   );
 
-  //TODO: fix type
-  let data: Partial<DistributorData> | undefined;
-  if (distibutorData.data) {
-    data = {
-      totalShares: distibutorData?.data[0],
-      totalDistributed: distibutorData?.data[1],
-    };
-  }
+  let data: DistributorData | undefined;
+
   if (distibutorUserData.data && distibutorData.data) {
     data = {
-      ...data,
-      shares: distibutorUserData?.data[0],
+      totalShares: distibutorData.data[0],
+      totalDistributed: distibutorData.data[1],
+      shares: distibutorUserData.data[0],
       sharePercentage:
-        (distibutorUserData?.data[0].split(",")[0] / distibutorData?.data[0]) *
+        (distibutorUserData.data[0].split(",")[0] / distibutorData.data[0]) *
         100,
-      claimedDividend: distibutorUserData?.data[0].split(",")[2],
-      unclaimedDividend: distibutorUserData?.data[1],
+      claimedDividend: distibutorUserData.data[0].split(",")[2],
+      unclaimedDividend: distibutorUserData.data[1],
     };
   }
 
