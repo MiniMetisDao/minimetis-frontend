@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-import { getWalletAddress, isMetisConnected } from "utils";
+import { getWalletAddress, isSupportedNetworkConnected } from "utils";
 
 export type WalletStatus =
   | "NO_METAMASK"
@@ -24,7 +24,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
     };
   }
 
-  const isValidNetworkConnected = await isMetisConnected();
+  const isValidNetworkConnected = await isSupportedNetworkConnected();
 
   if (!isValidNetworkConnected) {
     return {

@@ -1,5 +1,5 @@
 {
-    "title":"Mini Metis Dashboard",
+    "title":"MiniMetis Dashboard",
     "myMiniMetis": "My MiniMetis",
     "myMiniMetisBalance": "My MiniMetis Balance",
     "yourDividendSharePercentage": "Your Dividend Share Percentage",
@@ -11,6 +11,7 @@
     "totalDividendsPaid": "Total Dividends Paid",
     "totalTreasury": "Total Treasury",
     "marketCap": "Market Cap",
+    "total":"Total",
     "totalBurned": "Total Burned" ,
     "claimNow":"Claim Now",
     "claiming":"Claiming..."

@@ -1,5 +1,5 @@
 {
-    "siteName": "Mini Metis",
+    "siteName": "MiniMetis",
     "dashboard":"Dashboard",
     "trade":"Trade",
     "stake":"Stake",
@@ -24,7 +24,6 @@
     "twitter": "follow us on twitter",
     "telegram": "join our community",
     "discord": "join our discord",
-    "total":"Total",
     "transactionCancelled": "Transaction is cancelled!",
     "transactionError": "Transaction failed due to an error!",
     "transactionPending": "Your transaction initiated with hash: <a>{{txHash}}</a>",

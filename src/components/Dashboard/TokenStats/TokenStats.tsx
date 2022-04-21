@@ -12,15 +12,14 @@ import { styles } from "./styles";
 export const TokenStats: React.FC = () => {
   const { t } = useTranslation("dashboard");
   const { data: tokenPrice } = useGetTokenPrice();
-  const { data: dividendData } = useGetDividendShare();
-  const { data: treasuryData } = useGetTreasury();
+  const { data: dividendShare } = useGetDividendShare();
+  const { data: treasury } = useGetTreasury();
   const { data: minimeConstants } = useMinimeConstants();
 
   const totalTeasuryInBasePrice =
-    treasuryData && tokenPrice
-      ? (treasuryData?.metisTokens * tokenPrice?.metis) / Decimals.metis +
-        (treasuryData?.miniMetisTokens * tokenPrice?.miniMetis) /
-          Decimals.miniMetis
+    treasury && tokenPrice
+      ? (treasury?.metisTokens * tokenPrice?.metis) / Decimals.metis +
+        (treasury?.miniMetisTokens * tokenPrice?.miniMetis) / Decimals.miniMetis
       : undefined;
 
   return (
@@ -39,14 +38,14 @@ export const TokenStats: React.FC = () => {
             <h4>{t("totalDividendsPaid")}</h4>
             <span>
               <DisplayPrice
-                price={dividendData?.totalDistributed}
+                price={dividendShare?.totalDistributed}
                 tokenSymbol="Metis"
                 isCompact={false}
               />
             </span>
             <span className="base-value">
               <DisplayPrice
-                price={dividendData?.totalDistributed}
+                price={dividendShare?.totalDistributed}
                 isBasePrice
                 baseFactor={tokenPrice?.metis}
               />{" "}
@@ -60,14 +59,14 @@ export const TokenStats: React.FC = () => {
             <h4>{t("totalTreasury")}</h4>
             <span>
               <DisplayPrice
-                price={treasuryData?.metisTokens}
+                price={treasury?.metisTokens}
                 tokenSymbol="Metis"
                 isCompact={false}
               />
             </span>
             <span className="base-value">
               <DisplayPrice
-                price={treasuryData?.metisTokens}
+                price={treasury?.metisTokens}
                 isBasePrice
                 baseFactor={tokenPrice?.metis}
               />{" "}
@@ -76,14 +75,14 @@ export const TokenStats: React.FC = () => {
 
             <span>
               <DisplayPrice
-                price={treasuryData?.miniMetisTokens}
+                price={treasury?.miniMetisTokens}
                 tokenSymbol="MiniMetis"
                 isCompact={false}
               />
             </span>
             <span className="base-value">
               <DisplayPrice
-                price={treasuryData?.miniMetisTokens}
+                price={treasury?.miniMetisTokens}
                 isBasePrice
                 baseFactor={tokenPrice?.miniMetis}
               />{" "}

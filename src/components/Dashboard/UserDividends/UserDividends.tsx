@@ -17,16 +17,11 @@ export const UserDividends: React.FC = () => {
   const { t } = useTranslation("dashboard");
   const [claimInProgress, setClaimInProgress] = React.useState(false);
 
-  const { data: dividendShareData } = useGetDividendShare();
-  const { data: walletData } = useGetWalletDetails();
+  const { data: dividendShare } = useGetDividendShare();
+  const { data: walletDetails } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
 
-  const {
-    mutate,
-    isError,
-    error,
-    data: claimDividendData,
-  } = useClaimDividend();
+  const { mutate, isError, error, data: claimDividend } = useClaimDividend();
 
   const handleClick = () => {
     mutate();
@@ -46,7 +41,7 @@ export const UserDividends: React.FC = () => {
   }, [error, isError, t]);
 
   React.useEffect(() => {
-    const { txHash, txReceipt } = claimDividendData || {};
+    const { txHash, txReceipt } = claimDividend || {};
     if (!txHash) return;
     setClaimInProgress(true);
 
@@ -97,7 +92,7 @@ export const UserDividends: React.FC = () => {
         })
         .finally(() => setClaimInProgress(false));
     }
-  }, [claimDividendData, t]);
+  }, [claimDividend, t]);
 
   return (
     <div css={styles}>
@@ -111,12 +106,12 @@ export const UserDividends: React.FC = () => {
             />
           </span>
           <span className="token-value">
-            <DisplayPrice price={dividendShareData?.claimedDividend} />
+            <DisplayPrice price={dividendShare?.userData?.claimedDividend} />
           </span>
           <div className="base-value">
             <span>
               <DisplayPrice
-                price={dividendShareData?.claimedDividend}
+                price={dividendShare?.userData?.claimedDividend}
                 baseFactor={tokenPrice?.metis}
                 isBasePrice
               />
@@ -134,12 +129,12 @@ export const UserDividends: React.FC = () => {
           />
         </span>
         <span className="token-value">
-          <DisplayPrice price={dividendShareData?.unclaimedDividend} />
+          <DisplayPrice price={dividendShare?.userData?.unclaimedDividend} />
         </span>
         <div className="base-value">
           <span>
             <DisplayPrice
-              price={dividendShareData?.unclaimedDividend}
+              price={dividendShare?.userData?.unclaimedDividend}
               baseFactor={tokenPrice?.metis}
               isBasePrice
             />
@@ -151,11 +146,11 @@ export const UserDividends: React.FC = () => {
         <button
           onClick={handleClick}
           disabled={
-            walletData?.status !== "CONNECTED" ||
-            Number(dividendShareData?.unclaimedDividend) === 0
+            walletDetails?.status !== "CONNECTED" ||
+            Number(dividendShare?.userData?.unclaimedDividend) === 0
           }
           className={cx({
-            disabled: walletData?.status !== "CONNECTED",
+            disabled: walletDetails?.status !== "CONNECTED",
           })}
         >
           {claimInProgress ? t("claiming") : t("claimNow")}

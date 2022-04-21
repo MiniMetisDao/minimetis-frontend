@@ -11,7 +11,7 @@ import { styles } from "./styles";
 
 export const UserBalance: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
-  const { data } = useGetWalletDetails();
+  const { data: walletDetails } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
   const { data: dividendShare } = useGetDividendShare();
 
@@ -22,10 +22,10 @@ export const UserBalance: React.FC = () => {
         address: MINIMETIS_CONTRACT_ADDRESS,
         method: "balanceOf",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-        params: [data?.address!],
+        params: [walletDetails?.address!],
       },
     ],
-    { enabled: Boolean(data?.address) }
+    { enabled: Boolean(walletDetails?.address) }
   );
 
   return (
@@ -54,7 +54,8 @@ export const UserBalance: React.FC = () => {
           </span>
           <div className="percentage-value">
             <span>
-              {t("number", { value: dividendShare?.sharePercentage })}%
+              {t("number", { value: dividendShare?.userData?.sharePercentage })}
+              %
             </span>
           </div>
         </div>

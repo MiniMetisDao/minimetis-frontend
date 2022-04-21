@@ -1,14 +1,14 @@
-import { METIS_CHAIN_ID } from "config";
+import { CHAIN_ID } from "config";
 import { ethers } from "ethers";
 
 export const getNetwork = async () =>
   await new ethers.providers.Web3Provider(window.ethereum).getNetwork();
 
-export const isMetisConnected = async () =>
-  (await getNetwork())?.chainId === METIS_CHAIN_ID;
+export const isSupportedNetworkConnected = async () =>
+  (await getNetwork())?.chainId === CHAIN_ID;
 
-export const isMetisNetwork = (chainId: string) =>
-  parseInt(chainId) === METIS_CHAIN_ID;
+export const isSupportedNetwork = (chainId: string) =>
+  parseInt(chainId) === CHAIN_ID;
 
 export const getWalletAddress = async () =>
   await new ethers.providers.Web3Provider(window.ethereum).send(

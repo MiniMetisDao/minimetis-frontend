@@ -1,11 +1,11 @@
 import { Contract, Provider } from "ethcall";
 
-import { ERC20Abi, METIS_RPC_URL } from "config";
+import { ERC20Abi, RPC_URL } from "config";
 import { ethers } from "ethers";
 import { QueryInfo } from "utils";
 
 const ethcallProvider = new Provider();
-const provider = new ethers.providers.StaticJsonRpcProvider(METIS_RPC_URL);
+const provider = new ethers.providers.StaticJsonRpcProvider(RPC_URL);
 
 export const multicall = async (queryInfos: readonly QueryInfo[]) => {
   try {
