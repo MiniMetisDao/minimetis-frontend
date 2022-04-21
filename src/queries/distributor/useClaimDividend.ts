@@ -4,7 +4,9 @@ import { useMutation } from "react-query";
 import { DistributorAbi } from "config";
 import { useMinimeConstants } from "queries";
 
-const claimDividend = async (distributor: string) => {
+type Result = Promise<{ txHash: string; txReceipt: Promise<void> }>;
+
+const claimDividend = async (distributor: string): Result => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 

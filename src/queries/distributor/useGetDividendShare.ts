@@ -3,50 +3,53 @@ import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
-type DistributorData = {
+type DistributorShare = {
   totalShares: number;
-  shares: number;
-  sharePercentage: number;
-  claimedDividend: number;
-  unclaimedDividend: number;
   totalDistributed: number;
+
+  userData?: {
+    sharePercentage: number;
+    shares: number;
+    claimedDividend: number;
+    unclaimedDividend: number;
+  };
 };
 
 type Result = {
   isLoading: boolean;
   isError: boolean;
-  data?: Partial<DistributorData>;
+  data?: DistributorShare;
 };
 
 export const useGetDividendShare = (): Result => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
-  const { data: userData } = useGetWalletDetails();
+  const { data: walletDetails } = useGetWalletDetails();
 
-  const distibutorUserData = useMultiCallContract(
+  const distributorUserQuery = useMultiCallContract(
     "distributorUser",
     [
       {
         address: minimeConstants?.distributor,
         method: "shares",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-        params: [userData?.address!],
+        params: [walletDetails?.address!],
         abi: DistributorAbi,
       },
       {
         address: minimeConstants?.distributor,
         method: "getUnpaidEarnings",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-        params: [userData?.address!],
+        params: [walletDetails?.address!],
         abi: DistributorAbi,
       },
     ],
     {
       refetchInterval: 5_000,
-      enabled: Boolean(minimeConstants?.distributor && userData?.address),
+      enabled: Boolean(minimeConstants?.distributor && walletDetails?.address),
     }
   );
 
-  const distibutorData = useMultiCallContract(
+  const distibutorQuery = useMultiCallContract(
     "distributor",
     [
       {
@@ -66,18 +69,24 @@ export const useGetDividendShare = (): Result => {
     }
   );
 
-  let data: DistributorData | undefined;
+  let data: DistributorShare | undefined;
 
-  if (distibutorUserData.data && distibutorData.data) {
+  if (distibutorQuery.data) {
     data = {
-      totalShares: distibutorData.data[0],
-      totalDistributed: distibutorData.data[1],
-      shares: distibutorUserData.data[0],
-      sharePercentage:
-        (distibutorUserData.data[0].split(",")[0] / distibutorData.data[0]) *
-        100,
-      claimedDividend: distibutorUserData.data[0].split(",")[2],
-      unclaimedDividend: distibutorUserData.data[1],
+      totalShares: distibutorQuery.data[0],
+      totalDistributed: distibutorQuery.data[1],
+
+      userData: distributorUserQuery.data
+        ? {
+            shares: distributorUserQuery.data[0],
+            sharePercentage:
+              (distributorUserQuery.data[0].split(",")[0] /
+                distibutorQuery.data[0]) *
+              100,
+            claimedDividend: distributorUserQuery.data[0].split(",")[2],
+            unclaimedDividend: distributorUserQuery.data[1],
+          }
+        : undefined,
     };
   }
 
