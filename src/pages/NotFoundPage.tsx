@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
 import { Layout } from "components/Layout";
+import { NotFound } from "components/NotFound";
 
 export const NotFoundPage: React.FC = () => {
   const { t } = useTranslation();
@@ -13,10 +14,7 @@ export const NotFoundPage: React.FC = () => {
         <title>{t("notFound")}</title>
         <meta name="description" content={t("notFoundDescription")} />
       </ReactMetaTags>
-      {/* TODO: this is temp. update with new design */}
-      <p style={{ margin: "200px auto 300px", textAlign: "center" }}>
-        {t("notFoundDescription")}
-      </p>
+      <NotFound />
     </Layout>
   );
 };
