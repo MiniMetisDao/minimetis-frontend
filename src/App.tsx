@@ -7,6 +7,7 @@ import { AccountChainIdListener } from "components";
 import { AboutUsPage } from "pages/AboutUsPage";
 import { ComingSoonPage } from "pages/ComingSoonPage";
 import { DashboardPage } from "pages/DashboardPage";
+import { HugsNotRugsPage } from "pages/HugsNotRugsPage";
 import { NotFoundPage } from "pages/NotFoundPage";
 import { TradePage } from "pages/TradePage";
 import { queryClient } from "queryClient";
@@ -27,7 +28,7 @@ export const App: React.FC = () => (
           { path: "trade", element: <TradePage /> },
           { path: "stake", element: <ComingSoonPage /> },
           { path: "about-us", element: <AboutUsPage /> },
-          { path: "hugs-not-rugs", element: <ComingSoonPage /> },
+          { path: "hugs-not-rugs", element: <HugsNotRugsPage /> },
           { path: "mint", element: <ComingSoonPage /> },
           { path: "*", element: <NotFoundPage /> },
         ]}
