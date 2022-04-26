@@ -160,6 +160,7 @@ export const styles = ({ color }: Theme) => css`
 
   .banner {
     background: #321f46;
+    color: ${color.text.white};
     margin: 0 0 80px;
     @media (max-width: 1024px) {
       display: none;
