@@ -1,13 +1,25 @@
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 
-import { styles } from "./styles";
+import { Container } from "./Container";
+import { contentStyles, styles } from "./styles";
 
-export const Layout: React.FC = ({ children }) => {
+type LayoutProps = {
+  fullWidth?: boolean;
+  padded?: boolean;
+};
+
+export const Layout: React.FC<LayoutProps> = ({
+  fullWidth,
+  padded,
+  children,
+}) => {
   return (
-    <div css={styles}>
+    <div css={styles} className="group">
       <Header />
-      <div className="container group main-content">{children}</div>
+      <Container fullWidth={fullWidth} padded={padded}>
+        <div css={contentStyles}>{children}</div>
+      </Container>
       <Footer />
     </div>
   );

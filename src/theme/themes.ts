@@ -39,6 +39,7 @@ export const darkTheme: Theme = {
     color7: "#58008e",
     color7Shadow1: "#00000040",
     color7Shadow2: "#4e007e4d",
+    color8: "#29D4C8",
   },
 };
 
@@ -81,5 +82,6 @@ export const lightTheme: Theme = {
     color7: "#7300b9",
     color7Shadow1: "#00000040",
     color7Shadow2: "#4e007e4d",
+    color8: "#29D4C8",
   },
 };

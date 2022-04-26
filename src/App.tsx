@@ -24,10 +24,10 @@ export const App: React.FC = () => (
       <Router
         location={location}
         routes={[
-          { path: "/", element: <DashboardPage /> },
+          { path: "/", element: <AboutUsPage /> },
           { path: "trade", element: <TradePage /> },
           { path: "stake", element: <ComingSoonPage /> },
-          { path: "about-us", element: <AboutUsPage /> },
+          { path: "dashboard", element: <DashboardPage /> },
           { path: "hugs-not-rugs", element: <HugsNotRugsPage /> },
           { path: "mint", element: <ComingSoonPage /> },
           { path: "*", element: <NotFoundPage /> },
