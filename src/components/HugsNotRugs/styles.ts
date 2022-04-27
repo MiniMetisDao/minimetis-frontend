@@ -103,30 +103,30 @@ export const styles = ({ color }: Theme) => css`
       position: absolute;
       left: -56px;
       top: 0;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     ${Array.from(
       Array(10),
-      (_, x) => `:nth-child(${x + 1}) {
+      (_, i) => `:nth-child(${i + 1}) {
         
       ::before {
-        content: "${x + 1}";
-        width: 56px;
-        height: 56px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        content: "${i + 1}";
       }
     }`
     )}
   }
 
   .outro {
-    background: ${color.color8} url(${hugOutroBg}) bottom center no-repeat;
+    background: ${color.color9} url(${hugOutroBg}) bottom center no-repeat;
     font-size: 35px;
     font-weight: 700;
     line-height: 1.5;
-    color: ${color.text.alternative};
+    color: ${color.color10};
     padding: 80px 0 240px;
     position: relative;
     margin-bottom: 200px;
