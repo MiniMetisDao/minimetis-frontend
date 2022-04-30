@@ -1,9 +1,10 @@
 import { type Theme, css } from "@emotion/react";
 
+import bannerBg from "assets/images/banner/bg.jpg";
+import bannerTitle from "assets/images/banner/hugs-not-rugs-title.png";
+import minimetisRugdoc from "assets/images/banner/minimetis-rugdoc.png";
 import hugOutroBg from "assets/images/hug-outro-bg.png";
 import hugSeal from "assets/images/hug-seal.png";
-import bannerBg from "assets/images/hugs-not-rugs-banner-bg.jpg";
-import bannerTitle from "assets/images/hugs-not-rugs-banner-title.png";
 import minimetisThumbsUp from "assets/images/minimetis-thumbs-up.svg";
 
 export const styles = ({ color }: Theme) => css`
@@ -49,7 +50,8 @@ export const styles = ({ color }: Theme) => css`
         }
       }
       p:nth-child(2) {
-        font-size: 32px;
+        font-size: 30px;
+        font-weight: 700;
       }
     }
   }
@@ -77,7 +79,7 @@ export const styles = ({ color }: Theme) => css`
     list-style: none;
     margin: 0 0 0 27px;
     padding: 25px 0 50px;
-    border-left: 2px solid ${color.text.primary};
+    border-left: 2px solid ${color.text.primary}5c;
     display: flex;
     flex-direction: column;
     font-size: 18px;
@@ -122,7 +124,8 @@ export const styles = ({ color }: Theme) => css`
   }
 
   .outro {
-    background: ${color.color9} url(${hugOutroBg}) bottom center no-repeat;
+    background: ${color.color9} url(${hugOutroBg}) bottom left no-repeat;
+    background-size: 100%;
     font-size: 35px;
     font-weight: 700;
     line-height: 1.5;
@@ -134,6 +137,7 @@ export const styles = ({ color }: Theme) => css`
     @media (max-width: 1024px) {
       padding: 80px 0 140px;
       margin-bottom: 100px;
+      background-size: auto;
     }
 
     ::after {
@@ -159,12 +163,10 @@ export const styles = ({ color }: Theme) => css`
   }
 
   .banner {
-    background: #321f46;
+    background: #321f46 url(${bannerBg}) no-repeat;
+    background-size: cover;
     color: ${color.text.white};
     margin: 0 0 80px;
-    @media (max-width: 1024px) {
-      display: none;
-    }
     h3 {
       background: url(${bannerTitle}) no-repeat;
       background-size: 100%;
@@ -174,18 +176,48 @@ export const styles = ({ color }: Theme) => css`
       font-size: 0;
       color: transparent;
       margin-left: 20px;
+      @media (max-width: 1024px) {
+        margin: 0 auto;
+        max-width: 320px;
+      }
     }
   }
   .banner-item {
-    background: url(${bannerBg}) no-repeat;
-    height: 338px;
-    background-size: 100%;
-    padding: 30px 0;
+    padding: 40px 0;
+    position: relative;
+    @media (max-width: 1024px) {
+      padding: 40px 20px;
+    }
+
+    :before {
+      content: "";
+      background: url(${minimetisRugdoc}) no-repeat;
+      background-size: 100%;
+      width: 60%;
+      height: 75%;
+      position: absolute;
+      right: 0;
+      bottom: 30px;
+      @media (max-width: 1024px) {
+        position: static;
+        width: 100%;
+        max-width: 410px;
+        height: 180px;
+        display: block;
+        margin: 0 auto;
+      }
+    }
 
     p {
-      width: 40%;
+      width: 36%;
       padding: 20px 50px;
       font-size: 24px;
+      @media (max-width: 1024px) {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 400px;
+        padding: 20px 0;
+      }
     }
   }
 `;
