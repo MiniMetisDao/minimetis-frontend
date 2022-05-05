@@ -16,6 +16,7 @@ export const HugsNotRugsBanner: React.FC = () => {
             span: <span />,
             a: (
               <a
+                className="link"
                 target="_blank"
                 href="https://docs.google.com/forms/d/e/1FAIpQLSd9IgqWw7xx5_vpm5Y2XGXcJkq5KcJT-MkGYhm8o0wpHmJWMQ/viewform"
               />

@@ -47,7 +47,7 @@ export const styles = ({ color }: Theme) => css`
       }
     }
   }
-  a {
+  .link {
     color: #fff;
     padding: 2px 40px;
     border: 3px solid #fff;
