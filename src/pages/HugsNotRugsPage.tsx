@@ -6,7 +6,7 @@ import { HugsNotRugs } from "components/HugsNotRugs";
 import { Layout } from "components/Layout";
 
 export const HugsNotRugsPage: React.FC = () => {
-  const { t } = useTranslation("aboutUs");
+  const { t } = useTranslation("hugsNotRugs");
 
   return (
     <Layout fullWidth padded={false}>
