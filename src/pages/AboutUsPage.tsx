@@ -9,7 +9,7 @@ export const AboutUsPage: React.FC = () => {
   const { t } = useTranslation("aboutUs");
 
   return (
-    <Layout>
+    <Layout fullWidth padded={false}>
       <ReactMetaTags>
         <title>{t("title")}</title>
         <meta name="description" content={t("description")} />

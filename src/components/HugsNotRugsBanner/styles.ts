@@ -53,6 +53,7 @@ export const styles = ({ color }: Theme) => css`
     border: 3px solid #fff;
     border-radius: 50px;
     text-decoration: none;
+    transition: background 0.4s;
     :hover {
       background: #fff;
       color: #fc9994;
