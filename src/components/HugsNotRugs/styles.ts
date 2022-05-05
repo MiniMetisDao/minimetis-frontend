@@ -45,7 +45,7 @@ export const styles = ({ color }: Theme) => css`
         font-size: 18px;
         line-height: 1.2;
         margin: 0 0 45px;
-        :first-child {
+        :first-of-type {
           margin-top: 20px;
         }
       }
@@ -96,7 +96,7 @@ export const styles = ({ color }: Theme) => css`
     padding-left: 24px;
     margin-bottom: 17px;
     margin-top: 17px;
-    :first-child {
+    :first-of-type {
       font-weight: 700;
       font-size: 28px;
     }
