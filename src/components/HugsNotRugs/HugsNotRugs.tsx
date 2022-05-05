@@ -1,6 +1,7 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
+import { HugsNotRugsBanner } from "components/HugsNotRugsBanner";
 import { Container } from "components/Layout/Container";
 
 import { styles } from "./styles";
@@ -55,6 +56,10 @@ export const HugsNotRugs: React.FC = () => {
           <p>{t("outro")}</p>
         </Container>
       </div>
+
+      <Container>
+        <HugsNotRugsBanner />
+      </Container>
 
       <Container>
         <div className="disclaimer">

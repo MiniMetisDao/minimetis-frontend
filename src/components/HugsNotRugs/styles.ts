@@ -1,6 +1,6 @@
 import { type Theme, css } from "@emotion/react";
 
-import bannerBg from "assets/images/banner/bg.jpg";
+import bannerBg from "assets/images/banner/hugs-not-rugs-page-bg.jpg";
 import bannerTitle from "assets/images/banner/hugs-not-rugs-title.png";
 import minimetisRugdoc from "assets/images/banner/minimetis-rugdoc.png";
 import hugOutroBg from "assets/images/hug-outro-bg.png";
@@ -65,6 +65,8 @@ export const styles = ({ color }: Theme) => css`
     h2 {
       margin: 20px 50px 0 0;
       font-size: 70px;
+      line-height: 0.85;
+
       @media (max-width: 1024px) {
         margin: 20px 0;
         font-size: 50px;
@@ -132,7 +134,7 @@ export const styles = ({ color }: Theme) => css`
     color: ${color.color10};
     padding: 80px 0 240px;
     position: relative;
-    margin-bottom: 200px;
+    margin-bottom: 160px;
 
     @media (max-width: 1024px) {
       padding: 80px 0 140px;
