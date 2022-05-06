@@ -25,8 +25,8 @@ export const globalStyles = (theme: Theme) => css`
     padding-bottom: 650px; // move it to footer
   }
   *,
-  *:before,
-  *:after {
+  *::before,
+  *::after {
     box-sizing: inherit;
   }
 
@@ -34,8 +34,8 @@ export const globalStyles = (theme: Theme) => css`
     font-family: "Rambla", sans-serif;
   }
 
-  .group:before,
-  .group:after {
+  .group::before,
+  .group::after {
     content: "";
     display: table;
   }

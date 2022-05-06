@@ -2,11 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMetaTags from "react-meta-tags";
 
-import { AboutUs } from "components/AboutUs";
+import { HugsNotRugs } from "components/HugsNotRugs";
 import { Layout } from "components/Layout";
 
-export const AboutUsPage: React.FC = () => {
-  const { t } = useTranslation("aboutUs");
+export const HugsNotRugsPage: React.FC = () => {
+  const { t } = useTranslation("hugsNotRugs");
 
   return (
     <Layout fullWidth padded={false}>
@@ -14,7 +14,7 @@ export const AboutUsPage: React.FC = () => {
         <title>{t("title")}</title>
         <meta name="description" content={t("description")} />
       </ReactMetaTags>
-      <AboutUs />
+      <HugsNotRugs />
     </Layout>
   );
 };

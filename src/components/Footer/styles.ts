@@ -211,12 +211,12 @@ export const styles =
 
       .social {
         display: flex;
-        width: 78%;
+        padding: 0 20px;
         margin-bottom: 100px;
         justify-content: center;
 
         @media (max-width: 1024px) {
-          width: 100%;
+          padding: 0;
         }
 
         ul {

@@ -7,8 +7,9 @@ import night from "assets/images/night.svg";
 export const styles = ({ color }: Theme) =>
   css`
     margin-bottom: 50px;
+    padding: 0 20px;
     .header {
-      margin: 50px 20px;
+      margin: 50px 0;
       display: flex;
       justify-content: space-between;
     }
@@ -60,8 +61,24 @@ export const styles = ({ color }: Theme) =>
       font-size: 20px;
       flex-flow: wrap;
 
+      ul {
+        display: none;
+      }
       li {
         margin: 0 18px;
+        :hover {
+          > ul {
+            display: block;
+            position: absolute;
+            background: #713cad;
+            padding: 10px 0;
+            margin: 0;
+            list-style: none;
+            border-radius: 3px;
+            min-width: 100px;
+            z-index: 100;
+          }
+        }
       }
       a {
         color: ${color.text.primary};

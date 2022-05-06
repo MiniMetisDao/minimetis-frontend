@@ -47,6 +47,9 @@ declare module "@emotion/react" {
       color7: string;
       color7Shadow1: string;
       color7Shadow2: string;
+      color8: string;
+      color9: string;
+      color10: string;
       // put other specific colors like chart colors into its own group
     };
   }
