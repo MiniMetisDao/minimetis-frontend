@@ -1,7 +1,6 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
-import { HugsNotRugsBanner } from "components/HugsNotRugsBanner";
 import { Container } from "components/Layout/Container";
 
 import { styles } from "./styles";
@@ -43,12 +42,6 @@ export const AboutUs: React.FC = () => {
         <h2>{t("ourRoadmap")}</h2>
         <p>{t("ourRoadmapDescription")}</p>
       </Container>
-
-      <div className="banner">
-        <Container>
-          <HugsNotRugsBanner />
-        </Container>
-      </div>
     </div>
   );
 };
