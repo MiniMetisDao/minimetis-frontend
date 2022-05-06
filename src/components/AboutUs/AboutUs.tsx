@@ -1,45 +1,47 @@
-import useResizeObserver from "beautiful-react-hooks/useResizeObserver";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Trans, useTranslation } from "react-i18next";
 
-import whitepaper from "assets/whitepaper.pdf";
-import { LoadingSpinner } from "components/LoadingSpinner";
+import { Container } from "components/Layout/Container";
 
 import { styles } from "./styles";
 
-pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
-
 export const AboutUs: React.FC = () => {
   const { t } = useTranslation("aboutUs");
-  const ref = React.useRef(null);
-  const parentRect = useResizeObserver(ref);
-  const [pageNumbers, setPageNumbers] = React.useState<number | null>(null);
-
-  const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setPageNumbers(numPages);
-  };
 
   return (
-    <div css={styles} ref={ref}>
-      <div className="download-btn-wrapper">
-        <a href="whitepaper.pdf" target="_blank">
-          {t("downloadWhitepaper")}
-        </a>
+    <div css={styles}>
+      <div className="top-banner"></div>
+      <Container>
+        <h1>{t("meetMiniMetis")}</h1>
+        <Trans
+          i18nKey="aboutUs:meetMiniMetisDescription"
+          components={{ p: <p /> }}
+        />
+        <h2>{t("tokenomics")}</h2>
+        <Trans
+          i18nKey="aboutUs:tokenomicsDescription"
+          components={{ p: <p /> }}
+        />
+      </Container>
+
+      <div className="transfer-tax">
+        <Container>
+          <div className="wrapper">
+            <p>{t("transferTax")}</p>
+            <div>
+              <Trans
+                i18nKey="aboutUs:transferTaxDetails"
+                components={{ ul: <ul />, li: <li /> }}
+              />
+            </div>
+          </div>
+        </Container>
       </div>
-      <Document
-        loading={<LoadingSpinner />}
-        file={whitepaper}
-        onLoadSuccess={handleDocumentLoadSuccess}
-      >
-        {Array.from(new Array(pageNumbers), (_, index) => (
-          <Page
-            width={parentRect?.width}
-            key={`page_${index + 1}`}
-            pageNumber={index + 1}
-          />
-        ))}
-      </Document>
+
+      <Container>
+        <h2>{t("ourRoadmap")}</h2>
+        <p>{t("ourRoadmapDescription")}</p>
+      </Container>
     </div>
   );
 };

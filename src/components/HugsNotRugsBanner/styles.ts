@@ -47,12 +47,13 @@ export const styles = ({ color }: Theme) => css`
       }
     }
   }
-  a {
+  .link {
     color: #fff;
     padding: 2px 40px;
     border: 3px solid #fff;
     border-radius: 50px;
     text-decoration: none;
+    transition: background 0.4s;
     :hover {
       background: #fff;
       color: #fc9994;
