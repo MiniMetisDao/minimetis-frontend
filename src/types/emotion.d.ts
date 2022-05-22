@@ -30,6 +30,10 @@ declare module "@emotion/react" {
         primary: string;
         text: string;
       };
+      modal: {
+        primary: string;
+        text: string;
+      };
       // colors used as background colors
       primary: string;
       secondary: string;
