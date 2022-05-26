@@ -11,6 +11,7 @@ type DisplayPriceProps = {
   baseFactor?: number;
   isCompact?: boolean;
 };
+
 export const DisplayPrice: React.FC<DisplayPriceProps> = ({
   price,
   decimals = Decimals.miniMetis,

@@ -1,5 +1,9 @@
 {
-    "title":"MiniMetis Dex", 
-    "description":"MiniMetis Dex for trade and swap tokens in Metis Andromeda",
-    "comingSoon":"MiniMetis Dex is being developed right now and will be launched soon. Please check telegram or discord for more information"
+  "title": "MiniMetis Dex",
+  "description": "MiniMetis Dex for trade and swap tokens in Metis Andromeda",
+  "comingSoon": "MiniMetis Dex is being developed right now and will be launched soon. Please check telegram or discord for more information",
+  "swap": "Swap",
+  "selectAToken": "Select a token",
+  "selectNamePlaceHolder": "Select name or paste address",
+  "commonBases": "Common bases"
 }
