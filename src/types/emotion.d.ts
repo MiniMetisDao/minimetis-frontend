@@ -30,6 +30,9 @@ declare module "@emotion/react" {
         primary: string;
         text: string;
       };
+      alert: {
+        warning: string;
+      };
       // colors used as background colors
       primary: string;
       secondary: string;
@@ -50,6 +53,11 @@ declare module "@emotion/react" {
       color8: string;
       color9: string;
       color10: string;
+      color11: string;
+      color12: string;
+      color13: string;
+      color14: string;
+      color15: string;
       // put other specific colors like chart colors into its own group
     };
   }

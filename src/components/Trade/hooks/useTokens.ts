@@ -1,15 +1,16 @@
 import * as React from "react";
 
-import tokens from "config/tokens.json";
+import tradingTokens from "config/tradingTokens.json";
 import { useGetWalletDetails } from "queries";
 import { useMultiCallContract } from "utils";
 
 export type Token = {
+  chainId: number;
   name: string;
   symbol: string;
   address: string;
   decimals: number;
-  logo: string;
+  logoURI: string;
   listInQuickView?: boolean;
   balance?: number;
 };
@@ -19,7 +20,7 @@ export const useTokens = () => {
 
   const { data: tokenBalances } = useMultiCallContract(
     "tokens",
-    tokens.map(({ address }) => ({
+    tradingTokens.map(({ address }) => ({
       address,
       method: "balanceOf",
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
@@ -32,10 +33,10 @@ export const useTokens = () => {
 
   const tokensList: Token[] = React.useMemo(() => {
     if (!tokenBalances) {
-      return tokens;
+      return tradingTokens;
     }
 
-    return tokens.map((token, idx) => ({
+    return tradingTokens.map((token, idx) => ({
       ...token,
       balance: tokenBalances[idx],
     }));

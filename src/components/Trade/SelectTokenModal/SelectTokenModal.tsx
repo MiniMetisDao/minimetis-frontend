@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/DisplayPrice";
 
+import { Token } from "../hooks/useTokens";
+
 import { listStyle, styles } from "./styles";
-import { Token } from "./useTokens";
 
 type SelectTokenModalProps = {
   tokens: Token[];
@@ -35,7 +36,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
 
   return (
     <div css={styles}>
-      <div>{t("selectAToken")}</div>
+      <div>{t("selectToken")}</div>
 
       <input
         className="selectName"
@@ -52,7 +53,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
             })}
             onClick={() => onSelect(token)}
           >
-            <img className="logo" src={token.logo} />
+            <img className="logo" src={token.logoURI} />
 
             <div className="details">
               <div>{token.name}</div>

@@ -2,8 +2,13 @@
   "title": "MiniMetis Dex",
   "description": "MiniMetis Dex for trade and swap tokens in Metis Andromeda",
   "comingSoon": "MiniMetis Dex is being developed right now and will be launched soon. Please check telegram or discord for more information",
+  "miniSwap": "Mini Swap",
   "swap": "Swap",
-  "selectAToken": "Select a token",
+  "from": "From",
+  "to": "To",
+  "max": "Max",
+  "selectToken": "Select Token",
+  "noInput": "Enter an amount",
   "selectNamePlaceHolder": "Select name or paste address",
   "commonBases": "Common bases"
 }

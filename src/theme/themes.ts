@@ -26,6 +26,9 @@ export const darkTheme: Theme = {
       primary: "#C8BED6",
       text: "#6C3DAD",
     },
+    alert: {
+      warning: "#ffc107",
+    },
     primary: "#3b005f",
     secondary: "#58008e",
     alternative: "#00dacc",
@@ -42,6 +45,11 @@ export const darkTheme: Theme = {
     color8: "#29D4C8",
     color9: "#2AD8CC",
     color10: "#443247",
+    color11: "#2E0049",
+    color12: "#3B005F",
+    color13: "#8755CD",
+    color14: "#AE75FF",
+    color15: "#B885FF",
   },
 };
 
@@ -71,6 +79,9 @@ export const lightTheme: Theme = {
       primary: "#C8BED6",
       text: "#6C3DAD",
     },
+    alert: {
+      warning: "#ffc107",
+    },
     primary: "#ffffff",
     secondary: "#7300b9",
     alternative: "#9600f1",
@@ -87,5 +98,10 @@ export const lightTheme: Theme = {
     color8: "#29D4C8",
     color9: "#2AD8CC",
     color10: "#443247",
+    color11: "#B5FFF2",
+    color12: "#00A59A",
+    color13: "#DCFFF9",
+    color14: "#BCFBEB",
+    color15: "#BFF1E9",
   },
 };

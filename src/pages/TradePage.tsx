@@ -9,7 +9,7 @@ export const TradePage: React.FC = () => {
   const { t } = useTranslation("trade");
 
   return (
-    <Layout>
+    <Layout fullWidth padded={false}>
       <ReactMetaTags>
         <title>{t("title")}</title>
         <meta name="description" content={t("description")} />
