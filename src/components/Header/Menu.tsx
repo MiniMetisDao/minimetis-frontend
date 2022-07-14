@@ -35,6 +35,9 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
         </ul> */}
       </li>
       <li>
+        <a href="https://nft.minimetis.com">{t("mint")}</a>
+      </li>
+      <li>
         <Link to="/dashboard">{t("dashboard")}</Link>
       </li>
     </ul>

@@ -22,17 +22,17 @@ export const styles = ({ color }: Theme) => css`
 
     ::after {
       content: "";
-      background: url(${minimetisStone}) no-repeat;
+      background: url(${minimetisStone}) no-repeat center;
       aspect-ratio: 370/507;
       display: inline-block;
       max-height: 507px;
-      background-size: 100%;
       width: 60%;
       margin-bottom: -55px;
 
       @media (max-width: 1024px) {
         max-height: 80vh;
         margin: 40px 20px -30px;
+        background-size: 100%;
       }
     }
   }
