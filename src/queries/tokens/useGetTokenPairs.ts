@@ -57,7 +57,6 @@ export const useGetTokenPairs = (): Result => {
     "tokenPairs",
     [...metisUsdtPairQuery, ...miniMetisMetisPairQuery(minimeConstants?.pair)],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.pair),
     }
   );

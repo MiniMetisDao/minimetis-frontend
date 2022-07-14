@@ -31,7 +31,6 @@ export const useGetTreasury = (): Result => {
       },
     ],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.treasuryFeeReceiver),
     }
   );

@@ -6,10 +6,10 @@ import night from "assets/images/night.svg";
 
 export const styles = ({ color }: Theme) =>
   css`
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     padding: 0 20px;
     .header {
-      margin: 50px 0;
+      margin: 20px 0;
       display: flex;
       justify-content: space-between;
     }

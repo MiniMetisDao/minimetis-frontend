@@ -9,6 +9,7 @@ export const METIS_USDT_LP_CONTRACT_ADDRESS = "0x8121113eB9952086deC3113690Af053
 export const CHAIN_ID = 1088;
 
 export const BASE_CURRENCY_CODE = 'USD'
+export const DEFAULT_REFETCH_INTERVAL = 5_000
 
 // TODO: Added for dev. Will remove it later.
 export const POLYGON_RPC_URL = "https://polygon-rpc.com/"

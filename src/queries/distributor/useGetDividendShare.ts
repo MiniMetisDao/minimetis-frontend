@@ -44,7 +44,6 @@ export const useGetDividendShare = (): Result => {
       },
     ],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.distributor && walletDetails?.address),
     }
   );
@@ -64,7 +63,6 @@ export const useGetDividendShare = (): Result => {
       },
     ],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.distributor),
     }
   );
