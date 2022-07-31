@@ -2,8 +2,7 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/DisplayPrice";
-
-import { Token } from "../hooks/useTokens";
+import { Token } from "types/common";
 
 import { listStyle, styles } from "./styles";
 

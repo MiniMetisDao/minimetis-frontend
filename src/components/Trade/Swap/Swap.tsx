@@ -5,63 +5,82 @@ import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { Container } from "components/Layout/Container";
-import { SelectTokenModal } from "components/Trade/SelectTokenModal";
-import { type Token, useTokens } from "components/Trade/hooks/useTokens";
-import { CHAIN_ID } from "config";
+import { useTokens } from "components/Trade/hooks/useTokens";
+import tradingTokens from "config/tradingTokens.json";
+import { useGetTokenBalances } from "queries";
+import { Token } from "types/common";
 
 import { TokenInput } from "./TokenInput";
 import { styles } from "./styles";
 
 type SwapToken = {
-  amount: number;
+  amount: string;
   token: Token;
   estimated?: boolean;
 };
 
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
-  const [input, setInput] = React.useState<number>();
-  const [output, setOutput] = React.useState<number>();
-  const [inputBalance, setInputBalance] = React.useState<number>();
-  const [outputBalance, setOutputBalance] = React.useState<number>();
+
+  const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>([
+    { amount: "", token: tradingTokens[0] },
+    { amount: "", token: tradingTokens[1] },
+  ]);
+
   const [warningMessage, setWarningMessage] = React.useState<string>();
 
-  const tokens = useTokens();
+  // const tokens = useTokens();
+  const { data: balances } = useGetTokenBalances({
+    tokens: tradingTokens,
+    refetchInterval: false,
+  });
 
-  const getLpPair = () => {
-    const token1AsTokenInstance = new SDKToken(
-      CHAIN_ID,
-      "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
-      18
+  const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
+
+  const { data: tradingPairBalances, isLoading: isTradingPairBalancesLoading } =
+    useGetTokenBalances({
+      tokens: swapTokensList,
+    });
+
+  console.log("balances", balances);
+  console.log(
+    "tradingPairBalances",
+    tradingPairBalances,
+    isTradingPairBalancesLoading
+  );
+
+  const lpPair = React.useMemo(() => {
+    const token0 = new SDKToken(
+      swapTokens[0].token.chainId,
+      swapTokens[0].token.address,
+      swapTokens[0].token.decimals
     );
 
-    const token2AsTokenInstance = new SDKToken(
-      CHAIN_ID,
-      "0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC",
-      18
+    const token1 = new SDKToken(
+      swapTokens[1].token.chainId,
+      swapTokens[1].token.address,
+      swapTokens[1].token.decimals
     );
 
-    const pairAdd = Pair.getAddress(
-      token1AsTokenInstance as SDKToken,
-      token2AsTokenInstance as SDKToken
-    );
+    return Pair.getAddress(token0 as SDKToken, token1 as SDKToken);
+  }, [swapTokens]);
 
-    console.log("pairAdd", pairAdd);
-  };
+  console.log("lpPair", lpPair);
 
-  getLpPair();
+  const handleFromChange = (amount: string) =>
+    setSwapTokens(([token0, token1]) => [
+      { ...token0, amount, estimated: false },
+      { ...token1, estimated: true },
+    ]);
 
-  React.useEffect(() => {
-    if (input) {
-      setWarningMessage(undefined);
-      setInputBalance(input * 2);
-      setOutputBalance(input * 4);
-    } else {
-      setWarningMessage(t("noInput"));
-      setInputBalance(undefined);
-      setOutputBalance(undefined);
-    }
-  }, [input, t]);
+  const handleToChange = (amount: string) =>
+    setSwapTokens(([token0, token1]) => [
+      { ...token0, estimated: true },
+      { ...token1, amount, estimated: false },
+    ]);
+
+  const handleFlipClick = () =>
+    setSwapTokens(([token0, token1]) => [token1, token0]);
 
   return (
     <div css={styles}>
@@ -73,19 +92,21 @@ export const Swap: React.FC = () => {
           </div>
           <TokenInput
             from
-            amount={input}
-            balance={inputBalance}
-            token={tokens[0]}
-            onChange={setInput}
+            amount={swapTokens[0].amount}
+            balance={tradingPairBalances?.[swapTokens[0].token.address] || ""}
+            token={swapTokens[0].token}
+            estimated={swapTokens[0].estimated}
+            onChange={handleFromChange}
           />
-          <button className="switch-input-btn">
+          <button className="switch-input-btn" onClick={handleFlipClick}>
             <IoIosRepeat />
           </button>
           <TokenInput
-            amount={output}
-            balance={outputBalance}
-            token={tokens[1]}
-            onChange={setOutput}
+            amount={swapTokens[1].amount}
+            balance={tradingPairBalances?.[swapTokens[1].token.address] || ""}
+            token={swapTokens[1].token}
+            estimated={swapTokens[1].estimated}
+            onChange={handleToChange}
           />
           <p className="swap-warning">
             {warningMessage && (

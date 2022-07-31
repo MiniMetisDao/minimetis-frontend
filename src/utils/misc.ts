@@ -1,3 +1,8 @@
+import { commify, formatUnits } from "ethers/lib/utils";
+
+import { FixedNumber } from "ethers";
+import { Token } from "types/common";
+
 export const getDisplayPrice = (
   tokenPrice?: number,
   tokenDecimal?: number,
@@ -23,3 +28,20 @@ export const getDisplayPrice = (
 
 export const getShortTransactionHash = (address: string) =>
   address.substring(0, 10) + "..." + address.substring(address.length - 8);
+
+// human readable format
+export const getFormattedAmount = (token?: Token, amount?: string) => {
+  if (!token || !amount) {
+    return "0";
+  }
+
+  return formatUnits(amount, token.decimals);
+};
+
+// only to display finally on screen, do not do operations on this
+export const getFormattedAmountRounded = (token?: Token, amount?: string) => {
+  const formattedAmount = getFormattedAmount(token, amount);
+  const roundedNumber = FixedNumber.from(formattedAmount).round(2);
+
+  return commify(roundedNumber.toString());
+};

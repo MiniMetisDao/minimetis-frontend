@@ -2,18 +2,8 @@ import * as React from "react";
 
 import tradingTokens from "config/tradingTokens.json";
 import { useGetWalletDetails } from "queries";
+import { Token } from "types/common";
 import { useMultiCallContract } from "utils";
-
-export type Token = {
-  chainId: number;
-  name: string;
-  symbol: string;
-  address: string;
-  decimals: number;
-  logoURI: string;
-  listInQuickView?: boolean;
-  balance?: number;
-};
 
 export const useTokens = () => {
   const { data: walletDetails } = useGetWalletDetails();

@@ -5,6 +5,7 @@
   "miniSwap": "Mini Swap",
   "swap": "Swap",
   "from": "From",
+  "estimated": "(estimated amount)",
   "to": "To",
   "max": "Max",
   "selectToken": "Select Token",

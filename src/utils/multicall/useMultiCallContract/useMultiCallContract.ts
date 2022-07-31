@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
 
-import { DEFAULT_REFETCH_INTERVAL } from "config";
+import { DEFAULT_BATCH_SIZE, DEFAULT_REFETCH_INTERVAL } from "config";
 import { Batch, QueryInfo } from "utils";
 
 import { multicall } from "./multicall";
 
 const batchLoader = new Batch({
-  batchSize: 20,
+  batchSize: DEFAULT_BATCH_SIZE,
   multiCallFn: async (queryInfos) => multicall(queryInfos),
 });
 
@@ -24,11 +24,10 @@ export const useMultiCallContract = (
   queryInfo: QueryInfo | QueryInfo[],
   options: Options = {}
 ) => {
-  return useQuery([key, queryInfo], () => batchLoader.load(queryInfo), {
+  const result = useQuery([key, queryInfo], () => batchLoader.load(queryInfo), {
     refetchInterval: options.refetchInterval ?? DEFAULT_REFETCH_INTERVAL,
-    staleTime: options.staleTime,
-    cacheTime: options.cacheTime,
-    select: options.select,
-    enabled: options.enabled,
+    ...options,
   });
+
+  return result;
 };
