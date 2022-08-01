@@ -10,6 +10,6 @@
   "max": "Max",
   "selectToken": "Select Token",
   "noInput": "Enter an amount",
-  "selectNamePlaceHolder": "Select name or paste address",
+  "selectNamePlaceholder": "Enter token name, symbol or address",
   "commonBases": "Common bases"
 }

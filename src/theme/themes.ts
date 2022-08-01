@@ -30,7 +30,7 @@ export const darkTheme: Theme = {
       warning: "#ffc107",
     },
     modal: {
-      primary: "#222222",
+      primary: "#111111",
       text: "#ffffff",
     },
     primary: "#3b005f",
@@ -88,7 +88,7 @@ export const lightTheme: Theme = {
     },
     modal: {
       primary: "#ffffff",
-      text: "#222222",
+      text: "#111111",
     },
     primary: "#ffffff",
     secondary: "#7300b9",

@@ -1,67 +1,69 @@
-import * as React from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/DisplayPrice";
+import tradingTokens from "config/tradingTokens.json";
+import { useGetTokenBalances } from "queries";
 import { Token } from "types/common";
 
 import { listStyle, styles } from "./styles";
 
 type SelectTokenModalProps = {
-  tokens: Token[];
   onSelect: (token: Token) => void;
-  selectedToken: Token;
+  selectedToken?: Token;
 };
 
 export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
   onSelect,
   selectedToken,
-  tokens = [],
 }) => {
   const { t } = useTranslation("trade");
   const [search, setSearch] = React.useState("");
 
+  const { data: tradingTokensBalances } = useGetTokenBalances({
+    tokens: tradingTokens,
+  });
+
   const tokensList = React.useMemo(() => {
     if (!search) {
-      return tokens;
+      return tradingTokens;
     }
 
-    return tokens.filter((token) =>
+    return tradingTokens.filter((token) =>
       Boolean(
         token.address.indexOf(search) === 0 ||
-          token.name.toLowerCase().includes(search.toLowerCase())
+          token.name.toLowerCase().includes(search.toLowerCase()) ||
+          token.symbol.toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, tokens]);
+  }, [search]);
 
   return (
     <div css={styles}>
-      <div>{t("selectToken")}</div>
-
       <input
-        className="selectName"
-        placeholder={t("selectNamePlaceHolder")}
+        placeholder={t("selectNamePlaceholder")}
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
 
-      <div>
+      <div className="token-list">
         {tokensList.map((token) => (
           <div
             key={token.address}
             css={listStyle({
-              isSelected: token.address !== selectedToken?.address,
+              isSelected: token.address === selectedToken?.address,
             })}
             onClick={() => onSelect(token)}
           >
-            <img className="logo" src={token.logoURI} />
+            <img className="token-logo" src={token.logoURI} />
 
             <div className="details">
               <div>{token.name}</div>
-              <div>{token.symbol}</div>
+              <div className="token-symbol">{token.symbol}</div>
             </div>
 
-            {token.balance && (
+            {tradingTokensBalances?.[token.address] && (
               <DisplayPrice
-                price={token.balance}
+                price={tradingTokensBalances[token.address]}
                 decimals={Math.pow(10, token.decimals)}
               />
             )}

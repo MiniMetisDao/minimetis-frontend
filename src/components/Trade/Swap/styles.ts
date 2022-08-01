@@ -32,7 +32,16 @@ export const styles = ({ color }: Theme) => css`
     display: flex;
     transform: rotate(90deg);
     font-size: 30px;
+    &.flip {
+      animation: spin 0.2s ease-in;
+    }
   }
+  @keyframes spin {
+    100% {
+      transform: rotate(270deg);
+    }
+  }
+
   .swap-btn {
     font-size: 20px;
     width: 100%;

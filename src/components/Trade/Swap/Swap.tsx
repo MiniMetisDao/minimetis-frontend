@@ -1,3 +1,4 @@
+import { cx } from "@emotion/css";
 import { Pair, Token as SDKToken } from "@netswap/sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -26,6 +27,8 @@ export const Swap: React.FC = () => {
     { amount: "", token: tradingTokens[0] },
     { amount: "", token: tradingTokens[1] },
   ]);
+
+  const [flipAnimation, setFlipAnimation] = React.useState(false);
 
   const [warningMessage, setWarningMessage] = React.useState<string>();
 
@@ -79,8 +82,26 @@ export const Swap: React.FC = () => {
       { ...token1, amount, estimated: false },
     ]);
 
-  const handleFlipClick = () =>
+  const handleFlipClick = () => {
     setSwapTokens(([token0, token1]) => [token1, token0]);
+    setFlipAnimation(true);
+  };
+
+  const handleFromTokenChange = (token: Token) => {
+    if (token.address === swapTokens[1].token.address) {
+      handleFlipClick();
+    } else {
+      setSwapTokens(([token0, token1]) => [{ ...token0, token }, token1]);
+    }
+  };
+
+  const handleToTokenChange = (token: Token) => {
+    if (token.address === swapTokens[0].token.address) {
+      handleFlipClick();
+    } else {
+      setSwapTokens(([token0, token1]) => [token0, { ...token1, token }]);
+    }
+  };
 
   return (
     <div css={styles}>
@@ -97,8 +118,13 @@ export const Swap: React.FC = () => {
             token={swapTokens[0].token}
             estimated={swapTokens[0].estimated}
             onChange={handleFromChange}
+            onTokenChange={handleFromTokenChange}
           />
-          <button className="switch-input-btn" onClick={handleFlipClick}>
+          <button
+            className={cx("switch-input-btn", { flip: flipAnimation })}
+            onClick={handleFlipClick}
+            onAnimationEnd={() => setFlipAnimation(false)}
+          >
             <IoIosRepeat />
           </button>
           <TokenInput
@@ -107,6 +133,7 @@ export const Swap: React.FC = () => {
             token={swapTokens[1].token}
             estimated={swapTokens[1].estimated}
             onChange={handleToChange}
+            onTokenChange={handleToTokenChange}
           />
           <p className="swap-warning">
             {warningMessage && (
