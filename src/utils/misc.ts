@@ -44,4 +44,23 @@ export const getFormattedAmountRounded = (token?: Token, amount?: string) => {
   const roundedNumber = FixedNumber.from(formattedAmount).round(2);
 
   return commify(roundedNumber.toString());
+  // do we need to put 2 zero at ending everywhere?
+  // const formattedNumber = commify(roundedNumber.toString());
+  // const numberParts = formattedNumber.split(".");
+
+  // return `${numberParts[0]}.${numberParts[1] === "0" ? "00" : numberParts[1]}`;
+};
+
+// check for positive values and dot. Use for allowing typing in fields
+export const isValidNumberInput = (value: string) => {
+  const pattern = new RegExp(/^\d*\.?\d{0,9}$/);
+
+  return pattern.test(value);
+};
+
+// check for valid number and positive. Use for verifying
+export const isValidNumber = (value: string) => {
+  const pattern = new RegExp(/^\d*\.{0,1}\d+$/);
+
+  return pattern.test(value);
 };

@@ -22,6 +22,7 @@
   "tokenCurrency": "{{value, formatToken}}",
   "number": "{{value, formatNumber}}",
   "balance": "Balance",
+  "invalidInput": "Please enter a valid number!",
   "twitter": "follow us on twitter",
   "telegram": "join our community",
   "discord": "join our discord",

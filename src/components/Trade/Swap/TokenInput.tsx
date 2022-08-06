@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaChevronDown } from "react-icons/fa";
 
-import { Modal } from "components/Modal";
+import { Input } from "components/Input";
 import { Token } from "types/common";
 import { getFormattedAmount, getFormattedAmountRounded } from "utils";
 
@@ -31,8 +31,8 @@ export const TokenInput: React.FC<TokenInputProps> = ({
   const { t } = useTranslation(["common", "trade"]);
   const [showTokenSelector, setShowTokenSelector] = React.useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.currentTarget.value;
+  const handleChange = (input: string, message?: string) => {
+    console.log("san", message);
     onChange(input);
   };
 
@@ -59,10 +59,10 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           </span>
         </div>
         <div className="input-field-wrapper">
-          <input
+          <Input
             name="input"
             value={amount}
-            placeholder="0.00"
+            placeholder="0.0"
             onChange={handleChange}
           />
           {formattedBalance !== amount && (
@@ -89,15 +89,11 @@ export const TokenInput: React.FC<TokenInputProps> = ({
       </div>
 
       {showTokenSelector && (
-        <Modal
+        <SelectTokenModal
+          selectedToken={token}
+          onSelect={handleTokenSelect}
           onClose={() => setShowTokenSelector(false)}
-          title={t("trade:selectToken")}
-        >
-          <SelectTokenModal
-            selectedToken={token}
-            onSelect={handleTokenSelect}
-          />
-        </Modal>
+        />
       )}
     </>
   );

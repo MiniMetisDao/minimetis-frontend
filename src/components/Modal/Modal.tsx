@@ -1,5 +1,5 @@
 import { Global } from "@emotion/react";
-import { useState } from "react";
+import React from "react";
 import Rodal from "rodal";
 
 import "rodal/lib/rodal.css";
@@ -11,7 +11,7 @@ type ModalProps = {
 };
 
 export const Modal: React.FC<ModalProps> = ({ children, title, onClose }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = React.useState(true);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -35,10 +35,10 @@ export const Modal: React.FC<ModalProps> = ({ children, title, onClose }) => {
         width={500}
         customStyles={{ height: "90%" }}
       >
-        <div className="content">
+        <>
           {title && <h2>{title}</h2>}
-          {children}
-        </div>
+          <div className="content">{children}</div>
+        </>
       </Rodal>
     </>
   );

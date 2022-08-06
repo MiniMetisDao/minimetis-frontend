@@ -28,6 +28,7 @@ export const darkTheme: Theme = {
     },
     alert: {
       warning: "#ffc107",
+      error: "#860000",
     },
     modal: {
       primary: "#111111",
@@ -54,6 +55,7 @@ export const darkTheme: Theme = {
     color13: "#8755CD",
     color14: "#AE75FF",
     color15: "#B885FF",
+    color16: "#008800",
   },
 };
 
@@ -85,6 +87,7 @@ export const lightTheme: Theme = {
     },
     alert: {
       warning: "#ffc107",
+      error: "#860000",
     },
     modal: {
       primary: "#ffffff",
@@ -111,5 +114,6 @@ export const lightTheme: Theme = {
     color13: "#DCFFF9",
     color14: "#BCFBEB",
     color15: "#BFF1E9",
+    color16: "#008800",
   },
 };

@@ -5,11 +5,15 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
+import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
 import { useTokens } from "components/Trade/hooks/useTokens";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
-import { Token } from "types/common";
+import { Token, TradeSettings } from "types/common";
+import { isValidNumber } from "utils";
+
+import { SettingsModal } from "../SettingsModal";
 
 import { TokenInput } from "./TokenInput";
 import { styles } from "./styles";
@@ -23,14 +27,14 @@ type SwapToken = {
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
 
+  const [flipAnimation, setFlipAnimation] = React.useState(false);
+  const [warningMessage, setWarningMessage] = React.useState<string>();
+  const [showTradeSettings, setShowTradeSettings] = React.useState(false);
+
   const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>([
     { amount: "", token: tradingTokens[0] },
     { amount: "", token: tradingTokens[1] },
   ]);
-
-  const [flipAnimation, setFlipAnimation] = React.useState(false);
-
-  const [warningMessage, setWarningMessage] = React.useState<string>();
 
   // const tokens = useTokens();
   const { data: balances } = useGetTokenBalances({
@@ -103,13 +107,32 @@ export const Swap: React.FC = () => {
     }
   };
 
+  const handleSettingsClick = () => {
+    console.log("open Modal");
+    setShowTradeSettings(true);
+  };
+
+  const handleSettingsClose = () => {
+    console.log("open Modal");
+    setShowTradeSettings(false);
+  };
+
+  const handleSettingsChange = (tradeSettings: TradeSettings) => {
+    console.log("tradeSettings", tradeSettings);
+  };
+
+  const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
+
   return (
     <div css={styles}>
       <Container>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">
-            <h2>{t("swap")}</h2> <FaCog />
+            <h2>{t("swap")}</h2>{" "}
+            <IconButton onClick={handleSettingsClick}>
+              <FaCog />
+            </IconButton>
           </div>
           <TokenInput
             from
@@ -146,10 +169,16 @@ export const Swap: React.FC = () => {
             )}
           </p>
 
-          <button disabled className="swap-btn">
+          <button disabled={hasInputError} className="swap-btn">
             {t("swap")}
           </button>
         </div>
+        {showTradeSettings && (
+          <SettingsModal
+            onClose={handleSettingsClose}
+            onChange={handleSettingsChange}
+          />
+        )}
       </Container>
     </div>
   );

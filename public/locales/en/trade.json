@@ -8,7 +8,11 @@
   "estimated": "(estimated amount)",
   "to": "To",
   "max": "Max",
-  "selectToken": "Select Token",
+  "selectToken": "Select token",
+  "tradeSettings": "Trade settings",
+  "slippageTolerance": "Slippage tolerance",
+  "transactionDeadline": "Transaction deadline",
+  "enableMultihops": "Enable multihops",
   "noInput": "Enter an amount",
   "selectNamePlaceholder": "Enter token name, symbol or address",
   "commonBases": "Common bases"

@@ -8,3 +8,9 @@ export type Token = {
   listInQuickView?: boolean;
   balance?: number;
 };
+
+export type TradeSettings = {
+  slippageTolerence: number;
+  transactionDeadline: number;
+  multiHop: boolean;
+};

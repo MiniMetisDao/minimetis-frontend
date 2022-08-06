@@ -19,6 +19,7 @@ export const styles = css`
     padding: 10px;
     border: none;
     margin: 0 0 20px;
+    border-radius: 4px;
   }
   .token-list {
     overflow-y: auto;

@@ -32,6 +32,7 @@ declare module "@emotion/react" {
       };
       alert: {
         warning: string;
+        error: string;
       };
       modal: {
         primary: string;
@@ -62,6 +63,7 @@ declare module "@emotion/react" {
       color13: string;
       color14: string;
       color15: string;
+      color16: string;
       // put other specific colors like chart colors into its own group
     };
   }

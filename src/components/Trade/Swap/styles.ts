@@ -119,21 +119,6 @@ export const tokenInputStyles = ({ color }: Theme) => css`
     border-radius: 50%;
     margin: 0 10px;
   }
-  input {
-    background: transparent;
-    color: ${color.text.primary};
-    border: none;
-    font-size: 22px;
-    width: 0;
-    flex: 1 1 auto;
-    :focus {
-      outline: none;
-    }
-    ::placeholder {
-      color: ${color.text.primary};
-      opacity: 0.5;
-    }
-  }
   button {
     cursor: pointer;
     background: transparent;
