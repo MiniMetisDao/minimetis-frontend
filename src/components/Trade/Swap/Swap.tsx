@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
+import { Button } from "components/Button";
+import { ConnectButton } from "components/Connect";
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
 import { useTokens } from "components/Trade/hooks/useTokens";
 import tradingTokens from "config/tradingTokens.json";
-import { useGetTokenBalances } from "queries";
+import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
 import { isValidNumber } from "utils";
@@ -37,6 +39,8 @@ export const Swap: React.FC = () => {
     { amount: "", token: tradingTokens[0] },
     { amount: "", token: tradingTokens[1] },
   ]);
+
+  const { data: walletDetails } = useGetWalletDetails();
 
   // const tokens = useTokens();
   const { data: balances } = useGetTokenBalances({
@@ -131,7 +135,7 @@ export const Swap: React.FC = () => {
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">
-            <h2>{t("swap")}</h2>{" "}
+            <h2>{t("swap")}</h2>
             <IconButton onClick={handleSettingsClick}>
               <FaCog />
             </IconButton>
@@ -171,9 +175,13 @@ export const Swap: React.FC = () => {
             )}
           </p>
 
-          <button disabled={hasInputError} className="swap-btn">
-            {t("swap")}
-          </button>
+          {walletDetails?.status === "CONNECTED" ? (
+            <Button disabled={hasInputError} className="swap-btn">
+              {t("swap")}
+            </Button>
+          ) : (
+            <ConnectButton />
+          )}
         </div>
         {showTradeSettings && (
           <SettingsModal

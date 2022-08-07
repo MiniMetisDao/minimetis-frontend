@@ -21,6 +21,13 @@ declare module "@emotion/react" {
           end: string;
         };
       };
+      actionButton: {
+        text: string;
+        primary: string;
+        hover: string;
+        active: string;
+        disabled: string;
+      };
       connectButton: {
         primary: string;
         hover: string;

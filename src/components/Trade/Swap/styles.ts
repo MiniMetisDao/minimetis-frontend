@@ -83,27 +83,6 @@ export const styles =
           transform: rotate(270deg);
         }
       }
-
-      .swap-btn {
-        font-size: 20px;
-        width: 100%;
-        padding: 10px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        border: none;
-        text-transform: uppercase;
-        background: ${color.button.primary};
-        color: ${color.text.primary};
-        :hover {
-          background: ${color.button.hover};
-        }
-        :disabled,
-        [disabled] {
-          cursor: not-allowed;
-          background: ${color.button.disabled};
-        }
-      }
       .swap-warning {
         font-size: 16px;
         padding: 10px 5px;

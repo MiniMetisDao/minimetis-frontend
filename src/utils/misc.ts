@@ -53,14 +53,14 @@ export const getFormattedAmountRounded = (token?: Token, amount?: string) => {
 
 // check for positive values and dot. Use for allowing typing in fields
 export const isValidNumberInput = (value: string) => {
-  const pattern = new RegExp(/^\d*\.?\d{0,9}$/);
+  const pattern = new RegExp(/^\d*\.?\d*$/);
 
   return pattern.test(value);
 };
 
 // check for valid number and positive. Use for verifying
 export const isValidNumber = (value: string) => {
-  const pattern = new RegExp(/^\d*\.{0,1}\d+$/);
+  const pattern = new RegExp(/^\d*\.?\d+$/);
 
   return pattern.test(value);
 };

@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-location";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { ConnectWallet } from "components/ConnectWallet";
+import { Connect } from "components/Connect";
 import { useTheme } from "theme";
 
 import { Menu } from "./Menu";
@@ -49,14 +49,14 @@ export const Header: React.FC = () => {
         </div>
         <div className="right-wrapper">
           <ThemeSwitch />
-          <ConnectWallet />
+          <Connect />
         </div>
       </div>
       <div className={cx("mobile-menu-wrapper", { open: menuOpen })}>
         <Menu isMobile open={menuOpen} />
 
         <ThemeSwitch />
-        <ConnectWallet />
+        <Connect />
       </div>
     </div>
   );
