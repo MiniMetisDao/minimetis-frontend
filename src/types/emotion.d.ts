@@ -40,6 +40,7 @@ declare module "@emotion/react" {
       };
       // colors used as background colors
       primary: string;
+      primaryShadow: string;
       secondary: string;
       alternative: string;
       color5: string;

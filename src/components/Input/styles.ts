@@ -14,6 +14,7 @@ export const styles =
         color: ${hasError ? color.alert.error : color.text.primary};
         font-size: 22px;
         border: none;
+        width: 0;
         flex: 1;
         :focus {
           outline: none;
@@ -39,7 +40,6 @@ export const inputCompactStyles = ({ color }: Theme) =>
     input {
       flex: 1 1 auto;
       padding: 5px;
-      width: 0;
     }
   `;
 

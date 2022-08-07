@@ -11,6 +11,10 @@ export const styles =
   ({ color }: Theme) =>
     css`
       padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 5px ${color.primaryShadow};
+      position: relative;
       .header {
         margin: 20px 0;
         display: flex;

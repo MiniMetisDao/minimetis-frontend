@@ -53,10 +53,17 @@ export const styles =
         font-size: 40px;
         text-align: center;
       }
+      h2 {
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 20px;
+      }
       .title-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin: 0 0 30px;
+        padding: 0 12px;
       }
       .switch-input-btn {
         cursor: pointer;
@@ -101,14 +108,15 @@ export const styles =
         font-size: 16px;
         padding: 10px 5px;
         display: flex;
-        height: 46px;
+        min-height: 40px;
         overflow: hidden;
-        margin: 0;
+        margin: 0 0 10px;
         color: ${color.text.primary};
         .icon {
           color: ${color.alert.warning};
           font-size: 20px;
           margin-right: 10px;
+          display: inline-flex;
         }
       }
     `;
@@ -119,6 +127,7 @@ export const tokenInputStyles = ({ color }: Theme) => css`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    padding: 0 12px;
   }
   .input-field-wrapper {
     background: ${color.color13};

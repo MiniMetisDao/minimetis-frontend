@@ -34,6 +34,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, onClose }) => {
         closeOnEsc
         width={500}
         customStyles={{ height: "90%" }}
+        customMaskStyles={{ background: "#00000099" }}
       >
         <>
           {title && <h2>{title}</h2>}
