@@ -8,7 +8,6 @@ import hugSeal from "assets/images/hug-seal.png";
 import minimetisThumbsUp from "assets/images/minimetis-thumbs-up.svg";
 
 export const styles = ({ color }: Theme) => css`
-  margin-bottom: 100px;
   h1 {
     margin: 0 0 40px;
     font-size: 70px;
@@ -101,7 +100,7 @@ export const styles = ({ color }: Theme) => css`
       font-size: 28px;
     }
     ::before {
-      background: ${color.color8};
+      background: #29d4c8;
       font-size: 28px;
       font-weight: 700;
       position: absolute;
@@ -126,12 +125,12 @@ export const styles = ({ color }: Theme) => css`
   }
 
   .outro {
-    background: ${color.color9} url(${hugOutroBg}) bottom left no-repeat;
+    background: #2ad8cc url(${hugOutroBg}) bottom left no-repeat;
     background-size: 100%;
     font-size: 35px;
     font-weight: 700;
     line-height: 1.5;
-    color: ${color.color10};
+    color: #443247;
     padding: 80px 0 240px;
     position: relative;
     margin-bottom: 160px;
@@ -167,7 +166,7 @@ export const styles = ({ color }: Theme) => css`
   .banner {
     background: #321f46 url(${bannerBg}) no-repeat;
     background-size: cover;
-    color: ${color.text.white};
+    color: #fff;
     margin: 0 0 80px;
     h3 {
       background: url(${bannerTitle}) no-repeat;

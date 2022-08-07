@@ -10,6 +10,7 @@ import { Container } from "components/Layout/Container";
 import { useTokens } from "components/Trade/hooks/useTokens";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
+import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
 import { isValidNumber } from "utils";
 
@@ -26,6 +27,7 @@ type SwapToken = {
 
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
+  const [theme] = useTheme();
 
   const [flipAnimation, setFlipAnimation] = React.useState(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
@@ -124,7 +126,7 @@ export const Swap: React.FC = () => {
   const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
 
   return (
-    <div css={styles}>
+    <div css={styles({ theme })}>
       <Container>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">

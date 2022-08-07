@@ -14,5 +14,7 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange }) => (
     checkedIcon={false}
     uncheckedIcon={false}
     checked={checked}
+    boxShadow="0 0 5px #606060"
+    activeBoxShadow="0 0 5px #008800"
   />
 );

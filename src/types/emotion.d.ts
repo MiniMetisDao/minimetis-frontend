@@ -9,9 +9,9 @@ declare module "@emotion/react" {
         alternative: string;
         white: string;
         black: string;
-        color1: string;
       };
       button: {
+        text: string;
         primary: string;
         hover: string;
         active: string;
@@ -42,23 +42,13 @@ declare module "@emotion/react" {
       primary: string;
       secondary: string;
       alternative: string;
-      color1: string;
-      color2: string;
-      color3: string;
-      color4: string;
       color5: string;
       color5Shadow: {
         start: string;
         end: string;
       };
-      color6: string;
-      color7: string;
       color7Shadow1: string;
       color7Shadow2: string;
-      color8: string;
-      color9: string;
-      color10: string;
-      color11: string;
       color12: string;
       color13: string;
       color14: string;

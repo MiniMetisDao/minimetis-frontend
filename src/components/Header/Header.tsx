@@ -4,6 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { ConnectWallet } from "components/ConnectWallet";
+import { useTheme } from "theme";
 
 import { Menu } from "./Menu";
 import { ThemeSwitch } from "./ThemeSwitch";
@@ -11,6 +12,8 @@ import { styles } from "./styles";
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
+  const [theme] = useTheme();
+
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const handleMenuClick = () => {
@@ -18,7 +21,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <div css={styles}>
+    <div css={styles({ theme })}>
       <div className="header">
         <div className="left-wrapper">
           <div className="logo">

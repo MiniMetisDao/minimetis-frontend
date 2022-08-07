@@ -1,82 +1,117 @@
 import { type Theme, css } from "@emotion/react";
 
+import bushLight from "assets/images/bush-light.png";
+import bush from "assets/images/bush.png";
+import floatingLandLight from "assets/images/floating-land-light.png";
 import floatingLand from "assets/images/floating-land.png";
+import minimePointingLight from "assets/images/minime-pointing-light.png";
+import minimePointing from "assets/images/minime-pointing.png";
+import { Mode } from "theme";
 
-export const styles = ({ color }: Theme) => css`
-  background: ${color.color11} url(${floatingLand}) no-repeat bottom center;
-  min-height: 480px;
-  margin: 0 0 40px;
-  padding: 20px;
-  .swap-container {
-    background: ${color.color12};
-    padding: 20px;
-    border-radius: 30px;
-    width: 40%;
-    margin-left: auto;
-  }
-  h1 {
-    color: ${color.color5};
-    font-size: 40px;
-  }
-  .title-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .switch-input-btn {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    color: ${color.text.primary};
-    margin: 0 auto;
-    display: flex;
-    transform: rotate(90deg);
-    font-size: 30px;
-    &.flip {
-      animation: spin 0.2s ease-in;
-    }
-  }
-  @keyframes spin {
-    100% {
-      transform: rotate(270deg);
-    }
-  }
+export const styles =
+  ({ theme }: { theme: Mode }) =>
+  ({ color }: Theme) =>
+    css`
+      background: ${color.alternative}
+        url(${theme === "light" ? floatingLandLight : floatingLand}) no-repeat
+        bottom center;
+      min-height: 480px;
+      margin: 0 0 40px;
+      padding: 20px;
+      .swap-container {
+        background: ${color.secondary};
+        padding: 20px 20px 50px;
+        border-radius: 30px;
+        width: 420px;
+        margin: 0 auto 240px;
+        position: relative;
+        ::after {
+          content: "";
+          width: 193px;
+          height: 70px;
+          background: url(${theme === "light" ? bushLight : bush}) no-repeat
+            right top;
+          position: absolute;
+          right: 10px;
+          bottom: -25px;
+        }
+        ::before {
+          content: "";
+          width: 172px;
+          height: 234px;
+          background: url(${theme === "light"
+              ? minimePointingLight
+              : minimePointing})
+            no-repeat right top;
+          position: absolute;
+          right: -169px;
+          bottom: -30px;
+        }
+      }
+      h1 {
+        color: ${color.color5};
+        font-size: 40px;
+        text-align: center;
+      }
+      .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .switch-input-btn {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: ${color.text.primary};
+        margin: 0 auto;
+        display: flex;
+        transform: rotate(90deg);
+        font-size: 30px;
+        &.flip {
+          animation: spin 0.2s ease-in;
+        }
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(270deg);
+        }
+      }
 
-  .swap-btn {
-    font-size: 20px;
-    width: 100%;
-    padding: 10px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: none;
-    text-transform: uppercase;
-    background: ${color.button.primary};
-    color: ${color.text.primary};
-    :hover {
-      background: ${color.button.hover};
-    }
-    :disabled,
-    [disabled] {
-      cursor: not-allowed;
-      background: ${color.button.disabled};
-    }
-  }
-  .swap-warning {
-    font-size: 16px;
-    padding: 10px 5px;
-    display: flex;
-    height: 46px;
-    overflow: hidden;
-    margin: 0;
-    color: ${color.text.primary};
-    .icon {
-      color: ${color.alert.warning};
-      font-size: 20px;
-      margin-right: 10px;
-    }
-  }
-`;
+      .swap-btn {
+        font-size: 20px;
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: none;
+        text-transform: uppercase;
+        background: ${color.button.primary};
+        color: ${color.text.primary};
+        :hover {
+          background: ${color.button.hover};
+        }
+        :disabled,
+        [disabled] {
+          cursor: not-allowed;
+          background: ${color.button.disabled};
+        }
+      }
+      .swap-warning {
+        font-size: 16px;
+        padding: 10px 5px;
+        display: flex;
+        height: 46px;
+        overflow: hidden;
+        margin: 0;
+        color: ${color.text.primary};
+        .icon {
+          color: ${color.alert.warning};
+          font-size: 20px;
+          margin-right: 10px;
+        }
+      }
+    `;
 
 export const tokenInputStyles = ({ color }: Theme) => css`
   .input-title-wrapper {

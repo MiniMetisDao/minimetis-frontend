@@ -1,10 +1,9 @@
-import { type Theme, css } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import topBg from "assets/images/about-us-top-bg.jpg";
 import minimetisStone from "assets/images/minimetis-stone.svg";
 
-export const styles = ({ color }: Theme) => css`
-  margin-bottom: 100px;
+export const styles = css`
   font-size: 20px;
   line-height: 1.6;
 
@@ -51,13 +50,13 @@ export const styles = ({ color }: Theme) => css`
     background: #04d8cc;
     margin: 50px 0 40px;
     padding: 80px 0;
-    color: ${color.color10};
+    color: #443247;
     font-size: 30px;
     line-height: 1.4;
     font-weight: 700;
 
     .wrapper {
-      border-top: 4px solid ${color.color10};
+      border-top: 4px solid #443247;
       padding-top: 15px;
       display: grid;
       grid-auto-flow: column;

@@ -9,7 +9,7 @@ export const DashboardPage: React.FC = () => {
   const { t } = useTranslation("dashboard");
 
   return (
-    <Layout>
+    <Layout fullWidth padded={false}>
       <ReactMetaTags>
         <title>{t("title")}</title>
         <meta name="description" content={t("description")} />

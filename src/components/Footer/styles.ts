@@ -1,7 +1,7 @@
 import { type Theme, css } from "@emotion/react";
 
 import discordIcon from "assets/images/discord-icon.svg";
-import logoFooter from "assets/images/logo-footer.svg";
+import logo from "assets/images/logo.svg";
 import minimetisPlanet from "assets/images/minimetis-planet.svg";
 import planet1 from "assets/images/planet-1.svg";
 import planet2 from "assets/images/planet-2.svg";
@@ -196,9 +196,10 @@ export const styles =
         text-transform: uppercase;
         .logo {
           display: inline-block;
-          background: url(${logoFooter}) no-repeat;
-          width: 316px;
-          height: 107px;
+          background: url(${logo}) no-repeat;
+          background-size: 100%;
+          width: 285px;
+          height: 97px;
         }
         a {
           color: ${color.text.white};
@@ -212,6 +213,7 @@ export const styles =
       .social {
         display: flex;
         padding: 0 20px;
+        margin-top: 100px;
         margin-bottom: 100px;
         justify-content: center;
 

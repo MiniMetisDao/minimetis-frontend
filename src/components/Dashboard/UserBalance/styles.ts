@@ -8,7 +8,7 @@ export const styles = ({ color }: Theme) => css`
   margin: 0 0 40px;
 
   h2 {
-    color: ${color.text.color1};
+    color: ${color.text.secondary};
     font-size: 40px;
     line-height: 1;
     margin-bottom: 24px;
@@ -50,7 +50,7 @@ export const styles = ({ color }: Theme) => css`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid ${color.color6};
+      border-top: 1px solid #01a69b;
       position: relative;
       z-index: 1;
       @media (max-width: 1024px) {
