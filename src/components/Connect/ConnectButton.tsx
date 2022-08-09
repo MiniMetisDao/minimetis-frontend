@@ -6,7 +6,7 @@ import { connectWallet, switchNetwork } from "utils";
 
 export const ConnectButton: React.FC = () => {
   const { t } = useTranslation();
-  const { data, refetch } = useGetWalletDetails();
+  const { data, isLoading, refetch } = useGetWalletDetails();
 
   const handleClick = async () => {
     if (data?.status === "CONNECTED") {
@@ -23,5 +23,9 @@ export const ConnectButton: React.FC = () => {
 
   if (data?.status === "CONNECTED") return null;
 
-  return <Button onClick={handleClick}>{t("connectWallet")}</Button>;
+  return (
+    <Button onClick={handleClick}>
+      {isLoading ? "..." : t("connectWallet")}
+    </Button>
+  );
 };

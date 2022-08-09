@@ -104,7 +104,7 @@ export const styles =
       .mobile-menu-wrapper {
         background: ${color.color5};
         padding: 0 20px;
-        transition: max-height 0.25s ease-out;
+        transition: max-height 0.25s ease-out, margin 0.25s linear;
         max-height: 0;
         overflow: hidden;
         align-items: flex-end;
@@ -117,7 +117,8 @@ export const styles =
         }
 
         &.open {
-          transition: max-height 0.4s ease-in;
+          margin: 0 0 20px;
+          transition: max-height 0.4s ease-in, margin 0.4s linear;
         }
 
         @media (max-width: 1200px) {

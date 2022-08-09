@@ -14,7 +14,7 @@ import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
-import { isValidNumber } from "utils";
+import { getFormattedAmount, getTokenAmount, isValidNumber } from "utils";
 
 import { SettingsModal } from "../SettingsModal";
 
@@ -128,6 +128,22 @@ export const Swap: React.FC = () => {
   };
 
   const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
+  console.log("san", getTokenAmount(swapTokens[0].token, swapTokens[0].amount));
+
+  React.useEffect(() => {
+    if (balances) {
+      const input = swapTokens[0];
+
+      if (
+        input.amount >
+        getFormattedAmount(input.token, balances[input.token.address])
+      ) {
+        setWarningMessage(t("insufficientBalance"));
+      } else {
+        setWarningMessage("");
+      }
+    }
+  }, [balances, swapTokens, t]);
 
   return (
     <div css={styles({ theme })}>

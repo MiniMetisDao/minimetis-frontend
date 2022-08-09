@@ -8,6 +8,7 @@
   "estimated": "(estimated amount)",
   "to": "To",
   "max": "Max",
+  "insufficientBalance": "Insufficient balance to swap",
   "selectToken": "Select token",
   "tradeSettings": "Trade settings",
   "slippageTolerance": "Slippage tolerance",

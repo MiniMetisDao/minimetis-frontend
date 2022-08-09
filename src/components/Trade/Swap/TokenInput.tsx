@@ -65,7 +65,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
             placeholder="0.0"
             onChange={handleChange}
           />
-          {formattedBalance !== amount && (
+          {formattedBalance !== amount && from && (
             <button className="max-btn" onClick={handleMaxClick}>
               {t("trade:max")}
             </button>

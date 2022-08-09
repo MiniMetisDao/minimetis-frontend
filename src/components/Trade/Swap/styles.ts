@@ -17,7 +17,7 @@ export const styles =
         bottom center;
       min-height: 480px;
       margin: 0 0 40px;
-      padding: 20px;
+      padding: 20px 0;
       .swap-container {
         background: ${color.secondary};
         padding: 20px 20px 50px;
@@ -25,6 +25,9 @@ export const styles =
         width: 420px;
         margin: 0 auto 240px;
         position: relative;
+        @media (max-width: 640px) {
+          width: 100%;
+        }
         ::after {
           content: "";
           width: 193px;
@@ -46,6 +49,9 @@ export const styles =
           position: absolute;
           right: -169px;
           bottom: -30px;
+          @media (max-width: 768px) {
+            display: none;
+          }
         }
       }
       h1 {

@@ -1,4 +1,4 @@
-import { commify, formatUnits } from "ethers/lib/utils";
+import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 
 import { FixedNumber } from "ethers";
 import { Token } from "types/common";
@@ -28,6 +28,15 @@ export const getDisplayPrice = (
 
 export const getShortTransactionHash = (address: string) =>
   address.substring(0, 10) + "..." + address.substring(address.length - 8);
+
+// token amount in ether
+export const getTokenAmount = (token?: Token, amount?: string) => {
+  if (!token || !amount) {
+    return "0";
+  }
+
+  return parseUnits(amount, token.decimals);
+};
 
 // human readable format
 export const getFormattedAmount = (token?: Token, amount?: string) => {

@@ -24,8 +24,9 @@ export const Connect: React.FC = () => {
 
   let text: string;
 
-  // TODO: Revisit the loading case.
-  if (isLoading || error || !data) {
+  if (isLoading) {
+    text = "...";
+  } else if (error || !data) {
     text = t("connectWallet");
   } else {
     text =
