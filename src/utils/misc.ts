@@ -29,6 +29,26 @@ export const getDisplayPrice = (
 export const getShortTransactionHash = (address: string) =>
   address.substring(0, 10) + "..." + address.substring(address.length - 8);
 
+export const searchExactToken = (tokenList: Token[], searchString: string) => {
+  return tokenList.find((token: Token) =>
+    Boolean(
+      token.symbol.toLowerCase() === searchString.toLowerCase() ||
+        token.name.toLowerCase() === searchString.toLowerCase() ||
+        token.address === searchString
+    )
+  );
+};
+
+export const searchToken = (tokenList: Token[], searchString: string) => {
+  return tokenList.filter((token: Token) =>
+    Boolean(
+      token.address.indexOf(searchString) === 0 ||
+        token.name.toLowerCase().includes(searchString.toLowerCase()) ||
+        token.symbol.toLowerCase().includes(searchString.toLowerCase())
+    )
+  );
+};
+
 // token amount in ether
 export const getTokenAmount = (token?: Token, amount?: string) => {
   if (!token || !amount) {

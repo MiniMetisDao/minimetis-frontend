@@ -2,6 +2,8 @@
   "siteName": "MiniMetis",
   "dashboard": "Dashboard",
   "trade": "Trade",
+  "swapToken": "Swap Tokens",
+  "liquidityPool": "Liquidity Pool",
   "stake": "Stake",
   "pool": "Pool",
   "farm": "Farm",

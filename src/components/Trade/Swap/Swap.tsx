@@ -1,5 +1,6 @@
 import { cx } from "@emotion/css";
 import { Pair, Token as SDKToken } from "@netswap/sdk";
+import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
@@ -14,12 +15,44 @@ import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
-import { getFormattedAmount, getTokenAmount, isValidNumber } from "utils";
+import {
+  getFormattedAmount,
+  getTokenAmount,
+  isValidNumber,
+  searchExactToken,
+} from "utils";
 
 import { SettingsModal } from "../SettingsModal";
 
 import { TokenInput } from "./TokenInput";
 import { styles } from "./styles";
+
+const getValidSwapTokens = (
+  token0Search?: string,
+  token1Search?: string,
+  amount = ""
+) => {
+  const validToken0 = token0Search
+    ? searchExactToken(tradingTokens, token0Search) ?? tradingTokens[0]
+    : tradingTokens[0];
+
+  const validToken1 = token1Search
+    ? searchExactToken(tradingTokens, token1Search) ?? tradingTokens[1]
+    : tradingTokens[1];
+
+  return [
+    { token: validToken0, amount },
+    { token: validToken1, amount: "" },
+  ];
+};
+
+type LocationGenerics = MakeGenerics<{
+  Search: {
+    from?: string;
+    to?: string;
+    amount?: string;
+  };
+}>;
 
 type SwapToken = {
   amount: string;
@@ -30,15 +63,16 @@ type SwapToken = {
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
+  const search = useSearch<LocationGenerics>();
+  console.log("search", search);
 
   const [flipAnimation, setFlipAnimation] = React.useState(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
 
-  const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>([
-    { amount: "", token: tradingTokens[0] },
-    { amount: "", token: tradingTokens[1] },
-  ]);
+  const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>(
+    getValidSwapTokens(search?.from, search?.to, search?.amount?.toString())
+  );
 
   const { data: walletDetails } = useGetWalletDetails();
 

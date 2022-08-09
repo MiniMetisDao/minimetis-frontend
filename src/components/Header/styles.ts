@@ -77,13 +77,16 @@ export const styles =
             > ul {
               display: block;
               position: absolute;
-              background: #713cad;
+              background: ${color.secondary};
               padding: 10px 0;
               margin: 0;
               list-style: none;
               border-radius: 3px;
               min-width: 100px;
               z-index: 100;
+              a.active {
+                border-bottom: 3px solid ${color.primary};
+              }
             }
           }
         }

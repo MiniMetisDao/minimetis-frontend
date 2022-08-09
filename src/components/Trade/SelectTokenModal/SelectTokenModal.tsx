@@ -6,6 +6,7 @@ import { Modal } from "components/Modal";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
 import { Token } from "types/common";
+import { searchToken } from "utils";
 
 import { listStyle, styles } from "./styles";
 
@@ -32,13 +33,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
       return tradingTokens;
     }
 
-    return tradingTokens.filter((token) =>
-      Boolean(
-        token.address.indexOf(search) === 0 ||
-          token.name.toLowerCase().includes(search.toLowerCase()) ||
-          token.symbol.toLowerCase().includes(search.toLowerCase())
-      )
-    );
+    return searchToken(tradingTokens, search);
   }, [search]);
 
   return (
