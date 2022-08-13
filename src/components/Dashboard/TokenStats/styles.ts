@@ -4,7 +4,7 @@ export const styles = ({ color }: Theme) => css`
   color: ${color.text.primary};
   font-size: 20px;
   line-height: 1.2;
-  margin: 0 0 160px;
+  margin: 0 0 100px;
 
   .title,
   h4,

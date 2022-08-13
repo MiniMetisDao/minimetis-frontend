@@ -11,7 +11,7 @@ export const styles = ({ color }: Theme) => css`
     background: #58008e;
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 8px;
-    padding: 30px 60px;
+    padding: 30px 40px;
     font-size: 20px;
     line-height: 1;
     display: flex;
@@ -25,6 +25,12 @@ export const styles = ({ color }: Theme) => css`
 
       span {
         margin-bottom: 10px;
+      }
+    }
+    .title {
+      width: 30%;
+      @media (max-width: 1024px) {
+        width: auto;
       }
     }
   }

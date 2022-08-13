@@ -24,7 +24,7 @@ export const styles = ({ color }: Theme) => css`
     position: relative;
 
     @media (max-width: 1024px) {
-      padding: 30px;
+      padding: 10px 30px;
       margin-bottom: 310px;
     }
 
@@ -46,7 +46,7 @@ export const styles = ({ color }: Theme) => css`
       }
     }
     > div {
-      padding: 12px 0 12px 30px;
+      padding: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -55,6 +55,9 @@ export const styles = ({ color }: Theme) => css`
       z-index: 1;
       @media (max-width: 1024px) {
         padding: 12px 0;
+        > * {
+          padding: 10px 0;
+        }
       }
 
       &:first-of-type {
@@ -76,6 +79,16 @@ export const styles = ({ color }: Theme) => css`
   .token-value {
     font-size: 40px;
     text-transform: capitalize;
+    line-height: 0.8;
+  }
+  .token-value-expanded {
+    font-size: 14px;
+    display: block;
+    text-align: right;
+    line-height: 1;
+    @media (max-width: 1024px) {
+      text-align: center;
+    }
   }
   .percentage-value {
     font-size: 35px;

@@ -36,6 +36,9 @@ export const UserBalance: React.FC = () => {
           <span className="title">{t("myMiniMetisBalance")}</span>
           <span className="token-value">
             <DisplayPrice price={userBalanceData} />
+            <span className="token-value-expanded">
+              <DisplayPrice price={userBalanceData} isCompact={false} />
+            </span>
           </span>
           <div className="base-value">
             <span>
@@ -48,6 +51,7 @@ export const UserBalance: React.FC = () => {
             <span className="base-value-symbol">{BASE_CURRENCY_CODE}</span>
           </div>
         </div>
+
         <div>
           <span className="title percentage-title">
             {t("yourDividendSharePercentage")}
