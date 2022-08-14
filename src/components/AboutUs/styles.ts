@@ -40,7 +40,7 @@ export const styles = css`
   h2 {
     font-size: 40px;
     line-height: 1;
-    margin: 60px 0 10px;
+    margin: 20px 0 10px;
   }
   p {
     margin: 0 0 30px;
@@ -67,9 +67,23 @@ export const styles = css`
     }
 
     p {
-      margin-right: 50px;
+      margin-right: 20px;
       @media (max-width: 640px) {
         margin-right: 0;
+      }
+    }
+    .buy-link-wrapper {
+      font-size: 24px;
+      margin: 0;
+      a {
+        color: #fff;
+        background: #8755cd;
+        padding: 10px;
+        font-size: 22px;
+        display: block;
+        text-align: center;
+        border-radius: 4px;
+        text-decoration: none;
       }
     }
 

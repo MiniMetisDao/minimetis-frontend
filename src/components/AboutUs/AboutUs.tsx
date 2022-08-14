@@ -2,6 +2,7 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout/Container";
+import { MINIMETIS_CONTRACT_ADDRESS } from "config";
 
 import { styles } from "./styles";
 
@@ -27,7 +28,18 @@ export const AboutUs: React.FC = () => {
       <div className="transfer-tax">
         <Container>
           <div className="wrapper">
-            <p>{t("transferTax")}</p>
+            <div>
+              <p>{t("transferTax")}</p>
+              <p className="buy-link-wrapper">
+                <a
+                  target="_blank"
+                  href={`https://tethys.finance/swap?outputCurrency=${MINIMETIS_CONTRACT_ADDRESS}`}
+                >
+                  {t("buyMinimetis")}
+                </a>
+                ({t("optimalSlippage", { value: "17.7%" })})
+              </p>
+            </div>
             <div>
               <Trans
                 i18nKey="aboutUs:transferTaxDetails"

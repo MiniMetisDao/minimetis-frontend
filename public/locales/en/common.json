@@ -38,5 +38,7 @@
   "notFoundSubTitle": "I'm Lost!",
   "notFoundDescription": "The page you are looking for doesn't exist. Please check the url and try again.",
   "hugsNotRugsBannerTitle": "Hugs, Not Rugs!",
-  "hugsNotRugsBannerDescription": "<span>Apply for review with Mini Metis</span> <a>Lets Start</a>"
+  "hugsNotRugsBannerDescription": "<span>Apply for review with Mini Metis</span> <a>Lets Start</a>",
+  "buyMinimetis":"Buy MiniMetis @ tethys.finance",
+  "optimalSlippage": "Optimal Slippage: {{value}}"
 }
