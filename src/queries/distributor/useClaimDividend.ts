@@ -1,5 +1,5 @@
+import { useMutation } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { useMutation } from "react-query";
 
 import { DistributorAbi } from "config";
 import { useMinimeConstants } from "queries";
@@ -26,7 +26,7 @@ const claimDividend = async (distributor: string): Result => {
 export const useClaimDividend = () => {
   const { data: minimeConstants } = useMinimeConstants();
 
-  return useMutation("claimDividend", async () =>
+  return useMutation(["claimDividend"], async () =>
     claimDividend(minimeConstants?.distributor)
   );
 };

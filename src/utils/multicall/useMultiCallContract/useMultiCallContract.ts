@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { DEFAULT_BATCH_SIZE, DEFAULT_REFETCH_INTERVAL } from "config";
 import { Batch, QueryInfo } from "utils";

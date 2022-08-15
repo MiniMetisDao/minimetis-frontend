@@ -1,4 +1,4 @@
-import { UseQueryResult } from "react-query";
+import { UseQueryResult } from "@tanstack/react-query";
 
 import { MINIMETIS_CONTRACT_ADDRESS } from "config";
 import { useMultiCallContract } from "utils";

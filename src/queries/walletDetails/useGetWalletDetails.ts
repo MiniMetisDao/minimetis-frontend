@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { getWalletAddress, isSupportedNetworkConnected } from "utils";
 
@@ -49,7 +49,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
 };
 
 export const useGetWalletDetails = () =>
-  useQuery("walletDetails", fetchWalletDetails, {
+  useQuery(["walletDetails"], fetchWalletDetails, {
     refetchOnWindowFocus: true,
     staleTime: Infinity,
   });
