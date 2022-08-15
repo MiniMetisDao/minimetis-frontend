@@ -17,6 +17,7 @@ export type Options = {
   cacheTime?: number;
   select?: ((data: any) => any) | undefined;
   enabled?: boolean;
+  batchLoader?: Batch;
 };
 
 export const useMultiCallContract = (
@@ -24,10 +25,16 @@ export const useMultiCallContract = (
   queryInfo: QueryInfo | QueryInfo[],
   options: Options = {}
 ) => {
-  const result = useQuery([key, queryInfo], () => batchLoader.load(queryInfo), {
-    refetchInterval: options.refetchInterval ?? DEFAULT_REFETCH_INTERVAL,
-    ...options,
-  });
+  const batchLoaderInstance = options.batchLoader ?? batchLoader;
+
+  const result = useQuery(
+    [key, queryInfo],
+    () => batchLoaderInstance.load(queryInfo),
+    {
+      refetchInterval: options.refetchInterval ?? DEFAULT_REFETCH_INTERVAL,
+      ...options,
+    }
+  );
 
   return result;
 };

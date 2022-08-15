@@ -10,7 +10,7 @@ import { Button } from "components/Button";
 import { ConnectButton } from "components/Connect";
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
-import { useTokens } from "components/Trade/hooks/useTokens";
+import * as Tokens from "components/Trade/tokens";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
@@ -25,7 +25,11 @@ import {
 import { SettingsModal } from "../SettingsModal";
 
 import { TokenInput } from "./TokenInput";
+import { ONE_BIPS } from "./constants";
+import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
+import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
+import { computeTradePriceBreakdown } from "./utils/computeTradePriceBreakdown";
 
 const getValidSwapTokens = (
   token0Search?: string,
@@ -60,6 +64,13 @@ type SwapToken = {
   estimated?: boolean;
 };
 
+// == user inputs ==
+const allowedSlippage = 0.5 * 100;
+const typedValue = "13.897";
+const independentField = Field.INPUT;
+const inputCurrency = Tokens.BYTE;
+const outputCurrency = Tokens.NETT;
+
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
@@ -80,6 +91,13 @@ export const Swap: React.FC = () => {
   const { data: balances } = useGetTokenBalances({
     tokens: tradingTokens,
     refetchInterval: false,
+  });
+
+  const { trade, parsedAmount } = useDerivedSwapInfo({
+    independentField,
+    inputCurrency,
+    outputCurrency,
+    typedValue,
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
@@ -179,6 +197,38 @@ export const Swap: React.FC = () => {
     }
   }, [balances, swapTokens, t]);
 
+  // == Amount we will get ==
+  const outputAmountToDisplay = trade
+    ? trade?.outputAmount.toSignificant(6)
+    : "-";
+
+  // == minimum recieved ==
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
+    trade,
+    allowedSlippage
+  );
+
+  const minimumRecieved = trade
+    ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${
+        trade?.outputAmount.currency.symbol
+      }`
+    : "-";
+
+  // == price impact ==
+  const { priceImpactWithoutFee, realizedLPFee } =
+    computeTradePriceBreakdown(trade);
+
+  const priceImpact = priceImpactWithoutFee
+    ? priceImpactWithoutFee.lessThan(ONE_BIPS)
+      ? "<0.01%"
+      : `${priceImpactWithoutFee.toFixed(2)}%`
+    : "-";
+
+  // == Liquidity Provider Fee ==
+  const lpFee = realizedLPFee
+    ? `${realizedLPFee.toSignificant(4)} ${trade?.inputAmount.currency.symbol}`
+    : "-";
+
   return (
     <div css={styles({ theme })}>
       <Container>
@@ -232,7 +282,28 @@ export const Swap: React.FC = () => {
           ) : (
             <ConnectButton />
           )}
+
+          <div>
+            <div>
+              In Value ({inputCurrency.name}) - {parsedAmount?.toExact()}
+            </div>
+
+            <div>
+              Out Value ({outputCurrency.name}) - {outputAmountToDisplay}
+            </div>
+
+            <div>Minimum recieved - {minimumRecieved}</div>
+
+            <div>Price Impact - {priceImpact}</div>
+
+            <div>Liquidity Provider Fee - {lpFee}</div>
+
+            <div>
+              Path - {trade?.route.path.map(({ symbol }) => symbol).join("-")}
+            </div>
+          </div>
         </div>
+
         {showTradeSettings && (
           <SettingsModal
             onClose={handleSettingsClose}

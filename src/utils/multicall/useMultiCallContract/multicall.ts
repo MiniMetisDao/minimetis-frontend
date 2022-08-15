@@ -6,7 +6,10 @@ import { Contract, Provider } from "utils/multicall/ethcall";
 const ethcallProvider = new Provider();
 const provider = new ethers.providers.StaticJsonRpcProvider(RPC_URL);
 
-export const multicall = async (queryInfos: readonly QueryInfo[]) => {
+export const multicall = async (
+  queryInfos: readonly QueryInfo[],
+  castToString = true
+) => {
   try {
     const calls = queryInfos.map(
       ({ address, method, abi = ERC20Abi, params = [] }) => {
@@ -22,7 +25,9 @@ export const multicall = async (queryInfos: readonly QueryInfo[]) => {
     const data = await ethcallProvider?.tryAll(calls);
 
     // TODO: Is this formatting fine this way?
-    return data?.map((record: any) => record?.toString());
+    return data?.map((record: any) =>
+      castToString ? record?.toString() : record
+    );
   } catch (err) {
     console.error(err);
   }
