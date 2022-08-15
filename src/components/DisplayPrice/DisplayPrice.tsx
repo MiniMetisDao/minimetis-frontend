@@ -1,20 +1,19 @@
 import { useTranslation } from "react-i18next";
 
-import { Decimals } from "config";
 import { getDisplayPrice } from "utils";
 
 type DisplayPriceProps = {
-  price?: number;
+  amount?: string;
   tokenSymbol?: string;
   decimals?: number;
   isBasePrice?: boolean;
-  baseFactor?: number;
+  baseFactor?: string;
   isCompact?: boolean;
 };
 
 export const DisplayPrice: React.FC<DisplayPriceProps> = ({
-  price,
-  decimals = Decimals.miniMetis,
+  amount,
+  decimals,
   isBasePrice = false,
   baseFactor,
   isCompact,
@@ -24,7 +23,7 @@ export const DisplayPrice: React.FC<DisplayPriceProps> = ({
   const translationKey = isBasePrice ? "currency" : "tokenCurrency";
 
   return t(translationKey, {
-    value: getDisplayPrice(price, decimals, baseFactor, isBasePrice),
+    value: getDisplayPrice(amount, decimals, baseFactor, isBasePrice),
     isCompact:
       isCompact === undefined ? (isBasePrice ? false : true) : isCompact,
     tokenSymbol,

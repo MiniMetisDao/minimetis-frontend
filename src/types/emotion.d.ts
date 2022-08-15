@@ -45,6 +45,10 @@ declare module "@emotion/react" {
         primary: string;
         text: string;
       };
+      tooltip: {
+        primary: string;
+        text: string;
+      };
       // colors used as background colors
       primary: string;
       primaryShadow: string;

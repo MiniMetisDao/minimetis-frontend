@@ -16,5 +16,6 @@
   "enableMultihops": "Enable multihops",
   "noInput": "Enter an amount",
   "selectNamePlaceholder": "Enter token name, symbol or address",
-  "commonBases": "Common bases"
+  "commonBases": "Common bases",
+  "liquidityPool": "Liquidity pool"
 }

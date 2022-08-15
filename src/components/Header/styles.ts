@@ -95,7 +95,7 @@ export const styles =
           text-decoration: none;
           line-height: 2;
           &.active {
-            border-bottom: 3px solid ${color.secondary};
+            border-bottom: 3px solid #04d8cc;
           }
         }
       }

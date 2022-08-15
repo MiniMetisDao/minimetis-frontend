@@ -62,7 +62,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
 
               {tradingTokensBalances?.[token.address] && (
                 <DisplayPrice
-                  price={tradingTokensBalances[token.address]}
+                  amount={tradingTokensBalances[token.address]}
                   decimals={Math.pow(10, token.decimals)}
                 />
               )}

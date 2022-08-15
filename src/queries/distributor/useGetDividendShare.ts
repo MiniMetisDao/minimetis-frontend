@@ -1,17 +1,18 @@
-import { DistributorAbi } from "config";
+import { DistributorAbi, METIS_TOKEN_DECIMALS } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
+import { TokenAmount } from "types/common";
 import { useMultiCallContract } from "utils";
 
 type DistributorShare = {
-  totalShares: number;
-  totalDistributed: number;
+  totalShares: string;
+  totalDistributed: TokenAmount;
 
   userData?: {
-    sharePercentage: number;
-    shares: number;
-    claimedDividend: number;
-    unclaimedDividend: number;
+    sharePercentage: string;
+    shares: string;
+    claimedDividend: TokenAmount;
+    unclaimedDividend: TokenAmount;
   };
 };
 
@@ -72,17 +73,27 @@ export const useGetDividendShare = (): Result => {
   if (distibutorQuery.data) {
     data = {
       totalShares: distibutorQuery.data[0],
-      totalDistributed: distibutorQuery.data[1],
+      totalDistributed: {
+        amount: distibutorQuery.data[1],
+        decimals: METIS_TOKEN_DECIMALS,
+      },
 
       userData: distributorUserQuery.data
         ? {
             shares: distributorUserQuery.data[0],
-            sharePercentage:
+            sharePercentage: (
               (distributorUserQuery.data[0].split(",")[0] /
                 distibutorQuery.data[0]) *
-              100,
-            claimedDividend: distributorUserQuery.data[0].split(",")[2],
-            unclaimedDividend: distributorUserQuery.data[1],
+              100
+            ).toString(),
+            claimedDividend: {
+              amount: distributorUserQuery.data[0].split(",")[2],
+              decimals: minimeConstants?.decimals,
+            },
+            unclaimedDividend: {
+              amount: distributorUserQuery.data[1],
+              decimals: minimeConstants?.decimals,
+            },
           }
         : undefined,
     };

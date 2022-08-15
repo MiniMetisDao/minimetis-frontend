@@ -36,6 +36,7 @@ const getValidSwapTokens = (
   token1Search?: string,
   amount = ""
 ) => {
+  // TODO: handle case when both search terms are same
   const validToken0 = token0Search
     ? searchExactToken(tradingTokens, token0Search) ?? tradingTokens[0]
     : tradingTokens[0];
@@ -55,6 +56,7 @@ type LocationGenerics = MakeGenerics<{
     from?: string;
     to?: string;
     amount?: string;
+    slippage?: string;
   };
 }>;
 
@@ -82,7 +84,7 @@ export const Swap: React.FC = () => {
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
 
   const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>(
-    getValidSwapTokens(search?.from, search?.to, search?.amount?.toString())
+    getValidSwapTokens(search?.from, search?.to, search?.amount)
   );
 
   const { data: walletDetails } = useGetWalletDetails();
@@ -180,7 +182,6 @@ export const Swap: React.FC = () => {
   };
 
   const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
-  console.log("san", getTokenAmount(swapTokens[0].token, swapTokens[0].amount));
 
   React.useEffect(() => {
     if (balances) {

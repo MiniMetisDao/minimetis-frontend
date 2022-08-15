@@ -1,24 +1,29 @@
+import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 
 import { FixedNumber } from "ethers";
 import { Token } from "types/common";
 
+export const getBigNumberAmount = (amount: string, decimals: number) => {
+  return BigNumber(amount).div(BigNumber(10).pow(decimals));
+};
+
 export const getDisplayPrice = (
-  tokenPrice?: number,
-  tokenDecimal?: number,
-  multiplyFactor?: number,
+  amount?: string,
+  decimals?: number,
+  multiplyFactor?: string,
   waitForMultiplyFactor = false
 ) => {
   try {
     if (waitForMultiplyFactor && multiplyFactor === undefined) {
       throw new Error("Waiting for multiplyFactor");
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const displayPrice = (tokenPrice! / tokenDecimal!) * (multiplyFactor || 1);
-    if (isNaN(displayPrice)) {
-      throw new Error("Got NaN");
+    if (!amount || !decimals) {
+      throw new Error("No price value provided");
     }
+    const displayPrice = getBigNumberAmount(amount, decimals).multipliedBy(
+      multiplyFactor || 1
+    );
 
     return displayPrice;
   } catch (error) {

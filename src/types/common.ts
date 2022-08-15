@@ -14,3 +14,8 @@ export type TradeSettings = {
   transactionDeadline: number;
   multiHop: boolean;
 };
+
+export type TokenAmount = {
+  amount: string;
+  decimals: number;
+};

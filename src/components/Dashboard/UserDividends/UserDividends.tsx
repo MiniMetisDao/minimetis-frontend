@@ -9,7 +9,7 @@ import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useClaimDividend } from "queries/distributor/useClaimDividend";
 import { useGetTokenPrice } from "queries/tokens";
-import { getShortTransactionHash } from "utils";
+import { getBigNumberAmount, getShortTransactionHash } from "utils";
 
 import { styles } from "./styles";
 
@@ -20,7 +20,6 @@ export const UserDividends: React.FC = () => {
   const { data: dividendShare } = useGetDividendShare();
   const { data: walletDetails } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
-
   const { mutate, isError, error, data: claimDividend } = useClaimDividend();
 
   const handleClick = () => {
@@ -106,12 +105,16 @@ export const UserDividends: React.FC = () => {
             />
           </span>
           <span className="token-value">
-            <DisplayPrice price={dividendShare?.userData?.claimedDividend} />
+            <DisplayPrice
+              amount={dividendShare?.userData?.claimedDividend.amount}
+              decimals={dividendShare?.userData?.claimedDividend.decimals}
+            />
           </span>
           <div className="base-value">
             <span>
               <DisplayPrice
-                price={dividendShare?.userData?.claimedDividend}
+                amount={dividendShare?.userData?.claimedDividend.amount}
+                decimals={dividendShare?.userData?.claimedDividend.decimals}
                 baseFactor={tokenPrice?.metis}
                 isBasePrice
               />
@@ -129,12 +132,16 @@ export const UserDividends: React.FC = () => {
           />
         </span>
         <span className="token-value">
-          <DisplayPrice price={dividendShare?.userData?.unclaimedDividend} />
+          <DisplayPrice
+            amount={dividendShare?.userData?.unclaimedDividend.amount}
+            decimals={dividendShare?.userData?.unclaimedDividend.decimals}
+          />
         </span>
         <div className="base-value">
           <span>
             <DisplayPrice
-              price={dividendShare?.userData?.unclaimedDividend}
+              amount={dividendShare?.userData?.unclaimedDividend.amount}
+              decimals={dividendShare?.userData?.unclaimedDividend.decimals}
               baseFactor={tokenPrice?.metis}
               isBasePrice
             />
@@ -147,7 +154,11 @@ export const UserDividends: React.FC = () => {
           onClick={handleClick}
           disabled={
             walletDetails?.status !== "CONNECTED" ||
-            Number(dividendShare?.userData?.unclaimedDividend) === 0
+            !dividendShare?.userData?.unclaimedDividend.amount ||
+            getBigNumberAmount(
+              dividendShare?.userData?.unclaimedDividend.amount,
+              dividendShare?.userData?.unclaimedDividend.decimals
+            ).isEqualTo(0)
           }
           className={cx({
             disabled: walletDetails?.status !== "CONNECTED",

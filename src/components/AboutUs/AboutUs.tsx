@@ -2,7 +2,7 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout/Container";
-import { MINIMETIS_CONTRACT_ADDRESS } from "config";
+import { MINIME_CONTRACT_ADDRESS } from "config";
 
 import { styles } from "./styles";
 
@@ -33,7 +33,7 @@ export const AboutUs: React.FC = () => {
               <p className="buy-link-wrapper">
                 <a
                   target="_blank"
-                  href={`https://tethys.finance/swap?outputCurrency=${MINIMETIS_CONTRACT_ADDRESS}`}
+                  href={`https://tethys.finance/swap?outputCurrency=${MINIME_CONTRACT_ADDRESS}`}
                 >
                   {t("buyMinimetis")}
                 </a>
