@@ -28,6 +28,7 @@ export const TokenStats: React.FC = () => {
               treasury?.miniMe.decimals
             ).multipliedBy(tokenPrice?.miniMe)
           )
+          .toFixed()
       : undefined;
 
   return (
@@ -49,7 +50,7 @@ export const TokenStats: React.FC = () => {
                 amount={dividendShare?.totalDistributed.amount}
                 decimals={dividendShare?.totalDistributed.decimals}
                 tokenSymbol="Metis"
-                isCompact={false}
+                roundingDecimal={0}
               />
             </span>
             <span className="base-value">
@@ -58,6 +59,7 @@ export const TokenStats: React.FC = () => {
                 decimals={dividendShare?.totalDistributed.decimals}
                 baseFactor={tokenPrice?.metis}
                 isBasePrice
+                roundingDecimal={0}
               />{" "}
               {BASE_CURRENCY_CODE}
             </span>
@@ -72,7 +74,7 @@ export const TokenStats: React.FC = () => {
                 amount={treasury?.metis.amount}
                 decimals={treasury?.metis.decimals}
                 tokenSymbol="Metis"
-                isCompact={false}
+                roundingDecimal={0}
               />
             </span>
             <span className="base-value">
@@ -81,6 +83,7 @@ export const TokenStats: React.FC = () => {
                 decimals={treasury?.metis.decimals}
                 baseFactor={tokenPrice?.metis}
                 isBasePrice
+                roundingDecimal={0}
               />{" "}
               {BASE_CURRENCY_CODE}
             </span>
@@ -90,7 +93,7 @@ export const TokenStats: React.FC = () => {
                 amount={treasury?.miniMe.amount}
                 decimals={treasury?.miniMe.decimals}
                 tokenSymbol="MiniMetis"
-                isCompact={false}
+                roundingDecimal={0}
               />
             </span>
             <span className="base-value">
@@ -99,12 +102,17 @@ export const TokenStats: React.FC = () => {
                 decimals={treasury?.miniMe.decimals}
                 baseFactor={tokenPrice?.miniMe}
                 isBasePrice
+                roundingDecimal={0}
               />{" "}
               {BASE_CURRENCY_CODE}
             </span>
 
             <span className="total-value">
-              {t("currency", { value: totalTeasuryInBasePrice })}{" "}
+              {t("currency", {
+                value: totalTeasuryInBasePrice,
+                isInteger: true,
+                roundingDecimal: 0,
+              })}{" "}
               {BASE_CURRENCY_CODE} {t("total")}
             </span>
           </div>
@@ -133,6 +141,8 @@ export const TokenStats: React.FC = () => {
                   .toFixed()}
                 decimals={minimeConstants?.decimals}
                 tokenSymbol="MiniMetis"
+                roundingDecimal={0}
+                isCompact
               />
             </span>
             <span className="base-value">
@@ -143,6 +153,7 @@ export const TokenStats: React.FC = () => {
                 decimals={minimeConstants?.decimals}
                 baseFactor={tokenPrice?.miniMe}
                 isBasePrice
+                roundingDecimal={0}
               />{" "}
               {BASE_CURRENCY_CODE}
             </span>

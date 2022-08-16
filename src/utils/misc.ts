@@ -25,7 +25,7 @@ export const getDisplayPrice = (
       multiplyFactor || 1
     );
 
-    return displayPrice;
+    return displayPrice.toFixed();
   } catch (error) {
     return undefined;
   }

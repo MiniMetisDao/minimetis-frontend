@@ -37,12 +37,13 @@ export const UserBalance: React.FC = () => {
             <DisplayPrice
               amount={userBalanceData}
               decimals={minimeConstants?.decimals}
+              isCompact
             />
             <span className="token-value-expanded">
               <DisplayPrice
                 amount={userBalanceData}
                 decimals={minimeConstants?.decimals}
-                isCompact={false}
+                roundingDecimal={0}
               />
             </span>
           </span>
@@ -65,7 +66,10 @@ export const UserBalance: React.FC = () => {
           </span>
           <div className="percentage-value">
             <span>
-              {t("number", { value: dividendShare?.userData?.sharePercentage })}
+              {t("number", {
+                value: dividendShare?.userData?.sharePercentage,
+                roundingDecimal: 4,
+              })}
               %
             </span>
           </div>

@@ -24,7 +24,12 @@ i18next.services.formatter?.add("formatToken", (value, lng, options) => {
 
   return `${new Intl.NumberFormat(lng, {
     notation: options.isCompact ? "compact" : "standard",
-    maximumSignificantDigits: 4,
+    maximumSignificantDigits: value < 1 ? 4 : undefined,
+    maximumFractionDigits: options.isCompact
+      ? 2
+      : options.roundingDecimal !== undefined
+      ? options.roundingDecimal
+      : 2,
     compactDisplay: "long",
   }).format(value)} ${options.tokenSymbol || ""}`;
 });
@@ -36,8 +41,9 @@ i18next.services.formatter?.add("formatCurrency", (value, lng, options) => {
     style: "currency",
     notation: options.isCompact ? "compact" : "standard",
     currency: BASE_CURRENCY_CODE,
-    maximumSignificantDigits: 4,
-    minimumFractionDigits: 2,
+    maximumSignificantDigits: value < 1 ? 4 : undefined,
+    maximumFractionDigits:
+      options.roundingDecimal !== undefined ? options.roundingDecimal : 2,
     compactDisplay: "long",
   }).format(value);
 });
@@ -47,8 +53,9 @@ i18next.services.formatter?.add("formatNumber", (value, lng, options) => {
 
   return new Intl.NumberFormat(lng, {
     notation: options.isCompact ? "compact" : "standard",
-    maximumSignificantDigits: 4,
-    maximumFractionDigits: 2,
+    maximumSignificantDigits: value < 1 ? 4 : undefined,
+    maximumFractionDigits:
+      options.roundingDecimal !== undefined ? options.roundingDecimal : 2,
   }).format(value);
 });
 
