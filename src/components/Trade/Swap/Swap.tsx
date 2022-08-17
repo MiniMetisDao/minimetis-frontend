@@ -232,7 +232,7 @@ export const Swap: React.FC = () => {
 
   return (
     <div css={styles({ theme })}>
-      <Container>
+      <Container topSection>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">

@@ -1,4 +1,5 @@
 import { cx } from "@emotion/css";
+import useScrollPosition from "@react-hook/window-scroll";
 import { Link } from "@tanstack/react-location";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -10,10 +11,8 @@ import { Menu } from "./Menu";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { styles } from "./styles";
 
-export const Header: React.FC = () => {
+const HeaderMenu = () => {
   const { t } = useTranslation();
-  const [theme] = useTheme();
-
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const handleMenuClick = () => {
@@ -21,7 +20,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <div css={styles({ theme })}>
+    <>
       <div className="header">
         <div className="left-wrapper">
           <div className="logo">
@@ -57,6 +56,25 @@ export const Header: React.FC = () => {
 
         <ThemeSwitch />
         <Connect />
+      </div>
+    </>
+  );
+};
+
+export const Header: React.FC = () => {
+  const [theme] = useTheme();
+
+  const scrollThreshold = 60;
+  const scrollY = useScrollPosition(60);
+  const sticky = scrollY >= scrollThreshold;
+
+  return (
+    <div css={styles({ theme, sticky })}>
+      <div className="header-wrapper fixed">
+        <HeaderMenu />
+      </div>
+      <div className="header-wrapper">
+        <HeaderMenu />
       </div>
     </div>
   );
