@@ -19,7 +19,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const { t } = useTranslation("trade");
   const [canMultiHop, setCanMultiHop] = React.useState(true);
-  const [slippageTolerance, setSlippageTolerance] = React.useState("0.5");
+  // const [slippageTolerance, setSlippageTolerance] = React.useState("0.5");
   const [transactionDeadline, setTransactionDeadline] = React.useState("15");
 
   return (
