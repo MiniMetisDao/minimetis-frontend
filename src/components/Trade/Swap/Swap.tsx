@@ -68,7 +68,6 @@ type SwapToken = {
 
 // == user inputs ==
 const allowedSlippage = 0.5 * 100;
-const typedValue = "13.897";
 const independentField = Field.INPUT;
 const inputCurrency = Tokens.BYTE;
 const outputCurrency = Tokens.NETT;
@@ -92,14 +91,21 @@ export const Swap: React.FC = () => {
   // const tokens = useTokens();
   const { data: balances } = useGetTokenBalances({
     tokens: tradingTokens,
-    refetchInterval: false,
   });
 
   const { trade, parsedAmount } = useDerivedSwapInfo({
     independentField,
-    inputCurrency,
-    outputCurrency,
-    typedValue,
+    inputCurrency: new SDKToken(
+      swapTokens[0].token.chainId,
+      swapTokens[0].token.address,
+      swapTokens[0].token.decimals
+    ),
+    outputCurrency: new SDKToken(
+      swapTokens[1].token.chainId,
+      swapTokens[1].token.address,
+      swapTokens[1].token.decimals
+    ),
+    typedValue: swapTokens[0].amount,
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
@@ -232,7 +238,7 @@ export const Swap: React.FC = () => {
 
   return (
     <div css={styles({ theme })}>
-      <Container>
+      <Container topSection>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">
