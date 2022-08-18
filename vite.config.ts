@@ -55,4 +55,8 @@ export default defineConfig({
       transformMixedEsModules: true,
     },
   },
+  server: {
+    port: 3001,
+    host: true,
+  },
 });
