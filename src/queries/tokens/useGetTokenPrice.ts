@@ -1,4 +1,4 @@
-import { getBigNumberAmount } from "utils";
+import { getHumanReadableAmount } from "utils";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
 
@@ -20,21 +20,21 @@ export const useGetTokenPrice = (): Result => {
 
   const { metisBaseTokenPair, metisMinimePair } = data;
 
-  const metisPriceInDollars = getBigNumberAmount(
+  const metisPriceInDollars = getHumanReadableAmount(
     metisBaseTokenPair.baseTokenAmount.amount,
     metisBaseTokenPair.baseTokenAmount.decimals
   ).div(
-    getBigNumberAmount(
+    getHumanReadableAmount(
       metisBaseTokenPair.metisAmount.amount,
       metisBaseTokenPair.metisAmount.decimals
     )
   );
 
-  const miniMePriceInMetis = getBigNumberAmount(
+  const miniMePriceInMetis = getHumanReadableAmount(
     metisMinimePair.metisAmount.amount,
     metisMinimePair.metisAmount.decimals
   ).div(
-    getBigNumberAmount(
+    getHumanReadableAmount(
       metisMinimePair.miniMeAmount.amount,
       metisMinimePair.miniMeAmount.decimals
     )

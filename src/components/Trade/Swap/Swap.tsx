@@ -286,7 +286,13 @@ export const Swap: React.FC = () => {
             )}
           </p>
 
-          <SwapButton hasInputError={hasInputError} />
+          <SwapButton
+            hasInputError={hasInputError}
+            inputToken={inputToken.token}
+            slippageAdjustedInputAmount={slippageAdjustedAmounts[
+              Field.INPUT
+            ]?.toExact()}
+          />
 
           <div>
             {/* <div>

@@ -4,8 +4,18 @@ import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 import { FixedNumber } from "ethers";
 import { Token } from "types/common";
 
-export const getBigNumberAmount = (amount: string, decimals: number) => {
+// amount = 1000000000000000000
+// decimals = 18
+// return 1
+export const getHumanReadableAmount = (amount: string, decimals: number) => {
   return BigNumber(amount).div(BigNumber(10).pow(decimals));
+};
+
+// amount = 1
+// decimals = 18
+// return 1000000000000000000
+export const getAmount = (amount: string, decimals: number) => {
+  return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
 };
 
 export const getDisplayPrice = (
@@ -21,7 +31,7 @@ export const getDisplayPrice = (
     if (!amount || !decimals) {
       throw new Error("No price value provided");
     }
-    const displayPrice = getBigNumberAmount(amount, decimals).multipliedBy(
+    const displayPrice = getHumanReadableAmount(amount, decimals).multipliedBy(
       multiplyFactor || 1
     );
 

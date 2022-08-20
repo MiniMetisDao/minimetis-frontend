@@ -7,7 +7,7 @@ import { useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetTreasury } from "queries/treasury";
-import { getBigNumberAmount } from "utils";
+import { getHumanReadableAmount } from "utils";
 
 import { styles } from "./styles";
 
@@ -20,10 +20,10 @@ export const TokenStats: React.FC = () => {
 
   const totalTeasuryInBasePrice =
     treasury && tokenPrice
-      ? getBigNumberAmount(treasury?.metis.amount, treasury?.metis.decimals)
+      ? getHumanReadableAmount(treasury?.metis.amount, treasury?.metis.decimals)
           .multipliedBy(tokenPrice?.metis)
           .plus(
-            getBigNumberAmount(
+            getHumanReadableAmount(
               treasury?.miniMe.amount,
               treasury?.miniMe.decimals
             ).multipliedBy(tokenPrice?.miniMe)

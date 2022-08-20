@@ -9,7 +9,7 @@ import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
 import { useClaimDividend } from "queries/distributor/useClaimDividend";
 import { useGetTokenPrice } from "queries/tokens";
-import { getBigNumberAmount, getShortTransactionHash } from "utils";
+import { getHumanReadableAmount, getShortTransactionHash } from "utils";
 
 import { styles } from "./styles";
 
@@ -157,7 +157,7 @@ export const UserDividends: React.FC = () => {
           disabled={
             walletDetails?.status !== "CONNECTED" ||
             !dividendShare?.userData?.unclaimedDividend.amount ||
-            getBigNumberAmount(
+            getHumanReadableAmount(
               dividendShare?.userData?.unclaimedDividend.amount,
               dividendShare?.userData?.unclaimedDividend.decimals
             ).isEqualTo(0)
