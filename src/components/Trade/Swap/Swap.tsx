@@ -1,6 +1,7 @@
 import { cx } from "@emotion/css";
-import { Pair, Token as SDKToken } from "@netswap/sdk";
+import { Pair, Token as SDKToken, TradeType } from "@netswap/sdk";
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
+import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
@@ -68,15 +69,11 @@ type SwapToken = {
 
 // == user inputs ==
 const allowedSlippage = 0.5 * 100;
-const independentField = Field.INPUT;
-const inputCurrency = Tokens.BYTE;
-const outputCurrency = Tokens.NETT;
 
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
   const search = useSearch<LocationGenerics>();
-  console.log("search", search);
 
   const [flipAnimation, setFlipAnimation] = React.useState(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
@@ -88,67 +85,57 @@ export const Swap: React.FC = () => {
 
   const { data: walletDetails } = useGetWalletDetails();
 
-  // const tokens = useTokens();
   const { data: balances } = useGetTokenBalances({
     tokens: tradingTokens,
   });
 
+  const inputToken = swapTokens[0]?.estimated ? swapTokens[1] : swapTokens[0];
+
+  const estimatedToken = swapTokens[0]?.estimated
+    ? swapTokens[0]
+    : swapTokens[1];
+
   const { trade, parsedAmount } = useDerivedSwapInfo({
-    independentField,
+    independentField: swapTokens[0].estimated ? Field.OUTPUT : Field.INPUT,
     inputCurrency: new SDKToken(
       swapTokens[0].token.chainId,
       swapTokens[0].token.address,
-      swapTokens[0].token.decimals
+      swapTokens[0].token.decimals,
+      swapTokens[0].token.symbol
     ),
     outputCurrency: new SDKToken(
       swapTokens[1].token.chainId,
       swapTokens[1].token.address,
-      swapTokens[1].token.decimals
+      swapTokens[1].token.decimals,
+      swapTokens[1].token.symbol
     ),
-    typedValue: swapTokens[0].amount,
+    typedValue: inputToken.amount,
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
 
-  const { data: tradingPairBalances, isLoading: isTradingPairBalancesLoading } =
-    useGetTokenBalances({
-      tokens: swapTokensList,
-    });
+  const { data: tradingPairBalances } = useGetTokenBalances({
+    tokens: swapTokensList,
+  });
 
-  console.log("balances", balances);
-  console.log(
-    "tradingPairBalances",
-    tradingPairBalances,
-    isTradingPairBalancesLoading
-  );
-
-  const lpPair = React.useMemo(() => {
-    const token0 = new SDKToken(
-      swapTokens[0].token.chainId,
-      swapTokens[0].token.address,
-      swapTokens[0].token.decimals
-    );
-
-    const token1 = new SDKToken(
-      swapTokens[1].token.chainId,
-      swapTokens[1].token.address,
-      swapTokens[1].token.decimals
-    );
-
-    return Pair.getAddress(token0 as SDKToken, token1 as SDKToken);
-  }, [swapTokens]);
-
-  console.log("lpPair", lpPair);
-
-  const handleFromChange = (amount: string) =>
+  const handleFromChange = (amount: string) => {
     setSwapTokens(([token0, token1]) => [
       { ...token0, amount, estimated: false },
-      { ...token1, estimated: true },
+      {
+        ...token1,
+        amount: BigNumber(amount).isEqualTo(0) ? "" : token1.amount,
+        estimated: true,
+      },
     ]);
+  };
 
   const handleToChange = (amount: string) =>
     setSwapTokens(([token0, token1]) => [
-      { ...token0, estimated: true },
+      {
+        ...token0,
+        amount: BigNumber(amount).isEqualTo(0) ? "" : token0.amount,
+        estimated: true,
+      },
       { ...token1, amount, estimated: false },
     ]);
 
@@ -173,15 +160,8 @@ export const Swap: React.FC = () => {
     }
   };
 
-  const handleSettingsClick = () => {
-    console.log("open Modal");
-    setShowTradeSettings(true);
-  };
-
-  const handleSettingsClose = () => {
-    console.log("open Modal");
-    setShowTradeSettings(false);
-  };
+  const handleSettingsClick = () => setShowTradeSettings(true);
+  const handleSettingsClose = () => setShowTradeSettings(false);
 
   const handleSettingsChange = (tradeSettings: TradeSettings) => {
     console.log("tradeSettings", tradeSettings);
@@ -190,24 +170,53 @@ export const Swap: React.FC = () => {
   const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
 
   React.useEffect(() => {
-    if (balances) {
-      const input = swapTokens[0];
+    if (!balances) return;
+    const fromToken = swapTokens[0];
 
-      if (
-        input.amount >
-        getFormattedAmount(input.token, balances[input.token.address])
-      ) {
-        setWarningMessage(t("insufficientBalance"));
-      } else {
-        setWarningMessage("");
-      }
+    const fromTokenBalance = getFormattedAmount(
+      fromToken.token,
+      balances[fromToken.token.address]
+    );
+
+    if (
+      BigNumber(fromToken.amount).isGreaterThan(BigNumber(fromTokenBalance))
+    ) {
+      setWarningMessage(t("insufficientBalance"));
+    } else {
+      setWarningMessage("");
     }
   }, [balances, swapTokens, t]);
 
-  // == Amount we will get ==
-  const outputAmountToDisplay = trade
-    ? trade?.outputAmount.toSignificant(6)
-    : "-";
+  React.useEffect(() => {
+    if (
+      trade?.tradeType === TradeType.EXACT_INPUT &&
+      swapTokens[1].amount !== trade?.outputAmount.toSignificant(6)
+    ) {
+      setSwapTokens(([token0, token1]) => [
+        token0,
+        { ...token1, amount: trade?.outputAmount.toSignificant(6) },
+      ]);
+    }
+    if (
+      trade?.tradeType === TradeType.EXACT_OUTPUT &&
+      swapTokens[0].amount !== trade?.inputAmount.toSignificant(6)
+    ) {
+      setSwapTokens(([token0, token1]) => [
+        { ...token0, amount: trade?.inputAmount.toSignificant(6) },
+        token1,
+      ]);
+    }
+    if (
+      !trade &&
+      BigNumber(inputToken.amount).isGreaterThan(0) &&
+      estimatedToken.amount !== ""
+    ) {
+      setSwapTokens(([token0, token1]) => [
+        { ...token0, amount: token0?.estimated ? "" : token0.amount },
+        { ...token1, amount: token1?.estimated ? "" : token1.amount },
+      ]);
+    }
+  }, [estimatedToken, inputToken, swapTokens, trade]);
 
   // == minimum recieved ==
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
@@ -216,9 +225,11 @@ export const Swap: React.FC = () => {
   );
 
   const minimumRecieved = trade
-    ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${
-        trade?.outputAmount.currency.symbol
-      }`
+    ? `${
+        trade?.tradeType === TradeType.EXACT_INPUT
+          ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)
+          : slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)
+      } ${trade?.outputAmount.currency.symbol}`
     : "-";
 
   // == price impact ==
@@ -232,13 +243,15 @@ export const Swap: React.FC = () => {
     : "-";
 
   // == Liquidity Provider Fee ==
+  console.log("realizedLPFee", realizedLPFee);
+
   const lpFee = realizedLPFee
     ? `${realizedLPFee.toSignificant(4)} ${trade?.inputAmount.currency.symbol}`
     : "-";
 
   return (
     <div css={styles({ theme })}>
-      <Container topSection>
+      <Container>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">
@@ -291,15 +304,21 @@ export const Swap: React.FC = () => {
           )}
 
           <div>
-            <div>
+            {/* <div>
               In Value ({inputCurrency.name}) - {parsedAmount?.toExact()}
             </div>
 
             <div>
               Out Value ({outputCurrency.name}) - {outputAmountToDisplay}
-            </div>
+            </div> */}
 
-            <div>Minimum recieved - {minimumRecieved}</div>
+            <div>
+              {trade &&
+                (trade?.tradeType === TradeType.EXACT_INPUT
+                  ? "Minimum recieved"
+                  : "Maximum sold")}{" "}
+              - {minimumRecieved}
+            </div>
 
             <div>Price Impact - {priceImpact}</div>
 
