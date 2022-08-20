@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { Pair, Token as SDKToken, TradeType } from "@netswap/sdk";
+import { Token as SDKToken, TradeType } from "@netswap/sdk";
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
 import React from "react";
@@ -7,24 +7,17 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
-import { Button } from "components/Button";
-import { ConnectButton } from "components/Connect";
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
-import * as Tokens from "components/Trade/tokens";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
-import {
-  getFormattedAmount,
-  getTokenAmount,
-  isValidNumber,
-  searchExactToken,
-} from "utils";
+import { getFormattedAmount, isValidNumber, searchExactToken } from "utils";
 
 import { SettingsModal } from "../SettingsModal";
 
+import { SwapButton } from "./SwapButton";
 import { TokenInput } from "./TokenInput";
 import { ONE_BIPS } from "./constants";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
@@ -83,8 +76,6 @@ export const Swap: React.FC = () => {
     getValidSwapTokens(search?.from, search?.to, search?.amount)
   );
 
-  const { data: walletDetails } = useGetWalletDetails();
-
   const { data: balances } = useGetTokenBalances({
     tokens: tradingTokens,
   });
@@ -95,7 +86,7 @@ export const Swap: React.FC = () => {
     ? swapTokens[0]
     : swapTokens[1];
 
-  const { trade, parsedAmount } = useDerivedSwapInfo({
+  const { trade } = useDerivedSwapInfo({
     independentField: swapTokens[0].estimated ? Field.OUTPUT : Field.INPUT,
     inputCurrency: new SDKToken(
       swapTokens[0].token.chainId,
@@ -251,7 +242,7 @@ export const Swap: React.FC = () => {
 
   return (
     <div css={styles({ theme })}>
-      <Container>
+      <Container topSection>
         <h1>{t("miniSwap")}</h1>
         <div className="swap-container">
           <div className="title-wrapper">
@@ -295,13 +286,7 @@ export const Swap: React.FC = () => {
             )}
           </p>
 
-          {walletDetails?.status === "CONNECTED" ? (
-            <Button disabled={hasInputError} className="swap-btn">
-              {t("swap")}
-            </Button>
-          ) : (
-            <ConnectButton />
-          )}
+          <SwapButton hasInputError={hasInputError} />
 
           <div>
             {/* <div>

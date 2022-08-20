@@ -7,14 +7,41 @@ import night from "assets/images/night.svg";
 import { Mode } from "theme";
 
 export const styles =
-  ({ theme }: { theme: Mode }) =>
+  ({ theme, sticky }: { theme: Mode; sticky: boolean }) =>
   ({ color }: Theme) =>
     css`
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 0 5px ${color.primaryShadow};
-      position: relative;
+      .header-wrapper {
+        position: fixed;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 5px ${color.primaryShadow};
+        background: ${color.primary};
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        transform: translateY(0);
+        transition: all 0.25s ease-in-out;
+        opacity: 1;
+        ${sticky && `transform: translateY(-100%); opacity:0;`}
+
+        &.fixed {
+          transform: translateY(-100%);
+          opacity: 0;
+          ${sticky && `transform: translateY(0); opacity:1;`}
+          z-index: 101;
+          .header {
+            margin: 10px 0;
+          }
+          .logo {
+            h1 {
+              height: 38px;
+              width: 114px;
+            }
+          }
+        }
+      }
       .header {
         margin: 20px 0;
         display: flex;
@@ -41,13 +68,14 @@ export const styles =
 
       .logo {
         h1 {
-          margin: 0 50px 0 0;
+          margin: 0 30px 0 0;
           height: 77px;
           width: 228px;
           line-height: 0;
           font-size: 0;
           color: transparent;
           background: url(${theme === "light" ? logoLight : logo}) no-repeat;
+          background-size: 100%;
           position: relative;
           @media (max-width: 1200px) {
             margin-right: 10px;

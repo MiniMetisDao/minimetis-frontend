@@ -7,7 +7,7 @@ import { styles } from "./styles";
 
 export const Dashboard: React.FC = () => (
   <div css={styles}>
-    <Container>
+    <Container topSection>
       <UserBalance />
       <UserDividends />
       <TokenStats />

@@ -18,7 +18,7 @@ import { TradePage } from "pages/TradePage";
 import { queryClient } from "queryClient";
 import { Theme } from "theme";
 
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const location = new ReactLocation();
 
@@ -69,7 +69,6 @@ export const App: React.FC = () => (
           pauseOnHover
         />
       </Router>
-      <ReactQueryDevtools />
     </QueryClientProvider>
   </Theme>
 );

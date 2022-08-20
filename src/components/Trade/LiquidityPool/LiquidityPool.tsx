@@ -10,7 +10,7 @@ export const LiquidityPool: React.FC = () => {
 
   return (
     <div css={styles}>
-      <Container>
+      <Container topSection>
         <h1>{t("liquidityPool")}</h1>
         <Tooltip content="tooltip contetn">
           <span>hello</span>
