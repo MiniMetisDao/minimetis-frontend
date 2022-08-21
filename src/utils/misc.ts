@@ -108,3 +108,7 @@ export const isValidNumber = (value: string) => {
 
   return pattern.test(value);
 };
+
+export const getDeadlineTimestamp = (deadline: number) => {
+  return Math.floor(Date.now() / 1000) + 60 * deadline;
+};

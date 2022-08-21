@@ -5,10 +5,15 @@ import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
-import { IoIosRepeat, IoIosWarning } from "react-icons/io";
+import {
+  IoIosInformationCircleOutline,
+  IoIosRepeat,
+  IoIosWarning,
+} from "react-icons/io";
 
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
+import { Tooltip } from "components/Tooltip";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances, useGetWalletDetails } from "queries";
 import { useTheme } from "theme";
@@ -22,6 +27,7 @@ import { TokenInput } from "./TokenInput";
 import { ONE_BIPS } from "./constants";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
+import { SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
 import { computeTradePriceBreakdown } from "./utils/computeTradePriceBreakdown";
 
@@ -54,12 +60,6 @@ type LocationGenerics = MakeGenerics<{
   };
 }>;
 
-type SwapToken = {
-  amount: string;
-  token: Token;
-  estimated?: boolean;
-};
-
 // == user inputs ==
 const allowedSlippage = 0.5 * 100;
 
@@ -80,7 +80,9 @@ export const Swap: React.FC = () => {
     tokens: tradingTokens,
   });
 
-  const inputToken = swapTokens[0]?.estimated ? swapTokens[1] : swapTokens[0];
+  const userEnteredToken = swapTokens[0]?.estimated
+    ? swapTokens[1]
+    : swapTokens[0];
 
   const estimatedToken = swapTokens[0]?.estimated
     ? swapTokens[0]
@@ -100,7 +102,7 @@ export const Swap: React.FC = () => {
       swapTokens[1].token.decimals,
       swapTokens[1].token.symbol
     ),
-    typedValue: inputToken.amount,
+    typedValue: userEnteredToken.amount,
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
@@ -199,7 +201,7 @@ export const Swap: React.FC = () => {
     }
     if (
       !trade &&
-      BigNumber(inputToken.amount).isGreaterThan(0) &&
+      BigNumber(userEnteredToken.amount).isGreaterThan(0) &&
       estimatedToken.amount !== ""
     ) {
       setSwapTokens(([token0, token1]) => [
@@ -207,7 +209,7 @@ export const Swap: React.FC = () => {
         { ...token1, amount: token1?.estimated ? "" : token1.amount },
       ]);
     }
-  }, [estimatedToken, inputToken, swapTokens, trade]);
+  }, [estimatedToken, userEnteredToken, swapTokens, trade]);
 
   // == minimum recieved ==
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
@@ -288,10 +290,15 @@ export const Swap: React.FC = () => {
 
           <SwapButton
             hasInputError={hasInputError}
-            inputToken={inputToken.token}
+            userEnteredToken={userEnteredToken}
+            estimatedToken={estimatedToken}
             slippageAdjustedInputAmount={slippageAdjustedAmounts[
               Field.INPUT
             ]?.toExact()}
+            slippageAdjustedOutputAmount={slippageAdjustedAmounts[
+              Field.OUTPUT
+            ]?.toExact()}
+            trade={trade}
           />
 
           <div>
@@ -304,11 +311,26 @@ export const Swap: React.FC = () => {
             </div> */}
 
             <div>
-              {trade &&
-                (trade?.tradeType === TradeType.EXACT_INPUT
-                  ? "Minimum recieved"
-                  : "Maximum sold")}{" "}
-              - {minimumRecieved}
+              <span>
+                {t(
+                  trade?.tradeType === TradeType.EXACT_OUTPUT
+                    ? "maximumSold"
+                    : "minimumRecieved"
+                )}
+
+                <Tooltip
+                  content={t(
+                    trade?.tradeType === TradeType.EXACT_OUTPUT
+                      ? "maximumSoldInfo"
+                      : "minimumRecievedInfo"
+                  )}
+                >
+                  <IconButton>
+                    <IoIosInformationCircleOutline />
+                  </IconButton>
+                </Tooltip>
+              </span>
+              <span>{minimumRecieved}</span>
             </div>
 
             <div>Price Impact - {priceImpact}</div>

@@ -80,3 +80,8 @@ export const typedValue = "11";
 export const inputCurrency = METIS;
 
 export const outputCurrency = NETT;
+
+export enum SWAP_METHODS {
+  EXACT_INPUT = "swapExactTokensForTokens",
+  EXACT_OUTPUT = "swapTokensForExactTokens",
+}

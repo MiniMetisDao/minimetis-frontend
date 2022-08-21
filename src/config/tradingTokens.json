@@ -17,10 +17,194 @@
   },
   {
     "chainId": 1088,
-    "address": "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
+    "address": "0x5ce34d9abe4bf239cbc08b89287c87f4cd6d80b7",
     "decimals": 18,
-    "name": "Metis",
-    "symbol": "Metis",
-    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/METIS/logo.png"
+    "name": "WOW Token",
+    "symbol": "m.WOW",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/WOW/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xf5f66d5daa89c090a7afa10e6c1553b2887a9a33",
+    "decimals": 18,
+    "name": "LINK Token",
+    "symbol": "m.LINK",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/LINK/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x420000000000000000000000000000000000000a",
+    "decimals": 18,
+    "name": "Ether",
+    "symbol": "WETH",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/ETH/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x68D97B7A961a5239B9F911DA8dEb57F6eF6e5e28",
+    "decimals": 18,
+    "name": "AAVE Token",
+    "symbol": "AAVE",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/AAVE/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x87DD4a7Ad23B95cD9fF9C26B5cF325905CaF8663",
+    "decimals": 18,
+    "name": "Curve DAO Token",
+    "symbol": "CRV",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/CRV/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x90fE084F877C65e1b577c7b2eA64B8D8dd1AB278",
+    "decimals": 18,
+    "name": "Netswap Token",
+    "symbol": "NETT",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x90fe084f877c65e1b577c7b2ea64b8d8dd1ab278/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x445ea60f4ace3d8794369379e68fa0f76af06b02",
+    "decimals": 18,
+    "name": "Poly-Peg CAKE",
+    "symbol": "CAKE",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x445ea60f4ace3d8794369379e68fa0f76af06b02/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x2692be44a6e38b698731fddf417d060f0d20a0cb",
+    "decimals": 18,
+    "name": "Poly-Peg BNB",
+    "symbol": "BNB",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x2692be44a6e38b698731fddf417d060f0d20a0cb/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x12d84f1cfe870ca9c9df9785f8954341d7fbb249",
+    "decimals": 18,
+    "name": "Poly-Peg BUSD",
+    "symbol": "BUSD",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x12d84f1cfe870ca9c9df9785f8954341d7fbb249/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xe253e0cea0cdd43d9628567d097052b33f98d611",
+    "decimals": 18,
+    "name": "Avalanche Token",
+    "symbol": "rAVAX",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xe253e0cea0cdd43d9628567d097052b33f98d611/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x729de3792a5f810a2e7d7899da74de0d108e7e6b",
+    "decimals": 18,
+    "name": "Wrapped ONE",
+    "symbol": "WONE",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x729de3792a5f810a2e7d7899da74de0d108e7e6b/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xa9109271abcf0c4106ab7366b4edb34405947eed",
+    "decimals": 18,
+    "name": "Fantom Token",
+    "symbol": "rFTM",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xa9109271abcf0c4106ab7366b4edb34405947eed/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xfe282Af5f9eB59C30A3f78789EEfFA704188bdD4",
+    "decimals": 18,
+    "name": "Relay Token",
+    "symbol": "RELAY",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xfe282af5f9eb59c30a3f78789eeffa704188bdd4/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x4b9d2923d875edf43980bf5ddddede3fb20fc742",
+    "decimals": 18,
+    "name": "Matic Token",
+    "symbol": "MATIC",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x4b9d2923d875edf43980bf5ddddede3fb20fc742/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xE9Aa15a067b010a4078909baDE54F0C6aBcBB852",
+    "decimals": 18,
+    "name": "Metauce",
+    "symbol": "MINES",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xe9aa15a067b010a4078909bade54f0c6abcbb852/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xa5B55ab1dAF0F8e1EFc0eB1931a957fd89B918f4",
+    "decimals": 8,
+    "name": "Wrapped BTC",
+    "symbol": "WBTC",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xa5b55ab1daf0f8e1efc0eb1931a957fd89b918f4/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x721532bc0da5ffaeb0a6a45fb24271e8098629a7",
+    "decimals": 18,
+    "name": "ByteToken",
+    "symbol": "BYTE",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x721532bc0da5ffaeb0a6a45fb24271e8098629a7/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x6f05709bc91bad933346f9e159f0d3fdbc2c9dce",
+    "decimals": 18,
+    "name": "Hera Token",
+    "symbol": "HERA",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x6f05709bc91bad933346f9e159f0d3fdbc2c9dce/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xa31848aa61f784cdbb6f74260d224a4356295799",
+    "decimals": 18,
+    "name": "Dexpools Token",
+    "symbol": "DXP",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xa31848aa61f784cdbb6f74260d224a4356295799/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x4aac94985cd83be30164dfe7e9af7c054d7d2121",
+    "decimals": 18,
+    "name": "Hummus",
+    "symbol": "HUM",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x4aac94985cd83be30164dfe7e9af7c054d7d2121/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x4c078361fc9bbb78df910800a991c7c3dd2f6ce0",
+    "decimals": 18,
+    "name": "DAI Token",
+    "symbol": "m.DAI",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x4c078361fc9bbb78df910800a991c7c3dd2f6ce0/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xd1f0a4e5444eed0fbcd6624dcef7ef33043e6168",
+    "decimals": 18,
+    "name": "AAVE Token",
+    "symbol": "m.AAVE",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xd1f0a4e5444eed0fbcd6624dcef7ef33043e6168/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xee9801669c6138e84bd50deb500827b776777d28",
+    "decimals": 18,
+    "name": "O3 Swap Token",
+    "symbol": "O3",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0xee9801669c6138e84bd50deb500827b776777d28/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x17ee7e4da37b01fc1bcc908fa63df343f23b4b7c",
+    "decimals": 18,
+    "name": "Sushi Token",
+    "symbol": "m.SUSHI",
+    "logoURI": "https://raw.githubusercontent.com/Netswap/tokens/master/assets/0x17ee7e4da37b01fc1bcc908fa63df343f23b4b7c/logo.png"
   }
 ]

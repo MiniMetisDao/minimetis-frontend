@@ -36,7 +36,7 @@ export const UserDividends: React.FC = () => {
         }
       );
     },
-    onTransactionSucess: ({ shortHash, explorerUrl }) => {
+    onTransactionSuccess: ({ shortHash, explorerUrl }) => {
       toast.update("claimDividend", {
         render: (
           <Trans

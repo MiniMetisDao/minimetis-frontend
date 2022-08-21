@@ -1,29 +1,31 @@
 import { DistributorAbi } from "config";
 import { useMinimeConstants } from "queries";
-import { type Details, useExecuteTransaction } from "utils";
-
-type Params = {
-  onTransactionStart: (details: Details) => void;
-  onTransactionSucess: (details: Details) => void;
-  onError: (error: any) => void;
-};
+import { type TransactionParams, useExecuteTransaction } from "utils";
 
 export const useClaimDividend = ({
   onTransactionStart,
-  onTransactionSucess,
+  onTransactionSuccess,
   onError,
-}: Params) => {
+}: TransactionParams) => {
   const { data: minimeConstants } = useMinimeConstants();
 
-  return useExecuteTransaction(
+  const { mutate, ...rest } = useExecuteTransaction(
     ["claimDividend"],
-    {
-      abi: DistributorAbi,
-      address: minimeConstants?.distributor,
-      method: "claimDividend",
-    },
     onTransactionStart,
-    onTransactionSucess,
+    onTransactionSuccess,
     onError
   );
+
+  return {
+    mutate: () => {
+      return mutate({
+        contractDetails: {
+          abi: DistributorAbi,
+          address: minimeConstants?.distributor,
+          method: "claimDividend",
+        },
+      });
+    },
+    ...rest,
+  };
 };

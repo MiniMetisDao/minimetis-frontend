@@ -1,5 +1,3 @@
-import React from "react";
-
 import { ROUTER_CONTRACT_ADDRESS } from "config";
 import { useGetWalletDetails } from "queries";
 import { Token } from "types/common";

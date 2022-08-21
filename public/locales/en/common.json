@@ -28,7 +28,7 @@
   "twitter": "follow us on twitter",
   "telegram": "join our community",
   "discord": "join our discord",
-  "transactionCancelled": "Transaction is cancelled!",
+  "transactionCancelled": "Transaction is cancelled by user!",
   "transactionError": "Transaction failed due to an error!",
   "transactionPending": "Your transaction initiated with hash: <a>{{txHash}}</a>",
   "transactionSuccess": "Your transaction completed successfully with hash: <a>{{txHash}}</a>",

@@ -10,7 +10,7 @@ const styles = ({ color }: Theme) => css`
 `;
 
 type IconButtonProps = {
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 export const IconButton: React.FC<IconButtonProps> = ({
   children,

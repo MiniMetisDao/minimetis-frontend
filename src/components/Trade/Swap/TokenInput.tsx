@@ -32,7 +32,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
   const [showTokenSelector, setShowTokenSelector] = React.useState(false);
 
   const handleChange = (input: string, message?: string) => {
-    console.log("san", message);
+    console.log("message", message);
     onChange(input);
   };
 
