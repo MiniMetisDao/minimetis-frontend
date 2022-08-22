@@ -33,12 +33,14 @@ export const styles =
 
 export const inputCompactStyles = ({ color }: Theme) =>
   css`
-    width: 75px;
+    width: 65px;
     border: 2px solid ${color.color16};
     border-radius: 8px;
     align-items: center;
+    font-size: 18px;
     input {
       flex: 1 1 auto;
+      font-size: 18px;
       padding: 5px;
     }
   `;
@@ -48,11 +50,11 @@ export const inputButtonStyles =
   ({ color }: Theme) =>
     css`
       border-radius: 8px;
-      min-width: 66px;
+      min-width: 55px;
       flex-grow: 0;
       padding: 5px;
       color: #fff;
-      font-size: 22px;
+      font-size: 18px;
       cursor: pointer;
       border: 2px solid ${active ? color.color16 : `${color.text.primary}4b`};
       background: ${active

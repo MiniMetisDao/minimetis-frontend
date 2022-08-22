@@ -13,11 +13,7 @@ import { Input } from "components/Input";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { useTokenApproval } from "queries/trade/useTokenApproval";
 import { Token } from "types/common";
-import {
-  getAmount,
-  getFormattedAmount,
-  getFormattedAmountRounded,
-} from "utils";
+import { getFormattedAmount, getFormattedAmountRounded } from "utils";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
 import { SelectTokenModal } from "../SelectTokenModal";

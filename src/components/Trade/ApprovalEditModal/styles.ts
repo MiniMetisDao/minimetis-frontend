@@ -23,7 +23,3 @@ export const styles = css`
     }
   }
 `;
-
-export const approvalInput = css`
-  width: 100px;
-`;

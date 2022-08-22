@@ -8,7 +8,7 @@ import { Token } from "types/common";
 import { getAmount, getHumanReadableAmount, isValidNumber } from "utils";
 
 import { ApprovalButton } from "./ApprovalButton";
-import { approvalInput, styles } from "./styles";
+import { styles } from "./styles";
 
 type ApprovalEditModalProps = {
   onClose: () => void;
@@ -48,7 +48,6 @@ export const ApprovalEditModal: React.FC<ApprovalEditModalProps> = ({
           <h4>{t("approvalAmount")}</h4>
           {allowance && approvalAmount !== undefined && (
             <InputCompact
-              wrapperCss={approvalInput}
               placeholder={getHumanReadableAmount(
                 allowance,
                 token.decimals

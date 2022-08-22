@@ -112,3 +112,11 @@ export const isValidNumber = (value: string) => {
 export const getDeadlineTimestamp = (deadline: number) => {
   return Math.floor(Date.now() / 1000) + 60 * deadline;
 };
+
+export const getSlippageTolerance = (slippage: string) => {
+  return BigNumber(slippage).multipliedBy(100).toNumber();
+};
+
+export const getSlippageToleranceString = (slippage: number) => {
+  return BigNumber(slippage).dividedBy(100).toFixed();
+};

@@ -4,23 +4,38 @@ import { useTranslation } from "react-i18next";
 import { InputButton, InputCompact } from "components/Input";
 import { Modal } from "components/Modal";
 import { Switch } from "components/Switch";
-import { TradeSettings } from "types/common";
+import { TRADE_SETTINGS } from "config";
+import { getSlippageTolerance, getSlippageToleranceString } from "utils";
+import { useStorage } from "utils/storage";
 
-import { deadlineInput, styles } from "./styles";
+import { deadlineInputStyles, styles } from "./styles";
 
 type SettingsModalProps = {
   onClose: () => void;
-  onChange: (tradeSettings: TradeSettings) => void;
 };
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({
-  onChange,
-  onClose,
-}) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
   const { t } = useTranslation("trade");
-  const [canMultiHop, setCanMultiHop] = React.useState(true);
-  // const [slippageTolerance, setSlippageTolerance] = React.useState("0.5");
-  const [transactionDeadline, setTransactionDeadline] = React.useState("15");
+
+  const [canMultiHop, setCanMultiHop] = useStorage<boolean>(
+    "enableMultiHops",
+    true
+  );
+
+  const [slippageTolerance, setSlippageTolerance] = useStorage<number>(
+    "slippageTolerance",
+    TRADE_SETTINGS.slippage
+  );
+
+  const [transactionDeadline, setTransactionDeadline] = useStorage<number>(
+    "transactionDeadline",
+    TRADE_SETTINGS.deadline
+  );
+
+  //TODO: validations
+  const handleSlippageChange = (value: string) => {
+    setSlippageTolerance(getSlippageTolerance(value));
+  };
 
   return (
     <Modal onClose={onClose} title={t("tradeSettings")}>
@@ -31,18 +46,30 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <InputButton
               value="0.5"
               suffix="%"
-              onChange={(value) => setSlippageTolerance(value)}
-              active={slippageTolerance === "0.5"}
+              onChange={handleSlippageChange}
+              active={
+                (slippageTolerance as number) === getSlippageTolerance("0.5")
+              }
             />
             <InputButton
               value="1.0"
               suffix="%"
-              onChange={(value) => setSlippageTolerance(value)}
-              active={slippageTolerance === "1.0"}
+              onChange={handleSlippageChange}
+              active={
+                (slippageTolerance as number) === getSlippageTolerance("1.0")
+              }
+            />
+            <InputButton
+              value="5.0"
+              suffix="%"
+              onChange={handleSlippageChange}
+              active={
+                (slippageTolerance as number) === getSlippageTolerance("5.0")
+              }
             />
             <InputCompact
-              value={slippageTolerance}
-              onChange={(input) => setSlippageTolerance(input)}
+              value={getSlippageToleranceString(slippageTolerance as number)}
+              onChange={handleSlippageChange}
               suffix="%"
             />
           </div>
@@ -51,9 +78,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           <h4>{t("transactionDeadline")}</h4>
           <div className="field-wrapper">
             <InputCompact
-              wrapperCss={deadlineInput}
-              value={transactionDeadline}
-              onChange={(input) => setTransactionDeadline(input)}
+              wrapperCss={deadlineInputStyles}
+              value={(transactionDeadline as number).toString()}
+              onChange={(input) => setTransactionDeadline(parseInt(input))}
               suffix="mins"
             />
           </div>
@@ -61,8 +88,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="settings-item">
           <h4>{t("enableMultihops")}</h4>
           <Switch
-            onChange={() => setCanMultiHop((prev) => !prev)}
-            checked={canMultiHop}
+            onChange={(checked: boolean) => setCanMultiHop(checked)}
+            checked={!!canMultiHop}
           />
         </div>
       </div>
