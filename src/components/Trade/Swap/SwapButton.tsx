@@ -19,6 +19,7 @@ import { SwapToken } from "./types";
 
 type SwapButtonProps = {
   hasInputError: boolean;
+  fromToken: SwapToken;
   userEnteredToken: SwapToken;
   estimatedToken: SwapToken;
   slippageAdjustedInputAmount?: string;
@@ -28,6 +29,7 @@ type SwapButtonProps = {
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
   hasInputError,
+  fromToken,
   userEnteredToken,
   estimatedToken,
   slippageAdjustedInputAmount = "",
@@ -43,57 +45,58 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
     TRADE_SETTINGS.deadline
   );
 
-  const { mutate: approvalMutate } = useTokenApproval({
-    onTransactionStart: ({ shortHash, explorerUrl }) => {
-      toast.loading(
-        <Trans
-          i18nKey="transactionPending"
-          values={{ txHash: shortHash }}
-          components={{
-            a: <a target="_blank" href={explorerUrl} />,
-          }}
-        />,
-        {
-          toastId: "approval",
-          closeButton: true,
-        }
-      );
-    },
-    onTransactionSuccess: ({ shortHash, explorerUrl }) => {
-      toast.update("approval", {
-        render: (
+  const { mutate: approvalMutate, isLoading: isApprovalLoading } =
+    useTokenApproval({
+      onTransactionStart: ({ shortHash, explorerUrl }) => {
+        toast.loading(
           <Trans
-            i18nKey="transactionSuccess"
+            i18nKey="transactionPending"
             values={{ txHash: shortHash }}
             components={{
               a: <a target="_blank" href={explorerUrl} />,
             }}
-          />
-        ),
-        type: toast.TYPE.SUCCESS,
-        isLoading: false,
-        autoClose: 6000,
-      });
-    },
-    onError: (error) => {
-      if (error?.code === 4001) {
-        toast.error(t("transactionCancelled"));
-      } else {
+          />,
+          {
+            toastId: "approval",
+            closeButton: true,
+          }
+        );
+      },
+      onTransactionSuccess: ({ shortHash, explorerUrl }) => {
         toast.update("approval", {
-          render: t("transactionError"),
-          type: toast.TYPE.ERROR,
+          render: (
+            <Trans
+              i18nKey="transactionSuccess"
+              values={{ txHash: shortHash }}
+              components={{
+                a: <a target="_blank" href={explorerUrl} />,
+              }}
+            />
+          ),
+          type: toast.TYPE.SUCCESS,
           isLoading: false,
           autoClose: 6000,
         });
-      }
-    },
-  });
+      },
+      onError: (error) => {
+        if (error?.code === 4001) {
+          toast.error(t("transactionCancelled"));
+        } else {
+          toast.update("approval", {
+            render: t("transactionError"),
+            type: toast.TYPE.ERROR,
+            isLoading: false,
+            autoClose: 6000,
+          });
+        }
+      },
+    });
 
   const { data: allowance } = useGetTokenAllowance({
-    token: userEnteredToken.token,
+    token: fromToken.token,
   });
 
-  const { mutate: swapMutate } = useTokenSwap({
+  const { mutate: swapMutate, isLoading: isSwapLoading } = useTokenSwap({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
       toast.loading(
         <Trans
@@ -152,13 +155,14 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 
     const amountSwappable = getAmount(
       trade?.tradeType === TradeType.EXACT_INPUT
-        ? slippageAdjustedInputAmount
-        : slippageAdjustedOutputAmount,
+        ? slippageAdjustedOutputAmount
+        : slippageAdjustedInputAmount,
       trade?.tradeType === TradeType.EXACT_INPUT
-        ? userEnteredToken.token?.decimals
-        : estimatedToken?.token?.decimals
+        ? estimatedToken.token?.decimals
+        : userEnteredToken?.token?.decimals
     ).toString();
 
+    console.log("sand", amountSwappable);
     if (
       !trade ||
       !trade.route.path.length ||
@@ -187,26 +191,35 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   };
 
   const hasApproved =
-    allowance && slippageAdjustedInputAmount
+    allowance &&
+    (fromToken.amount
       ? BigNumber(allowance).isGreaterThanOrEqualTo(
-          getAmount(
-            slippageAdjustedInputAmount,
-            userEnteredToken.token.decimals
-          )
+          getAmount(fromToken.amount, fromToken.token.decimals)
         )
-      : false;
+      : false);
 
+  console.log(
+    "sand",
+    hasInputError,
+    hasApproved,
+    allowance,
+    slippageAdjustedInputAmount,
+    trade
+  );
   if (!hasInputError && !hasApproved) {
     return (
-      <Button disabled={hasInputError} onClick={handleApprovalClick}>
-        {t("Approve")}
+      <Button
+        disabled={hasInputError || isApprovalLoading}
+        onClick={handleApprovalClick}
+      >
+        {!isApprovalLoading ? t("approve") : t("approving")}
       </Button>
     );
   }
 
   return walletDetails?.status === "CONNECTED" ? (
     <Button disabled={hasInputError} onClick={handleSwapClick}>
-      {t("swap")}
+      {!isSwapLoading ? t("swap") : t("swapping")}
     </Button>
   ) : (
     <ConnectButton />

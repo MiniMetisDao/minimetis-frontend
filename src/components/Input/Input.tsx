@@ -31,7 +31,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <div css={[styles({ hasError }), wrapperCss]}>
-      <input {...props} onChange={handleChange} />
+      <input {...props} onChange={handleChange} autoComplete="off" />
       {suffix && <span className="suffix">{suffix}</span>}
     </div>
   );

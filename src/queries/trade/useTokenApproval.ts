@@ -17,10 +17,16 @@ export const useTokenApproval = ({
   );
 
   return {
-    mutate: async ({ tokenAddress }: { tokenAddress: Token["address"] }) => {
+    mutate: ({
+      tokenAddress,
+      tokenAmount,
+    }: {
+      tokenAddress: Token["address"];
+      tokenAmount?: string;
+    }) => {
       return mutate({
         contractDetails: { address: tokenAddress, method: "approve" },
-        params: [ROUTER_CONTRACT_ADDRESS, constants.MaxUint256],
+        params: [ROUTER_CONTRACT_ADDRESS, tokenAmount ?? constants.MaxUint256],
       });
     },
     ...rest,

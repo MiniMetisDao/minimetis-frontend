@@ -23,7 +23,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const [transactionDeadline, setTransactionDeadline] = React.useState("15");
 
   return (
-    <Modal onClose={onClose} title={t("trade:tradeSettings")}>
+    <Modal onClose={onClose} title={t("tradeSettings")}>
       <div css={styles}>
         <div className="settings-item">
           <h4>{t("slippageTolerance")}</h4>

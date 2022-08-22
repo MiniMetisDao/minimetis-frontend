@@ -4,11 +4,12 @@ export const styles = css`
   height: 100%;
   display: flex;
   flex-direction: column;
-  .settings-item {
+  .field-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0 0 20px;
+    gap: 10px;
 
     h4 {
       margin: 0;
@@ -23,6 +24,6 @@ export const styles = css`
   }
 `;
 
-export const deadlineInput = css`
+export const approvalInput = css`
   width: 100px;
 `;

@@ -5,8 +5,9 @@ const styles = ({ color }: Theme) => css`
   background: transparent;
   border: none;
   color: ${color.text.primary};
-  display: flex;
+  display: inline-flex;
   font-size: 1.25rem;
+  padding: 0;
 `;
 
 type IconButtonProps = {

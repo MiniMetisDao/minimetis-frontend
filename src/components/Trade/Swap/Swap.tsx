@@ -5,20 +5,17 @@ import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
-import {
-  IoIosInformationCircleOutline,
-  IoIosRepeat,
-  IoIosWarning,
-} from "react-icons/io";
+import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
-import { Tooltip } from "components/Tooltip";
+import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/tradingTokens.json";
-import { useGetTokenBalances, useGetWalletDetails } from "queries";
+import { useGetTokenBalances } from "queries";
 import { useTheme } from "theme";
 import { Token, TradeSettings } from "types/common";
 import { getFormattedAmount, isValidNumber, searchExactToken } from "utils";
+import { useStorage } from "utils/storage";
 
 import { SettingsModal } from "../SettingsModal";
 
@@ -60,9 +57,6 @@ type LocationGenerics = MakeGenerics<{
   };
 }>;
 
-// == user inputs ==
-const allowedSlippage = 0.5 * 100;
-
 export const Swap: React.FC = () => {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
@@ -79,6 +73,11 @@ export const Swap: React.FC = () => {
   const { data: balances } = useGetTokenBalances({
     tokens: tradingTokens,
   });
+
+  const [allowedSlippage] = useStorage(
+    "slippageTolerance",
+    TRADE_SETTINGS.slippage
+  );
 
   const userEnteredToken = swapTokens[0]?.estimated
     ? swapTokens[1]
@@ -211,36 +210,31 @@ export const Swap: React.FC = () => {
     }
   }, [estimatedToken, userEnteredToken, swapTokens, trade]);
 
-  // == minimum recieved ==
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
-    allowedSlippage
+    (allowedSlippage as number) * 100
   );
 
-  const minimumRecieved = trade
-    ? `${
-        trade?.tradeType === TradeType.EXACT_INPUT
-          ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)
-          : slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)
-      } ${trade?.outputAmount.currency.symbol}`
-    : "-";
+  const minRecievedOrMaxSold =
+    trade &&
+    `${
+      trade?.tradeType === TradeType.EXACT_INPUT
+        ? slippageAdjustedAmounts[Field.OUTPUT]?.toFixed()
+        : slippageAdjustedAmounts[Field.INPUT]?.toFixed()
+    } ${trade?.outputAmount.currency.symbol}`;
 
-  // == price impact ==
   const { priceImpactWithoutFee, realizedLPFee } =
     computeTradePriceBreakdown(trade);
 
-  const priceImpact = priceImpactWithoutFee
-    ? priceImpactWithoutFee.lessThan(ONE_BIPS)
+  const priceImpact =
+    priceImpactWithoutFee &&
+    (priceImpactWithoutFee.lessThan(ONE_BIPS)
       ? "<0.01%"
-      : `${priceImpactWithoutFee.toFixed(2)}%`
-    : "-";
+      : `${priceImpactWithoutFee.toFixed(4)}%`);
 
-  // == Liquidity Provider Fee ==
-  console.log("realizedLPFee", realizedLPFee);
-
-  const lpFee = realizedLPFee
-    ? `${realizedLPFee.toSignificant(4)} ${trade?.inputAmount.currency.symbol}`
-    : "-";
+  const lpFee =
+    realizedLPFee &&
+    `${realizedLPFee.toFixed()} ${trade?.inputAmount.currency.symbol}`;
 
   return (
     <div css={styles({ theme })}>
@@ -287,59 +281,48 @@ export const Swap: React.FC = () => {
               </>
             )}
           </p>
+          <div className="swap-btn-wrapper">
+            <SwapButton
+              hasInputError={hasInputError}
+              fromToken={swapTokens[0]}
+              userEnteredToken={userEnteredToken}
+              estimatedToken={estimatedToken}
+              slippageAdjustedInputAmount={slippageAdjustedAmounts[
+                Field.INPUT
+              ]?.toExact()}
+              slippageAdjustedOutputAmount={slippageAdjustedAmounts[
+                Field.OUTPUT
+              ]?.toExact()}
+              trade={trade}
+            />
+          </div>
 
-          <SwapButton
-            hasInputError={hasInputError}
-            userEnteredToken={userEnteredToken}
-            estimatedToken={estimatedToken}
-            slippageAdjustedInputAmount={slippageAdjustedAmounts[
-              Field.INPUT
-            ]?.toExact()}
-            slippageAdjustedOutputAmount={slippageAdjustedAmounts[
-              Field.OUTPUT
-            ]?.toExact()}
-            trade={trade}
-          />
+          <div className="trade-info">
+            <span>
+              {t(
+                trade?.tradeType === TradeType.EXACT_OUTPUT
+                  ? "maximumSold"
+                  : "minimumReceived"
+              )}
+            </span>
+            <span>{minRecievedOrMaxSold}</span>
+          </div>
 
-          <div>
-            {/* <div>
-              In Value ({inputCurrency.name}) - {parsedAmount?.toExact()}
-            </div>
+          <div className="trade-info">
+            <span>{t("priceImpact")}</span>
+            <span>{priceImpact}</span>
+          </div>
 
-            <div>
-              Out Value ({outputCurrency.name}) - {outputAmountToDisplay}
-            </div> */}
+          <div className="trade-info">
+            <span>{t("liquidityProviderFee")}</span>
+            <span>{lpFee}</span>
+          </div>
 
-            <div>
-              <span>
-                {t(
-                  trade?.tradeType === TradeType.EXACT_OUTPUT
-                    ? "maximumSold"
-                    : "minimumRecieved"
-                )}
-
-                <Tooltip
-                  content={t(
-                    trade?.tradeType === TradeType.EXACT_OUTPUT
-                      ? "maximumSoldInfo"
-                      : "minimumRecievedInfo"
-                  )}
-                >
-                  <IconButton>
-                    <IoIosInformationCircleOutline />
-                  </IconButton>
-                </Tooltip>
-              </span>
-              <span>{minimumRecieved}</span>
-            </div>
-
-            <div>Price Impact - {priceImpact}</div>
-
-            <div>Liquidity Provider Fee - {lpFee}</div>
-
-            <div>
-              Path - {trade?.route.path.map(({ symbol }) => symbol).join("-")}
-            </div>
+          <div className="trade-info">
+            <span>{t("tradeRoute")}</span>
+            <span>
+              {trade?.route?.path?.map(({ symbol }) => symbol).join("→")}
+            </span>
           </div>
         </div>
 

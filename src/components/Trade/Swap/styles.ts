@@ -104,53 +104,80 @@ export const styles =
           display: inline-flex;
         }
       }
+      .trade-info {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.6;
+        gap: 10px;
+        span {
+          display: flex;
+          &:last-child {
+            word-break: break-all;
+          }
+        }
+      }
+      .swap-btn-wrapper {
+        margin: 0 0 20px;
+      }
     `;
 
-export const tokenInputStyles = ({ color }: Theme) => css`
-  .input-title-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 0 12px;
-  }
-  .input-field-wrapper {
-    background: ${color.color13};
-    border: 1px solid ${color.color14};
-    border-radius: 8px;
-    font-size: 22px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .token-selector-btn {
-    align-items: center;
-    display: flex;
-    border-left: 1px solid ${color.color14};
-    font-size: 14px;
-    color: ${color.text.primary};
-    .icon {
-      margin-left: 10px;
-      display: flex;
-    }
-  }
-  .max-btn {
-    background: ${color.color15};
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    margin-right: 10px;
-    text-transform: uppercase;
-  }
-  img {
-    width: 24px;
-    border-radius: 50%;
-    margin: 0 10px;
-  }
-  button {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-  }
-`;
+export const tokenInputStyles =
+  ({ from }: { from: boolean }) =>
+  ({ color }: Theme) =>
+    css`
+      .input-title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 0 12px;
+      }
+      .input-field-wrapper {
+        background: ${color.color13};
+        border: 1px solid ${color.color14};
+        border-radius: 8px;
+        font-size: 22px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        ${!from && `margin-bottom: 20px;`}
+      }
+      .token-selector-btn {
+        align-items: center;
+        display: flex;
+        border-left: 1px solid ${color.color14};
+        font-size: 14px;
+        color: ${color.text.primary};
+        .icon {
+          margin-left: 10px;
+          display: flex;
+        }
+      }
+      .max-btn {
+        background: ${color.color15};
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        margin-right: 10px;
+        text-transform: uppercase;
+      }
+      img {
+        width: 24px;
+        border-radius: 50%;
+        margin: 0 10px;
+      }
+      button {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+      }
+      .input-approval-wrapper {
+        margin: 0 10px;
+        font-size: 14px;
+        line-height: 2;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+    `;

@@ -1,17 +1,7 @@
-import { ChainId, JSBI, Percent, Token, WETH } from "@netswap/sdk";
+import { ChainId, JSBI, METIS, Percent, Token, WETH } from "@netswap/sdk";
 
-import {
-  MAINNET_BNB,
-  MAINNET_BUSD,
-  MAINNET_BYTE,
-  MAINNET_ETH,
-  MAINNET_RELAY,
-  MAINNET_USDC,
-  MAINNET_USDT,
-  MAINNET_WBTC,
-  METIS,
-  NETT,
-} from "components/Trade/tokens";
+import { CHAIN_ID } from "config";
+import baseTokens from "config/baseTokens.json";
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -40,15 +30,16 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WMETIS_ONLY,
   [ChainId.MAINNET]: [
     ...WMETIS_ONLY[ChainId.MAINNET],
-    MAINNET_USDC,
-    MAINNET_USDT,
-    NETT,
-    MAINNET_BNB,
-    MAINNET_RELAY,
-    MAINNET_WBTC,
-    MAINNET_BUSD,
-    MAINNET_ETH,
-    MAINNET_BYTE,
+    ...baseTokens.map(
+      (token) =>
+        new Token(
+          ChainId.MAINNET,
+          token.address,
+          token.decimals,
+          token.symbol,
+          token.name
+        )
+    ),
   ],
   [ChainId.TESTNET]: [...WMETIS_ONLY[ChainId.TESTNET]],
 };
@@ -67,19 +58,13 @@ export const CUSTOM_BASES: {
 
 // == variables we need to get it from the user input ==
 // TODO: <shan> Make this dynamic extract from ethers
-export const chainId: any = "1088";
+export const chainId: any = CHAIN_ID;
 
 export const singleHopOnly = false;
 
 export const MAX_HOPS = 3;
 
 export const independentField = "INPUT";
-
-export const typedValue = "11";
-
-export const inputCurrency = METIS;
-
-export const outputCurrency = NETT;
 
 export enum SWAP_METHODS {
   EXACT_INPUT = "swapExactTokensForTokens",

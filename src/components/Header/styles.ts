@@ -19,7 +19,7 @@ export const styles =
         background: ${color.primary};
         top: 0;
         left: 0;
-        z-index: 100;
+        z-index: 50;
         width: 100%;
         transform: translateY(0);
         transition: all 0.25s ease-in-out;
@@ -30,7 +30,7 @@ export const styles =
           transform: translateY(-100%);
           opacity: 0;
           ${sticky && `transform: translateY(0); opacity:1;`}
-          z-index: 101;
+          z-index: 51;
           .header {
             margin: 10px 0;
           }
