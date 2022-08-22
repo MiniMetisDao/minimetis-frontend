@@ -162,7 +162,6 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
         : userEnteredToken?.token?.decimals
     ).toString();
 
-    console.log("sand", amountSwappable);
     if (
       !trade ||
       !trade.route.path.length ||
@@ -198,14 +197,6 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
         )
       : false);
 
-  console.log(
-    "sand",
-    hasInputError,
-    hasApproved,
-    allowance,
-    slippageAdjustedInputAmount,
-    trade
-  );
   if (!hasInputError && !hasApproved) {
     return (
       <Button
