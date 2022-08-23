@@ -185,7 +185,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 
   const handleApprovalClick = () => {
     approvalMutate({
-      tokenAddress: userEnteredToken.token?.address,
+      tokenAddress: fromToken.token?.address,
     });
   };
 
@@ -197,22 +197,20 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
         )
       : false);
 
-  if (!hasInputError && !hasApproved) {
-    return (
-      <Button
-        disabled={hasInputError || isApprovalLoading}
-        onClick={handleApprovalClick}
-      >
-        {!isApprovalLoading ? t("approve") : t("approving")}
-      </Button>
-    );
+  if (walletDetails?.status !== "CONNECTED") {
+    return <ConnectButton />;
   }
 
-  return walletDetails?.status === "CONNECTED" ? (
+  return !hasInputError && !hasApproved ? (
+    <Button
+      disabled={hasInputError || isApprovalLoading}
+      onClick={handleApprovalClick}
+    >
+      {!isApprovalLoading ? t("approve") : t("approving")}
+    </Button>
+  ) : (
     <Button disabled={hasInputError} onClick={handleSwapClick}>
       {!isSwapLoading ? t("swap") : t("swapping")}
     </Button>
-  ) : (
-    <ConnectButton />
   );
 };
