@@ -1,5 +1,5 @@
-import { Currency, Pair, Token } from "@netswap/sdk";
 import flatMap from "lodash.flatmap";
+import { Currency, Pair, Token } from "minime-sdk";
 import React from "react";
 
 import {

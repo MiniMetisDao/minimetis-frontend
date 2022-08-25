@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Percent, Trade } from "@netswap/sdk";
+import { CurrencyAmount, JSBI, Percent, Trade } from "minime-sdk";
 
 import { BIPS_BASE } from "components/Trade/Swap/constants";
 

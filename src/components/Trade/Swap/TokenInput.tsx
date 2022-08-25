@@ -1,5 +1,4 @@
 import BigNumber from "bignumber.js";
-import { constants } from "ethers";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -10,10 +9,15 @@ import { toast } from "react-toastify";
 import { DisplayPrice } from "components/DisplayPrice";
 import { IconButton } from "components/IconButton";
 import { Input } from "components/Input";
+import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { useTokenApproval } from "queries/trade/useTokenApproval";
 import { Token } from "types/common";
-import { getFormattedAmount, getFormattedAmountRounded } from "utils";
+import {
+  getFormattedAmount,
+  getFormattedAmountRounded,
+  getHumanReadableAmount,
+} from "utils";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
 import { SelectTokenModal } from "../SelectTokenModal";
@@ -93,10 +97,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
     },
   });
 
-  const handleChange = (input: string, message?: string) => {
-    console.log("message", message);
-    onChange(input);
-  };
+  const handleChange = (input: string) => onChange(input);
 
   const formattedBalance = getFormattedAmount(token, balance);
 
@@ -117,7 +118,9 @@ export const TokenInput: React.FC<TokenInputProps> = ({
 
   const isMaxAllowed =
     allowance &&
-    BigNumber(allowance).isEqualTo(constants.MaxUint256.toString());
+    getHumanReadableAmount(allowance, token.decimals).isGreaterThanOrEqualTo(
+      APPROVAL_MAX_EDIT
+    );
 
   return (
     <>
@@ -169,11 +172,17 @@ export const TokenInput: React.FC<TokenInputProps> = ({
                 amount={allowance}
                 decimals={token.decimals}
                 tokenSymbol={token.symbol}
+                isCompact={getHumanReadableAmount(
+                  allowance || "",
+                  token.decimals
+                ).isGreaterThanOrEqualTo("1e6")}
               />
             )}
-            <IconButton onClick={handleApprovalEditClick}>
-              <AiOutlineEdit />
-            </IconButton>
+            {allowance && (
+              <IconButton onClick={handleApprovalEditClick}>
+                <AiOutlineEdit />
+              </IconButton>
+            )}
             {allowance !== "0" && (
               <IconButton onClick={handleApprovalRevokeClick}>
                 <IoIosRemoveCircleOutline />

@@ -26,6 +26,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
 
   const { data: tradingTokensBalances } = useGetTokenBalances({
     tokens: tradingTokens,
+    refetchInterval: true,
   });
 
   const tokensList = React.useMemo(() => {

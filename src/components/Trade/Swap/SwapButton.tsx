@@ -1,5 +1,5 @@
-import { Token as SdkToken, Trade, TradeType } from "@netswap/sdk";
 import BigNumber from "bignumber.js";
+import { Token as SdkToken, Trade, TradeType } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -25,6 +25,7 @@ type SwapButtonProps = {
   slippageAdjustedInputAmount?: string;
   slippageAdjustedOutputAmount?: string;
   trade?: Trade;
+  onSuccess?: () => void;
 };
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
@@ -35,6 +36,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   slippageAdjustedInputAmount = "",
   slippageAdjustedOutputAmount = "",
   trade,
+  onSuccess,
 }) => {
   const { t } = useTranslation("trade");
 
@@ -63,6 +65,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
         );
       },
       onTransactionSuccess: ({ shortHash, explorerUrl }) => {
+        if (onSuccess) onSuccess();
         toast.update("approval", {
           render: (
             <Trans

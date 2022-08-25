@@ -1,4 +1,4 @@
-import { Currency, Pair, TokenAmount } from "@netswap/sdk";
+import { Currency, Pair, TokenAmount } from "minime-sdk";
 import React from "react";
 
 import { chainId } from "components/Trade/Swap/constants";

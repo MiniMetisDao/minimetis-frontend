@@ -69,7 +69,10 @@ export const styles =
         justify-content: space-between;
         align-items: center;
         margin: 0 0 30px;
-        padding: 0 12px;
+        span {
+          display: inline-flex;
+          gap: 10px;
+        }
       }
       .switch-input-btn {
         cursor: pointer;
@@ -91,9 +94,9 @@ export const styles =
       }
       .swap-warning {
         font-size: 16px;
-        padding: 10px 5px;
+        padding: 8px 5px;
         display: flex;
-        min-height: 40px;
+        min-height: 36px;
         overflow: hidden;
         margin: 0 0 10px;
         color: ${color.text.primary};

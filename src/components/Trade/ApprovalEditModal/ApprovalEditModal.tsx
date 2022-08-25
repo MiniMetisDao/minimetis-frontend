@@ -1,8 +1,10 @@
+import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { InputCompact } from "components/Input";
 import { Modal } from "components/Modal";
+import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { Token } from "types/common";
 import { getAmount, getHumanReadableAmount, isValidNumber } from "utils";
@@ -25,13 +27,19 @@ export const ApprovalEditModal: React.FC<ApprovalEditModalProps> = ({
 
   const [approvalAmount, setApprovalAmount] = React.useState<string>();
 
+  const approvedAmount = allowance
+    ? getHumanReadableAmount(allowance, token.decimals).isGreaterThanOrEqualTo(
+        APPROVAL_MAX_EDIT
+      )
+      ? BigNumber(APPROVAL_MAX_EDIT).toFixed()
+      : getHumanReadableAmount(allowance, token.decimals).toFixed()
+    : "";
+
   React.useEffect(() => {
     if (approvalAmount === undefined && allowance) {
-      setApprovalAmount(
-        getHumanReadableAmount(allowance, token.decimals).toFixed()
-      );
+      setApprovalAmount(approvedAmount);
     }
-  }, [allowance, approvalAmount, token.decimals]);
+  }, [allowance, approvalAmount, approvedAmount]);
 
   const tokenAmount =
     approvalAmount !== undefined
@@ -48,10 +56,7 @@ export const ApprovalEditModal: React.FC<ApprovalEditModalProps> = ({
           <h4>{t("approvalAmount")}</h4>
           {allowance && approvalAmount !== undefined && (
             <InputCompact
-              placeholder={getHumanReadableAmount(
-                allowance,
-                token.decimals
-              ).toFixed()}
+              placeholder={approvedAmount}
               value={approvalAmount}
               onChange={(input) => setApprovalAmount(input)}
               suffix={token.symbol}

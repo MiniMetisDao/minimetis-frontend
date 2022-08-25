@@ -3,13 +3,7 @@ import { useGetWalletDetails } from "queries";
 import { Token } from "types/common";
 import { useMultiCallContract } from "utils";
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: string;
-};
-
-export const useGetTokenAllowance = ({ token }: { token: Token }): Result => {
+export const useGetTokenAllowance = ({ token }: { token: Token }) => {
   const { data: walletDetails } = useGetWalletDetails();
 
   const tokenParams = {
@@ -20,7 +14,11 @@ export const useGetTokenAllowance = ({ token }: { token: Token }): Result => {
       : [],
   };
 
-  return useMultiCallContract(["tokenAllowance", tokenParams], tokenParams, {
-    enabled: Boolean(walletDetails?.address),
-  });
+  return useMultiCallContract<string>(
+    ["tokenAllowance", tokenParams],
+    tokenParams,
+    {
+      enabled: Boolean(walletDetails?.address),
+    }
+  );
 };

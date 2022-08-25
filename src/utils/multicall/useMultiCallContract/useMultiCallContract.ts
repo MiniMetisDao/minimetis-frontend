@@ -20,14 +20,14 @@ export type Options = {
   batchLoader?: Batch;
 };
 
-export const useMultiCallContract = (
+export const useMultiCallContract = <TData = unknown, TError = unknown>(
   key: any,
   queryInfo: QueryInfo | QueryInfo[],
   options: Options = {}
 ) => {
   const batchLoaderInstance = options.batchLoader ?? batchLoader;
 
-  const result = useQuery(
+  const result = useQuery<TData, TError>(
     [key, queryInfo],
     () => batchLoaderInstance.load(queryInfo),
     {

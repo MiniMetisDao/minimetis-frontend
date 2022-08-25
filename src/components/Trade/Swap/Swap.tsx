@@ -1,11 +1,11 @@
 import { cx } from "@emotion/css";
-import { Token as SDKToken, TradeType } from "@netswap/sdk";
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
+import { Token as SDKToken, TradeType } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
-import { IoIosRepeat, IoIosWarning } from "react-icons/io";
+import { IoIosLink, IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
@@ -13,11 +13,17 @@ import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
 import { useTheme } from "theme";
-import { Token, TradeSettings } from "types/common";
-import { getFormattedAmount, isValidNumber, searchExactToken } from "utils";
+import { Token } from "types/common";
+import {
+  getFormattedAmount,
+  getSlippageToleranceString,
+  isValidNumber,
+  searchExactToken,
+} from "utils";
 import { useStorage } from "utils/storage";
 
 import { SettingsModal } from "../SettingsModal";
+import { TradeLinkModal } from "../TradeLinkModal";
 
 import { SwapButton } from "./SwapButton";
 import { TokenInput } from "./TokenInput";
@@ -28,11 +34,7 @@ import { SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
 import { computeTradePriceBreakdown } from "./utils/computeTradePriceBreakdown";
 
-const getValidSwapTokens = (
-  token0Search?: string,
-  token1Search?: string,
-  amount = ""
-) => {
+const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
   // TODO: handle case when both search terms are same
   const validToken0 = token0Search
     ? searchExactToken(tradingTokens, token0Search) ?? tradingTokens[0]
@@ -43,7 +45,7 @@ const getValidSwapTokens = (
     : tradingTokens[1];
 
   return [
-    { token: validToken0, amount },
+    { token: validToken0, amount: "" },
     { token: validToken1, amount: "" },
   ];
 };
@@ -65,14 +67,11 @@ export const Swap: React.FC = () => {
   const [flipAnimation, setFlipAnimation] = React.useState(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
+  const [showTradeLink, setShowTradeLink] = React.useState(false);
 
   const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>(
-    getValidSwapTokens(search?.from, search?.to, search?.amount)
+    getValidSwapTokens(search?.from, search?.to)
   );
-
-  const { data: balances } = useGetTokenBalances({
-    tokens: tradingTokens,
-  });
 
   const [allowedSlippage] = useStorage(
     "slippageTolerance",
@@ -106,9 +105,11 @@ export const Swap: React.FC = () => {
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
 
-  const { data: tradingPairBalances } = useGetTokenBalances({
-    tokens: swapTokensList,
-  });
+  const { data: tradingPairBalances, refetch: tradingPairBalancesRefetch } =
+    useGetTokenBalances({
+      tokens: swapTokensList,
+      refetchInterval: true,
+    });
 
   const handleFromChange = (amount: string) => {
     setSwapTokens(([token0, token1]) => [
@@ -154,20 +155,18 @@ export const Swap: React.FC = () => {
 
   const handleSettingsClick = () => setShowTradeSettings(true);
   const handleSettingsClose = () => setShowTradeSettings(false);
-
-  const handleSettingsChange = (tradeSettings: TradeSettings) => {
-    console.log("tradeSettings", tradeSettings);
-  };
+  const handleTradeLinkClick = () => setShowTradeLink(true);
+  const handleTradeLinkClose = () => setShowTradeLink(false);
 
   const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
 
   React.useEffect(() => {
-    if (!balances) return;
+    if (!tradingPairBalances) return;
     const fromToken = swapTokens[0];
 
     const fromTokenBalance = getFormattedAmount(
       fromToken.token,
-      balances[fromToken.token.address]
+      tradingPairBalances[fromToken.token.address]
     );
 
     if (
@@ -177,7 +176,7 @@ export const Swap: React.FC = () => {
     } else {
       setWarningMessage("");
     }
-  }, [balances, swapTokens, t]);
+  }, [tradingPairBalances, swapTokens, t]);
 
   React.useEffect(() => {
     if (
@@ -212,7 +211,7 @@ export const Swap: React.FC = () => {
 
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
-    (allowedSlippage as number) * 100
+    allowedSlippage as number
   );
 
   const minRecievedOrMaxSold =
@@ -243,9 +242,14 @@ export const Swap: React.FC = () => {
         <div className="swap-container">
           <div className="title-wrapper">
             <h2>{t("swap")}</h2>
-            <IconButton onClick={handleSettingsClick}>
-              <FaCog />
-            </IconButton>
+            <span>
+              {t("slippage")}
+              {": "}
+              {getSlippageToleranceString(allowedSlippage as number)}%
+              <IconButton onClick={handleSettingsClick}>
+                <FaCog />
+              </IconButton>
+            </span>
           </div>
           <TokenInput
             from
@@ -294,9 +298,18 @@ export const Swap: React.FC = () => {
                 Field.OUTPUT
               ]?.toExact()}
               trade={trade}
+              onSuccess={() => tradingPairBalancesRefetch()}
             />
           </div>
 
+          <div className="trade-info">
+            <span>{t("getTradeLink")}</span>
+            <span>
+              <IconButton onClick={handleTradeLinkClick}>
+                <IoIosLink />
+              </IconButton>
+            </span>
+          </div>
           <div className="trade-info">
             <span>
               {t(
@@ -326,10 +339,12 @@ export const Swap: React.FC = () => {
           </div>
         </div>
 
-        {showTradeSettings && (
-          <SettingsModal
-            onClose={handleSettingsClose}
-            onChange={handleSettingsChange}
+        {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
+        {showTradeLink && (
+          <TradeLinkModal
+            fromToken={swapTokens[0].token}
+            toToken={swapTokens[1].token}
+            onClose={handleTradeLinkClose}
           />
         )}
       </Container>

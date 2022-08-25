@@ -1,4 +1,4 @@
-import { Percent, Trade, currencyEquals } from "@netswap/sdk";
+import { Percent, Trade, currencyEquals } from "minime-sdk";
 
 import {
   ONE_HUNDRED_PERCENT,

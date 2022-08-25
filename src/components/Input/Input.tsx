@@ -6,7 +6,7 @@ import { isValidNumberInput } from "utils";
 import { styles } from "./styles";
 
 export type InputProps = {
-  onChange: (value: string, message?: string) => void;
+  onChange: (value: string) => void;
   value: string;
   suffix?: string | ReactNode;
   wrapperCss?: any;
@@ -14,24 +14,30 @@ export type InputProps = {
 };
 
 export const Input: React.FC<InputProps> = ({
+  value,
   onChange,
   suffix,
   wrapperCss,
   ...props
 }) => {
-  const { t } = useTranslation();
-  const [hasError, setHasError] = React.useState(false);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.currentTarget.value;
+    const inputValue = event.currentTarget.value.trim().replace(/[, ]/g, ""); // remove commas
     const isValidInput = isValidNumberInput(inputValue);
-    setHasError(isValidInput ? false : true);
-    onChange(inputValue, !isValidInput ? t("invalidInput") : "");
+    if (isValidInput) {
+      onChange(inputValue);
+    }
   };
+
+  const hasError = isValidNumberInput(value) ? false : true;
 
   return (
     <div css={[styles({ hasError }), wrapperCss]}>
-      <input {...props} onChange={handleChange} autoComplete="off" />
+      <input
+        {...props}
+        onChange={handleChange}
+        autoComplete="off"
+        value={value}
+      />
       {suffix && <span className="suffix">{suffix}</span>}
     </div>
   );

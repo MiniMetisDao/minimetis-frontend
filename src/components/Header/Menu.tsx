@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { Link, MatchRoute } from "@tanstack/react-location";
+import { Link } from "@tanstack/react-location";
 import { useTranslation } from "react-i18next";
 
 interface MenuProps {

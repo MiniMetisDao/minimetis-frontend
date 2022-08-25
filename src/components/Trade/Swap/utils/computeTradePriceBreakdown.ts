@@ -5,7 +5,7 @@ import {
   Percent,
   TokenAmount,
   Trade,
-} from "@netswap/sdk";
+} from "minime-sdk";
 
 const BASE_FEE = new Percent(JSBI.BigInt(30), JSBI.BigInt(10000));
 const ONE_HUNDRED_PERCENT = new Percent(JSBI.BigInt(10000), JSBI.BigInt(10000));

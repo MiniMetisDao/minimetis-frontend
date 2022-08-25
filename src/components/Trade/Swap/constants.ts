@@ -1,4 +1,4 @@
-import { ChainId, JSBI, METIS, Percent, Token, WETH } from "@netswap/sdk";
+import { ChainId, JSBI, METIS, Percent, Token, WETH } from "minime-sdk";
 
 import { CHAIN_ID } from "config";
 import baseTokens from "config/baseTokens.json";

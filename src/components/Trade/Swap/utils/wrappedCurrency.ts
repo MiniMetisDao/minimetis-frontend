@@ -1,4 +1,4 @@
-import { ChainId, Currency, METIS, Token, WETH } from "@netswap/sdk";
+import { ChainId, Currency, METIS, Token, WETH } from "minime-sdk";
 
 export function wrappedCurrency(
   currency: Currency | undefined,

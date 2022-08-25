@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Trade } from "@netswap/sdk";
+import { Currency, CurrencyAmount, Trade } from "minime-sdk";
 import React from "react";
 
 import {

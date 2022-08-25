@@ -1,4 +1,4 @@
-import { ChainId, METIS as METIS_Token, Token } from "@netswap/sdk";
+import { ChainId, METIS as METIS_Token, Token } from "minime-sdk";
 
 export const METIS = METIS_Token;
 
