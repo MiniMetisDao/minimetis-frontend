@@ -5,11 +5,10 @@ import { Token as SDKToken, TradeType } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
-import { IoIosLink, IoIosRepeat, IoIosWarning } from "react-icons/io";
+import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
-import { Tooltip } from "components/Tooltip";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
@@ -24,19 +23,16 @@ import {
 import { useStorage } from "utils/storage";
 
 import { SettingsModal } from "../SettingsModal";
-import { TradeLinkModal } from "../TradeLinkModal";
 
 import { SwapButton } from "./SwapButton";
 import { TokenInput } from "./TokenInput";
-import { ONE_BIPS } from "./constants";
+import { TradeInfo } from "./TradeInfo";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
 import { SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
-import { computeTradePriceBreakdown } from "./utils/computeTradePriceBreakdown";
 
 const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
-  // TODO: handle case when both search terms are same
   const validToken0 = token0Search
     ? searchExactToken(tradingTokens, token0Search) ?? tradingTokens[0]
     : tradingTokens[0];
@@ -47,7 +43,15 @@ const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
 
   return [
     { token: validToken0, amount: "" },
-    { token: validToken1, amount: "" },
+    {
+      token:
+        validToken0.symbol === validToken1.symbol
+          ? tradingTokens[0].symbol === validToken1.symbol
+            ? tradingTokens[1]
+            : tradingTokens[0]
+          : validToken1,
+      amount: "",
+    },
   ];
 };
 
@@ -66,9 +70,8 @@ export const Swap: React.FC = () => {
   const search = useSearch<LocationGenerics>();
 
   const [flipAnimation, setFlipAnimation] = React.useState(false);
-  const [warningMessage, setWarningMessage] = React.useState<string>();
+  const [warningMessage, setWarningMessage] = React.useState<string>("");
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
-  const [showTradeLink, setShowTradeLink] = React.useState(false);
 
   const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>(
     getValidSwapTokens(search?.from, search?.to)
@@ -101,7 +104,7 @@ export const Swap: React.FC = () => {
       swapTokens[1].token.decimals,
       swapTokens[1].token.symbol
     ),
-    typedValue: userEnteredToken.amount,
+    typedValue: BigNumber(userEnteredToken.amount).toFixed(),
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
@@ -117,7 +120,8 @@ export const Swap: React.FC = () => {
       { ...token0, amount, estimated: false },
       {
         ...token1,
-        amount: BigNumber(amount).isEqualTo(0) ? "" : token1.amount,
+        amount:
+          amount === "" || BigNumber(amount).isEqualTo(0) ? "" : token1.amount,
         estimated: true,
       },
     ]);
@@ -127,7 +131,8 @@ export const Swap: React.FC = () => {
     setSwapTokens(([token0, token1]) => [
       {
         ...token0,
-        amount: BigNumber(amount).isEqualTo(0) ? "" : token0.amount,
+        amount:
+          amount === "" || BigNumber(amount).isEqualTo(0) ? "" : token0.amount,
         estimated: true,
       },
       { ...token1, amount, estimated: false },
@@ -156,10 +161,10 @@ export const Swap: React.FC = () => {
 
   const handleSettingsClick = () => setShowTradeSettings(true);
   const handleSettingsClose = () => setShowTradeSettings(false);
-  const handleTradeLinkClick = () => setShowTradeLink(true);
-  const handleTradeLinkClose = () => setShowTradeLink(false);
 
-  const hasInputError = swapTokens.some(({ amount }) => !isValidNumber(amount));
+  const hasInputError = swapTokens.some(
+    ({ amount }) => !isValidNumber(BigNumber(amount).toFixed())
+  );
 
   React.useEffect(() => {
     if (!tradingPairBalances) return;
@@ -215,27 +220,6 @@ export const Swap: React.FC = () => {
     allowedSlippage as number
   );
 
-  const minRecievedOrMaxSold =
-    trade &&
-    `${
-      trade?.tradeType === TradeType.EXACT_INPUT
-        ? slippageAdjustedAmounts[Field.OUTPUT]?.toFixed()
-        : slippageAdjustedAmounts[Field.INPUT]?.toFixed()
-    } ${trade?.outputAmount.currency.symbol}`;
-
-  const { priceImpactWithoutFee, realizedLPFee } =
-    computeTradePriceBreakdown(trade);
-
-  const priceImpact =
-    priceImpactWithoutFee &&
-    (priceImpactWithoutFee.lessThan(ONE_BIPS)
-      ? "<0.01%"
-      : `${priceImpactWithoutFee.toFixed(4)}%`);
-
-  const lpFee =
-    realizedLPFee &&
-    `${realizedLPFee.toFixed()} ${trade?.inputAmount.currency.symbol}`;
-
   return (
     <div css={styles({ theme })}>
       <Container topSection>
@@ -288,7 +272,7 @@ export const Swap: React.FC = () => {
           </p>
           <div className="swap-btn-wrapper">
             <SwapButton
-              hasInputError={hasInputError}
+              hasInputError={hasInputError || !!warningMessage}
               fromToken={swapTokens[0]}
               userEnteredToken={userEnteredToken}
               estimatedToken={estimatedToken}
@@ -303,54 +287,13 @@ export const Swap: React.FC = () => {
             />
           </div>
 
-          <div className="trade-info">
-            <span>{t("getTradeLink")}</span>
-            <span>
-              <IconButton onClick={handleTradeLinkClick}>
-                <IoIosLink />
-              </IconButton>
-            </span>
-          </div>
-          <div className="trade-info">
-            <span data-tip data-for="minimumReceived">
-              {t(
-                trade?.tradeType === TradeType.EXACT_OUTPUT
-                  ? "maximumSold"
-                  : "minimumReceived"
-              )}
-            </span>
-            <Tooltip id="minimumReceived" place="right" effect="solid">
-              <div style={{ width: 50 }}>{t("minimumReceivedInfo")}</div>
-            </Tooltip>
-            <span>{minRecievedOrMaxSold}</span>
-          </div>
-
-          <div className="trade-info">
-            <span>{t("priceImpact")}</span>
-            <span>{priceImpact}</span>
-          </div>
-
-          <div className="trade-info">
-            <span>{t("liquidityProviderFee")}</span>
-            <span>{lpFee}</span>
-          </div>
-
-          <div className="trade-info">
-            <span>{t("tradeRoute")}</span>
-            <span>
-              {trade?.route?.path?.map(({ symbol }) => symbol).join("→")}
-            </span>
-          </div>
-        </div>
-
-        {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
-        {showTradeLink && (
-          <TradeLinkModal
-            fromToken={swapTokens[0].token}
-            toToken={swapTokens[1].token}
-            onClose={handleTradeLinkClose}
+          <TradeInfo
+            trade={trade}
+            swapTokens={swapTokens}
+            slippageAdjustedAmounts={slippageAdjustedAmounts}
           />
-        )}
+        </div>
+        {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
       </Container>
     </div>
   );

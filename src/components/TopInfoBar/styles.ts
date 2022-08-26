@@ -4,17 +4,18 @@ export const styles =
   ({ sticky }: { sticky?: boolean }) =>
   ({ color }: Theme) =>
     css`
-      background: ${color.primary};
+      background: #000000b3;
+      color: #fff;
       padding: 10px 20px;
       position: fixed;
       width: 100%;
       left: 0;
       top: ${sticky ? "117px" : "60px"};
       text-align: center;
-      border-bottom: 1px solid ${color.text.primary};
-      border-top: 1px solid ${color.text.primary};
+      border-bottom: 1px solid ${color.text.primary}cc;
+      border-top: 1px solid ${color.text.primary}cc;
       font-size: 16px;
       a {
-        color: ${color.text.primary};
+        color: #fff;
       }
     `;

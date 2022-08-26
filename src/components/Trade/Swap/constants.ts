@@ -1,4 +1,4 @@
-import { ChainId, JSBI, METIS, Percent, Token, WETH } from "minime-sdk";
+import { ChainId, JSBI, Percent, Token, WETH } from "minime-sdk";
 
 import { CHAIN_ID } from "config";
 import baseTokens from "config/baseTokens.json";
@@ -15,6 +15,7 @@ export const ONE_HUNDRED_PERCENT = new Percent("1");
 // one basis point
 export const BIPS_BASE = JSBI.BigInt(10000);
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), BIPS_BASE);
+export const ONE = JSBI.BigInt(1);
 
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(
   JSBI.BigInt(50),

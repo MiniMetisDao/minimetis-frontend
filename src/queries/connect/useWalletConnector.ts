@@ -6,7 +6,7 @@ export const useWalletConnector = () => {
 
   return async () => {
     if (data?.status === "CONNECTED") {
-      return;
+      return true;
     }
     if (data?.status === "INVALID_NETWORK") {
       await switchNetwork();

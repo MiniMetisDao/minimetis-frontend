@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-import { isValidNumberInput } from "utils";
+import { isValidNumber, isValidNumberInput } from "utils";
 
 import { styles } from "./styles";
 

@@ -154,7 +154,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
     const amountNeeded = getAmount(
       userEnteredToken.amount,
       userEnteredToken.token.decimals
-    ).toString();
+    ).toFixed();
 
     const amountSwappable = getAmount(
       trade?.tradeType === TradeType.EXACT_INPUT
@@ -163,7 +163,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       trade?.tradeType === TradeType.EXACT_INPUT
         ? estimatedToken.token?.decimals
         : userEnteredToken?.token?.decimals
-    ).toString();
+    ).toFixed();
 
     if (
       !trade ||

@@ -82,7 +82,7 @@ export const useGetDividendShare = () => {
             )
               .dividedBy(distibutorQuery.data[0])
               .multipliedBy(100)
-              .toString(),
+              .toFixed(),
             claimedDividend: {
               amount: distributorUserQuery.data[0].split(",")[2],
               decimals: minimeConstants?.decimals,

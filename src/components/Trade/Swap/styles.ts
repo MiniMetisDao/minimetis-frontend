@@ -114,9 +114,13 @@ export const styles =
         gap: 10px;
         span {
           display: flex;
+          gap: 5px;
           &:last-child {
             word-break: break-all;
           }
+        }
+        .info-icon {
+          font-size: 24px;
         }
       }
       .swap-btn-wrapper {

@@ -1,50 +1,47 @@
+import { Global } from "@emotion/react";
 import React from "react";
-import { usePopper } from "react-popper";
+import { IoIosHelpCircleOutline } from "react-icons/io";
+import ReactTooltip from "react-tooltip";
 
-import { styles } from "./styles";
+import { styles, tooltipStyles } from "./styles";
 
 type TooltipProps = {
+  id: string;
   content: React.ReactNode | string;
   children: React.ReactElement;
+  infoIcon?: never;
 };
 
-export const Tooltip: React.FC<TooltipProps> = ({ children, content }) => {
-  const [refElement, setRefElement] = React.useState<HTMLDivElement | null>(
-    null
-  );
+type TooltipInfoIconProps = {
+  id: string;
+  content: React.ReactNode | string;
+  children?: never;
+  infoIcon: boolean;
+};
 
-  const [popperElement, setPopperElement] =
-    React.useState<HTMLDivElement | null>(null);
-
-  const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(
-    null
-  );
-
-  const { styles: popperStyles, attributes } = usePopper(
-    refElement,
-    popperElement,
-    {
-      modifiers: [{ name: "arrow", options: { element: arrowElement } }],
-    }
-  );
+export const Tooltip: React.FC<TooltipProps | TooltipInfoIconProps> = ({
+  children,
+  content,
+  id,
+  infoIcon,
+}) => {
+  const tooltipTargetProps = { "data-tip": true, "data-for": id };
 
   return (
-    <>
-      {React.cloneElement(children, { ref: setRefElement })}
+    <div css={styles}>
+      <Global styles={tooltipStyles} />
+      {infoIcon ? (
+        <span className="info-icon">
+          <IoIosHelpCircleOutline {...tooltipTargetProps} />
+        </span>
+      ) : (
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        React.cloneElement(children!, tooltipTargetProps)
+      )}
 
-      <div
-        css={styles}
-        ref={setPopperElement}
-        style={popperStyles.popper}
-        {...attributes.popper}
-      >
+      <ReactTooltip id={id} place="right" effect="solid">
         {content}
-        <div
-          className="arrow"
-          ref={setArrowElement}
-          style={popperStyles.arrow}
-        />
-      </div>
-    </>
+      </ReactTooltip>
+    </div>
   );
 };
