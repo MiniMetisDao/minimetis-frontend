@@ -40,7 +40,11 @@ export const TradeInfo: React.FC<TradeInfoProps> = ({
       trade?.tradeType === TradeType.EXACT_INPUT
         ? getSignificantTradeAmount(slippageAdjustedAmounts[Field.OUTPUT])
         : getSignificantTradeAmount(slippageAdjustedAmounts[Field.INPUT])
-    } ${trade?.outputAmount.currency.symbol}`;
+    } ${
+      trade?.tradeType === TradeType.EXACT_INPUT
+        ? trade?.outputAmount.currency.symbol
+        : trade?.inputAmount.currency.symbol
+    }`;
 
   const { priceImpactWithoutFee, realizedLPFee } =
     computeTradePriceBreakdown(trade);
