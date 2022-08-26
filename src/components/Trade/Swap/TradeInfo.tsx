@@ -8,10 +8,10 @@ import { Tooltip } from "components/Tooltip";
 
 import { TradeLinkModal } from "../TradeLinkModal";
 
-import { ONE, ONE_BIPS } from "./constants";
+import { ONE_BIPS } from "./constants";
 import { Field } from "./hooks/useDerivedSwapInfo";
 import { SwapToken } from "./types";
-import { computeTradePriceBreakdown } from "./utils";
+import { computeTradePriceBreakdown, getSignificantTradeAmount } from "./utils";
 
 type TradeInfoProps = {
   trade?: Trade;
@@ -38,12 +38,8 @@ export const TradeInfo: React.FC<TradeInfoProps> = ({
     trade &&
     `${
       trade?.tradeType === TradeType.EXACT_INPUT
-        ? slippageAdjustedAmounts[Field.OUTPUT]?.lessThan(ONE)
-          ? slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)
-          : slippageAdjustedAmounts[Field.OUTPUT]?.toFixed(4)
-        : slippageAdjustedAmounts[Field.INPUT]?.lessThan(ONE)
-        ? slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)
-        : slippageAdjustedAmounts[Field.INPUT]?.toFixed(4)
+        ? getSignificantTradeAmount(slippageAdjustedAmounts[Field.OUTPUT])
+        : getSignificantTradeAmount(slippageAdjustedAmounts[Field.INPUT])
     } ${trade?.outputAmount.currency.symbol}`;
 
   const { priceImpactWithoutFee, realizedLPFee } =
@@ -57,11 +53,9 @@ export const TradeInfo: React.FC<TradeInfoProps> = ({
 
   const lpFee =
     realizedLPFee &&
-    `${
-      realizedLPFee.lessThan(ONE)
-        ? realizedLPFee.toSignificant(4)
-        : realizedLPFee.toFixed(4)
-    } ${trade?.inputAmount.currency.symbol}`;
+    `${getSignificantTradeAmount(realizedLPFee)} ${
+      trade?.inputAmount.currency.symbol
+    }`;
 
   return (
     <>

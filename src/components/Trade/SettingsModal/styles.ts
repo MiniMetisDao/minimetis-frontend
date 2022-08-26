@@ -23,6 +23,6 @@ export const styles = css`
   }
 `;
 
-export const deadlineInputStyles = css`
-  width: 100px;
+export const compactInputStyles = css`
+  width: 90px;
 `;

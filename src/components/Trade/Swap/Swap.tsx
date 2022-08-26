@@ -16,6 +16,7 @@ import { useTheme } from "theme";
 import { Token } from "types/common";
 import {
   getFormattedAmount,
+  getSlippageTolerance,
   getSlippageToleranceString,
   isValidNumber,
   searchExactToken,
@@ -31,6 +32,7 @@ import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
 import { SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
+import { getSignificantTradeAmount } from "./utils/misc";
 
 const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
   const validToken0 = token0Search
@@ -77,10 +79,18 @@ export const Swap: React.FC = () => {
     getValidSwapTokens(search?.from, search?.to)
   );
 
-  const allowedSlippage = useStorage().get(
-    "slippageTolerance",
-    TRADE_SETTINGS.slippage
-  );
+  const { get, set } = useStorage();
+
+  const allowedSlippage = get("slippageTolerance", TRADE_SETTINGS.slippage);
+
+  React.useEffect(() => {
+    if (
+      search?.slippage &&
+      getSlippageTolerance(search.slippage) !== allowedSlippage
+    ) {
+      set("slippageTolerance", getSlippageTolerance(search.slippage));
+    }
+  }, [allowedSlippage, search, set]);
 
   const userEnteredToken = swapTokens[0]?.estimated
     ? swapTokens[1]
@@ -104,7 +114,9 @@ export const Swap: React.FC = () => {
       swapTokens[1].token.decimals,
       swapTokens[1].token.symbol
     ),
-    typedValue: BigNumber(userEnteredToken.amount).toFixed(),
+    typedValue: BigNumber(userEnteredToken.amount).isNaN()
+      ? ""
+      : BigNumber(userEnteredToken.amount).toFixed(),
   });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
@@ -118,23 +130,13 @@ export const Swap: React.FC = () => {
   const handleFromChange = (amount: string) => {
     setSwapTokens(([token0, token1]) => [
       { ...token0, amount, estimated: false },
-      {
-        ...token1,
-        amount:
-          amount === "" || BigNumber(amount).isEqualTo(0) ? "" : token1.amount,
-        estimated: true,
-      },
+      { ...token1, estimated: true },
     ]);
   };
 
   const handleToChange = (amount: string) =>
     setSwapTokens(([token0, token1]) => [
-      {
-        ...token0,
-        amount:
-          amount === "" || BigNumber(amount).isEqualTo(0) ? "" : token0.amount,
-        estimated: true,
-      },
+      { ...token0, estimated: true },
       { ...token1, amount, estimated: false },
     ]);
 
@@ -187,25 +189,29 @@ export const Swap: React.FC = () => {
   React.useEffect(() => {
     if (
       trade?.tradeType === TradeType.EXACT_INPUT &&
-      swapTokens[1].amount !== trade?.outputAmount.toSignificant(6)
+      swapTokens[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
     ) {
       setSwapTokens(([token0, token1]) => [
         token0,
-        { ...token1, amount: trade?.outputAmount.toSignificant(6) },
+        {
+          ...token1,
+          amount: getSignificantTradeAmount(trade?.outputAmount, 6),
+        },
       ]);
     }
     if (
       trade?.tradeType === TradeType.EXACT_OUTPUT &&
-      swapTokens[0].amount !== trade?.inputAmount.toSignificant(6)
+      swapTokens[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
     ) {
       setSwapTokens(([token0, token1]) => [
-        { ...token0, amount: trade?.inputAmount.toSignificant(6) },
+        { ...token0, amount: getSignificantTradeAmount(trade?.inputAmount, 6) },
         token1,
       ]);
     }
     if (
       !trade &&
-      BigNumber(userEnteredToken.amount).isGreaterThan(0) &&
+      (BigNumber(userEnteredToken.amount).isNaN() ||
+        BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
       estimatedToken.amount !== ""
     ) {
       setSwapTokens(([token0, token1]) => [

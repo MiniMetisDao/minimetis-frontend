@@ -8,7 +8,7 @@ import { TRADE_SETTINGS } from "config";
 import { getSlippageTolerance, getSlippageToleranceString } from "utils";
 import { useStorage } from "utils/storage";
 
-import { deadlineInputStyles, styles } from "./styles";
+import { compactInputStyles, styles } from "./styles";
 
 type SettingsModalProps = {
   onClose: () => void;
@@ -64,6 +64,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               }
             />
             <InputCompact
+              wrapperCss={compactInputStyles}
               value={getSlippageToleranceString(slippageTolerance as number)}
               onChange={handleSlippageChange}
               suffix="%"
@@ -74,7 +75,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
           <h4>{t("transactionDeadline")}</h4>
           <div className="field-wrapper">
             <InputCompact
-              wrapperCss={deadlineInputStyles}
+              wrapperCss={compactInputStyles}
               value={(transactionDeadline as number).toString()}
               onChange={(input) => set("transactionDeadline", parseInt(input))}
               suffix="mins"
