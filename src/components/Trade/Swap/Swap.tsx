@@ -32,7 +32,7 @@ import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
 import { SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
-import { getSignificantTradeAmount } from "./utils/misc";
+import { getSignificantTradeAmount } from "./utils/getSignificantTradeAmount";
 
 const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
   const validToken0 = token0Search
