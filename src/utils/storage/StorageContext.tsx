@@ -11,7 +11,9 @@ interface IProps {
   children: React.ReactNode;
 }
 
-export const StorageContext = React.createContext<IStorage | null>(null);
+export const StorageContext = React.createContext<IStorage | undefined>(
+  undefined
+);
 
 export const StorageProvider: React.FunctionComponent<IProps> = ({
   children,
