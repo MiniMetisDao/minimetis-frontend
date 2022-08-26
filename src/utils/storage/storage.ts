@@ -7,7 +7,7 @@ export const Keys = {
 
 export type Keys = keyof typeof Keys;
 
-export const set = (key: Keys, value: string | Record<string, any>) => {
+export const set = <TValue>(key: Keys, value: TValue) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
@@ -15,7 +15,10 @@ export const set = (key: Keys, value: string | Record<string, any>) => {
   }
 };
 
-export const get = <T>(key: Keys, defaultValue?: T): T | undefined => {
+export const get = <TValue>(
+  key: Keys,
+  defaultValue?: TValue
+): TValue | undefined => {
   try {
     return JSON.parse(localStorage.getItem(key) || "") || defaultValue;
   } catch {

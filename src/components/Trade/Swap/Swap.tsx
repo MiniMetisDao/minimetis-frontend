@@ -9,6 +9,7 @@ import { IoIosLink, IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/IconButton";
 import { Container } from "components/Layout/Container";
+import { Tooltip } from "components/Tooltip";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
@@ -73,7 +74,7 @@ export const Swap: React.FC = () => {
     getValidSwapTokens(search?.from, search?.to)
   );
 
-  const [allowedSlippage] = useStorage(
+  const allowedSlippage = useStorage().get(
     "slippageTolerance",
     TRADE_SETTINGS.slippage
   );
@@ -311,13 +312,16 @@ export const Swap: React.FC = () => {
             </span>
           </div>
           <div className="trade-info">
-            <span>
+            <span data-tip data-for="minimumReceived">
               {t(
                 trade?.tradeType === TradeType.EXACT_OUTPUT
                   ? "maximumSold"
                   : "minimumReceived"
               )}
             </span>
+            <Tooltip id="minimumReceived" place="right" effect="solid">
+              <div style={{ width: 50 }}>{t("minimumReceivedInfo")}</div>
+            </Tooltip>
             <span>{minRecievedOrMaxSold}</span>
           </div>
 

@@ -42,7 +42,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 
   const { data: walletDetails } = useGetWalletDetails();
 
-  const [transactionDeadline] = useStorage(
+  const transactionDeadline = useStorage().get(
     "transactionDeadline",
     TRADE_SETTINGS.deadline
   );
