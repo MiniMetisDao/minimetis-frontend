@@ -7,11 +7,13 @@ export const styles = ({ color }: Theme) => css`
       background: ${color.modal.primary};
       color: ${color.modal.text};
       max-height: 600px;
-      min-height: 300px;
-      max-width: 90%;
+      min-height: 200px;
+      max-height: 80%;
       padding: 0;
       display: flex;
       flex-direction: column;
+      bottom: auto;
+      top: 10%;
     }
     .rodal-close {
       top: 24px;
@@ -30,8 +32,7 @@ export const styles = ({ color }: Theme) => css`
       line-height: 1;
     }
     .content {
-      overflow: hidden;
-      height: 100%;
+      overflow-y: auto;
       padding: 20px;
     }
   }

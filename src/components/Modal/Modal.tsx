@@ -33,7 +33,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, onClose }) => {
         onAnimationEnd={handleAnimationEnd}
         closeOnEsc
         width={500}
-        customStyles={{ height: "90%" }}
+        customStyles={{ height: "auto" }}
         customMaskStyles={{ background: "#00000099" }}
       >
         <>
