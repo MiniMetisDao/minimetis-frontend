@@ -20,7 +20,7 @@ const batchLoader = new Batch({
 
 export function usePairs(
   currencies: [Currency | undefined, Currency | undefined][]
-): [PairState, Pair | null][] {
+): Pair[] {
   const tokens = React.useMemo(
     () =>
       currencies.map(([currencyA, currencyB]) => [
@@ -46,31 +46,35 @@ export function usePairs(
     abi: PairAbi,
   }));
 
-  const { data: reserves } = useMultiCallContract("swapInfo", queryInfos, {
-    batchLoader,
-    select: (reserves) => {
-      return reserves.map((reserve: any, i: number) => {
-        const tokenA = tokens[i][0];
-        const tokenB = tokens[i][1];
+  const { data: reserves = [] } = useMultiCallContract<Pair[]>(
+    "swapInfo",
+    queryInfos,
+    {
+      batchLoader,
+      select: (reserves) => {
+        return reserves.map((reserve: any, i: number) => {
+          const tokenA = tokens[i][0];
+          const tokenB = tokens[i][1];
 
-        if (!reserve || !tokenA || !tokenB || tokenA.equals(tokenB)) {
-          return undefined;
-        }
+          if (!reserve || !tokenA || !tokenB || tokenA.equals(tokenB)) {
+            return undefined;
+          }
 
-        const [token0, token1] = tokenA.sortsBefore(tokenB)
-          ? [tokenA, tokenB]
-          : [tokenB, tokenA];
+          const [token0, token1] = tokenA.sortsBefore(tokenB)
+            ? [tokenA, tokenB]
+            : [tokenB, tokenA];
 
-        const { reserve0, reserve1 } = reserve;
+          const { reserve0, reserve1 } = reserve;
 
-        return new Pair(
-          new TokenAmount(token0, reserve0.toString()),
-          new TokenAmount(token1, reserve1.toString())
-        );
-      });
-    },
-    refetchInterval: 5000,
-  });
+          return new Pair(
+            new TokenAmount(token0, reserve0.toString()),
+            new TokenAmount(token1, reserve1.toString())
+          );
+        });
+      },
+      refetchInterval: 5000,
+    }
+  );
 
   return reserves;
 }

@@ -12,16 +12,10 @@ type TreasuryData = {
   metis: TokenAmount;
 };
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: TreasuryData;
-};
-
-export const useGetTreasury = (): Result => {
+export const useGetTreasury = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
 
-  const treasuryData = useMultiCallContract(
+  const treasuryData = useMultiCallContract<string[]>(
     "treasury",
     [
       {

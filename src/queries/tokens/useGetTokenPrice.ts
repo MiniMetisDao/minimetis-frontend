@@ -2,16 +2,7 @@ import { getHumanReadableAmount } from "utils";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: {
-    metis: string;
-    miniMe: string;
-  };
-};
-
-export const useGetTokenPrice = (): Result => {
+export const useGetTokenPrice = () => {
   const { data, isLoading, isError } = useGetTokenPairs();
 
   if (!data) {

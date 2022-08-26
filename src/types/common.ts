@@ -17,5 +17,5 @@ export type TradeSettings = {
 
 export type TokenAmount = {
   amount: string;
-  decimals: number;
+  decimals: number | string;
 };

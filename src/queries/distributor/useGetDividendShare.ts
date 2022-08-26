@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 import { DistributorAbi, METIS_TOKEN_DECIMALS } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
@@ -16,17 +18,11 @@ type DistributorShare = {
   };
 };
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: DistributorShare;
-};
-
-export const useGetDividendShare = (): Result => {
+export const useGetDividendShare = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
   const { data: walletDetails } = useGetWalletDetails();
 
-  const distributorUserQuery = useMultiCallContract(
+  const distributorUserQuery = useMultiCallContract<string[]>(
     "distributorUser",
     [
       {
@@ -49,7 +45,7 @@ export const useGetDividendShare = (): Result => {
     }
   );
 
-  const distibutorQuery = useMultiCallContract(
+  const distibutorQuery = useMultiCallContract<string[]>(
     "distributor",
     [
       {
@@ -81,11 +77,12 @@ export const useGetDividendShare = (): Result => {
       userData: distributorUserQuery.data
         ? {
             shares: distributorUserQuery.data[0],
-            sharePercentage: (
-              (distributorUserQuery.data[0].split(",")[0] /
-                distibutorQuery.data[0]) *
-              100
-            ).toString(),
+            sharePercentage: BigNumber(
+              distributorUserQuery.data[0].split(",")[0]
+            )
+              .dividedBy(distibutorQuery.data[0])
+              .multipliedBy(100)
+              .toString(),
             claimedDividend: {
               amount: distributorUserQuery.data[0].split(",")[2],
               decimals: minimeConstants?.decimals,

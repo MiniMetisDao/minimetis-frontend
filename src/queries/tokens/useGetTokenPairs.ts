@@ -19,12 +19,6 @@ type TokenPairs = {
   };
 };
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: TokenPairs;
-};
-
 const metisBaseTokenPairQuery = [
   {
     address: METIS_CONTRACT_ADDRESS,
@@ -67,10 +61,10 @@ const tokenDecimalsQuery = [
   },
 ];
 
-export const useGetTokenPairs = (): Result => {
+export const useGetTokenPairs = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
 
-  const tokenPairs = useMultiCallContract(
+  const tokenPairs = useMultiCallContract<string[]>(
     "tokenPairs",
     [
       ...metisBaseTokenPairQuery,

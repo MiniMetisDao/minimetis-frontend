@@ -1,7 +1,7 @@
 import { type Theme, css } from "@emotion/react";
 
 export const styles =
-  ({ sticky }: { sticky: boolean }) =>
+  ({ sticky }: { sticky?: boolean }) =>
   ({ color }: Theme) =>
     css`
       background: ${color.primary};

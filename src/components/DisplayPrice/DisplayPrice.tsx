@@ -5,7 +5,7 @@ import { getDisplayPrice } from "utils";
 type DisplayPriceProps = {
   amount?: string;
   tokenSymbol?: string;
-  decimals?: number;
+  decimals?: number | string;
   isBasePrice?: boolean;
   baseFactor?: string;
   isCompact?: boolean;

@@ -7,20 +7,23 @@ import { Token } from "types/common";
 // amount = 1000000000000000000
 // decimals = 18
 // return 1
-export const getHumanReadableAmount = (amount: string, decimals: number) => {
+export const getHumanReadableAmount = (
+  amount: string,
+  decimals: number | string
+) => {
   return BigNumber(amount).div(BigNumber(10).pow(decimals));
 };
 
 // amount = 1
 // decimals = 18
 // return 1000000000000000000
-export const getAmount = (amount: string, decimals: number) => {
+export const getAmount = (amount: string, decimals: number | string) => {
   return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
 };
 
 export const getDisplayPrice = (
   amount?: string,
-  decimals?: number,
+  decimals?: number | string,
   multiplyFactor?: string,
   waitForMultiplyFactor = false
 ) => {
