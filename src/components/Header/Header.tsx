@@ -1,10 +1,12 @@
 import { cx } from "@emotion/css";
+import { css } from "@emotion/react";
 import useScrollPosition from "@react-hook/window-scroll";
 import { Link } from "@tanstack/react-location";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 import { Connect } from "components/Connect";
+import { TopInfoBar } from "components/TopInfoBar";
 import { useTheme } from "theme";
 
 import { Menu } from "./Menu";
@@ -64,7 +66,7 @@ const HeaderMenu = () => {
 export const Header: React.FC = () => {
   const [theme] = useTheme();
 
-  const scrollThreshold = 60;
+  const scrollThreshold = 75;
   const scrollY = useScrollPosition(60);
   const sticky = scrollY >= scrollThreshold;
 
@@ -72,9 +74,30 @@ export const Header: React.FC = () => {
     <div css={styles({ theme, sticky })}>
       <div className="header-wrapper fixed">
         <HeaderMenu />
+        <TopInfoBar
+          message={
+            <Trans
+              i18nKey="bannerMessage"
+              components={{
+                a: <a target="_blank" href="https://t.me/MiniMetis" />,
+              }}
+            />
+          }
+        />
       </div>
       <div className="header-wrapper">
         <HeaderMenu />
+        <TopInfoBar
+          sticky
+          message={
+            <Trans
+              i18nKey="bannerMessage"
+              components={{
+                a: <a target="_blank" href="https://t.me/MiniMetis" />,
+              }}
+            />
+          }
+        />
       </div>
     </div>
   );

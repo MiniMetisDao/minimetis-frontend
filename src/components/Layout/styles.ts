@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 export const styles = css`
   .header-spacer {
-    height: 117px;
+    height: 147px;
   }
 `;
 
