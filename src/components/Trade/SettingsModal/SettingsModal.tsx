@@ -17,24 +17,20 @@ type SettingsModalProps = {
 export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
   const { t } = useTranslation("trade");
 
-  const [canMultiHop, setCanMultiHop] = useStorage<boolean>(
-    "enableMultiHops",
-    true
-  );
+  const { get, set } = useStorage();
 
-  const [slippageTolerance, setSlippageTolerance] = useStorage<number>(
-    "slippageTolerance",
-    TRADE_SETTINGS.slippage
-  );
+  const canMultiHop = get("enableMultiHops", true);
 
-  const [transactionDeadline, setTransactionDeadline] = useStorage<number>(
+  const slippageTolerance = get("slippageTolerance", TRADE_SETTINGS.slippage);
+
+  const transactionDeadline = get<number>(
     "transactionDeadline",
     TRADE_SETTINGS.deadline
   );
 
   //TODO: validations
   const handleSlippageChange = (value: string) => {
-    setSlippageTolerance(getSlippageTolerance(value));
+    set("slippageTolerance", getSlippageTolerance(value));
   };
 
   return (
@@ -80,7 +76,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
             <InputCompact
               wrapperCss={deadlineInputStyles}
               value={(transactionDeadline as number).toString()}
-              onChange={(input) => setTransactionDeadline(parseInt(input))}
+              onChange={(input) => set("transactionDeadline", parseInt(input))}
               suffix="mins"
             />
           </div>
@@ -88,7 +84,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
         <div className="settings-item">
           <h4>{t("enableMultihops")}</h4>
           <Switch
-            onChange={(checked: boolean) => setCanMultiHop(checked)}
+            onChange={(checked: boolean) =>
+              set<boolean>("enableMultiHops", checked)
+            }
             checked={!!canMultiHop}
           />
         </div>

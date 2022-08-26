@@ -1,16 +1,13 @@
 import React from "react";
 
-import { type Keys, get, set } from "./storage";
+import { type IStorage, StorageContext } from "./StorageContext";
 
-export const useStorage = <T>(key: Keys, defaultValue: T) => {
-  const [value, setValue] = React.useState<T | undefined>(
-    get(key, defaultValue)
-  );
+export function useStorage() {
+  const context = React.useContext(StorageContext);
 
-  const setStorage = (value: T) => {
-    set(key, value);
-    setValue(value);
-  };
+  if (context === undefined) {
+    throw new Error("useStorage must be used within a StorageProvider");
+  }
 
-  return [value, setStorage] as const;
-};
+  return context as IStorage;
+}
