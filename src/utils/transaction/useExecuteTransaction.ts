@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { ERC20Abi, EXPLORER_URL } from "config";
 import { BigNumber, ethers } from "ethers";
+import { useWalletConnector } from "queries/connect";
 import { getShortTransactionHash } from "utils";
 
 export type ContractDetails = {
@@ -33,7 +34,15 @@ export const useExecuteTransaction = (
   onTransactionSuccess: (details: TransactionDetails) => void,
   onError: (error: any) => void
 ) => {
+  const isConnected = useWalletConnector();
+
   const execute = async ({ contractDetails, params }: MutateParams) => {
+    const isWalletConnected = await isConnected();
+    if (!isWalletConnected) {
+      onError({ code: 4001 });
+
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
