@@ -14,6 +14,9 @@ export const styles = ({ color }: Theme) => css`
       flex-direction: column;
       bottom: auto;
       top: 10%;
+      @media (max-width: 640px) {
+        max-width: 90%;
+      }
     }
     .rodal-close {
       top: 24px;
