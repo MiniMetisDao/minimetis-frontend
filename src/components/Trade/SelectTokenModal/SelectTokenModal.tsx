@@ -52,7 +52,9 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
               css={listStyle({
                 isSelected: token.address === selectedToken?.address,
               })}
-              onClick={() => onSelect(token)}
+              onClick={() =>
+                token.address !== selectedToken?.address && onSelect(token)
+              }
             >
               <img className="token-logo" src={token.logoURI} />
 

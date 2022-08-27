@@ -16,6 +16,7 @@ export const styles =
         border: none;
         width: 0;
         flex: 1;
+        text-overflow: ellipsis;
         :focus {
           outline: none;
         }

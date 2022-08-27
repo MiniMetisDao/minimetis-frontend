@@ -9,6 +9,9 @@ export const styles = css`
     align-items: center;
     justify-content: space-between;
     margin: 0 0 20px;
+    &:last-child {
+      margin: 0;
+    }
 
     h4 {
       margin: 0;

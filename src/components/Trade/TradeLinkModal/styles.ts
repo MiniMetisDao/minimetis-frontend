@@ -10,6 +10,9 @@ export const styles = ({ color }: Theme) => css`
     justify-content: space-between;
     margin: 0 0 20px;
     gap: 10px;
+    &:last-child {
+      margin: 0;
+    }
 
     h4 {
       margin: 0;
@@ -17,8 +20,8 @@ export const styles = ({ color }: Theme) => css`
       font-weight: normal;
     }
     img {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      border-radius: 50%;
     }
     textarea {
       width: 100%;

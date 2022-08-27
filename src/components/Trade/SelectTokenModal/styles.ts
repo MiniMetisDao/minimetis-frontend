@@ -1,6 +1,6 @@
-import { css } from "@emotion/react";
+import { type Theme, css } from "@emotion/react";
 
-export const styles = css`
+export const styles = ({ color }: Theme) => css`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,8 @@ export const styles = css`
     border: none;
     margin: 0 0 20px;
     border-radius: 4px;
+    border: 1px solid ${color.secondary};
+    background: ${color.primary};
   }
   .token-list {
     overflow-y: auto;
@@ -37,7 +39,9 @@ export const listStyle = ({ isSelected }: ListStylesProps) => css`
   align-items: center;
   cursor: pointer;
   ${isSelected && `cursor: not-allowed; opacity: 0.7;`}
-
+  &:last-child {
+    margin: 0;
+  }
   .details {
     flex: 1;
     line-height: 1.2;

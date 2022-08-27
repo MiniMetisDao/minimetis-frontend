@@ -10,6 +10,9 @@ export const styles = css`
     justify-content: space-between;
     margin: 0 0 20px;
     gap: 10px;
+    &:last-child {
+      margin: 0;
+    }
 
     h4 {
       margin: 0;
