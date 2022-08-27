@@ -2,12 +2,15 @@ import { styles } from "./styles";
 
 type TopInfoBarProps = {
   message: string | React.ReactNode;
-  sticky?: boolean;
+  scrolled?: boolean;
 };
 
-export const TopInfoBar: React.FC<TopInfoBarProps> = ({ message, sticky }) => {
+export const TopInfoBar: React.FC<TopInfoBarProps> = ({
+  message,
+  scrolled,
+}) => {
   return (
-    <div className="top-fixed-banner" css={styles({ sticky })}>
+    <div className="top-fixed-banner" css={styles({ scrolled })}>
       {message}
     </div>
   );

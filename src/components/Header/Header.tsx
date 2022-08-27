@@ -1,7 +1,7 @@
 import { cx } from "@emotion/css";
-import { css } from "@emotion/react";
 import useScrollPosition from "@react-hook/window-scroll";
 import { Link } from "@tanstack/react-location";
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -68,37 +68,58 @@ export const Header: React.FC = () => {
 
   const scrollThreshold = 75;
   const scrollY = useScrollPosition(60);
-  const sticky = scrollY >= scrollThreshold;
+
+  const isMobileMenu = useMediaQuery("(max-width: 1200px)");
+  const scrolled = isMobileMenu ? true : scrollY >= scrollThreshold;
 
   return (
-    <div css={styles({ theme, sticky })}>
-      <div className="header-wrapper fixed">
-        <HeaderMenu />
-        <TopInfoBar
-          message={
-            <Trans
-              i18nKey="bannerMessage"
-              components={{
-                a: <a target="_blank" href="https://t.me/MiniMetis" />,
-              }}
+    <div css={styles({ theme, scrolled })}>
+      {isMobileMenu ? (
+        <div className="header-wrapper fixed">
+          <HeaderMenu />
+          <TopInfoBar
+            scrolled={false}
+            message={
+              <Trans
+                i18nKey="bannerMessage"
+                components={{
+                  a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                }}
+              />
+            }
+          />
+        </div>
+      ) : (
+        <>
+          <div className="header-wrapper fixed">
+            <HeaderMenu />
+            <TopInfoBar
+              message={
+                <Trans
+                  i18nKey="bannerMessage"
+                  components={{
+                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                  }}
+                />
+              }
             />
-          }
-        />
-      </div>
-      <div className="header-wrapper">
-        <HeaderMenu />
-        <TopInfoBar
-          sticky
-          message={
-            <Trans
-              i18nKey="bannerMessage"
-              components={{
-                a: <a target="_blank" href="https://t.me/MiniMetis" />,
-              }}
+          </div>
+          <div className="header-wrapper">
+            <HeaderMenu />
+            <TopInfoBar
+              scrolled
+              message={
+                <Trans
+                  i18nKey="bannerMessage"
+                  components={{
+                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                  }}
+                />
+              }
             />
-          }
-        />
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

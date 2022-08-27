@@ -7,7 +7,7 @@ import night from "assets/images/night.svg";
 import { Mode } from "theme";
 
 export const styles =
-  ({ theme, sticky }: { theme: Mode; sticky: boolean }) =>
+  ({ theme, scrolled }: { theme: Mode; scrolled: boolean }) =>
   ({ color }: Theme) =>
     css`
       .header-wrapper {
@@ -24,12 +24,12 @@ export const styles =
         transform: translateY(0);
         transition: all 0.25s ease-in-out;
         opacity: 1;
-        ${sticky && `transform: translateY(-100%); opacity:0;`}
+        ${scrolled && `transform: translateY(-100%); opacity:0;`}
 
         &.fixed {
           transform: translateY(-100%);
           opacity: 0;
-          ${sticky && `transform: translateY(0); opacity:1;`}
+          ${scrolled && `transform: translateY(0); opacity:1;`}
           z-index: 51;
           .header {
             margin: 10px 0;
@@ -100,7 +100,7 @@ export const styles =
           display: none;
         }
         li {
-          margin: 0 18px;
+          margin: 0 15px;
           :hover {
             > ul {
               display: block;
@@ -155,6 +155,7 @@ export const styles =
         @media (max-width: 1200px) {
           &.open {
             max-height: 600px;
+            margin-top: 50px;
           }
         }
       }

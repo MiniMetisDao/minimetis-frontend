@@ -1,7 +1,7 @@
 import { type Theme, css } from "@emotion/react";
 
 export const styles =
-  ({ sticky }: { sticky?: boolean }) =>
+  ({ scrolled }: { scrolled?: boolean }) =>
   ({ color }: Theme) =>
     css`
       background: #000000b3;
@@ -10,7 +10,7 @@ export const styles =
       position: fixed;
       width: 100%;
       left: 0;
-      top: ${sticky ? "117px" : "60px"};
+      top: ${scrolled ? "117px" : "60px"};
       text-align: center;
       border-bottom: 1px solid ${color.text.primary}cc;
       border-top: 1px solid ${color.text.primary}cc;
