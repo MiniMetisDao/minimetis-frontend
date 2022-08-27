@@ -29,6 +29,8 @@
   "approvalAmount":"Approval amount",
   "maxAllowed":"Max allowed",
   "modifyApprovalAmount":"Modify Approval Amount",
+  "modifyApprovalAmountInfo":"Modify the remaining amount of {{tokenSymbol}} tokens which MiniMetis router contract can use for token swapping",
+  "revokeApprovalInfo":"Completely revoke MiniMetis router contract from accessing your {{tokenSymbol}} tokens for token swapping",
   "tradeSettings": "Trade settings",
   "slippage": "Slippage",
   "slippageTolerance": "Slippage tolerance",

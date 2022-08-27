@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { DisplayPrice } from "components/DisplayPrice";
 import { IconButton } from "components/IconButton";
 import { Input } from "components/Input";
+import { Tooltip } from "components/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { useTokenApproval } from "queries/trade/useTokenApproval";
@@ -179,14 +180,28 @@ export const TokenInput: React.FC<TokenInputProps> = ({
               />
             )}
             {allowance && (
-              <IconButton onClick={handleApprovalEditClick}>
-                <AiOutlineEdit />
-              </IconButton>
+              <Tooltip
+                id="editApproval"
+                content={t("trade:modifyApprovalAmountInfo", {
+                  tokenSymbol: token.symbol,
+                })}
+              >
+                <IconButton onClick={handleApprovalEditClick}>
+                  <AiOutlineEdit />
+                </IconButton>
+              </Tooltip>
             )}
             {allowance !== "0" && (
-              <IconButton onClick={handleApprovalRevokeClick}>
-                <IoIosRemoveCircleOutline />
-              </IconButton>
+              <Tooltip
+                id="revokeApproval"
+                content={t("trade:revokeApprovalInfo", {
+                  tokenSymbol: token.symbol,
+                })}
+              >
+                <IconButton onClick={handleApprovalRevokeClick}>
+                  <IoIosRemoveCircleOutline />
+                </IconButton>
+              </Tooltip>
             )}
           </div>
         )}
