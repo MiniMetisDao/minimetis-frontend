@@ -52,6 +52,8 @@ export const useExecuteTransaction = (
       signer.connectUnchecked()
     );
 
+    console.log("gasEstimate");
+
     const gasEstimate = await contract.estimateGas[contractDetails.method](
       ...(params ?? [])
     );

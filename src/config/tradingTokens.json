@@ -1,18 +1,18 @@
 [
   {
     "chainId": 1088,
-    "address": "0xF93E046cB7791b64E8222DF67d63f8826b58d262",
+    "address": "0x9362c197d0E24A4b764748330ae2A9B57310E3cD",
     "decimals": 18,
-    "name": "TTO Token",
-    "symbol": "TTO",
+    "name": "Test1 Token",
+    "symbol": "Test1",
     "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDC/logo.png"
   },
   {
     "chainId": 1088,
-    "address": "0x2760aBc029574032aD78ff21AE068D8A4EB6caF6",
+    "address": "0x07f18A0A466A9B25b3E26cf449fa4b78cac12883",
     "decimals": 18,
-    "name": "TTT Token",
-    "symbol": "TTT",
+    "name": "Test2 Token",
+    "symbol": "Test2",
     "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDT/logo.png"
   },
   {
