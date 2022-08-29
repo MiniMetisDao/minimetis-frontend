@@ -171,7 +171,7 @@ export const tokenInputStyles =
       img {
         width: 24px;
         border-radius: 50%;
-        margin: 0 10px;
+        margin-right: 10px;
       }
       button {
         cursor: pointer;
