@@ -17,7 +17,7 @@ import { Token } from "types/common";
 import {
   getFormattedAmount,
   getSlippageTolerance,
-  getSlippageToleranceString,
+  getSlippageToleranceInput,
   isValidNumber,
   searchExactToken,
 } from "utils";
@@ -74,6 +74,7 @@ export const Swap: React.FC = () => {
   const [flipAnimation, setFlipAnimation] = React.useState(false);
   const [warningMessage, setWarningMessage] = React.useState<string>("");
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
+  const [slippageFromSearch, setSlippageFromSearch] = React.useState<string>();
 
   const [swapTokens, setSwapTokens] = React.useState<SwapToken[]>(
     getValidSwapTokens(search?.from, search?.to)
@@ -81,16 +82,19 @@ export const Swap: React.FC = () => {
 
   const { get, set } = useStorage();
 
-  const allowedSlippage = get("slippageTolerance", TRADE_SETTINGS.slippage);
+  const storedSlippage = get(
+    "slippageTolerance",
+    TRADE_SETTINGS.slippage
+  ) as number;
+
+  const allowedSlippage = getSlippageTolerance(storedSlippage);
 
   React.useEffect(() => {
-    if (
-      search?.slippage &&
-      getSlippageTolerance(search.slippage) !== allowedSlippage
-    ) {
-      set("slippageTolerance", getSlippageTolerance(search.slippage));
+    if (slippageFromSearch === undefined && search?.slippage) {
+      setSlippageFromSearch(search.slippage);
+      set("slippageTolerance", search.slippage);
     }
-  }, [allowedSlippage, search, set]);
+  }, [search, set, slippageFromSearch]);
 
   const userEnteredToken = swapTokens[0]?.estimated
     ? swapTokens[1]
@@ -223,7 +227,7 @@ export const Swap: React.FC = () => {
 
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
-    allowedSlippage as number
+    allowedSlippage
   );
 
   return (
@@ -236,7 +240,7 @@ export const Swap: React.FC = () => {
             <span>
               {t("slippage")}
               {": "}
-              {getSlippageToleranceString(allowedSlippage as number)}%
+              {getSlippageToleranceInput(allowedSlippage)}%
               <IconButton onClick={handleSettingsClick}>
                 <FaCog />
               </IconButton>

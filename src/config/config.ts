@@ -19,7 +19,7 @@ export const RPC_URL = `https://andromeda.metis.io/?owner=${CHAIN_ID}`
 export const EXPLORER_URL = "https://andromeda-explorer.metis.io/"
 
 export const TRADE_SETTINGS = {
-    slippage: 0.5 * 100,
+    slippage: 0.5,
     deadline: 20,
     enableMultihops: true
 }

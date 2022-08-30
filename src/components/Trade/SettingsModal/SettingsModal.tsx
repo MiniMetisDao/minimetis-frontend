@@ -5,7 +5,7 @@ import { InputButton, InputCompact } from "components/Input";
 import { Modal } from "components/Modal";
 import { Switch } from "components/Switch";
 import { TRADE_SETTINGS } from "config";
-import { getSlippageTolerance, getSlippageToleranceString } from "utils";
+import { getSlippageTolerance, getSlippageToleranceInput } from "utils";
 import { useStorage } from "utils/storage";
 
 import { compactInputStyles, styles } from "./styles";
@@ -17,20 +17,34 @@ type SettingsModalProps = {
 export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
   const { t } = useTranslation("trade");
 
+  const [slippage, setSlippage] = React.useState<string>("");
+  const [deadline, setDeadline] = React.useState<string>("");
+
   const { get, set } = useStorage();
 
   const canMultiHop = get("enableMultiHops", true);
 
-  const slippageTolerance = get("slippageTolerance", TRADE_SETTINGS.slippage);
+  const storedSlippage = get(
+    "slippageTolerance",
+    TRADE_SETTINGS.slippage
+  ) as number;
+
+  const allowedSlippage = getSlippageTolerance(storedSlippage);
 
   const transactionDeadline = get<number>(
     "transactionDeadline",
     TRADE_SETTINGS.deadline
   );
 
-  //TODO: validations
   const handleSlippageChange = (value: string) => {
-    set("slippageTolerance", getSlippageTolerance(value));
+    setSlippage(value);
+    set("slippageTolerance", value);
+  };
+
+  const handleDeadlineChange = (value: string) => {
+    setDeadline(value);
+    const deadlineInput = value === "" ? `${TRADE_SETTINGS.deadline}` : value;
+    set("transactionDeadline", parseInt(deadlineInput, 10));
   };
 
   return (
@@ -43,29 +57,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               value="0.5"
               suffix="%"
               onChange={handleSlippageChange}
-              active={
-                (slippageTolerance as number) === getSlippageTolerance("0.5")
-              }
+              active={allowedSlippage === 50}
             />
             <InputButton
               value="1.0"
               suffix="%"
               onChange={handleSlippageChange}
-              active={
-                (slippageTolerance as number) === getSlippageTolerance("1.0")
-              }
+              active={allowedSlippage === 100}
             />
             <InputButton
               value="5.0"
               suffix="%"
               onChange={handleSlippageChange}
-              active={
-                (slippageTolerance as number) === getSlippageTolerance("5.0")
-              }
+              active={allowedSlippage === 500}
             />
             <InputCompact
               wrapperCss={compactInputStyles}
-              value={getSlippageToleranceString(slippageTolerance as number)}
+              placeholder={getSlippageToleranceInput(allowedSlippage)}
+              value={slippage}
               onChange={handleSlippageChange}
               suffix="%"
             />
@@ -76,8 +85,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
           <div className="field-wrapper">
             <InputCompact
               wrapperCss={compactInputStyles}
-              value={(transactionDeadline as number).toString()}
-              onChange={(input) => set("transactionDeadline", parseInt(input))}
+              placeholder={transactionDeadline?.toString()}
+              value={deadline}
+              onChange={handleDeadlineChange}
               suffix="mins"
             />
           </div>

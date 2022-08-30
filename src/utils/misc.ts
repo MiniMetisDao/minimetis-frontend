@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 
+import { TRADE_SETTINGS } from "config";
 import { FixedNumber } from "ethers";
 import { Token } from "types/common";
 
@@ -116,10 +117,19 @@ export const getDeadlineTimestamp = (deadline: number) => {
   return Math.floor(Date.now() / 1000) + 60 * deadline;
 };
 
-export const getSlippageTolerance = (slippage: string) => {
-  return BigNumber(slippage).multipliedBy(100).toNumber();
+// max slippage allowed is 50%
+export const getSlippageTolerance = (slippage: string | number) => {
+  const slippageInput = BigNumber(slippage).isNaN()
+    ? TRADE_SETTINGS.slippage
+    : slippage;
+
+  const slippageValue = BigNumber(BigNumber(slippageInput).toFixed(2))
+    .multipliedBy(100)
+    .toNumber();
+
+  return slippageValue > 5000 ? 5000 : slippageValue;
 };
 
-export const getSlippageToleranceString = (slippage: number) => {
-  return BigNumber(slippage).dividedBy(100).toFixed();
+export const getSlippageToleranceInput = (slippage: number) => {
+  return BigNumber(slippage).dividedBy(100).toFixed(2);
 };
