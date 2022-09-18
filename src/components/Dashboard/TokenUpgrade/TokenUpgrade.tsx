@@ -32,7 +32,7 @@ export const TokenUpgrade: React.FC = () => {
     { enabled: Boolean(walletDetails?.address) }
   );
 
-  const { mutate } = useUpgradeToken({
+  const { mutate, isLoading } = useUpgradeToken({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
       toast.loading(
         <Trans
@@ -94,7 +94,8 @@ export const TokenUpgrade: React.FC = () => {
             onClick={handleClick}
             disabled={
               walletDetails?.status !== "CONNECTED" ||
-              (userBalance ? BigNumber(userBalance).isEqualTo(0) : true)
+              (userBalance ? BigNumber(userBalance).isEqualTo(0) : true) ||
+              isLoading
             }
             className={cx({
               disabled: walletDetails?.status !== "CONNECTED",
