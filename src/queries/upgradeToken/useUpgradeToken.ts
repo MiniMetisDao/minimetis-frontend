@@ -1,5 +1,5 @@
-import { DistributorAbi } from "config";
-import { useMinimeConstants } from "queries";
+import { MINIME_UPGRADE_CONTRACT_ADDRESS, tokenUpgradeAbi } from "config";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { type TransactionParams, useExecuteTransaction } from "utils";
 
 export const useUpgradeToken = ({
@@ -7,7 +7,7 @@ export const useUpgradeToken = ({
   onTransactionSuccess,
   onError,
 }: TransactionParams) => {
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: walletDetails } = useGetWalletDetails();
 
   const { mutate, ...rest } = useExecuteTransaction(
     ["upgradeToken"],
@@ -20,10 +20,11 @@ export const useUpgradeToken = ({
     mutate: () => {
       return mutate({
         contractDetails: {
-          abi: DistributorAbi, // change to upgrad contract abi
-          address: minimeConstants?.distributor, // change to update contract address
-          method: "claimDividend", // change to upgrade method
+          abi: tokenUpgradeAbi,
+          address: MINIME_UPGRADE_CONTRACT_ADDRESS,
+          method: "migrateToNewToken",
         },
+        params: [walletDetails?.address],
       });
     },
     ...rest,

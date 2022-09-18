@@ -9,6 +9,7 @@ export type ContractDetails = {
   address: string;
   abi?: any;
   method: string;
+  // TODO: check if params is required anymore here?
   params?: Array<string | number | BigNumber>;
 };
 
@@ -52,9 +53,16 @@ export const useExecuteTransaction = (
       signer.connectUnchecked()
     );
 
-    const gasEstimate = await contract.estimateGas[contractDetails.method](
-      ...(params ?? [])
-    );
+    let gasEstimate = BigNumber.from(21000);
+    try {
+      gasEstimate = await contract.estimateGas[contractDetails.method](
+        ...(params ?? [])
+      );
+    } catch (error) {
+      onError({ code: 0 });
+
+      return;
+    }
 
     const tx = await contract[contractDetails.method](...(params ?? []), {
       gasLimit: gasEstimate.toNumber(),
