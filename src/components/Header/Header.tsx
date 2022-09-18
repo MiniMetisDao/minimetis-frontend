@@ -65,6 +65,7 @@ const HeaderMenu = () => {
 
 export const Header: React.FC = () => {
   const [theme] = useTheme();
+  const { t } = useTranslation();
 
   const scrollThreshold = 75;
   const scrollY = useScrollPosition(60);
@@ -83,7 +84,7 @@ export const Header: React.FC = () => {
               <Trans
                 i18nKey="bannerMessage"
                 components={{
-                  a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                  a: <Link to="/dashboard">{t("dashboard")}</Link>,
                 }}
               />
             }
@@ -98,7 +99,7 @@ export const Header: React.FC = () => {
                 <Trans
                   i18nKey="bannerMessage"
                   components={{
-                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                    a: <Link to="/dashboard">{t("dashboard")}</Link>,
                   }}
                 />
               }
@@ -112,7 +113,7 @@ export const Header: React.FC = () => {
                 <Trans
                   i18nKey="bannerMessage"
                   components={{
-                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                    a: <Link to="/dashboard">{t("dashboard")}</Link>,
                   }}
                 />
               }
