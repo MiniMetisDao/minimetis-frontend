@@ -31,8 +31,9 @@ export const styles =
           opacity: 0;
           ${scrolled && `transform: translateY(0); opacity:1;`}
           z-index: 51;
+          max-height: 100%;
           .header {
-            margin: 10px 0;
+            margin: 5px 0;
           }
           .logo {
             h1 {
@@ -137,7 +138,7 @@ export const styles =
         padding: 0 20px;
         transition: max-height 0.25s ease-out, margin 0.25s linear;
         max-height: 0;
-        overflow: hidden;
+        overflow-y: auto;
         align-items: flex-end;
         flex-direction: column;
         display: flex;
