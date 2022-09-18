@@ -14,5 +14,9 @@
   "total": "Total",
   "totalBurned": "Total Burned",
   "claimNow": "Claim Now",
-  "claiming": "Claiming..."
+  "claiming": "Claiming...",
+  "upgradeToken": "Upgrade Token",
+  "v2Balance": "MiniMe v2.0 Balance: ",
+  "miniMetisUpgradeTitle" :"MiniMetis Token Upgrade",
+  "miniMetisUpgradeDescription": "MiniMetis is growing and we are upgrading our token to make it better, Upgrade Now!"
 }
