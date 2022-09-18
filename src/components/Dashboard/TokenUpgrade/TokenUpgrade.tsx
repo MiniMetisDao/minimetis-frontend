@@ -69,7 +69,7 @@ export const TokenUpgrade: React.FC = () => {
       );
     },
     onTransactionSuccess: ({ shortHash, explorerUrl }) => {
-      toast.update("claimDividend", {
+      toast.update("tokenUpgrade", {
         render: (
           <Trans
             i18nKey="transactionSuccess"
