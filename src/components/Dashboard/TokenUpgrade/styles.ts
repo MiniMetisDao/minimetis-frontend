@@ -38,6 +38,13 @@ export const styles = ({ color }: Theme) => css`
     }
     :hover {
       background: url(${tokenUpgradeHover}) no-repeat;
+      @media (max-width: 640px) {
+        background-size: 100% 100%;
+        width: 100%;
+        max-width: 368px;
+        aspect-ratio: 368/134;
+        height: auto;
+      }
     }
     :disabled,
     [disabled] {
