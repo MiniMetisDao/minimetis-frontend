@@ -49,6 +49,10 @@ export const styles = ({ color }: Theme) => css`
     :disabled,
     [disabled] {
       cursor: not-allowed;
+
+      :hover {
+        background: url(${tokenUpgrade}) no-repeat;
+      }
     }
   }
   .balance-v2 {
