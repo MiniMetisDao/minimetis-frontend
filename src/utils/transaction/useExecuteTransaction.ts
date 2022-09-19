@@ -78,9 +78,12 @@ export const useExecuteTransaction = (
 
     onTransactionStart(details);
 
-    await tx.wait();
-
-    onTransactionSuccess(details);
+    const result = await tx.wait();
+    if (result?.status === 0) {
+      onError({ code: 0 });
+    } else {
+      onTransactionSuccess(details);
+    }
   };
 
   return useMutation(mutationKey, execute, {

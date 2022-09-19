@@ -18,5 +18,13 @@
   "upgradeToken": "Upgrade Token",
   "v2Balance": "MiniMe v2.0 Balance: ",
   "miniMetisUpgradeTitle" :"MiniMetis Token Upgrade",
-  "miniMetisUpgradeDescription": "MiniMetis is growing and we are upgrading our token to make it better, Upgrade Now!"
+  "miniMetisUpgradeDescription": "MiniMetis is growing and we are upgrading our token to make it better, Upgrade Now!",
+  "stepsToUpgrade": "Steps to Upgrade",
+  "upgradeSteps": "<ol><li>Give approval for the smart contract to access your existing MiniMetis tokens by clicking on \"Approve\" button.</li><li>Once approved, click on \"Upgrade\" button so that the smart contract can convert your exising MiniMetis tokens to new MiniMe v2.0 tokens. New tokens will be immediately issued by the smart contract to your wallet.</li><li>Visit <a>telegram community</a> if you face any issues or need more clartifications regarding the upgrade.</li></ol>",
+  "approve": "Approve",
+  "approving": "Approving...",
+  "approved": "Approved",
+  "upgrade": "Upgrade",
+  "upgrading": "Upgrading...",
+  "upgraded": "Upgraded"
 }

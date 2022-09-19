@@ -40,10 +40,6 @@ export const styles = ({ color }: Theme) => css`
       background: url(${tokenUpgradeHover}) no-repeat;
       @media (max-width: 640px) {
         background-size: 100% 100%;
-        width: 100%;
-        max-width: 368px;
-        aspect-ratio: 368/134;
-        height: auto;
       }
     }
     :disabled,
@@ -52,6 +48,9 @@ export const styles = ({ color }: Theme) => css`
 
       :hover {
         background: url(${tokenUpgrade}) no-repeat;
+        @media (max-width: 640px) {
+          background-size: 100% 100%;
+        }
       }
     }
   }
@@ -77,6 +76,72 @@ export const styles = ({ color }: Theme) => css`
     p {
       font-size: 20px;
       line-height: 1.5;
+    }
+  }
+`;
+
+export const modalStyles = css`
+  h4 {
+    margin: 0 0 20px;
+  }
+  ol {
+    padding-left: 30px;
+  }
+  .button-group {
+    display: flex;
+    gap: 20px;
+    margin: 0 20px;
+    @media (max-width: 640px) {
+      flex-direction: column;
+    }
+  }
+  .steps {
+    display: flex;
+    margin-top: 20px;
+    .step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+
+      span {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-bottom: 6px;
+      }
+
+      ::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 3;
+      }
+
+      &:last-of-type {
+        ::after {
+          display: none;
+        }
+      }
+
+      &.completed {
+        span {
+          background: #289320;
+        }
+        ::after {
+          border-bottom: 2px solid #289320;
+        }
+      }
     }
   }
 `;
