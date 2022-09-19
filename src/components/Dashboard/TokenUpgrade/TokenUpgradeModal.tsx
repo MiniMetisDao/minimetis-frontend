@@ -45,8 +45,6 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
       ? BigNumber(allowance).isGreaterThanOrEqualTo(userBalance)
       : false);
 
-  console.log("hasapp", hasApproved, allowance);
-
   const { mutate, isLoading, isSuccess } = useUpgradeToken({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
       toast.loading(
