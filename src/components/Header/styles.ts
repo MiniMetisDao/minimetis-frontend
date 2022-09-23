@@ -29,11 +29,20 @@ export const styles =
         &.fixed {
           transform: translateY(-100%);
           opacity: 0;
-          ${scrolled && `transform: translateY(0); opacity:1;`}
           z-index: 51;
           max-height: 100%;
+          ${scrolled &&
+          `
+              transform: translateY(0); 
+              opacity:1; 
+              @media(max-width:1200px){
+                .header{
+                  margin: 5px 0!important;
+                }
+              }
+            `}
           .header {
-            margin: 5px 0;
+            margin: 10px 0;
           }
           .logo {
             h1 {

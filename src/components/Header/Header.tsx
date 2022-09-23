@@ -77,7 +77,7 @@ const HeaderMenu = () => {
 export const Header: React.FC = () => {
   const [theme] = useTheme();
 
-  const scrollThreshold = 75;
+  const scrollThreshold = 65;
   const scrollY = useScrollPosition(60);
 
   const isMobileMenu = useMediaQuery("(max-width: 1200px)");
