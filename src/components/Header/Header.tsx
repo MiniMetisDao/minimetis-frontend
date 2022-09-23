@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-location";
 import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
+import useOnClickOutside from "use-onclickoutside";
 
 import { Connect } from "components/Connect";
 import { TopInfoBar } from "components/TopInfoBar";
@@ -16,6 +17,15 @@ import { styles } from "./styles";
 const HeaderMenu = () => {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(ref, (event) => {
+    if (!buttonRef?.current?.contains(event.target as Node)) {
+      setMenuOpen(false);
+    }
+  });
 
   const handleMenuClick = () => {
     setMenuOpen((prev) => !prev);
@@ -31,6 +41,7 @@ const HeaderMenu = () => {
             </h1>
           </div>
           <button
+            ref={buttonRef}
             className={menuOpen ? "hamburger-menu open" : "hamburger-menu"}
             onClick={handleMenuClick}
           >
@@ -53,7 +64,7 @@ const HeaderMenu = () => {
           <Connect />
         </div>
       </div>
-      <div className={cx("mobile-menu-wrapper", { open: menuOpen })}>
+      <div ref={ref} className={cx("mobile-menu-wrapper", { open: menuOpen })}>
         <Menu isMobile open={menuOpen} />
 
         <ThemeSwitch />
@@ -67,7 +78,7 @@ export const Header: React.FC = () => {
   const [theme] = useTheme();
   const { t } = useTranslation();
 
-  const scrollThreshold = 75;
+  const scrollThreshold = 65;
   const scrollY = useScrollPosition(60);
 
   const isMobileMenu = useMediaQuery("(max-width: 1200px)");
