@@ -1,6 +1,6 @@
-import { UseQueryResult } from "react-query";
+import { type UseQueryResult } from "@tanstack/react-query";
 
-import { MINIMETIS_CONTRACT_ADDRESS } from "config";
+import { MINIME_CONTRACT_ADDRESS } from "config";
 import { useMultiCallContract } from "utils";
 
 const methods = [
@@ -21,7 +21,7 @@ type ResultSet = Record<Methods, any>;
 
 const query = methods.map((method) => ({
   method,
-  address: MINIMETIS_CONTRACT_ADDRESS,
+  address: MINIME_CONTRACT_ADDRESS,
 }));
 
 const selector = (results: string[]): ResultSet => {

@@ -1,31 +1,28 @@
-import { DistributorAbi } from "config";
+import BigNumber from "bignumber.js";
+
+import { DistributorAbi, METIS_TOKEN_DECIMALS } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
+import { TokenAmount } from "types/common";
 import { useMultiCallContract } from "utils";
 
 type DistributorShare = {
-  totalShares: number;
-  totalDistributed: number;
+  totalShares: string;
+  totalDistributed: TokenAmount;
 
   userData?: {
-    sharePercentage: number;
-    shares: number;
-    claimedDividend: number;
-    unclaimedDividend: number;
+    sharePercentage: string;
+    shares: string;
+    claimedDividend: TokenAmount;
+    unclaimedDividend: TokenAmount;
   };
 };
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: DistributorShare;
-};
-
-export const useGetDividendShare = (): Result => {
+export const useGetDividendShare = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
   const { data: walletDetails } = useGetWalletDetails();
 
-  const distributorUserQuery = useMultiCallContract(
+  const distributorUserQuery = useMultiCallContract<string[]>(
     "distributorUser",
     [
       {
@@ -44,12 +41,11 @@ export const useGetDividendShare = (): Result => {
       },
     ],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.distributor && walletDetails?.address),
     }
   );
 
-  const distibutorQuery = useMultiCallContract(
+  const distibutorQuery = useMultiCallContract<string[]>(
     "distributor",
     [
       {
@@ -64,7 +60,6 @@ export const useGetDividendShare = (): Result => {
       },
     ],
     {
-      refetchInterval: 5_000,
       enabled: Boolean(minimeConstants?.distributor),
     }
   );
@@ -74,17 +69,28 @@ export const useGetDividendShare = (): Result => {
   if (distibutorQuery.data) {
     data = {
       totalShares: distibutorQuery.data[0],
-      totalDistributed: distibutorQuery.data[1],
+      totalDistributed: {
+        amount: distibutorQuery.data[1],
+        decimals: METIS_TOKEN_DECIMALS,
+      },
 
       userData: distributorUserQuery.data
         ? {
             shares: distributorUserQuery.data[0],
-            sharePercentage:
-              (distributorUserQuery.data[0].split(",")[0] /
-                distibutorQuery.data[0]) *
-              100,
-            claimedDividend: distributorUserQuery.data[0].split(",")[2],
-            unclaimedDividend: distributorUserQuery.data[1],
+            sharePercentage: BigNumber(
+              distributorUserQuery.data[0].split(",")[0]
+            )
+              .dividedBy(distibutorQuery.data[0])
+              .multipliedBy(100)
+              .toFixed(),
+            claimedDividend: {
+              amount: distributorUserQuery.data[0].split(",")[2],
+              decimals: minimeConstants?.decimals,
+            },
+            unclaimedDividend: {
+              amount: distributorUserQuery.data[1],
+              decimals: minimeConstants?.decimals,
+            },
           }
         : undefined,
     };

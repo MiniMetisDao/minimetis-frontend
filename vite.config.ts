@@ -4,7 +4,9 @@
 import { readdirSync } from "fs";
 import { join, resolve } from "path";
 
+import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import react from "@vitejs/plugin-react";
+import polyfillNodeRollupPlugin from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 
 const rootFolders: { [key: string]: string } = {};
@@ -29,12 +31,32 @@ export default defineConfig({
       },
     }),
   ],
+  esbuild: {
+    logOverride: { "this-is-undefined-in-esm": "silent" },
+  },
   resolve: {
     alias: { ...rootFolders },
   },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./src/utils/testUtils/setup.ts"],
+  optimizeDeps: {
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: "globalThis",
+      },
+      // Enable esbuild polyfill plugins
+      plugins: [NodeGlobalsPolyfillPlugin({ buffer: true, process: true })],
+    },
+  },
+  build: {
+    rollupOptions: {
+      plugins: [polyfillNodeRollupPlugin()],
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  },
+  server: {
+    port: 3000,
+    host: true,
   },
 });

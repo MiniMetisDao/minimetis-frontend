@@ -38,6 +38,17 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
         <a href="https://nft.minimetis.com">{t("mint")}</a>
       </li>
       <li>
+        <Link to="/trade">{t("trade")}</Link>
+        {/* <ul>
+          <li>
+            <Link to="/trade/swap-tokens">{t("swapTokens")}</Link>
+          </li>
+          <li>
+            <Link to="/trade/liquidity-pool">{t("liquidityPool")}</Link>
+          </li>
+        </ul> */}
+      </li>
+      <li>
         <Link to="/dashboard">{t("dashboard")}</Link>
       </li>
     </ul>

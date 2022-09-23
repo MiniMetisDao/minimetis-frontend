@@ -29,7 +29,7 @@ export const switchNetwork = async () =>
     [
       {
         chainId: "0x440",
-        rpcUrls: ["https://andromeda.metis.io/?owner=1088"],
+        rpcUrls: [`https://andromeda.metis.io/?owner=${CHAIN_ID}`],
         chainName: "Metis Andromeda Mainnet",
         nativeCurrency: {
           name: "METIS",

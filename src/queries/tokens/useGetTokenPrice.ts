@@ -1,41 +1,45 @@
-import { Decimals } from "config";
+import { getHumanReadableAmount } from "utils";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
 
-type Result = {
-  isLoading: boolean;
-  isError: boolean;
-  data?: {
-    metis: number;
-    miniMetis: number;
-  };
-};
-
-export const useGetTokenPrice = (): Result => {
+export const useGetTokenPrice = () => {
   const { data, isLoading, isError } = useGetTokenPairs();
 
   if (!data) {
     return { isLoading, isError };
   }
 
-  const { metisUsdtPair, metisMinimetisPair } = data;
+  const { metisBaseTokenPair, metisMinimePair } = data;
 
-  // prettier-ignore
-  const metisPriceInDollars = 
-    (metisUsdtPair.usdtTokens / Decimals.usdt) / (metisUsdtPair.metisTokens / Decimals.metis);
+  const metisPriceInDollars = getHumanReadableAmount(
+    metisBaseTokenPair.baseTokenAmount.amount,
+    metisBaseTokenPair.baseTokenAmount.decimals
+  ).div(
+    getHumanReadableAmount(
+      metisBaseTokenPair.metisAmount.amount,
+      metisBaseTokenPair.metisAmount.decimals
+    )
+  );
 
-  // prettier-ignore
-  let miniMetisPriceInDollars = 
-    (metisMinimetisPair.metisTokens / Decimals.metis) / (metisMinimetisPair.miniMetisTokens / Decimals.miniMetis);
+  const miniMePriceInMetis = getHumanReadableAmount(
+    metisMinimePair.metisAmount.amount,
+    metisMinimePair.metisAmount.decimals
+  ).div(
+    getHumanReadableAmount(
+      metisMinimePair.miniMeAmount.amount,
+      metisMinimePair.miniMeAmount.decimals
+    )
+  );
 
-  miniMetisPriceInDollars *= metisPriceInDollars;
+  const miniMePriceInDollars =
+    miniMePriceInMetis.multipliedBy(metisPriceInDollars);
 
   return {
     isLoading,
     isError,
     data: {
-      metis: metisPriceInDollars,
-      miniMetis: miniMetisPriceInDollars,
+      metis: metisPriceInDollars.toFixed(),
+      miniMe: miniMePriceInDollars.toFixed(),
     },
   };
 };

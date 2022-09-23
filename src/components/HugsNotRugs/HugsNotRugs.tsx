@@ -12,7 +12,7 @@ export const HugsNotRugs: React.FC = () => {
   return (
     <div css={styles}>
       <section className="banner">
-        <Container padded={false}>
+        <Container topSection padded={false}>
           <div className="banner-item">
             <h3>{t("banner")}</h3>
             <p>{t("bannerDescription")}</p>

@@ -1,6 +1,10 @@
 import { css } from "@emotion/react";
 
-export const styles = css``;
+export const styles = css`
+  .header-spacer {
+    height: 147px;
+  }
+`;
 
 export const contentStyles = css`
   // TODO: Find a better solution than hardcoding header and footer height

@@ -11,7 +11,7 @@ type ThemeProviderProps = {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [mode, setMode] = React.useState<Mode>(
-    (localStorage.getItem("mode") as Mode) || "dark"
+    (localStorage.getItem("mode") as Mode) || "light"
   );
 
   const toggleTheme = () => {

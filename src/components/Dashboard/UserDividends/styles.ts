@@ -8,10 +8,10 @@ export const styles = ({ color }: Theme) => css`
   margin: 0 0 70px;
 
   .dividend {
-    background: ${color.color7};
-    box-shadow: 0px 4px 4px ${color.color7Shadow1};
+    background: #58008e;
+    box-shadow: 0px 4px 4px #00000040;
     border-radius: 8px;
-    padding: 30px 60px;
+    padding: 30px 40px;
     font-size: 20px;
     line-height: 1;
     display: flex;
@@ -27,9 +27,15 @@ export const styles = ({ color }: Theme) => css`
         margin-bottom: 10px;
       }
     }
+    .title {
+      width: 30%;
+      @media (max-width: 1024px) {
+        width: auto;
+      }
+    }
   }
   > .dividend {
-    background: ${color.color1};
+    background: #4d007c;
     margin-top: -5px;
     padding-top: 35px;
   }
@@ -39,7 +45,7 @@ export const styles = ({ color }: Theme) => css`
 
     ::after {
       content: "";
-      background: ${color.color7Shadow2};
+      background: #4e007e4d;
       position: absolute;
       top: 4px;
       height: 100%;
@@ -75,7 +81,7 @@ export const styles = ({ color }: Theme) => css`
       cursor: pointer;
       background: ${color.button.primary};
       font-size: 20px;
-      color: ${color.text.white};
+      color: ${color.button.text};
       border: none;
       text-transform: uppercase;
       padding: 10px 60px;

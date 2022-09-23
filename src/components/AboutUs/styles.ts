@@ -1,10 +1,9 @@
-import { type Theme, css } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import topBg from "assets/images/about-us-top-bg.jpg";
 import minimetisStone from "assets/images/minimetis-stone.svg";
 
-export const styles = ({ color }: Theme) => css`
-  margin-bottom: 100px;
+export const styles = css`
   font-size: 20px;
   line-height: 1.6;
 
@@ -41,7 +40,7 @@ export const styles = ({ color }: Theme) => css`
   h2 {
     font-size: 40px;
     line-height: 1;
-    margin: 60px 0 10px;
+    margin: 20px 0 10px;
   }
   p {
     margin: 0 0 30px;
@@ -51,13 +50,13 @@ export const styles = ({ color }: Theme) => css`
     background: #04d8cc;
     margin: 50px 0 40px;
     padding: 80px 0;
-    color: ${color.color10};
+    color: #443247;
     font-size: 30px;
     line-height: 1.4;
     font-weight: 700;
 
     .wrapper {
-      border-top: 4px solid ${color.color10};
+      border-top: 4px solid #443247;
       padding-top: 15px;
       display: grid;
       grid-auto-flow: column;
@@ -68,9 +67,23 @@ export const styles = ({ color }: Theme) => css`
     }
 
     p {
-      margin-right: 50px;
+      margin-right: 20px;
       @media (max-width: 640px) {
         margin-right: 0;
+      }
+    }
+    .buy-link-wrapper {
+      font-size: 24px;
+      margin: 0;
+      a {
+        color: #fff;
+        background: #8755cd;
+        padding: 10px;
+        font-size: 22px;
+        display: block;
+        text-align: center;
+        border-radius: 4px;
+        text-decoration: none;
       }
     }
 

@@ -1,24 +1,38 @@
 import { cx } from "@emotion/css";
+import useScrollPosition from "@react-hook/window-scroll";
 import { Link } from "@tanstack/react-location";
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import useOnClickOutside from "use-onclickoutside";
 
-import { ConnectWallet } from "components/ConnectWallet";
+import { Connect } from "components/Connect";
+import { TopInfoBar } from "components/TopInfoBar";
+import { useTheme } from "theme";
 
 import { Menu } from "./Menu";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { styles } from "./styles";
 
-export const Header: React.FC = () => {
+const HeaderMenu = () => {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(ref, (event) => {
+    if (!buttonRef?.current?.contains(event.target as Node)) {
+      setMenuOpen(false);
+    }
+  });
 
   const handleMenuClick = () => {
     setMenuOpen((prev) => !prev);
   };
 
   return (
-    <div css={styles}>
+    <>
       <div className="header">
         <div className="left-wrapper">
           <div className="logo">
@@ -27,6 +41,7 @@ export const Header: React.FC = () => {
             </h1>
           </div>
           <button
+            ref={buttonRef}
             className={menuOpen ? "hamburger-menu open" : "hamburger-menu"}
             onClick={handleMenuClick}
           >
@@ -46,15 +61,76 @@ export const Header: React.FC = () => {
         </div>
         <div className="right-wrapper">
           <ThemeSwitch />
-          <ConnectWallet />
+          <Connect />
         </div>
       </div>
-      <div className={cx("mobile-menu-wrapper", { open: menuOpen })}>
+      <div ref={ref} className={cx("mobile-menu-wrapper", { open: menuOpen })}>
         <Menu isMobile open={menuOpen} />
 
         <ThemeSwitch />
-        <ConnectWallet />
+        <Connect />
       </div>
+    </>
+  );
+};
+
+export const Header: React.FC = () => {
+  const [theme] = useTheme();
+
+  const scrollThreshold = 65;
+  const scrollY = useScrollPosition(60);
+
+  const isMobileMenu = useMediaQuery("(max-width: 1200px)");
+  const scrolled = isMobileMenu ? true : scrollY >= scrollThreshold;
+
+  return (
+    <div css={styles({ theme, scrolled })}>
+      {isMobileMenu ? (
+        <div className="header-wrapper fixed">
+          <HeaderMenu />
+          <TopInfoBar
+            scrolled={false}
+            message={
+              <Trans
+                i18nKey="bannerMessage"
+                components={{
+                  a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                }}
+              />
+            }
+          />
+        </div>
+      ) : (
+        <>
+          <div className="header-wrapper fixed">
+            <HeaderMenu />
+            <TopInfoBar
+              message={
+                <Trans
+                  i18nKey="bannerMessage"
+                  components={{
+                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                  }}
+                />
+              }
+            />
+          </div>
+          <div className="header-wrapper">
+            <HeaderMenu />
+            <TopInfoBar
+              scrolled
+              message={
+                <Trans
+                  i18nKey="bannerMessage"
+                  components={{
+                    a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                  }}
+                />
+              }
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,31 +1,34 @@
 import { useTranslation } from "react-i18next";
 
-import { Decimals } from "config";
 import { getDisplayPrice } from "utils";
 
 type DisplayPriceProps = {
-  price?: number;
+  amount?: string;
   tokenSymbol?: string;
-  decimals?: number;
+  decimals?: number | string;
   isBasePrice?: boolean;
-  baseFactor?: number;
+  baseFactor?: string;
   isCompact?: boolean;
+  roundingDecimal?: number; // how many max decimals to show
 };
+
+// 4 significantDigits when number is less than 1, else 2 max decimals by default, use roundingDecimal to override
 export const DisplayPrice: React.FC<DisplayPriceProps> = ({
-  price,
-  decimals = Decimals.miniMetis,
+  amount,
+  decimals,
   isBasePrice = false,
   baseFactor,
   isCompact,
+  roundingDecimal,
   tokenSymbol,
 }) => {
   const { t } = useTranslation();
   const translationKey = isBasePrice ? "currency" : "tokenCurrency";
 
   return t(translationKey, {
-    value: getDisplayPrice(price, decimals, baseFactor, isBasePrice),
-    isCompact:
-      isCompact === undefined ? (isBasePrice ? false : true) : isCompact,
+    value: getDisplayPrice(amount, decimals, baseFactor, isBasePrice),
+    isCompact,
     tokenSymbol,
+    roundingDecimal,
   });
 };

@@ -5,7 +5,7 @@ import { connectWallet, switchNetwork } from "utils";
 
 import { styles } from "./styles";
 
-export const ConnectWallet: React.FC = () => {
+export const Connect: React.FC = () => {
   const { t } = useTranslation();
   const { isLoading, data, error, refetch } = useGetWalletDetails();
 
@@ -15,6 +15,7 @@ export const ConnectWallet: React.FC = () => {
     }
     if (data?.status === "INVALID_NETWORK") {
       await switchNetwork();
+      await connectWallet();
     } else {
       await connectWallet();
     }
@@ -23,8 +24,9 @@ export const ConnectWallet: React.FC = () => {
 
   let text: string;
 
-  // TODO: Revisit the loading case.
-  if (isLoading || error || !data) {
+  if (isLoading) {
+    text = "...";
+  } else if (error || !data) {
     text = t("connectWallet");
   } else {
     text =

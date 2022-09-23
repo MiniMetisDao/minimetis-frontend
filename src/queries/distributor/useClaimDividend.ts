@@ -1,32 +1,31 @@
-import { ethers } from "ethers";
-import { useMutation } from "react-query";
-
 import { DistributorAbi } from "config";
 import { useMinimeConstants } from "queries";
+import { type TransactionParams, useExecuteTransaction } from "utils";
 
-type Result = Promise<{ txHash: string; txReceipt: Promise<void> }>;
-
-const claimDividend = async (distributor: string): Result => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-
-  const contract = new ethers.Contract(
-    distributor,
-    DistributorAbi,
-    signer.connectUnchecked()
-  );
-
-  const tx = await contract.claimDividend();
-  const txHash = tx.hash;
-  const txReceipt = tx.wait();
-
-  return { txHash, txReceipt };
-};
-
-export const useClaimDividend = () => {
+export const useClaimDividend = ({
+  onTransactionStart,
+  onTransactionSuccess,
+  onError,
+}: TransactionParams) => {
   const { data: minimeConstants } = useMinimeConstants();
 
-  return useMutation("claimDividend", async () =>
-    claimDividend(minimeConstants?.distributor)
+  const { mutate, ...rest } = useExecuteTransaction(
+    ["claimDividend"],
+    onTransactionStart,
+    onTransactionSuccess,
+    onError
   );
+
+  return {
+    mutate: () => {
+      return mutate({
+        contractDetails: {
+          abi: DistributorAbi,
+          address: minimeConstants?.distributor,
+          method: "claimDividend",
+        },
+      });
+    },
+    ...rest,
+  };
 };
