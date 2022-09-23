@@ -1,4 +1,4 @@
-import { CHAIN_ID } from "config";
+import { CHAIN_ID, RPC_URL } from "config";
 import { ethers } from "ethers";
 
 export const getNetwork = async () =>
@@ -28,8 +28,8 @@ export const switchNetwork = async () =>
     "wallet_addEthereumChain",
     [
       {
-        chainId: "0x440",
-        rpcUrls: [`https://andromeda.metis.io/?owner=${CHAIN_ID}`],
+        chainId: `0x${Number(CHAIN_ID).toString(16)}`,
+        rpcUrls: [RPC_URL],
         chainName: "Metis Andromeda Mainnet",
         nativeCurrency: {
           name: "METIS",
