@@ -22,6 +22,7 @@ export const styles = ({ color }: Theme) => css`
     border-radius: 4px;
     border: 1px solid ${color.secondary};
     background: ${color.primary};
+    color: ${color.text.primary};
   }
   .token-list {
     overflow-y: auto;
