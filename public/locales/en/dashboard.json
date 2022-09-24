@@ -1,6 +1,6 @@
 {
   "title": "MiniMetis Dashboard",
-  "myMiniMetis": "My MiniMetis",
+  "myMiniMetis": "My MiniMetis (v1.0)",
   "myMiniMetisBalance": "My MiniMetis Balance",
   "yourDividendSharePercentage": "Your Dividend Share Percentage",
   "myClaimedDividends": "My claimed dividends | <strong>{{tokenName}}</strong>",
