@@ -26,5 +26,7 @@
   "approved": "Approved",
   "upgrade": "Upgrade",
   "upgrading": "Upgrading...",
-  "upgraded": "Upgraded"
+  "upgraded": "Upgraded",
+  "v1Address":"MiniMetis v1.0 address (old): ",
+  "v2Address":"MiniMe v2.0 address (new): "
 }

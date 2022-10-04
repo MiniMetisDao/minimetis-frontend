@@ -4,7 +4,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/DisplayPrice";
-import { MINIME_CONTRACT_ADDRESS_V1, MINIME_CONTRACT_ADDRESS_V2 } from "config";
+import {
+  EXPLORER_URL,
+  MINIME_CONTRACT_ADDRESS_V1,
+  MINIME_CONTRACT_ADDRESS_V2,
+} from "config";
 import { useGetWalletDetails, useMinimeConstants } from "queries";
 import { useMultiCallContract } from "utils";
 
@@ -73,6 +77,26 @@ export const TokenUpgrade: React.FC = () => {
               decimals={minimeConstants?.decimals}
               roundingDecimal={4}
             />
+          </p>
+        </div>
+        <div className="wrapper address-info">
+          <p>
+            <strong>{t("v1Address")} </strong>
+            <a
+              target="_blank"
+              href={`${EXPLORER_URL}address/${MINIME_CONTRACT_ADDRESS_V1}`}
+            >
+              {MINIME_CONTRACT_ADDRESS_V1}
+            </a>
+          </p>
+          <p>
+            <strong>{t("v2Address")}</strong>
+            <a
+              target="_blank"
+              href={`${EXPLORER_URL}address/${MINIME_CONTRACT_ADDRESS_V2}`}
+            >
+              {MINIME_CONTRACT_ADDRESS_V2}
+            </a>{" "}
           </p>
         </div>
       </div>
