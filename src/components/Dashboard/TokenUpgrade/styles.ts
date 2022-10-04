@@ -60,6 +60,25 @@ export const styles = ({ color }: Theme) => css`
       text-align: center;
     }
   }
+  .address-info {
+    padding: 20px;
+    background: ${color.primary};
+    border-radius: 10px;
+    p {
+      margin: 0;
+      line-height: 2;
+    }
+    a {
+      color: ${color.text.primary};
+      border-bottom: 1px dashed ${color.text.primary};
+      text-decoration: none;
+
+      :hover {
+        text-decoration: none;
+        border-bottom: 1px solid ${color.text.primary};
+      }
+    }
+  }
   .mobile-text {
     display: none;
     text-align: center;
