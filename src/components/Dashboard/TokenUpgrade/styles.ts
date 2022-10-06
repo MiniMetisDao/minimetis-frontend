@@ -163,4 +163,7 @@ export const modalStyles = css`
       }
     }
   }
+  .upgrade-ended {
+    text-align: center;
+  }
 `;

@@ -144,7 +144,7 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
   return (
     <Modal onClose={onClose} title={t("miniMetisUpgradeTitle")}>
       <div css={modalStyles}>
-        <h4>{t("stepsToUpgrade")}</h4>
+        {/* <h4>{t("stepsToUpgrade")}</h4>
         <Trans
           i18nKey="dashboard:upgradeSteps"
           components={{
@@ -152,8 +152,8 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
             ol: <ol />,
             li: <li />,
           }}
-        />
-        <div className="button-group">
+        /> */}
+        {/* <div className="button-group">
           <Button
             disabled={
               walletDetails?.status !== "CONNECTED" ||
@@ -195,6 +195,11 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
           <div className={cx("step", { completed: isSuccess })}>
             <span>2</span>
           </div>
+        </div> */}
+        <div className="upgrade-ended">
+          <h4>
+            Upgrade Event Ended. More updates on Community Telegram and Discord
+          </h4>
         </div>
       </div>
     </Modal>
