@@ -92,9 +92,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       },
     });
 
-  const { data: allowance } = useGetTokenAllowance({
-    token: fromToken.token,
-  });
+  const { data: allowance } = useGetTokenAllowance(fromToken.token.address);
 
   const { mutate: swapMutate, isLoading: isSwapLoading } = useTokenSwap({
     onTransactionStart: ({ shortHash, explorerUrl }) => {

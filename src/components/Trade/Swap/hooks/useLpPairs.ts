@@ -2,12 +2,12 @@ import flatMap from "lodash.flatmap";
 import { Currency, Pair, Token } from "minime-sdk";
 import React from "react";
 
+import { wrappedCurrency } from "components/Trade/Swap/utils";
 import {
   BASES_TO_CHECK_TRADES_AGAINST,
   CUSTOM_BASES,
   chainId,
 } from "config/trade/constants";
-import { wrappedCurrency } from "components/Trade/Swap/utils";
 
 import { usePairs } from "./usePairs";
 

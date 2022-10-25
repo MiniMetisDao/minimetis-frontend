@@ -1,12 +1,12 @@
 import { Currency, CurrencyAmount, Trade } from "minime-sdk";
 import React from "react";
 
+import { isTradeBetter } from "components/Trade/Swap/utils";
 import {
   BETTER_TRADE_LESS_HOPS_THRESHOLD,
   MAX_HOPS,
   singleHopOnly,
 } from "config/trade/constants";
-import { isTradeBetter } from "components/Trade/Swap/utils";
 
 import { useLpPairs } from "./useLpPairs";
 

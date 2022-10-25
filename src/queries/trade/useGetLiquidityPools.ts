@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Pair, Token as SDKToken } from "minime-sdk";
 
 import { CHAIN_ID, factoryAbi } from "config";
@@ -28,7 +28,7 @@ const getAllLiquidityPairs = () => {
 export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
 
-  const { data: liquidityPairs, isLoading: isLiquidityPairs } = useQuery(
+  const { data: liquidityPairs, isLoading: isLiquidityPairsLoading } = useQuery(
     ["allLiquidityPairs"],
     getAllLiquidityPairs,
     {
@@ -46,16 +46,13 @@ export const useGetLiquidityPools = () => {
       abi: factoryAbi,
     })) || [];
 
-  const { data: pairAddresses, isLoading: isPairAddressesLoading } = useMultiCallContract<string[]>(
-    ["factoryPair", query],
-    query,
-    {
+  const { data: pairAddresses, isLoading: isPairAddressesLoading } =
+    useMultiCallContract<string[]>(["factoryPair", query], query, {
       cacheTime: Infinity,
       staleTime: 24 * 60 * 60 * 1000,
       refetchInterval: false,
       enabled: Boolean(query.length),
-    }
-  );
+    });
 
   const validLiquidityPairs = pairAddresses
     ? liquidityPairs?.filter(
@@ -63,6 +60,8 @@ export const useGetLiquidityPools = () => {
       )
     : [];
 
-    return { validLiquidityPairs, isLoading: isLiquidityPairs || isPairAddressesLoading }
+  return {
+    data: pairAddresses ? validLiquidityPairs : undefined,
+    isLoading: isLiquidityPairsLoading || isPairAddressesLoading,
+  };
 };
-
