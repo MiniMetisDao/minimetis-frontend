@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-location";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -28,23 +29,30 @@ export const AboutUs: React.FC = () => {
       <div className="transfer-tax">
         <Container>
           <div className="wrapper">
-            <div>
-              <p>{t("transferTax")}</p>
-              <p className="buy-link-wrapper">
-                <a
-                  target="_blank"
-                  href={`https://tethys.finance/swap?outputCurrency=${MINIME_CONTRACT_ADDRESS}`}
-                >
-                  {t("buyMinimetis")}
-                </a>
-                ({t("optimalSlippage", { value: "17.7%" })})
-              </p>
+            <div className="full-width-two-col">
+              <div>
+                <p>{t("transferTax")}</p>
+                <p className="buy-link-wrapper">
+                  <Link
+                    to={"/trade/swap-tokens"}
+                    search={{ from: "METIS", to: "MINIME", slippage: 12 }}
+                  >
+                    {t("buyMinimetis")}
+                  </Link>
+                  ({t("optimalSlippage", { value: "12%" })})
+                </p>
+              </div>
+              <div>
+                <Trans
+                  i18nKey="aboutUs:transferTaxDetails"
+                  components={{ ul: <ul />, li: <li /> }}
+                />
+              </div>
             </div>
-            <div>
-              <Trans
-                i18nKey="aboutUs:transferTaxDetails"
-                components={{ ul: <ul />, li: <li /> }}
-              />
+            <div className="full-width">
+              <p className="contract-address">
+                {t("contractAddress", { address: MINIME_CONTRACT_ADDRESS })}
+              </p>
             </div>
           </div>
         </Container>

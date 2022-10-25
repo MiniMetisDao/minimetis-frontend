@@ -113,6 +113,19 @@ export const isValidNumber = (value: string) => {
   return pattern.test(value);
 };
 
+/**
+ * keep only n decimals without rounding
+ * @param value
+ * @param decimals
+ * @returns
+ */
+export const truncateNumber = (value: string, decimals: number) => {
+  const re = new RegExp("^-?\\d+(?:.\\d{0," + (decimals || -1) + "})?");
+  const matcher = value.match(re);
+
+  return matcher ? matcher[0] : value;
+};
+
 export const getDeadlineTimestamp = (deadline: number) => {
   return Math.floor(Date.now() / 1000) + 60 * deadline;
 };

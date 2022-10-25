@@ -17,6 +17,7 @@ import {
   getFormattedAmount,
   getFormattedAmountRounded,
   getHumanReadableAmount,
+  truncateNumber,
 } from "utils";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
@@ -97,7 +98,8 @@ export const TokenInput: React.FC<TokenInputProps> = ({
     },
   });
 
-  const handleChange = (input: string) => onChange(input);
+  const handleChange = (input: string) =>
+    onChange(truncateNumber(input, token.decimals));
 
   const formattedBalance = getFormattedAmount(token, balance);
 

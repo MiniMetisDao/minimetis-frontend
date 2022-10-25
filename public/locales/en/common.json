@@ -30,6 +30,7 @@
   "telegram": "join our community",
   "discord": "join our discord",
   "transactionCancelled": "Transaction cancelled by user!",
+  "insufficientOutputAmount": "Transaction failed due to insufficient output amount in the contract",
   "transactionError": "Transaction failed due to an error!",
   "transactionPending": "Your transaction initiated with hash: <a>{{txHash}}</a>",
   "transactionSuccess": "Your transaction completed successfully with hash: <a>{{txHash}}</a>",
@@ -40,7 +41,7 @@
   "notFoundDescription": "The page you are looking for doesn't exist. Please check the url and try again.",
   "hugsNotRugsBannerTitle": "Hugs, Not Rugs!",
   "hugsNotRugsBannerDescription": "<span>Apply for review with Mini Metis</span> <a>Lets Start</a>",
-  "buyMinimetis":"Buy MiniMetis @ tethys.finance",
+  "buyMinimetis":"Buy MiniMe tokens from our Dex",
   "optimalSlippage": "Optimal Slippage: {{value}}",
   "bannerMessage": "MiniMetis token upgrade event ended.🔥"
 }

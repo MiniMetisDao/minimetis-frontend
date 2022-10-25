@@ -92,7 +92,7 @@ export const TokenStats: React.FC = () => {
               <DisplayPrice
                 amount={treasury?.miniMe.amount}
                 decimals={treasury?.miniMe.decimals}
-                tokenSymbol="MiniMetis"
+                tokenSymbol={minimeConstants?.symbol}
                 roundingDecimal={0}
               />
             </span>
@@ -140,7 +140,7 @@ export const TokenStats: React.FC = () => {
                   .minus(minimeConstants?.getCirculatingSupply)
                   .toFixed()}
                 decimals={minimeConstants?.decimals}
-                tokenSymbol="MiniMetis"
+                tokenSymbol={minimeConstants?.symbol}
                 roundingDecimal={0}
                 isCompact
               />
