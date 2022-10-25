@@ -1,9 +1,9 @@
 import { Currency, Pair, TokenAmount } from "minime-sdk";
 import React from "react";
 
-import { chainId } from "components/Trade/Swap/constants";
 import { wrappedCurrency } from "components/Trade/Swap/utils";
-import { DEFAULT_BATCH_SIZE, PairAbi } from "config";
+import { DEFAULT_BATCH_SIZE, pairAbi } from "config";
+import { chainId } from "config/trade/constants";
 import { Batch, multicall, useMultiCallContract } from "utils/multicall";
 
 export enum PairState {
@@ -43,7 +43,7 @@ export function usePairs(
   const queryInfos = pairAddresses.map((address: any) => ({
     address,
     method: "getReserves",
-    abi: PairAbi,
+    abi: pairAbi,
   }));
 
   const { data: reserves = [] } = useMultiCallContract<Pair[]>(

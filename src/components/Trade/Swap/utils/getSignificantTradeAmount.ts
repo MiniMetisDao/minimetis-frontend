@@ -1,6 +1,6 @@
 import { Fraction } from "minime-sdk";
 
-import { ONE } from "../constants";
+import { ONE } from "../../../../config/trade/constants";
 
 export const getSignificantTradeAmount = (
   amount?: Fraction,

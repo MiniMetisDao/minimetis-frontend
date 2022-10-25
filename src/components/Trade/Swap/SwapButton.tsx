@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Token as SdkToken, Trade, TradeType } from "minime-sdk";
+import { Trade, TradeType } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Button } from "components/Button";
 import { ConnectButton } from "components/Connect";
 import { TRADE_SETTINGS } from "config";
+import { SWAP_METHODS } from "config/trade/constants";
 import { useGetWalletDetails } from "queries";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { useTokenApproval } from "queries/trade/useTokenApproval";
@@ -14,7 +15,6 @@ import { useTokenSwap } from "queries/trade/useTokenSwap";
 import { getAmount, getDeadlineTimestamp } from "utils";
 import { useStorage } from "utils/storage";
 
-import { SWAP_METHODS } from "./constants";
 import { SwapToken } from "./types";
 
 type SwapButtonProps = {
@@ -58,10 +58,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
               a: <a target="_blank" href={explorerUrl} />,
             }}
           />,
-          {
-            toastId: "approval",
-            closeButton: true,
-          }
+          { toastId: "approval", closeButton: true }
         );
       },
       onTransactionSuccess: ({ shortHash, explorerUrl }) => {
@@ -178,7 +175,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
     const params = [
       amountNeeded,
       amountSwappable,
-      trade.route.path.map((token: SdkToken) => token.address),
+      trade.route.path.map((token) => token.address),
       walletDetails?.address,
       getDeadlineTimestamp(transactionDeadline as number),
     ];

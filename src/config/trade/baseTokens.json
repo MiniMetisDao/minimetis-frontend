@@ -1,0 +1,18 @@
+[
+  {
+    "chainId": 1088,
+    "address": "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
+    "decimals": 18,
+    "name": "Metis",
+    "symbol": "METIS",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/METIS/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0xea32a96608495e54156ae48931a7c20f0dcc1a21",
+    "decimals": 6,
+    "name": "USDC Token",
+    "symbol": "m.USDC",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDC/logo.png"
+  }
+]

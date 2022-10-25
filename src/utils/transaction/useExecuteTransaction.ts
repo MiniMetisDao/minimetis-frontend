@@ -86,7 +86,5 @@ export const useExecuteTransaction = (
     }
   };
 
-  return useMutation(mutationKey, execute, {
-    onError,
-  });
+  return useMutation(execute, { onError, mutationKey });
 };

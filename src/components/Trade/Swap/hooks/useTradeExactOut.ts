@@ -5,7 +5,7 @@ import {
   BETTER_TRADE_LESS_HOPS_THRESHOLD,
   MAX_HOPS,
   singleHopOnly,
-} from "components/Trade/Swap/constants";
+} from "config/trade/constants";
 import { isTradeBetter } from "components/Trade/Swap/utils";
 
 import { useLpPairs } from "./useLpPairs";

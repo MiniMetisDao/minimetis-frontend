@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/DisplayPrice";
 import { Modal } from "components/Modal";
-import tradingTokens from "config/tradingTokens.json";
+import tradingTokens from "config/trade/tradingTokens.json";
 import { useGetTokenBalances } from "queries";
 import { Token } from "types/common";
 import { searchToken } from "utils";
