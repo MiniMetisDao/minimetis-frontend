@@ -25,10 +25,10 @@ const getAllLiquidityPairs = () => {
   }));
 };
 
-const useLiquidityPairs = () => {
+export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
 
-  const { data: liquidityPairs } = useQuery(
+  const { data: liquidityPairs, isLoading: isLiquidityPairs } = useQuery(
     ["allLiquidityPairs"],
     getAllLiquidityPairs,
     {
@@ -46,7 +46,7 @@ const useLiquidityPairs = () => {
       abi: factoryAbi,
     })) || [];
 
-  const { data: pairAddresses } = useMultiCallContract<string[]>(
+  const { data: pairAddresses, isLoading: isPairAddressesLoading } = useMultiCallContract<string[]>(
     ["factoryPair", query],
     query,
     {
@@ -63,16 +63,6 @@ const useLiquidityPairs = () => {
       )
     : [];
 
-  if (pairAddresses) {
-    //validLiquidityPairs;
-  }
-
-  return useMutation(() => {});
+    return { validLiquidityPairs, isLoading: isLiquidityPairs || isPairAddressesLoading }
 };
 
-export const useGetLiquidityPools = () => {
-  const { mutateAsync } = useLiquidityPairs();
-
-  // using useQuery to cache data
-  return useQuery(["getLiquidityPools"], () => mutateAsync);
-};
