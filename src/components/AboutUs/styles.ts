@@ -91,6 +91,9 @@ export const styles = css`
     .contract-address {
       font-size: 20px;
       margin: 0;
+      @media (max-width: 640px) {
+        font-size: 16px;
+      }
     }
 
     ul {
