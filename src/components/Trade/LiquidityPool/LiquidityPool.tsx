@@ -21,18 +21,18 @@ export const LiquidityPool: React.FC = () => {
         {isLoading && <p>please wait while we fetch the liquidity pools</p>}
         {data &&
           data.map((lp) => (
-            <div key={lp.address}>
+            <div className="pool-item" key={lp.address}>
               {lp.name} → {lp.address} → Balance:{" "}
               {balances ? (
                 <>
                   <DisplayPrice amount={balances[lp.address]} decimals={18} />
-                  {balances[lp.address] !== "0" && (
+                  <div className="btn">
                     <RemoveLiquidityButton
-                      hasInputError={false}
+                      hasInputError={balances[lp.address] === "0"}
                       amount={balances[lp.address]}
                       pairAddress={lp.address}
                     />
-                  )}
+                  </div>
                 </>
               ) : (
                 "loading..."

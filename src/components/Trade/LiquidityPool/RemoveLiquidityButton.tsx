@@ -209,7 +209,7 @@ export const RemoveLiquidityButton: React.FC<RemoveLiquidityButtonProps> = ({
     </Button>
   ) : (
     <Button
-      disabled={hasInputError && !isDataLoading}
+      disabled={hasInputError || !isDataLoading}
       onClick={handleSwapClick}
     >
       {!isremoveLiquidityLoading ? "remove liquidity" : "removing liquidity"}
