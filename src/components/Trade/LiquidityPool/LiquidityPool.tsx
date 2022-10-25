@@ -29,7 +29,7 @@ export const LiquidityPool: React.FC = () => {
                   {balances[lp.address] !== "0" && (
                     <RemoveLiquidityButton
                       hasInputError={false}
-                      amount={(balances[lp.address] / 2).toString()}
+                      amount={balances[lp.address]}
                       pairAddress={lp.address}
                     />
                   )}
