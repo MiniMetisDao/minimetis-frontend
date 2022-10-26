@@ -9,9 +9,9 @@
   },
   {
     "chainId": 1088,
-    "address": "0x2e90D5A3F4E9bb6c1F0419a9aa6d234D71879e40",
+    "address": "0x5A3b6A5c737B0e85DD9120CeED7c0DB86F41FA68",
     "decimals": 18,
-    "name": "MiniMe",
+    "name": "MiniMe V2",
     "symbol": "MINIME",
     "logoURI": "/logos/minime.png"
   }
