@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WETH } from "minime-sdk";
 
 import { CHAIN_ID } from "config";
-import baseTokens from "config/baseTokens.json";
+import baseTokens from "config/trade/baseTokens.json";
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -22,19 +22,19 @@ export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(
   JSBI.BigInt(10000)
 );
 
+//TODO: check if required
 const WMETIS_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.TESTNET]: [WETH[ChainId.TESTNET]],
 };
 
+//TODO: fix testnet tokens
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  ...WMETIS_ONLY,
   [ChainId.MAINNET]: [
-    ...WMETIS_ONLY[ChainId.MAINNET],
     ...baseTokens.map(
       (token) =>
         new Token(
-          ChainId.MAINNET,
+          token.chainId,
           token.address,
           token.decimals,
           token.symbol,
@@ -68,6 +68,6 @@ export const MAX_HOPS = 3;
 export const independentField = "INPUT";
 
 export enum SWAP_METHODS {
-  EXACT_INPUT = "swapExactTokensForTokens",
+  EXACT_INPUT = "swapExactTokensForTokensSupportingFeeOnTransferTokens",
   EXACT_OUTPUT = "swapTokensForExactTokens",
 }

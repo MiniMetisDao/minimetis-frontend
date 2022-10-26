@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { DistributorAbi, METIS_TOKEN_DECIMALS } from "config";
+import { METIS_TOKEN_DECIMALS, distributorAbi } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { TokenAmount } from "types/common";
@@ -30,14 +30,14 @@ export const useGetDividendShare = () => {
         method: "shares",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [walletDetails?.address!],
-        abi: DistributorAbi,
+        abi: distributorAbi,
       },
       {
         address: minimeConstants?.distributor,
         method: "getUnpaidEarnings",
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
         params: [walletDetails?.address!],
-        abi: DistributorAbi,
+        abi: distributorAbi,
       },
     ],
     {
@@ -51,12 +51,12 @@ export const useGetDividendShare = () => {
       {
         address: minimeConstants?.distributor,
         method: "totalShares",
-        abi: DistributorAbi,
+        abi: distributorAbi,
       },
       {
         address: minimeConstants?.distributor,
         method: "totalDistributed",
-        abi: DistributorAbi,
+        abi: distributorAbi,
       },
     ],
     {

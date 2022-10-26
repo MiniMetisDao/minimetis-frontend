@@ -14,6 +14,8 @@ import { Menu } from "./Menu";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { styles } from "./styles";
 
+const hideBanner = true;
+
 const HeaderMenu = () => {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -64,7 +66,13 @@ const HeaderMenu = () => {
           <Connect />
         </div>
       </div>
-      <div ref={ref} className={cx("mobile-menu-wrapper", { open: menuOpen })}>
+      <div
+        ref={ref}
+        className={cx("mobile-menu-wrapper", {
+          open: menuOpen,
+          "hidden-banner": hideBanner,
+        })}
+      >
         <Menu isMobile open={menuOpen} />
 
         <ThemeSwitch />
@@ -90,6 +98,7 @@ export const Header: React.FC = () => {
         <div className="header-wrapper fixed">
           <HeaderMenu />
           <TopInfoBar
+            hide={hideBanner}
             scrolled={false}
             message={
               <Trans
@@ -106,6 +115,7 @@ export const Header: React.FC = () => {
           <div className="header-wrapper fixed">
             <HeaderMenu />
             <TopInfoBar
+              hide={hideBanner}
               message={
                 <Trans
                   i18nKey="bannerMessage"
@@ -119,6 +129,7 @@ export const Header: React.FC = () => {
           <div className="header-wrapper">
             <HeaderMenu />
             <TopInfoBar
+              hide={hideBanner}
               scrolled
               message={
                 <Trans

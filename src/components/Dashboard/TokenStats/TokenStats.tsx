@@ -76,35 +76,37 @@ export const TokenStats: React.FC = () => {
                 tokenSymbol="Metis"
                 roundingDecimal={0}
               />
-            </span>
-            <span className="base-value">
-              <DisplayPrice
-                amount={treasury?.metis.amount}
-                decimals={treasury?.metis.decimals}
-                baseFactor={tokenPrice?.metis}
-                isBasePrice
-                roundingDecimal={0}
-              />{" "}
-              {BASE_CURRENCY_CODE}
+              <span className="base-value">
+                (
+                <DisplayPrice
+                  amount={treasury?.metis.amount}
+                  decimals={treasury?.metis.decimals}
+                  baseFactor={tokenPrice?.metis}
+                  isBasePrice
+                  roundingDecimal={0}
+                />{" "}
+                {BASE_CURRENCY_CODE})
+              </span>
             </span>
 
             <span>
               <DisplayPrice
                 amount={treasury?.miniMe.amount}
                 decimals={treasury?.miniMe.decimals}
-                tokenSymbol="MiniMetis"
+                tokenSymbol={minimeConstants?.symbol}
                 roundingDecimal={0}
               />
-            </span>
-            <span className="base-value">
-              <DisplayPrice
-                amount={treasury?.miniMe.amount}
-                decimals={treasury?.miniMe.decimals}
-                baseFactor={tokenPrice?.miniMe}
-                isBasePrice
-                roundingDecimal={0}
-              />{" "}
-              {BASE_CURRENCY_CODE}
+              <span className="base-value">
+                (
+                <DisplayPrice
+                  amount={treasury?.miniMe.amount}
+                  decimals={treasury?.miniMe.decimals}
+                  baseFactor={tokenPrice?.miniMe}
+                  isBasePrice
+                  roundingDecimal={0}
+                />{" "}
+                {BASE_CURRENCY_CODE})
+              </span>
             </span>
 
             <span className="total-value">
@@ -140,7 +142,7 @@ export const TokenStats: React.FC = () => {
                   .minus(minimeConstants?.getCirculatingSupply)
                   .toFixed()}
                 decimals={minimeConstants?.decimals}
-                tokenSymbol="MiniMetis"
+                tokenSymbol={minimeConstants?.symbol}
                 roundingDecimal={0}
                 isCompact
               />

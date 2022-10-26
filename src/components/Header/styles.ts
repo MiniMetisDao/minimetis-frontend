@@ -167,6 +167,9 @@ export const styles =
             max-height: 600px;
             margin-top: 50px;
           }
+          &.open.hidden-banner {
+            margin-top: 20px;
+          }
         }
       }
       .mobile-menu {

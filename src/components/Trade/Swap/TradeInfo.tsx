@@ -8,7 +8,7 @@ import { Tooltip } from "components/Tooltip";
 
 import { TradeLinkModal } from "../TradeLinkModal";
 
-import { ONE_BIPS } from "./constants";
+import { ONE_BIPS } from "../../../config/trade/constants";
 import { Field } from "./hooks/useDerivedSwapInfo";
 import { SwapToken } from "./types";
 import { computeTradePriceBreakdown, getSignificantTradeAmount } from "./utils";

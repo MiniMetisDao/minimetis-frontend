@@ -49,7 +49,7 @@ export const styles = css`
   .transfer-tax {
     background: #04d8cc;
     margin: 50px 0 40px;
-    padding: 80px 0;
+    padding: 60px 0;
     color: #443247;
     font-size: 30px;
     line-height: 1.4;
@@ -58,11 +58,13 @@ export const styles = css`
     .wrapper {
       border-top: 4px solid #443247;
       padding-top: 15px;
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 1fr;
-      @media (max-width: 640px) {
-        grid-auto-flow: row;
+      .full-width-two-col {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        @media (max-width: 640px) {
+          grid-auto-flow: row;
+        }
       }
     }
 
@@ -74,7 +76,7 @@ export const styles = css`
     }
     .buy-link-wrapper {
       font-size: 24px;
-      margin: 0;
+      margin: 0 0 10px;
       a {
         color: #fff;
         background: #8755cd;
@@ -84,6 +86,13 @@ export const styles = css`
         text-align: center;
         border-radius: 4px;
         text-decoration: none;
+      }
+    }
+    .contract-address {
+      font-size: 20px;
+      margin: 0;
+      @media (max-width: 640px) {
+        font-size: 16px;
       }
     }
 

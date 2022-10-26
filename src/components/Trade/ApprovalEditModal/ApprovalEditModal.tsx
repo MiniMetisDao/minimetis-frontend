@@ -23,7 +23,7 @@ export const ApprovalEditModal: React.FC<ApprovalEditModalProps> = ({
 }) => {
   const { t } = useTranslation("trade");
 
-  const { data: allowance } = useGetTokenAllowance({ token });
+  const { data: allowance } = useGetTokenAllowance(token.address);
 
   const [approvalAmount, setApprovalAmount] = React.useState<string>();
 

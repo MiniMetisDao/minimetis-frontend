@@ -62,6 +62,8 @@ export const styles = ({ color }: Theme) => css`
       display: block;
       &.base-value {
         font-size: 15px;
+        display: inline-block;
+        margin-left: 10px;
       }
       &.total-value {
         margin-top: 25px;

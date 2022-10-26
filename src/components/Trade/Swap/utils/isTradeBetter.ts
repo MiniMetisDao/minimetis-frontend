@@ -3,7 +3,7 @@ import { Percent, Trade, currencyEquals } from "minime-sdk";
 import {
   ONE_HUNDRED_PERCENT,
   ZERO_PERCENT,
-} from "components/Trade/Swap/constants";
+} from "config/trade/constants";
 
 // returns whether tradeB is better than tradeA by at least a threshold percentage amount
 export function isTradeBetter(

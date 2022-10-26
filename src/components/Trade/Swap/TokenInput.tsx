@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -18,6 +17,7 @@ import {
   getFormattedAmount,
   getFormattedAmountRounded,
   getHumanReadableAmount,
+  truncateNumber,
 } from "utils";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
@@ -50,7 +50,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
   const [showApprovalEditModal, setShowApprovalEditModal] =
     React.useState(false);
 
-  const { data: allowance } = useGetTokenAllowance({ token });
+  const { data: allowance } = useGetTokenAllowance(token.address);
 
   const { mutate: approvalMutate } = useTokenApproval({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
@@ -98,7 +98,8 @@ export const TokenInput: React.FC<TokenInputProps> = ({
     },
   });
 
-  const handleChange = (input: string) => onChange(input);
+  const handleChange = (input: string) =>
+    onChange(truncateNumber(input, token.decimals));
 
   const formattedBalance = getFormattedAmount(token, balance);
 

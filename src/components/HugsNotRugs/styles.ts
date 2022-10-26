@@ -48,7 +48,7 @@ export const styles = ({ color }: Theme) => css`
           margin-top: 20px;
         }
       }
-      p:nth-child(2) {
+      p:nth-of-type(2) {
         font-size: 30px;
         font-weight: 700;
       }
@@ -115,7 +115,7 @@ export const styles = ({ color }: Theme) => css`
 
     ${Array.from(
       Array(10),
-      (_, i) => `:nth-child(${i + 1}) {
+      (_, i) => `:nth-of-type(${i + 1}) {
         
       ::before {
         content: "${i + 1}";

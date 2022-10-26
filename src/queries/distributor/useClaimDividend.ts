@@ -1,4 +1,4 @@
-import { DistributorAbi } from "config";
+import { distributorAbi } from "config";
 import { useMinimeConstants } from "queries";
 import { type TransactionParams, useExecuteTransaction } from "utils";
 
@@ -20,7 +20,7 @@ export const useClaimDividend = ({
     mutate: () => {
       return mutate({
         contractDetails: {
-          abi: DistributorAbi,
+          abi: distributorAbi,
           address: minimeConstants?.distributor,
           method: "claimDividend",
         },
