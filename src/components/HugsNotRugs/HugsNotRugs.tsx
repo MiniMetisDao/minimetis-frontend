@@ -1,8 +1,8 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
-import { HugsNotRugsBanner } from "components/HugsNotRugsBanner";
-import { Container } from "components/Layout/Container";
+import { Container } from "components/Layout";
+import { HugsNotRugsBanner } from "components/shared/HugsNotRugsBanner";
 
 import { styles } from "./styles";
 

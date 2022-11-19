@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
+import { Container } from "components/Layout";
 import { IconButton } from "components/shared/IconButton";
-import { Container } from "components/Layout/Container";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/trade/tradingTokens.json";
 import { useGetTokenBalances } from "queries";

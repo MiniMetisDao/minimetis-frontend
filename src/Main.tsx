@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 
-import { LoadingSpinner } from "components/LoadingSpinner";
+import { LoadingSpinner } from "components/shared/LoadingSpinner";
 import "config/i18n";
 
 import { App } from "./App";
