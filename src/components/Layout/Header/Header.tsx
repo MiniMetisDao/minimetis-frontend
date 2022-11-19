@@ -6,7 +6,7 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import useOnClickOutside from "use-onclickoutside";
 
-import { Connect } from "components/Connect";
+import { Connect } from "components/shared/Connect";
 import { TopInfoBar } from "components/TopInfoBar";
 import { useTheme } from "theme";
 

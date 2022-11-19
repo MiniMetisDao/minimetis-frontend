@@ -4,8 +4,8 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { Button } from "components/Button";
-import { ConnectButton } from "components/Connect";
+import { Button } from "components/shared/Button";
+import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
 import { SWAP_METHODS } from "config/trade/constants";
 import { useGetWalletDetails } from "queries";
@@ -210,7 +210,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       {!isApprovalLoading ? t("approve") : t("approving")}
     </Button>
   ) : (
-    <Button disabled={hasInputError} onClick={handleSwapClick}>
+    <Button disabled={hasInputError || isSwapLoading} onClick={handleSwapClick}>
       {!isSwapLoading ? t("swap") : t("swapping")}
     </Button>
   );

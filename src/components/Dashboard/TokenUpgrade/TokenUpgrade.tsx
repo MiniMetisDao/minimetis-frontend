@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import {
   EXPLORER_URL,
   MINIME_CONTRACT_ADDRESS_V1,

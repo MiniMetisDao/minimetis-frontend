@@ -3,8 +3,8 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { Button } from "components/Button";
-import { ConnectButton } from "components/Connect";
+import { Button } from "components/shared/Button";
+import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
 import { useGetWalletDetails } from "queries";
 import { useGetLiquidityPoolReserves } from "queries/trade/useGetLiquidityPoolReserves";

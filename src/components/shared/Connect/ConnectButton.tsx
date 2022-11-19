@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Button } from "components/Button";
+import { Button } from "components/shared/Button";
 import { useGetWalletDetails } from "queries";
 import { connectWallet, switchNetwork } from "utils";
 

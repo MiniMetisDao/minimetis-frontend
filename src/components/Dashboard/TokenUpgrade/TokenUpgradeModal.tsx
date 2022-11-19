@@ -3,8 +3,8 @@ import BigNumber from "bignumber.js";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { Button } from "components/Button";
-import { Modal } from "components/Modal";
+import { Button } from "components/shared/Button";
+import { Modal } from "components/shared/Modal";
 import { MINIME_CONTRACT_ADDRESS_V1 } from "config";
 import {
   useGetUpgradeTokenAllowance,

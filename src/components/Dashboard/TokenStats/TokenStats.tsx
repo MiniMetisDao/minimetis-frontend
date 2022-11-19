@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";

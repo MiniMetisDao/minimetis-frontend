@@ -2,8 +2,8 @@ import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { InputCompact } from "components/Input";
-import { Modal } from "components/Modal";
+import { InputCompact } from "components/shared/Input";
+import { Modal } from "components/shared/Modal";
 import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
 import { Token } from "types/common";

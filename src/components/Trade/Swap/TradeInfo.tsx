@@ -3,8 +3,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosLink } from "react-icons/io";
 
-import { IconButton } from "components/IconButton";
-import { Tooltip } from "components/Tooltip";
+import { IconButton } from "components/shared/IconButton";
+import { Tooltip } from "components/shared/Tooltip";
 
 import { TradeLinkModal } from "../TradeLinkModal";
 

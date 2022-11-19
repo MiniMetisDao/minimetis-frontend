@@ -5,9 +5,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoIosLink } from "react-icons/io";
 import { IoCopyOutline } from "react-icons/io5";
 
-import { InputCompact } from "components/Input";
-import { Modal } from "components/Modal";
-import { Switch } from "components/Switch";
+import { InputCompact } from "components/shared/Input";
+import { Modal } from "components/shared/Modal";
+import { Switch } from "components/shared/Switch";
 import { Token } from "types/common";
 
 import { SelectTokenModal } from "../SelectTokenModal";

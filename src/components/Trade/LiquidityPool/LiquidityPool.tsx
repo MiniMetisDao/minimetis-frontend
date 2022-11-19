@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { Container } from "components/Layout/Container";
 import { useGetLiquidityPoolBalances } from "queries/trade/useGetLiquidityPoolBalances";
 import { useGetLiquidityPools } from "queries/trade/useGetLiquidityPools";

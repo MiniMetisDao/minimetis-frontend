@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE, MINIME_CONTRACT_ADDRESS } from "config";
 import { useGetWalletDetails, useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";

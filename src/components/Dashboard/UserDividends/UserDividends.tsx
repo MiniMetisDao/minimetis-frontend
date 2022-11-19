@@ -3,7 +3,7 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE } from "config";
 import { useGetWalletDetails } from "queries";
 import { useGetDividendShare } from "queries/distributor";
