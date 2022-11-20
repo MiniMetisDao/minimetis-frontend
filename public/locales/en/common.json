@@ -19,6 +19,10 @@
     "CONNECTED": "Andromeda (Metis)",
     "NO_METAMASK": "No Metamask Found"
   },
+  "logout": "Logout",
+  "connectedWallet": "Connected Wallet",
+  "network": "Network",
+  "address": "Address",
   "connectionError": "you are not connected, please connect wallet above",
   "toggleTheme": "Toggle Theme",
   "currency": "{{value, formatCurrency}}",

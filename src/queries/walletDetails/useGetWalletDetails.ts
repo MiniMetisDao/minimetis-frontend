@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { useWalletStore } from "store/wallet";
 import { getWalletAddress, isSupportedNetworkConnected } from "utils/ethers";
 
 export type WalletStatus =
@@ -14,7 +15,10 @@ export type WalletDetails = {
   shortAddress?: string;
 };
 
-const fetchWalletDetails = async (): Promise<WalletDetails> => {
+const fetchWalletDetails = async (
+  walletConnected: boolean
+): Promise<WalletDetails> => {
+  console.log("walletConnected", walletConnected);
   const status: WalletStatus = "NO_METAMASK";
   let address = "";
 
@@ -34,7 +38,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
 
   [address] = await getWalletAddress();
 
-  if (!address) {
+  if (!address || !walletConnected) {
     return {
       status: "WALLET_NOT_CONNECTED",
     };
@@ -48,8 +52,15 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
   };
 };
 
-export const useGetWalletDetails = () =>
-  useQuery(["walletDetailsQuery", "walletDetails"], fetchWalletDetails, {
-    refetchOnWindowFocus: true,
-    staleTime: Infinity,
-  });
+export const useGetWalletDetails = () => {
+  const walletConnected = useWalletStore((state) => state.connected);
+
+  return useQuery(
+    ["walletDetailsQuery", "walletDetails", { walletConnected }],
+    () => fetchWalletDetails(walletConnected),
+    {
+      refetchOnWindowFocus: true,
+      staleTime: Infinity,
+    }
+  );
+};

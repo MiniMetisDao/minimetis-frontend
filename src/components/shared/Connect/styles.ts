@@ -72,3 +72,7 @@ export const styles = ({ color }: Theme) => css`
     }
   }
 `;
+
+export const detailStyles = () => css`
+  font-size: 18px;
+`;
