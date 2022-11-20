@@ -18,7 +18,6 @@ export type WalletDetails = {
 const fetchWalletDetails = async (
   walletConnected: boolean
 ): Promise<WalletDetails> => {
-  console.log("walletConnected", walletConnected);
   const status: WalletStatus = "NO_METAMASK";
   let address = "";
 
