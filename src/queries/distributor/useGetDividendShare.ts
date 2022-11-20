@@ -4,7 +4,7 @@ import { METIS_TOKEN_DECIMALS, distributorAbi } from "config";
 import { useMinimeConstants } from "queries";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { TokenAmount } from "types/common";
-import { useMultiCallContract } from "utils";
+import { getAmount, useMultiCallContract } from "utils";
 
 type DistributorShare = {
   totalShares: string;
@@ -23,7 +23,7 @@ export const useGetDividendShare = () => {
   const { data: walletDetails } = useGetWalletDetails();
 
   const distributorUserQuery = useMultiCallContract<string[]>(
-    "distributorUser",
+    ["distributorQuery", "distributorUserDetails"],
     [
       {
         address: minimeConstants?.distributor,
@@ -46,7 +46,7 @@ export const useGetDividendShare = () => {
   );
 
   const distibutorQuery = useMultiCallContract<string[]>(
-    "distributor",
+    ["distributorQuery", "distributorDetails"],
     [
       {
         address: minimeConstants?.distributor,
@@ -70,7 +70,9 @@ export const useGetDividendShare = () => {
     data = {
       totalShares: distibutorQuery.data[0],
       totalDistributed: {
-        amount: distibutorQuery.data[1],
+        amount: BigNumber(distibutorQuery.data[1])
+          .plus(getAmount("1422", METIS_TOKEN_DECIMALS)) // add v1 contracts amount (manually added) minime v1: 0x6d8534326415Ff9966b387615e576A109aC01AC1
+          .toString(),
         decimals: METIS_TOKEN_DECIMALS,
       },
 

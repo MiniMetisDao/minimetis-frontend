@@ -27,7 +27,7 @@ export const useGetTokenBalances = ({
   }, [tokens, walletDetails?.address]);
 
   return useMultiCallContract<Balance>(
-    ["tokenBalances", tokenParams],
+    ["tradeQuery", "tokenBalances"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

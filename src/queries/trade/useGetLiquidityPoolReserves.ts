@@ -11,7 +11,7 @@ export const useGetLiquidityPoolReserves = (lpAddress: string) => {
   }));
 
   return useMultiCallContract<Record<string, string>>(
-    ["liquidityPoolReserves", query],
+    ["tradeQuery", "liquidityPoolReserves"],
     query,
     {
       select: (response: string[]) =>

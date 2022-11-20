@@ -29,7 +29,7 @@ export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
 
   const { data: liquidityPairs, isLoading: isLiquidityPairsLoading } = useQuery(
-    ["allLiquidityPairs"],
+    ["trade", "allLiquidityPairs"],
     getAllLiquidityPairs,
     {
       cacheTime: Infinity,
@@ -47,7 +47,7 @@ export const useGetLiquidityPools = () => {
     })) || [];
 
   const { data: pairAddresses, isLoading: isPairAddressesLoading } =
-    useMultiCallContract<string[]>(["factoryPair", query], query, {
+    useMultiCallContract<string[]>(["tradeQuery", "factoryPair"], query, {
       cacheTime: Infinity,
       staleTime: 24 * 60 * 60 * 1000,
       refetchInterval: false,

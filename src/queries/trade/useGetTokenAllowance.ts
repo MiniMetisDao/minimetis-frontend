@@ -14,7 +14,7 @@ export const useGetTokenAllowance = (tokenAddress: string) => {
   };
 
   return useMultiCallContract<string>(
-    ["tokenAllowance", tokenParams],
+    ["tradeQuery", "tokenAllowance"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

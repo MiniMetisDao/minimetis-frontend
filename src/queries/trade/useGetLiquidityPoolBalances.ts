@@ -15,7 +15,7 @@ export const useGetLiquidityPoolBalances = () => {
     })) || [];
 
   return useMultiCallContract<Record<string, string>>(
-    ["liquidityPoolBalances", query],
+    ["tradeQuery", "liquidityPoolBalances"],
     query,
     {
       enabled: Boolean(query.length) && Boolean(walletDetails?.address),

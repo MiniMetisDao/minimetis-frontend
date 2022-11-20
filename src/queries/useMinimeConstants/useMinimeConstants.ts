@@ -35,9 +35,13 @@ const selector = (results: string[]): ResultSet => {
 };
 
 export const useMinimeConstants = (): UseQueryResult<ResultSet, any> => {
-  return useMultiCallContract("minimeConstants", query, {
-    staleTime: Infinity,
-    refetchInterval: false,
-    select: selector,
-  });
+  return useMultiCallContract(
+    ["minimeConstantsQuery", "minimeConstants"],
+    query,
+    {
+      staleTime: Infinity,
+      refetchInterval: false,
+      select: selector,
+    }
+  );
 };

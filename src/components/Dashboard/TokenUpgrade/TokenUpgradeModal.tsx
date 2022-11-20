@@ -29,7 +29,7 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
   const { data: walletDetails } = useGetWalletDetails();
 
   const { data: userBalance } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "tokenUpgrade", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS_V1,
       method: "balanceOf",

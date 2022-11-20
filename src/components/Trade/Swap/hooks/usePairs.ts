@@ -47,7 +47,7 @@ export function usePairs(
   }));
 
   const { data: reserves = [] } = useMultiCallContract<Pair[]>(
-    "swapInfo",
+    ["trade", "swap", "swapInfo"],
     queryInfos,
     {
       batchLoader,

@@ -16,7 +16,7 @@ export const useGetTreasury = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
 
   const treasuryData = useMultiCallContract<string[]>(
-    "treasury",
+    ["treasuryQuery", "treasury"],
     [
       {
         address: MINIME_CONTRACT_ADDRESS,

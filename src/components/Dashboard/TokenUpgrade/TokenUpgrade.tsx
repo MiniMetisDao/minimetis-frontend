@@ -23,7 +23,7 @@ export const TokenUpgrade: React.FC = () => {
   const { data: minimeConstants } = useMinimeConstants();
 
   const { data: userBalance } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "tokenUpgrade", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS_V1,
       method: "balanceOf",
@@ -34,7 +34,7 @@ export const TokenUpgrade: React.FC = () => {
   );
 
   const { data: userV2Balance } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "tokenUpgrade", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS_V2,
       method: "balanceOf",

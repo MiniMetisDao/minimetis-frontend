@@ -49,7 +49,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
 };
 
 export const useGetWalletDetails = () =>
-  useQuery(["walletDetails"], fetchWalletDetails, {
+  useQuery(["walletDetailsQuery", "walletDetails"], fetchWalletDetails, {
     refetchOnWindowFocus: true,
     staleTime: Infinity,
   });

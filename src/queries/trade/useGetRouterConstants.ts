@@ -26,7 +26,7 @@ const selector = (results: string[]): ResultSet => {
 };
 
 export const useGetRouterConstants = (): UseQueryResult<ResultSet, any> => {
-  return useMultiCallContract("routerConstants", query, {
+  return useMultiCallContract(["tradeQuery", "routerConstants"], query, {
     cacheTime: Infinity,
     staleTime: 24 * 60 * 60 * 1000,
     refetchInterval: false,

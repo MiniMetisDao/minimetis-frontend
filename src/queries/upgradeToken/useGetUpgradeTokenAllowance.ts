@@ -17,7 +17,7 @@ export const useGetUpgradeTokenAllowance = () => {
   };
 
   return useMultiCallContract<string>(
-    ["upgradeTokenAllowance", tokenParams],
+    ["upgradeTokenQuery", "upgradeTokenAllowance"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

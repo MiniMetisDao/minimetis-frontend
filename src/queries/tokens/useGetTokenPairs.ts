@@ -65,7 +65,7 @@ export const useGetTokenPairs = () => {
   const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
 
   const tokenPairs = useMultiCallContract<string[]>(
-    "tokenPairs",
+    ["tokenQuery", "tokenPairs"],
     [
       ...metisBaseTokenPairQuery,
       ...metisMinimePairQuery(minimeConstants?.pair),

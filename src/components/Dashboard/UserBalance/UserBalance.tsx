@@ -17,7 +17,7 @@ export const UserBalance: React.FC = () => {
   const { data: dividendShare } = useGetDividendShare();
 
   const { data: userBalanceData } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS,
       method: "balanceOf",
