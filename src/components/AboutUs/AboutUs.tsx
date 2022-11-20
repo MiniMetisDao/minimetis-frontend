@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-location";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 
-import { Container } from "components/Layout/Container";
+import { Container } from "components/Layout";
 import { MINIME_CONTRACT_ADDRESS } from "config";
 
 import { styles } from "./styles";

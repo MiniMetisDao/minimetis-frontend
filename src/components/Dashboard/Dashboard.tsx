@@ -1,4 +1,4 @@
-import { Container } from "components/Layout/Container";
+import { Container } from "components/Layout";
 
 import { TokenStats } from "./TokenStats";
 import { UserBalance } from "./UserBalance";

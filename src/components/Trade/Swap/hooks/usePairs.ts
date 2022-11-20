@@ -1,4 +1,4 @@
-import { Currency, Pair, TokenAmount } from "minime-sdk";
+import { type Currency, Pair, TokenAmount } from "minime-sdk";
 import React from "react";
 
 import { wrappedCurrency } from "components/Trade/Swap/utils";
@@ -47,7 +47,7 @@ export function usePairs(
   }));
 
   const { data: reserves = [] } = useMultiCallContract<Pair[]>(
-    "swapInfo",
+    ["trade", "swap", "swapInfo"],
     queryInfos,
     {
       batchLoader,

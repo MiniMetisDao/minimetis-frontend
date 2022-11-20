@@ -7,7 +7,7 @@ import {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 
-import { AccountChainIdListener } from "components/AccountChainIdListener";
+import { AccountChainIdListener } from "components/shared/AccountChainIdListener";
 import { AboutUsPage } from "pages/AboutUsPage";
 import { ComingSoonPage } from "pages/ComingSoonPage";
 import { DashboardPage } from "pages/DashboardPage";

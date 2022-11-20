@@ -1,9 +1,11 @@
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
-import { Container } from "components/Layout/Container";
-import { useGetLiquidityPoolBalances } from "queries/trade/useGetLiquidityPoolBalances";
-import { useGetLiquidityPools } from "queries/trade/useGetLiquidityPools";
+import { Container } from "components/Layout";
+import { DisplayPrice } from "components/shared/DisplayPrice";
+import {
+  useGetLiquidityPoolBalances,
+  useGetLiquidityPools,
+} from "queries/trade";
 
 import { RemoveLiquidityButton } from "./RemoveLiquidityButton";
 import { styles } from "./styles";
@@ -12,7 +14,6 @@ export const LiquidityPool: React.FC = () => {
   const { t } = useTranslation("trade");
   const { data, isLoading } = useGetLiquidityPools();
   const { data: balances } = useGetLiquidityPoolBalances();
-  console.log("balances", data, balances);
 
   return (
     <div css={styles}>

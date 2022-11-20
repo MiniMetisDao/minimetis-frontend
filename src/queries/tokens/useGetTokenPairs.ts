@@ -4,9 +4,9 @@ import {
   METIS_CONTRACT_ADDRESS,
   MINIME_CONTRACT_ADDRESS,
 } from "config";
-import { useMinimeConstants } from "queries";
-import { TokenAmount } from "types/common";
-import { useMultiCallContract } from "utils";
+import { useGetMinimeConstants } from "queries/minimeConstants";
+import { type TokenAmount } from "types/common";
+import { useMultiCallContract } from "utils/multicall";
 
 type TokenPairs = {
   metisBaseTokenPair: {
@@ -61,48 +61,42 @@ const tokenDecimalsQuery = [
   },
 ];
 
-export const useGetTokenPairs = () => {
-  const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
+const selector = (response: string[]): TokenPairs => ({
+  metisBaseTokenPair: {
+    metisAmount: {
+      amount: response[0],
+      decimals: response[4],
+    },
+    baseTokenAmount: {
+      amount: response[1],
+      decimals: response[5],
+    },
+  },
+  metisMinimePair: {
+    metisAmount: {
+      amount: response[2],
+      decimals: response[4],
+    },
+    miniMeAmount: {
+      amount: response[3],
+      decimals: response[6],
+    },
+  },
+});
 
-  const tokenPairs = useMultiCallContract<string[]>(
-    "tokenPairs",
+export const useGetTokenPairs = () => {
+  const { data: minimeConstants } = useGetMinimeConstants();
+
+  return useMultiCallContract<TokenPairs>(
+    ["tokenQuery", "tokenPairs"],
     [
       ...metisBaseTokenPairQuery,
       ...metisMinimePairQuery(minimeConstants?.pair),
       ...tokenDecimalsQuery,
     ],
     {
+      select: selector,
       enabled: Boolean(minimeConstants?.pair),
     }
   );
-
-  let data: TokenPairs | undefined;
-
-  if (tokenPairs.data) {
-    data = {
-      metisBaseTokenPair: {
-        metisAmount: {
-          amount: tokenPairs.data[0],
-          decimals: tokenPairs.data[4],
-        },
-        baseTokenAmount: {
-          amount: tokenPairs.data[1],
-          decimals: tokenPairs.data[5],
-        },
-      },
-      metisMinimePair: {
-        metisAmount: {
-          amount: tokenPairs.data[2],
-          decimals: tokenPairs.data[4],
-        },
-        miniMeAmount: {
-          amount: tokenPairs.data[3],
-          decimals: tokenPairs.data[6],
-        },
-      },
-    };
-  }
-
-  //TODO: isLoading and isError need to consider the above multicall also, right?
-  return { isLoading, isError, data };
 };

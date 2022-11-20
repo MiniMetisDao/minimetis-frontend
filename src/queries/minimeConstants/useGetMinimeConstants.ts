@@ -1,7 +1,7 @@
 import { type UseQueryResult } from "@tanstack/react-query";
 
 import { MINIME_CONTRACT_ADDRESS } from "config";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 const methods = [
   "name",
@@ -34,10 +34,14 @@ const selector = (results: string[]): ResultSet => {
   return res as ResultSet;
 };
 
-export const useMinimeConstants = (): UseQueryResult<ResultSet, any> => {
-  return useMultiCallContract("minimeConstants", query, {
-    staleTime: Infinity,
-    refetchInterval: false,
-    select: selector,
-  });
+export const useGetMinimeConstants = (): UseQueryResult<ResultSet, any> => {
+  return useMultiCallContract(
+    ["minimeConstantsQuery", "minimeConstants"],
+    query,
+    {
+      staleTime: Infinity,
+      refetchInterval: false,
+      select: selector,
+    }
+  );
 };

@@ -1,8 +1,11 @@
 import { constants } from "ethers";
 
 import { ROUTER_CONTRACT_ADDRESS } from "config";
-import { Token } from "types/common";
-import { TransactionParams, useExecuteTransaction } from "utils";
+import { type Token } from "types/common";
+import {
+  type TransactionParams,
+  useExecuteTransaction,
+} from "utils/transaction";
 
 export const useTokenApproval = ({
   onTransactionStart,

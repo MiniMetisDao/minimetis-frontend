@@ -1,13 +1,16 @@
 import { distributorAbi } from "config";
-import { useMinimeConstants } from "queries";
-import { type TransactionParams, useExecuteTransaction } from "utils";
+import { useGetMinimeConstants } from "queries/minimeConstants";
+import {
+  type TransactionParams,
+  useExecuteTransaction,
+} from "utils/transaction";
 
 export const useClaimDividend = ({
   onTransactionStart,
   onTransactionSuccess,
   onError,
 }: TransactionParams) => {
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
 
   const { mutate, ...rest } = useExecuteTransaction(
     ["claimDividend"],

@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { type QueryKey, useQuery } from "@tanstack/react-query";
 
 import { DEFAULT_BATCH_SIZE, DEFAULT_REFETCH_INTERVAL } from "config";
-import { Batch, QueryInfo } from "utils";
+
+import { Batch, type QueryInfo } from "../Batch";
 
 import { multicall } from "./multicall";
 
@@ -20,15 +21,22 @@ export type Options = {
   batchLoader?: Batch;
 };
 
+/**
+ *
+ * @param key static keys, passed to reactQuery as queryKeys along with queryInfo variables
+ * @param queryInfo parameters used for querying
+ * @param options options to reactQuery
+ * @returns return from reactQuery
+ */
 export const useMultiCallContract = <TData = unknown, TError = unknown>(
-  key: any,
+  key: QueryKey,
   queryInfo: QueryInfo | QueryInfo[],
   options: Options = {}
 ) => {
   const batchLoaderInstance = options.batchLoader ?? batchLoader;
 
   const result = useQuery<TData, TError>(
-    [key, queryInfo],
+    [...key, queryInfo],
     () => batchLoaderInstance.load(queryInfo),
     {
       refetchInterval: options.refetchInterval ?? DEFAULT_REFETCH_INTERVAL,

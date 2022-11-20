@@ -1,21 +1,23 @@
 import BigNumber from "bignumber.js";
-import { Trade, TradeType } from "minime-sdk";
+import { type Trade, TradeType } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { Button } from "components/Button";
-import { ConnectButton } from "components/Connect";
+import { Button } from "components/shared/Button";
+import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
 import { SWAP_METHODS } from "config/trade/constants";
-import { useGetWalletDetails } from "queries";
-import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
-import { useTokenSwap } from "queries/trade/useTokenSwap";
-import { getAmount, getDeadlineTimestamp } from "utils";
+import {
+  useGetTokenAllowance,
+  useTokenApproval,
+  useTokenSwap,
+} from "queries/trade";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { getAmount, getDeadlineTimestamp } from "utils/common";
 import { useStorage } from "utils/storage";
 
-import { SwapToken } from "./types";
+import { type SwapToken } from "./types";
 
 type SwapButtonProps = {
   hasInputError: boolean;
@@ -127,7 +129,6 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       });
     },
     onError: (error) => {
-      console.log("error", error);
       if (error?.code === 4001) {
         toast.error(t("transactionCancelled"));
       } else if (error?.code === 0) {
@@ -210,7 +211,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       {!isApprovalLoading ? t("approve") : t("approving")}
     </Button>
   ) : (
-    <Button disabled={hasInputError} onClick={handleSwapClick}>
+    <Button disabled={hasInputError || isSwapLoading} onClick={handleSwapClick}>
       {!isSwapLoading ? t("swap") : t("swapping")}
     </Button>
   );

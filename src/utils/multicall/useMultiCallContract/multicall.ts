@@ -1,7 +1,6 @@
 import { ERC20Abi, RPC_URL } from "config";
 import { ethers } from "ethers";
-import { QueryInfo } from "utils";
-import { Contract, Provider } from "utils/multicall/ethcall";
+import { Contract, Provider, type QueryInfo } from "utils/multicall";
 
 const ethcallProvider = new Provider();
 const provider = new ethers.providers.StaticJsonRpcProvider(RPC_URL);

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Trade } from "minime-sdk";
+import { type Currency, type CurrencyAmount, Trade } from "minime-sdk";
 import React from "react";
 
 import { isTradeBetter } from "components/Trade/Swap/utils";

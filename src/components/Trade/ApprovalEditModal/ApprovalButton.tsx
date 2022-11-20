@@ -2,9 +2,9 @@ import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { Button } from "components/Button";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
-import { Token } from "types/common";
+import { Button } from "components/shared/Button";
+import { useTokenApproval } from "queries/trade";
+import { type Token } from "types/common";
 
 type ApprovalButton = {
   hasInputError: boolean;

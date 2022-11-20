@@ -1,5 +1,5 @@
-import { JsonFragmentType, Result } from '@ethersproject/abi';
-import { Coder } from 'abi-coder';
+import { type JsonFragmentType, type Result } from "@ethersproject/abi";
+import { Coder } from "abi-coder";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Params = any[];
@@ -8,59 +8,70 @@ class Abi {
   static encode(
     name: string,
     jsonInputs: readonly JsonFragmentType[],
-    params: Params,
+    params: Params
   ): string {
     const { params: inputs } = backfillParamNames(jsonInputs);
+
     const abi = [
       {
-        type: 'function',
+        type: "function",
         name,
         inputs,
       },
     ];
+
     const coder = new Coder(abi);
+
     const valueMap = Object.fromEntries(
-      inputs.map((input, index) => [input.name, params[index]]),
+      inputs.map((input, index) => [input.name, params[index]])
     );
+
     return coder.encodeFunction(name, valueMap);
   }
 
   static encodeConstructor(
     jsonInputs: readonly JsonFragmentType[],
-    params: Params,
+    params: Params
   ): string {
     const { params: inputs } = backfillParamNames(jsonInputs);
+
     const abi = [
       {
-        type: 'constructor',
+        type: "constructor",
         inputs,
       },
     ];
+
     const coder = new Coder(abi);
+
     const valueMap = Object.fromEntries(
-      inputs.map((input, index) => [input.name, params[index]]),
+      inputs.map((input, index) => [input.name, params[index]])
     );
+
     return coder.encodeConstructor(valueMap);
   }
 
   static decode(
     name: string,
     jsonOutputs: readonly JsonFragmentType[],
-    data: string,
+    data: string
   ): Result {
     const { params: outputs, generated } = backfillParamNames(jsonOutputs);
+
     const abi = [
       {
-        type: 'function',
+        type: "function",
         name,
         outputs,
       },
     ];
+
     const coder = new Coder(abi);
 
     const functionOutput = coder.decodeFunctionOutput(name, data);
+
     const result = outputs.map(
-      (output) => functionOutput.values[output.name || ''],
+      (output) => functionOutput.values[output.name || ""]
     );
     for (const [name, value] of Object.entries(functionOutput.values)) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +86,7 @@ class Abi {
       }
       result[key] = value;
     }
+
     return result;
   }
 }
@@ -88,6 +100,7 @@ function backfillParamNames(jsonParams: readonly JsonFragmentType[]): {
 } {
   const names = new Set(...jsonParams.map((param) => param.name));
   const generated = new Set<string>();
+
   const params = jsonParams.map((param) => {
     const { name: originalName, indexed, type, components } = param;
     const name = originalName ? originalName : generateUniqueName(names);
@@ -95,6 +108,7 @@ function backfillParamNames(jsonParams: readonly JsonFragmentType[]): {
     if (!originalName) {
       generated.add(name);
     }
+
     return {
       name,
       indexed,
@@ -102,6 +116,7 @@ function backfillParamNames(jsonParams: readonly JsonFragmentType[]): {
       components,
     };
   });
+
   return {
     params,
     generated,
@@ -113,9 +128,10 @@ function generateUniqueName(names: Set<string>): string {
   while (names.has(i.toString())) {
     i++;
   }
+
   return `param-${Math.random().toString().substring(2)}`;
 }
 
-export { Params };
+export { type Params };
 
 export default Abi;

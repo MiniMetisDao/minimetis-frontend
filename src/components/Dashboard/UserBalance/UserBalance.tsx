@@ -1,23 +1,24 @@
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE, MINIME_CONTRACT_ADDRESS } from "config";
-import { useGetWalletDetails, useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";
+import { useGetMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
-import { useMultiCallContract } from "utils";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { useMultiCallContract } from "utils/multicall";
 
 import { styles } from "./styles";
 
 export const UserBalance: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
   const { data: walletDetails } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
   const { data: dividendShare } = useGetDividendShare();
 
   const { data: userBalanceData } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS,
       method: "balanceOf",

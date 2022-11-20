@@ -1,15 +1,13 @@
-import { cx } from "@emotion/css";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE } from "config";
-import { useGetWalletDetails } from "queries";
-import { useGetDividendShare } from "queries/distributor";
-import { useClaimDividend } from "queries/distributor/useClaimDividend";
+import { useClaimDividend, useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
-import { getHumanReadableAmount } from "utils";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { getHumanReadableAmount } from "utils/common";
 
 import { styles } from "./styles";
 
@@ -70,6 +68,19 @@ export const UserDividends: React.FC = () => {
     mutate();
   };
 
+  const isClaimButtonDisabled = React.useMemo(() => {
+    if (walletDetails?.status === "CONNECTED") {
+      const dividend = dividendShare?.userData?.unclaimedDividend;
+
+      return (
+        !dividend?.amount ||
+        getHumanReadableAmount(dividend.amount, dividend.decimals).isEqualTo(0)
+      );
+    }
+
+    return false; // Enable button for non connected user to trigger connection
+  }, [dividendShare, walletDetails]);
+
   return (
     <div css={styles}>
       <div className="wrapper">
@@ -129,20 +140,7 @@ export const UserDividends: React.FC = () => {
         </div>
       </div>
       <div className="claim">
-        <button
-          onClick={handleClick}
-          disabled={
-            walletDetails?.status !== "CONNECTED" ||
-            !dividendShare?.userData?.unclaimedDividend.amount ||
-            getHumanReadableAmount(
-              dividendShare?.userData?.unclaimedDividend.amount,
-              dividendShare?.userData?.unclaimedDividend.decimals
-            ).isEqualTo(0)
-          }
-          className={cx({
-            disabled: walletDetails?.status !== "CONNECTED",
-          })}
-        >
+        <button onClick={handleClick} disabled={isClaimButtonDisabled}>
           {isLoading ? t("claiming") : t("claimNow")}
         </button>
       </div>

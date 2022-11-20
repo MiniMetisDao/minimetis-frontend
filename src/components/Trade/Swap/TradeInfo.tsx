@@ -1,16 +1,16 @@
-import { CurrencyAmount, Trade, TradeType } from "minime-sdk";
+import { type CurrencyAmount, type Trade, TradeType } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosLink } from "react-icons/io";
 
-import { IconButton } from "components/IconButton";
-import { Tooltip } from "components/Tooltip";
+import { IconButton } from "components/shared/IconButton";
+import { Tooltip } from "components/shared/Tooltip";
+import { ONE_BIPS } from "config/trade/constants";
 
 import { TradeLinkModal } from "../TradeLinkModal";
 
-import { ONE_BIPS } from "../../../config/trade/constants";
 import { Field } from "./hooks/useDerivedSwapInfo";
-import { SwapToken } from "./types";
+import { type SwapToken } from "./types";
 import { computeTradePriceBreakdown, getSignificantTradeAmount } from "./utils";
 
 type TradeInfoProps = {

@@ -1,2 +1,2 @@
-export { useMultiCallContract } from "./useMultiCallContract";
 export { multicall } from "./multicall";
+export { useMultiCallContract } from "./useMultiCallContract";

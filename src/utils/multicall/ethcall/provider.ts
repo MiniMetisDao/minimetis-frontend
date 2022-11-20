@@ -1,27 +1,27 @@
 import {
-  BaseProvider,
-  Provider as EthersProvider,
-} from '@ethersproject/providers';
+  type BaseProvider,
+  type Provider as EthersProvider,
+} from "@ethersproject/providers";
 
 import {
-  Call,
+  type Call,
   all as callAll,
   tryAll as callTryAll,
   tryEach as callTryEach,
-} from './call';
-import getEthBalance from './calls';
+} from "./call";
+import getEthBalance from "./calls";
 import {
-  Multicall,
+  type Multicall,
   getMulticall,
   getMulticall2,
   getMulticall3,
-} from './multicall';
+} from "./multicall";
 
 const DEFAULT_CHAIN_ID = 1;
 
-type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
+type CallType = "BASIC" | "TRY_ALL" | "TRY_EACH";
 
-type BlockTag = number | 'latest' | 'pending';
+type BlockTag = number | "latest" | "pending";
 
 /**
  * Represents a Multicall provider. Used to execute multiple Calls.
@@ -61,8 +61,9 @@ class Provider {
   getEthBalance(address: string): Call {
     const multicall = this.multicall || this.multicall2 || this.multicall3;
     if (!multicall) {
-      throw Error('Multicall contract is not available on this network.');
+      throw Error("Multicall contract is not available on this network.");
     }
+
     return getEthBalance(address, multicall.address);
   }
 
@@ -76,15 +77,16 @@ class Provider {
    */
   async all<T>(calls: Call[], block?: BlockTag): Promise<T[]> {
     if (!this.provider) {
-      throw Error('Provider should be initialized before use.');
+      throw Error("Provider should be initialized before use.");
     }
-    const multicall = this.getContract('BASIC', block);
+    const multicall = this.getContract("BASIC", block);
     if (!multicall) {
       console.warn(
-        'Multicall contract is not available on this network, using deployless version.',
+        "Multicall contract is not available on this network, using deployless version."
       );
     }
     const provider = this.provider as BaseProvider;
+
     return await callAll<T>(provider, multicall, calls, block);
   }
 
@@ -97,15 +99,16 @@ class Provider {
    */
   async tryAll<T>(calls: Call[], block?: BlockTag): Promise<(T | null)[]> {
     if (!this.provider) {
-      throw Error('Provider should be initialized before use.');
+      throw Error("Provider should be initialized before use.");
     }
-    const multicall = this.getContract('TRY_ALL', block);
+    const multicall = this.getContract("TRY_ALL", block);
     if (!multicall) {
       console.warn(
-        'Multicall2 contract is not available on this network, using deployless version.',
+        "Multicall2 contract is not available on this network, using deployless version."
       );
     }
     const provider = this.provider as BaseProvider;
+
     return await callTryAll<T>(provider, multicall, calls, block);
   }
 
@@ -121,24 +124,26 @@ class Provider {
   async tryEach<T>(
     calls: Call[],
     canFail: boolean[],
-    block?: BlockTag,
+    block?: BlockTag
   ): Promise<(T | null)[]> {
     if (!this.provider) {
-      throw Error('Provider should be initialized before use.');
+      throw Error("Provider should be initialized before use.");
     }
-    const multicall = this.getContract('TRY_EACH', block);
+    const multicall = this.getContract("TRY_EACH", block);
     if (!multicall) {
       console.warn(
-        'Multicall3 contract is not available on this network, using deployless version.',
+        "Multicall3 contract is not available on this network, using deployless version."
       );
     }
     const provider = this.provider as BaseProvider;
+
     const failableCalls = calls.map((call, index) => {
       return {
         ...call,
         canFail: canFail[index],
       };
     });
+
     return await callTryEach<T>(provider, multicall, failableCalls, block);
   }
 
@@ -146,18 +151,20 @@ class Provider {
     const multicall = this.isAvailable(this.multicall, block)
       ? this.multicall
       : null;
+
     const multicall2 = this.isAvailable(this.multicall2, block)
       ? this.multicall2
       : null;
+
     const multicall3 = this.isAvailable(this.multicall3, block)
       ? this.multicall3
       : null;
     switch (call) {
-      case 'BASIC':
+      case "BASIC":
         return multicall3 || multicall2 || multicall;
-      case 'TRY_ALL':
+      case "TRY_ALL":
         return multicall3 || multicall2;
-      case 'TRY_EACH':
+      case "TRY_EACH":
         return multicall3;
     }
   }
@@ -169,9 +176,10 @@ class Provider {
     if (!block) {
       return true;
     }
-    if (block === 'latest' || block === 'pending') {
+    if (block === "latest" || block === "pending") {
       return true;
     }
+
     return multicall.block < block;
   }
 }

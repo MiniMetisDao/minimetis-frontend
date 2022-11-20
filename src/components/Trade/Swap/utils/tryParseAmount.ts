@@ -1,5 +1,11 @@
 import { parseUnits } from "@ethersproject/units";
-import { Currency, CurrencyAmount, JSBI, Token, TokenAmount } from "minime-sdk";
+import {
+  type Currency,
+  CurrencyAmount,
+  JSBI,
+  Token,
+  TokenAmount,
+} from "minime-sdk";
 
 // try to parse a user entered amount for a given token
 export function tryParseAmount(

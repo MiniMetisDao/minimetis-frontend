@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { getDisplayPrice } from "utils";
+import { getDisplayPrice } from "utils/common";
 
 type DisplayPriceProps = {
   amount?: string;

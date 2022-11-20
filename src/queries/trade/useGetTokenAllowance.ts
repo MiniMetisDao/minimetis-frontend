@@ -1,6 +1,6 @@
 import { ROUTER_CONTRACT_ADDRESS } from "config";
-import { useGetWalletDetails } from "queries";
-import { useMultiCallContract } from "utils";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { useMultiCallContract } from "utils/multicall";
 
 export const useGetTokenAllowance = (tokenAddress: string) => {
   const { data: walletDetails } = useGetWalletDetails();
@@ -14,7 +14,7 @@ export const useGetTokenAllowance = (tokenAddress: string) => {
   };
 
   return useMultiCallContract<string>(
-    ["tokenAllowance", tokenParams],
+    ["tradeQuery", "tokenAllowance"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

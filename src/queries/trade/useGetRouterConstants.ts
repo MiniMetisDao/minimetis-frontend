@@ -1,7 +1,7 @@
 import { type UseQueryResult } from "@tanstack/react-query";
 
 import { ROUTER_CONTRACT_ADDRESS, routerAbi } from "config";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 const methods = ["factory"] as const;
 
@@ -26,7 +26,7 @@ const selector = (results: string[]): ResultSet => {
 };
 
 export const useGetRouterConstants = (): UseQueryResult<ResultSet, any> => {
-  return useMultiCallContract("routerConstants", query, {
+  return useMultiCallContract(["tradeQuery", "routerConstants"], query, {
     cacheTime: Infinity,
     staleTime: 24 * 60 * 60 * 1000,
     refetchInterval: false,

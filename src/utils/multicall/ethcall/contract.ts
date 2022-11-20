@@ -1,7 +1,7 @@
-import { JsonFragment } from '@ethersproject/abi';
+import { type JsonFragment } from "@ethersproject/abi";
 
-import { Params } from './abi';
-import { Call } from './call';
+import { type Params } from "./abi";
+import { type Call } from "./call";
 
 /**
  * Represents a deployed contract. Generates a Call per each request.
@@ -26,9 +26,10 @@ class Contract {
     this.address = address;
     this.abi = abi;
 
-    this.functions = abi.filter((x) => x.type === 'function');
+    this.functions = abi.filter((x) => x.type === "function");
+
     const callFunctions = this.functions.filter(
-      (x) => x.stateMutability === 'pure' || x.stateMutability === 'view',
+      (x) => x.stateMutability === "pure" || x.stateMutability === "view"
     );
 
     for (const callFunction of callFunctions) {
@@ -54,6 +55,7 @@ function makeCallFunction(contract: Contract, name: string) {
     const func = contract.functions.find((f) => f.name === name);
     const inputs = func?.inputs || [];
     const outputs = func?.outputs || [];
+
     return {
       contract: {
         address,

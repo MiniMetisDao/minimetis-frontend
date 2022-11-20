@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Percent, Trade } from "minime-sdk";
+import { type CurrencyAmount, JSBI, Percent, type Trade } from "minime-sdk";
 
 import { BIPS_BASE } from "config/trade/constants";
 

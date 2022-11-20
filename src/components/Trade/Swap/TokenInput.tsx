@@ -5,20 +5,19 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
 
-import { DisplayPrice } from "components/DisplayPrice";
-import { IconButton } from "components/IconButton";
-import { Input } from "components/Input";
-import { Tooltip } from "components/Tooltip";
+import { DisplayPrice } from "components/shared/DisplayPrice";
+import { IconButton } from "components/shared/IconButton";
+import { Input } from "components/shared/Input";
+import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
-import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
-import { Token } from "types/common";
+import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
+import { type Token } from "types/common";
 import {
   getFormattedAmount,
   getFormattedAmountRounded,
   getHumanReadableAmount,
   truncateNumber,
-} from "utils";
+} from "utils/common";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
 import { SelectTokenModal } from "../SelectTokenModal";

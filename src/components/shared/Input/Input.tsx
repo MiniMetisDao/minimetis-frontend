@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 
-import { isValidNumberInput } from "utils";
+import { isValidNumberInput } from "utils/common";
 
 import { styles } from "./styles";
 

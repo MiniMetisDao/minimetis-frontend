@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { isValidNumber, isValidNumberInput } from "./misc";
+import { isValidNumber, isValidNumberInput } from "./common";
 
 describe("misc", () => {
   it("isValidNumberInput", () => {

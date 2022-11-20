@@ -3,14 +3,15 @@ import BigNumber from "bignumber.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { DisplayPrice } from "components/DisplayPrice";
+import { DisplayPrice } from "components/shared/DisplayPrice";
 import {
   EXPLORER_URL,
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_CONTRACT_ADDRESS_V2,
 } from "config";
-import { useGetWalletDetails, useMinimeConstants } from "queries";
-import { useMultiCallContract } from "utils";
+import { useGetMinimeConstants } from "queries/minimeConstants";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { useMultiCallContract } from "utils/multicall";
 
 import { TokenUpgradeModal } from "./TokenUpgradeModal";
 import { styles } from "./styles";
@@ -20,10 +21,10 @@ export const TokenUpgrade: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
 
   const { data: walletDetails } = useGetWalletDetails();
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
 
   const { data: userBalance } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "tokenUpgrade", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS_V1,
       method: "balanceOf",
@@ -34,7 +35,7 @@ export const TokenUpgrade: React.FC = () => {
   );
 
   const { data: userV2Balance } = useMultiCallContract<string>(
-    "userBalance",
+    ["dashboard", "tokenUpgrade", "userBalance"],
     {
       address: MINIME_CONTRACT_ADDRESS_V2,
       method: "balanceOf",

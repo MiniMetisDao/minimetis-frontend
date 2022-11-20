@@ -7,20 +7,20 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
-import { IconButton } from "components/IconButton";
-import { Container } from "components/Layout/Container";
+import { Container } from "components/Layout";
+import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/trade/tradingTokens.json";
-import { useGetTokenBalances } from "queries";
+import { useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
-import { Token } from "types/common";
+import { type Token } from "types/common";
 import {
   getFormattedAmount,
   getSlippageTolerance,
   getSlippageToleranceInput,
   isValidNumber,
   searchExactToken,
-} from "utils";
+} from "utils/common";
 import { useStorage } from "utils/storage";
 import { getSDKToken } from "utils/trade";
 
@@ -31,7 +31,7 @@ import { TokenInput } from "./TokenInput";
 import { TradeInfo } from "./TradeInfo";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
-import { SwapToken } from "./types";
+import { type SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
 import { getSignificantTradeAmount } from "./utils/getSignificantTradeAmount";
 

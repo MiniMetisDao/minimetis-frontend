@@ -2,8 +2,8 @@ import {
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_UPGRADE_CONTRACT_ADDRESS,
 } from "config";
-import { useGetWalletDetails } from "queries";
-import { useMultiCallContract } from "utils";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { useMultiCallContract } from "utils/multicall";
 
 export const useGetUpgradeTokenAllowance = () => {
   const { data: walletDetails } = useGetWalletDetails();
@@ -17,7 +17,7 @@ export const useGetUpgradeTokenAllowance = () => {
   };
 
   return useMultiCallContract<string>(
-    ["upgradeTokenAllowance", tokenParams],
+    ["upgradeTokenQuery", "upgradeTokenAllowance"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

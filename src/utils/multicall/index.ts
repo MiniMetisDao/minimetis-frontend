@@ -1,4 +1,3 @@
-export { Batch } from "./Batch";
-export { multicall, useMultiCallContract } from "./useMultiCallContract";
-
-export { type QueryInfo } from "./Batch";
+export * from "./Batch";
+export * from "./ethcall";
+export * from "./useMultiCallContract";

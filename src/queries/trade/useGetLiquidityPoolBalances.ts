@@ -1,5 +1,5 @@
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 import { useGetLiquidityPools } from "./useGetLiquidityPools";
 
@@ -15,7 +15,7 @@ export const useGetLiquidityPoolBalances = () => {
     })) || [];
 
   return useMultiCallContract<Record<string, string>>(
-    ["liquidityPoolBalances", query],
+    ["tradeQuery", "liquidityPoolBalances"],
     query,
     {
       enabled: Boolean(query.length) && Boolean(walletDetails?.address),

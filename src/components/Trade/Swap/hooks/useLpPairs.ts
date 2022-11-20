@@ -1,5 +1,5 @@
 import flatMap from "lodash.flatmap";
-import { Currency, Pair, Token } from "minime-sdk";
+import { type Currency, type Pair, type Token } from "minime-sdk";
 import React from "react";
 
 import { wrappedCurrency } from "components/Trade/Swap/utils";

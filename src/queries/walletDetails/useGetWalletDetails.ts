@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getWalletAddress, isSupportedNetworkConnected } from "utils";
+import { getWalletAddress, isSupportedNetworkConnected } from "utils/ethers";
 
 export type WalletStatus =
   | "NO_METAMASK"
@@ -49,7 +49,7 @@ const fetchWalletDetails = async (): Promise<WalletDetails> => {
 };
 
 export const useGetWalletDetails = () =>
-  useQuery(["walletDetails"], fetchWalletDetails, {
+  useQuery(["walletDetailsQuery", "walletDetails"], fetchWalletDetails, {
     refetchOnWindowFocus: true,
     staleTime: Infinity,
   });

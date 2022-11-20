@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { customRender, screen, userEvent } from "utils";
+import { customRender, screen, userEvent } from "utils/testUtils";
 
 import { Header } from "./Header";
 

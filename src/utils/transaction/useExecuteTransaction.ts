@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ERC20Abi, EXPLORER_URL } from "config";
 import { BigNumber, ethers } from "ethers";
 import { useWalletConnector } from "queries/connect";
-import { getShortTransactionHash } from "utils";
+import { getShortTransactionHash } from "utils/common";
 
 export type ContractDetails = {
   address: string;

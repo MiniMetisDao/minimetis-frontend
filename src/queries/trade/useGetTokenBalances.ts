@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useGetWalletDetails } from "queries";
-import { Token } from "types/common";
-import { useMultiCallContract } from "utils";
+import { useGetWalletDetails } from "queries/walletDetails";
+import { type Token } from "types/common";
+import { useMultiCallContract } from "utils/multicall";
 
 type Balance = { [token: string]: string };
 const balanceQueryMapper = (tokenAddress: string, userAddress?: string) => ({
@@ -27,7 +27,7 @@ export const useGetTokenBalances = ({
   }, [tokens, walletDetails?.address]);
 
   return useMultiCallContract<Balance>(
-    ["tokenBalances", tokenParams],
+    ["tradeQuery", "tokenBalances"],
     tokenParams,
     {
       enabled: Boolean(walletDetails?.address),

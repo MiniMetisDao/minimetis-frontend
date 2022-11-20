@@ -4,7 +4,10 @@ import {
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_UPGRADE_CONTRACT_ADDRESS,
 } from "config";
-import { TransactionParams, useExecuteTransaction } from "utils";
+import {
+  type TransactionParams,
+  useExecuteTransaction,
+} from "utils/transaction";
 
 export const useUpgradeTokenApproval = ({
   onTransactionStart,

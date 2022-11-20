@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Container } from "components/Layout/Container";
+import { Container } from "components/Layout";
 import { useTheme } from "theme";
 
 import { styles } from "./styles";
