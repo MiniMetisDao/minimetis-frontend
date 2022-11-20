@@ -1,16 +1,22 @@
 import { useTranslation } from "react-i18next";
 
 import { useGetWalletDetails } from "queries/walletDetails";
+import { useWalletDetailsStore, useWalletStore } from "store/wallet";
 import { connectWallet, switchNetwork } from "utils/ethers";
 
 import { styles } from "./styles";
 
 export const Connect: React.FC = () => {
   const { t } = useTranslation();
+  const setWalletModalOpen = useWalletDetailsStore((state) => state.setOpen);
+  const setWalletLogin = useWalletStore((state) => state.login);
+
   const { isLoading, data, error, refetch } = useGetWalletDetails();
 
   const handleConnectWallet = async () => {
     if (data?.status === "CONNECTED") {
+      setWalletModalOpen(true);
+
       return;
     }
     if (data?.status === "INVALID_NETWORK") {
@@ -19,6 +25,7 @@ export const Connect: React.FC = () => {
     } else {
       await connectWallet();
     }
+    setWalletLogin();
     refetch();
   };
 

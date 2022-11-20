@@ -2,11 +2,13 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "components/shared/Button";
 import { useGetWalletDetails } from "queries/walletDetails";
+import { useWalletStore } from "store/wallet";
 import { connectWallet, switchNetwork } from "utils/ethers";
 
 export const ConnectButton: React.FC = () => {
   const { t } = useTranslation();
   const { data, isLoading, refetch } = useGetWalletDetails();
+  const setWalletLogin = useWalletStore((state) => state.login);
 
   const handleClick = async () => {
     if (data?.status === "CONNECTED") {
@@ -18,6 +20,7 @@ export const ConnectButton: React.FC = () => {
     } else {
       await connectWallet();
     }
+    setWalletLogin();
     refetch();
   };
 

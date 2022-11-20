@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout";
+import { ConnectionDetailsModal } from "components/shared/Connect/ConnectionDetailsModal";
+import { useWalletDetailsStore } from "store/wallet";
 import { useTheme } from "theme";
 
 import { styles } from "./styles";
@@ -9,8 +11,14 @@ export const Footer: React.FC = () => {
   const [theme] = useTheme();
   const { t } = useTranslation();
 
+  const walletModalOpen = useWalletDetailsStore((state) => state.open);
+  const setWalletModalOpen = useWalletDetailsStore((state) => state.setOpen);
+
   return (
     <div css={styles({ theme })}>
+      {walletModalOpen && (
+        <ConnectionDetailsModal onClose={() => setWalletModalOpen(false)} />
+      )}
       <Container>
         <div className="social">
           <ul>
