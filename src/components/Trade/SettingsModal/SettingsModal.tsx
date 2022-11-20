@@ -5,7 +5,7 @@ import { InputButton, InputCompact } from "components/shared/Input";
 import { Modal } from "components/shared/Modal";
 import { Switch } from "components/shared/Switch";
 import { TRADE_SETTINGS } from "config";
-import { getSlippageTolerance, getSlippageToleranceInput } from "utils";
+import { getSlippageTolerance, getSlippageToleranceInput } from "utils/common";
 import { useStorage } from "utils/storage";
 
 import { compactInputStyles, styles } from "./styles";

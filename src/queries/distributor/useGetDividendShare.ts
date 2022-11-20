@@ -3,8 +3,9 @@ import BigNumber from "bignumber.js";
 import { METIS_TOKEN_DECIMALS, distributorAbi } from "config";
 import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { TokenAmount } from "types/common";
-import { getAmount, useMultiCallContract } from "utils";
+import { type TokenAmount } from "types/common";
+import { getAmount } from "utils/common";
+import { useMultiCallContract } from "utils/multicall";
 
 type DistributorShare = {
   totalShares: string;

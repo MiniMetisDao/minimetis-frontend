@@ -5,8 +5,8 @@ import { DisplayPrice } from "components/shared/DisplayPrice";
 import { Modal } from "components/shared/Modal";
 import tradingTokens from "config/trade/tradingTokens.json";
 import { useGetTokenBalances } from "queries/trade";
-import { Token } from "types/common";
-import { searchToken } from "utils";
+import { type Token } from "types/common";
+import { searchToken } from "utils/common";
 
 import { listStyle, styles } from "./styles";
 

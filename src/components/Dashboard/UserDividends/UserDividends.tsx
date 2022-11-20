@@ -7,7 +7,7 @@ import { BASE_CURRENCY_CODE } from "config";
 import { useClaimDividend, useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { getHumanReadableAmount } from "utils";
+import { getHumanReadableAmount } from "utils/common";
 
 import { styles } from "./styles";
 

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Pair, Token as SDKToken } from "minime-sdk";
+import { Pair, type Token as SDKToken } from "minime-sdk";
 
 import { CHAIN_ID, factoryAbi } from "config";
 import { BASES_TO_CHECK_TRADES_AGAINST } from "config/trade/constants";
 import tradingTokens from "config/trade/tradingTokens.json";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 import { getSDKToken } from "utils/trade";
 
 import { useGetRouterConstants } from "./useGetRouterConstants";

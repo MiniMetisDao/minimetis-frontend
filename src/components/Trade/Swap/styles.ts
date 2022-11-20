@@ -6,7 +6,7 @@ import floatingLandLight from "assets/images/floating-land-light.png";
 import floatingLand from "assets/images/floating-land.png";
 import minimePointingLight from "assets/images/minime-pointing-light.png";
 import minimePointing from "assets/images/minime-pointing.png";
-import { Mode } from "theme";
+import { type Mode } from "theme";
 
 export const styles =
   ({ theme }: { theme: Mode }) =>

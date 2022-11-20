@@ -6,8 +6,8 @@ import { InputCompact } from "components/shared/Input";
 import { Modal } from "components/shared/Modal";
 import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance } from "queries/trade";
-import { Token } from "types/common";
-import { getAmount, getHumanReadableAmount, isValidNumber } from "utils";
+import { type Token } from "types/common";
+import { getAmount, getHumanReadableAmount, isValidNumber } from "utils/common";
 
 import { ApprovalButton } from "./ApprovalButton";
 import { styles } from "./styles";

@@ -1,6 +1,6 @@
 import { Token as SDKToken } from "minime-sdk";
 
-import { Token } from "types/common";
+import { type Token } from "types/common";
 
 export const getSDKToken = (token: Token) => {
   return new SDKToken(

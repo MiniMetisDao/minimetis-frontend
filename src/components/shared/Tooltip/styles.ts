@@ -1,6 +1,6 @@
-import { type Theme, css } from "@emotion/react";
+import { css } from "@emotion/react";
 
-export const styles = ({ color }: Theme) => css`
+export const styles = () => css`
   display: inline-flex;
   .info-icon {
     font-size: 24px;

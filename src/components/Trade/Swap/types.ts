@@ -1,4 +1,4 @@
-import { Token } from "types/common";
+import { type Token } from "types/common";
 
 export type SwapToken = {
   amount: string;

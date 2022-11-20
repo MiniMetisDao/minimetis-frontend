@@ -11,13 +11,13 @@ import { Input } from "components/shared/Input";
 import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
-import { Token } from "types/common";
+import { type Token } from "types/common";
 import {
   getFormattedAmount,
   getFormattedAmountRounded,
   getHumanReadableAmount,
   truncateNumber,
-} from "utils";
+} from "utils/common";
 
 import { ApprovalEditModal } from "../ApprovalEditModal";
 import { SelectTokenModal } from "../SelectTokenModal";

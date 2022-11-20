@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { Button } from "components/shared/Button";
 import { useTokenApproval } from "queries/trade";
-import { Token } from "types/common";
+import { type Token } from "types/common";
 
 type ApprovalButton = {
   hasInputError: boolean;

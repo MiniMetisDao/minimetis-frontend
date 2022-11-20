@@ -12,7 +12,7 @@ import {
   useUpgradeTokenApproval,
 } from "queries/upgradeToken";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 import { modalStyles } from "./styles";
 
@@ -141,66 +141,74 @@ export const TokenUpgradeModal: React.FC<TokenUpgradeModalProps> = ({
       },
     });
 
+  const isUpgradeEnded = true;
+
   return (
     <Modal onClose={onClose} title={t("miniMetisUpgradeTitle")}>
       <div css={modalStyles}>
-        {/* <h4>{t("stepsToUpgrade")}</h4>
-        <Trans
-          i18nKey="dashboard:upgradeSteps"
-          components={{
-            a: <a target="_blank" href="https://t.me/MiniMetis" />,
-            ol: <ol />,
-            li: <li />,
-          }}
-        /> */}
-        {/* <div className="button-group">
-          <Button
-            disabled={
-              walletDetails?.status !== "CONNECTED" ||
-              hasApproved === undefined ||
-              hasApproved ||
-              isApprovalLoading ||
-              (userBalance ? BigNumber(userBalance).isEqualTo(0) : true)
-            }
-            onClick={() => approvalMutate()}
-          >
-            {hasApproved
-              ? t("approved")
-              : isApprovalLoading
-              ? t("approving")
-              : t("approve")}
-          </Button>
-          <Button
-            disabled={
-              walletDetails?.status !== "CONNECTED" ||
-              hasApproved === undefined ||
-              !hasApproved ||
-              isLoading ||
-              isSuccess ||
-              (userBalance ? BigNumber(userBalance).isEqualTo(0) : true)
-            }
-            onClick={() => mutate()}
-          >
-            {isSuccess
-              ? t("upgraded")
-              : isLoading
-              ? t("upgrading")
-              : t("upgrade")}
-          </Button>
-        </div>
-        <div className="steps">
-          <div className={cx("step", { completed: hasApproved === true })}>
-            <span>1</span>
+        {!isUpgradeEnded ? (
+          <>
+            <h4>{t("stepsToUpgrade")}</h4>
+            <Trans
+              i18nKey="dashboard:upgradeSteps"
+              components={{
+                a: <a target="_blank" href="https://t.me/MiniMetis" />,
+                ol: <ol />,
+                li: <li />,
+              }}
+            />
+            <div className="button-group">
+              <Button
+                disabled={
+                  walletDetails?.status !== "CONNECTED" ||
+                  hasApproved === undefined ||
+                  hasApproved ||
+                  isApprovalLoading ||
+                  (userBalance ? BigNumber(userBalance).isEqualTo(0) : true)
+                }
+                onClick={() => approvalMutate()}
+              >
+                {hasApproved
+                  ? t("approved")
+                  : isApprovalLoading
+                  ? t("approving")
+                  : t("approve")}
+              </Button>
+              <Button
+                disabled={
+                  walletDetails?.status !== "CONNECTED" ||
+                  hasApproved === undefined ||
+                  !hasApproved ||
+                  isLoading ||
+                  isSuccess ||
+                  (userBalance ? BigNumber(userBalance).isEqualTo(0) : true)
+                }
+                onClick={() => mutate()}
+              >
+                {isSuccess
+                  ? t("upgraded")
+                  : isLoading
+                  ? t("upgrading")
+                  : t("upgrade")}
+              </Button>
+            </div>
+            <div className="steps">
+              <div className={cx("step", { completed: hasApproved === true })}>
+                <span>1</span>
+              </div>
+              <div className={cx("step", { completed: isSuccess })}>
+                <span>2</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="upgrade-ended">
+            <h4>
+              Upgrade Event Ended. More updates on Community Telegram and
+              Discord
+            </h4>
           </div>
-          <div className={cx("step", { completed: isSuccess })}>
-            <span>2</span>
-          </div>
-        </div> */}
-        <div className="upgrade-ended">
-          <h4>
-            Upgrade Event Ended. More updates on Community Telegram and Discord
-          </h4>
-        </div>
+        )}
       </div>
     </Modal>
   );

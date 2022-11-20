@@ -3,7 +3,7 @@ import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 
 import { TRADE_SETTINGS } from "config";
 import { FixedNumber } from "ethers";
-import { Token } from "types/common";
+import { type Token } from "types/common";
 
 // amount = 1000000000000000000
 // decimals = 18

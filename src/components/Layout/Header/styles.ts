@@ -4,7 +4,7 @@ import day from "assets/images/day.svg";
 import logoLight from "assets/images/logo-light.svg";
 import logo from "assets/images/logo.svg";
 import night from "assets/images/night.svg";
-import { Mode } from "theme";
+import { type Mode } from "theme";
 
 export const styles =
   ({ theme, scrolled }: { theme: Mode; scrolled: boolean }) =>

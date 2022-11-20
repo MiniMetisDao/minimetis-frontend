@@ -6,7 +6,7 @@ import { useGetDividendShare } from "queries/distributor";
 import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 import { styles } from "./styles";
 

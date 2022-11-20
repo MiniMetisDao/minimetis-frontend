@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getWalletAddress, isSupportedNetworkConnected } from "utils";
+import { getWalletAddress, isSupportedNetworkConnected } from "utils/ethers";
 
 export type WalletStatus =
   | "NO_METAMASK"

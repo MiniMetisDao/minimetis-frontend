@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Trade } from "minime-sdk";
+import { type Currency, type CurrencyAmount, type Trade } from "minime-sdk";
 
 import { tryParseAmount } from "components/Trade/Swap/utils";
 

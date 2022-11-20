@@ -1,5 +1,5 @@
 import { pairAbi } from "config";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 export const useGetLiquidityPoolReserves = (lpAddress: string) => {
   const methods = ["getReserves", "token0", "token1", "totalSupply"];

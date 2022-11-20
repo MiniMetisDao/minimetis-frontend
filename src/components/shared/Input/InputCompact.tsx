@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Input, InputProps } from "./Input";
+import { Input, type InputProps } from "./Input";
 import { inputCompactStyles } from "./styles";
 
 export const InputCompact: React.FC<InputProps> = ({

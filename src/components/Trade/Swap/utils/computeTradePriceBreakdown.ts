@@ -1,10 +1,10 @@
 import {
   CurrencyAmount,
-  Fraction,
+  type Fraction,
   JSBI,
   Percent,
   TokenAmount,
-  Trade,
+  type Trade,
 } from "minime-sdk";
 
 const BASE_FEE = new Percent(JSBI.BigInt(30), JSBI.BigInt(10000));

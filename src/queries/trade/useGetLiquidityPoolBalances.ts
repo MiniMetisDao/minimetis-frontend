@@ -1,5 +1,5 @@
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 import { useGetLiquidityPools } from "./useGetLiquidityPools";
 

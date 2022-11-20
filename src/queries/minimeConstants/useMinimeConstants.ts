@@ -1,7 +1,7 @@
 import { type UseQueryResult } from "@tanstack/react-query";
 
 import { MINIME_CONTRACT_ADDRESS } from "config";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 const methods = [
   "name",

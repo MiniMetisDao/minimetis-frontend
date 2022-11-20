@@ -13,9 +13,8 @@ import {
   useTokenApproval,
 } from "queries/trade";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { getDeadlineTimestamp, getSlippageTolerance } from "utils";
+import { getDeadlineTimestamp, getSlippageTolerance } from "utils/common";
 import { useStorage } from "utils/storage";
-import { get } from "utils/storage/storage";
 
 type RemoveLiquidityButtonProps = {
   hasInputError: boolean;
@@ -29,6 +28,7 @@ export const RemoveLiquidityButton: React.FC<RemoveLiquidityButtonProps> = ({
   amount,
 }) => {
   const { t } = useTranslation("trade");
+  const { get } = useStorage();
 
   const storedSlippage = get(
     "slippageTolerance",
@@ -38,7 +38,7 @@ export const RemoveLiquidityButton: React.FC<RemoveLiquidityButtonProps> = ({
   const allowedSlippage = getSlippageTolerance(storedSlippage);
   const { data: walletDetails } = useGetWalletDetails();
 
-  const transactionDeadline = useStorage().get(
+  const transactionDeadline = get(
     "transactionDeadline",
     TRADE_SETTINGS.deadline
   );

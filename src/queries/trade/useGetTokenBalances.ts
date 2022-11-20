@@ -1,8 +1,8 @@
 import React from "react";
 
 import { useGetWalletDetails } from "queries/walletDetails";
-import { Token } from "types/common";
-import { useMultiCallContract } from "utils";
+import { type Token } from "types/common";
+import { useMultiCallContract } from "utils/multicall";
 
 type Balance = { [token: string]: string };
 const balanceQueryMapper = (tokenAddress: string, userAddress?: string) => ({

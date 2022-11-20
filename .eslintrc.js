@@ -17,10 +17,11 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "prettier",
     "plugin:import/recommended",
     "plugin:react-hooks/recommended",
   ],
-  plugins: ["import", "prettier"],
+  plugins: ["@typescript-eslint", "prettier", "import", "sort-exports"],
   settings: {
     "import/resolver": {
       node: {
@@ -68,5 +69,17 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { fixStyle: "inline-type-imports" },
+    ],
   },
+  overrides: [
+    {
+      files: ["src/**/index.ts"],
+      rules: {
+        "sort-exports/sort-exports": ["error", { sortDir: "asc" }],
+      },
+    },
+  ],
 };

@@ -1,7 +1,8 @@
 import { type QueryKey, useQuery } from "@tanstack/react-query";
 
 import { DEFAULT_BATCH_SIZE, DEFAULT_REFETCH_INTERVAL } from "config";
-import { Batch, QueryInfo } from "utils";
+
+import { Batch, type QueryInfo } from "../Batch";
 
 import { multicall } from "./multicall";
 

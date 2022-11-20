@@ -4,8 +4,8 @@ import {
   MINIME_CONTRACT_ADDRESS,
 } from "config";
 import { useMinimeConstants } from "queries/minimeConstants";
-import { TokenAmount } from "types/common";
-import { useMultiCallContract } from "utils";
+import { type TokenAmount } from "types/common";
+import { useMultiCallContract } from "utils/multicall";
 
 type TreasuryData = {
   miniMe: TokenAmount;

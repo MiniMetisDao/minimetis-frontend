@@ -7,7 +7,7 @@ import { useGetDividendShare } from "queries/distributor";
 import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetTreasury } from "queries/treasury";
-import { getHumanReadableAmount } from "utils";
+import { getHumanReadableAmount } from "utils/common";
 
 import { styles } from "./styles";
 

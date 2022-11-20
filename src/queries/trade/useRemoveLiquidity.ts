@@ -1,5 +1,8 @@
 import { ROUTER_CONTRACT_ADDRESS, routerAbi } from "config";
-import { TransactionParams, useExecuteTransaction } from "utils";
+import {
+  type TransactionParams,
+  useExecuteTransaction,
+} from "utils/transaction";
 
 export const useRemoveLiquidity = ({
   onTransactionStart,

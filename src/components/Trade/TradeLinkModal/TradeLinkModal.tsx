@@ -8,7 +8,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import { InputCompact } from "components/shared/Input";
 import { Modal } from "components/shared/Modal";
 import { Switch } from "components/shared/Switch";
-import { Token } from "types/common";
+import { type Token } from "types/common";
 
 import { SelectTokenModal } from "../SelectTokenModal";
 

@@ -5,12 +5,12 @@ import pairAbi from "./abi/pair.json";
 import routerAbi from "./abi/router.json";
 import tokenUpgradeAbi from "./abi/tokenUpgrade.json";
 
+export * from "./config";
 export {
-  distributorAbi,
   ERC20Abi,
+  distributorAbi,
   factoryAbi,
   pairAbi,
   routerAbi,
   tokenUpgradeAbi,
 };
-export * from "./config";

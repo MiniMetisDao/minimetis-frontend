@@ -1,4 +1,4 @@
-import { Fraction } from "minime-sdk";
+import { type Fraction } from "minime-sdk";
 
 import { ONE } from "../../../../config/trade/constants";
 

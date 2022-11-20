@@ -1,4 +1,4 @@
-import { getHumanReadableAmount } from "utils";
+import { getHumanReadableAmount } from "utils/common";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
 

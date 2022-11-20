@@ -1,6 +1,6 @@
 import React from "react";
 
-import { InputProps } from "./Input";
+import { type InputProps } from "./Input";
 import { inputButtonStyles } from "./styles";
 
 export const InputButton: React.FC<InputProps & { active?: boolean }> = ({

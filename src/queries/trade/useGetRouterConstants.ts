@@ -1,7 +1,7 @@
 import { type UseQueryResult } from "@tanstack/react-query";
 
 import { ROUTER_CONTRACT_ADDRESS, routerAbi } from "config";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 const methods = ["factory"] as const;
 

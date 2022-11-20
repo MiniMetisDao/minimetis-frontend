@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Trade, TradeType } from "minime-sdk";
+import { type Trade, TradeType } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -14,10 +14,10 @@ import {
   useTokenSwap,
 } from "queries/trade";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { getAmount, getDeadlineTimestamp } from "utils";
+import { getAmount, getDeadlineTimestamp } from "utils/common";
 import { useStorage } from "utils/storage";
 
-import { SwapToken } from "./types";
+import { type SwapToken } from "./types";
 
 type SwapButtonProps = {
   hasInputError: boolean;

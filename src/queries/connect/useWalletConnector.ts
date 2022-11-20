@@ -1,5 +1,5 @@
 import { useGetWalletDetails } from "queries/walletDetails";
-import { connectWallet, switchNetwork } from "utils";
+import { connectWallet, switchNetwork } from "utils/ethers";
 
 export const useWalletConnector = () => {
   const { data, refetch } = useGetWalletDetails();

@@ -11,7 +11,7 @@ import {
 } from "config";
 import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { useMultiCallContract } from "utils";
+import { useMultiCallContract } from "utils/multicall";
 
 import { TokenUpgradeModal } from "./TokenUpgradeModal";
 import { styles } from "./styles";

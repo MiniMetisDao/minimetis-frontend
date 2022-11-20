@@ -1,4 +1,4 @@
-import { BatchQueue, Options, QueryInfo } from "./types";
+import { type BatchQueue, type Options, type QueryInfo } from "./types";
 
 // Based on dataloader from here - https://github.com/graphql/dataloader.
 export class Batch {
