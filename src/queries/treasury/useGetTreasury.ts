@@ -3,7 +3,7 @@ import {
   METIS_TOKEN_DECIMALS,
   MINIME_CONTRACT_ADDRESS,
 } from "config";
-import { useMinimeConstants } from "queries/minimeConstants";
+import { useGetMinimeConstants } from "queries/minimeConstants";
 import { type TokenAmount } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
 
@@ -12,10 +12,15 @@ type TreasuryData = {
   metis: TokenAmount;
 };
 
-export const useGetTreasury = () => {
-  const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
+const selector = (response: string[]): TreasuryData => ({
+  miniMe: { amount: response[0], decimals: METIS_TOKEN_DECIMALS },
+  metis: { amount: response[1], decimals: METIS_TOKEN_DECIMALS },
+});
 
-  const treasuryData = useMultiCallContract<string[]>(
+export const useGetTreasury = () => {
+  const { data: minimeConstants } = useGetMinimeConstants();
+
+  return useMultiCallContract<TreasuryData>(
     ["treasuryQuery", "treasury"],
     [
       {
@@ -30,17 +35,8 @@ export const useGetTreasury = () => {
       },
     ],
     {
+      select: selector,
       enabled: Boolean(minimeConstants?.treasuryFeeReceiver),
     }
   );
-
-  let data: TreasuryData | undefined;
-  if (treasuryData.data) {
-    data = {
-      miniMe: { amount: treasuryData.data[0], decimals: METIS_TOKEN_DECIMALS },
-      metis: { amount: treasuryData.data[1], decimals: METIS_TOKEN_DECIMALS },
-    };
-  }
-
-  return { isLoading, isError, data };
 };

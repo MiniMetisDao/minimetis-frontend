@@ -9,7 +9,7 @@ import {
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_CONTRACT_ADDRESS_V2,
 } from "config";
-import { useMinimeConstants } from "queries/minimeConstants";
+import { useGetMinimeConstants } from "queries/minimeConstants";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils/multicall";
 
@@ -21,7 +21,7 @@ export const TokenUpgrade: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
 
   const { data: walletDetails } = useGetWalletDetails();
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
 
   const { data: userBalance } = useMultiCallContract<string>(
     ["dashboard", "tokenUpgrade", "userBalance"],

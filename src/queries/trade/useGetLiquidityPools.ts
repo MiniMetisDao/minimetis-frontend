@@ -46,13 +46,16 @@ export const useGetLiquidityPools = () => {
       abi: factoryAbi,
     })) || [];
 
-  const { data: pairAddresses, isLoading: isPairAddressesLoading } =
-    useMultiCallContract<string[]>(["tradeQuery", "factoryPair"], query, {
-      cacheTime: Infinity,
-      staleTime: 24 * 60 * 60 * 1000,
-      refetchInterval: false,
-      enabled: Boolean(query.length),
-    });
+  const {
+    data: pairAddresses,
+    isLoading: isPairAddressesLoading,
+    ...rest
+  } = useMultiCallContract<string[]>(["tradeQuery", "factoryPair"], query, {
+    cacheTime: Infinity,
+    staleTime: 24 * 60 * 60 * 1000,
+    refetchInterval: false,
+    enabled: Boolean(query.length),
+  });
 
   const validLiquidityPairs = pairAddresses
     ? liquidityPairs?.filter(
@@ -63,5 +66,6 @@ export const useGetLiquidityPools = () => {
   return {
     data: pairAddresses ? validLiquidityPairs : undefined,
     isLoading: isLiquidityPairsLoading || isPairAddressesLoading,
+    ...rest,
   };
 };

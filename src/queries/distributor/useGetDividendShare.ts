@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 
 import { METIS_TOKEN_DECIMALS, distributorAbi } from "config";
-import { useMinimeConstants } from "queries/minimeConstants";
+import { useGetMinimeConstants } from "queries/minimeConstants";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { type TokenAmount } from "types/common";
 import { getAmount } from "utils/common";
@@ -20,10 +20,12 @@ type DistributorShare = {
 };
 
 export const useGetDividendShare = () => {
-  const { data: minimeConstants, isLoading, isError } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
   const { data: walletDetails } = useGetWalletDetails();
 
-  const distributorUserQuery = useMultiCallContract<string[]>(
+  const { data: distributorUserDetails, ...rest } = useMultiCallContract<
+    string[]
+  >(
     ["distributorQuery", "distributorUserDetails"],
     [
       {
@@ -46,7 +48,7 @@ export const useGetDividendShare = () => {
     }
   );
 
-  const distibutorQuery = useMultiCallContract<string[]>(
+  const { data: distibutorDetails } = useMultiCallContract<string[]>(
     ["distributorQuery", "distributorDetails"],
     [
       {
@@ -67,31 +69,29 @@ export const useGetDividendShare = () => {
 
   let data: DistributorShare | undefined;
 
-  if (distibutorQuery.data) {
+  if (distibutorDetails) {
     data = {
-      totalShares: distibutorQuery.data[0],
+      totalShares: distibutorDetails[0],
       totalDistributed: {
-        amount: BigNumber(distibutorQuery.data[1])
+        amount: BigNumber(distibutorDetails[1])
           .plus(getAmount("1422", METIS_TOKEN_DECIMALS)) // add v1 contracts amount (manually added) minime v1: 0x6d8534326415Ff9966b387615e576A109aC01AC1
           .toString(),
         decimals: METIS_TOKEN_DECIMALS,
       },
 
-      userData: distributorUserQuery.data
+      userData: distributorUserDetails
         ? {
-            shares: distributorUserQuery.data[0],
-            sharePercentage: BigNumber(
-              distributorUserQuery.data[0].split(",")[0]
-            )
-              .dividedBy(distibutorQuery.data[0])
+            shares: distributorUserDetails[0],
+            sharePercentage: BigNumber(distributorUserDetails[0].split(",")[0])
+              .dividedBy(distibutorDetails[0])
               .multipliedBy(100)
               .toFixed(),
             claimedDividend: {
-              amount: distributorUserQuery.data[0].split(",")[2],
+              amount: distributorUserDetails[0].split(",")[2],
               decimals: minimeConstants?.decimals,
             },
             unclaimedDividend: {
-              amount: distributorUserQuery.data[1],
+              amount: distributorUserDetails[1],
               decimals: minimeConstants?.decimals,
             },
           }
@@ -99,5 +99,5 @@ export const useGetDividendShare = () => {
     };
   }
 
-  return { isLoading, isError, data };
+  return { data, ...rest };
 };

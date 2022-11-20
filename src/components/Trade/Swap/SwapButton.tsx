@@ -129,7 +129,6 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       });
     },
     onError: (error) => {
-      console.log("error", error);
       if (error?.code === 4001) {
         toast.error(t("transactionCancelled"));
       } else if (error?.code === 0) {

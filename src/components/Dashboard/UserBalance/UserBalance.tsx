@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE, MINIME_CONTRACT_ADDRESS } from "config";
 import { useGetDividendShare } from "queries/distributor";
-import { useMinimeConstants } from "queries/minimeConstants";
+import { useGetMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils/multicall";
@@ -12,7 +12,7 @@ import { styles } from "./styles";
 
 export const UserBalance: React.FC = () => {
   const { t } = useTranslation(["dashboard"]);
-  const { data: minimeConstants } = useMinimeConstants();
+  const { data: minimeConstants } = useGetMinimeConstants();
   const { data: walletDetails } = useGetWalletDetails();
   const { data: tokenPrice } = useGetTokenPrice();
   const { data: dividendShare } = useGetDividendShare();

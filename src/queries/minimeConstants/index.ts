@@ -1,1 +1,1 @@
-export * from "./useMinimeConstants";
+export * from "./useGetMinimeConstants";

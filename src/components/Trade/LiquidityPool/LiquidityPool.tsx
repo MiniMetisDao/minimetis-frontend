@@ -14,7 +14,6 @@ export const LiquidityPool: React.FC = () => {
   const { t } = useTranslation("trade");
   const { data, isLoading } = useGetLiquidityPools();
   const { data: balances } = useGetLiquidityPoolBalances();
-  console.log("balances", data, balances);
 
   return (
     <div css={styles}>

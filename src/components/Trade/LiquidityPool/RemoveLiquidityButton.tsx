@@ -152,7 +152,6 @@ export const RemoveLiquidityButton: React.FC<RemoveLiquidityButtonProps> = ({
 
     const amountToRemove = amount;
     const slippageAdjustedFactor = (10000 - allowedSlippage) / 10000;
-    console.log("slippageAdjustedFactor", slippageAdjustedFactor);
 
     const amountRatio = reservesData
       ? BigNumber(amount).div(BigNumber(reservesData.totalSupply))

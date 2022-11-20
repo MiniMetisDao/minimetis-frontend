@@ -3,10 +3,10 @@ import { getHumanReadableAmount } from "utils/common";
 import { useGetTokenPairs } from "./useGetTokenPairs";
 
 export const useGetTokenPrice = () => {
-  const { data, isLoading, isError } = useGetTokenPairs();
+  const { data, ...rest } = useGetTokenPairs();
 
   if (!data) {
-    return { isLoading, isError };
+    return { data, ...rest };
   }
 
   const { metisBaseTokenPair, metisMinimePair } = data;
@@ -35,11 +35,10 @@ export const useGetTokenPrice = () => {
     miniMePriceInMetis.multipliedBy(metisPriceInDollars);
 
   return {
-    isLoading,
-    isError,
     data: {
       metis: metisPriceInDollars.toFixed(),
       miniMe: miniMePriceInDollars.toFixed(),
     },
+    ...rest,
   };
 };

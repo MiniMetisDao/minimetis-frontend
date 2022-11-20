@@ -34,7 +34,7 @@ const selector = (results: string[]): ResultSet => {
   return res as ResultSet;
 };
 
-export const useMinimeConstants = (): UseQueryResult<ResultSet, any> => {
+export const useGetMinimeConstants = (): UseQueryResult<ResultSet, any> => {
   return useMultiCallContract(
     ["minimeConstantsQuery", "minimeConstants"],
     query,
