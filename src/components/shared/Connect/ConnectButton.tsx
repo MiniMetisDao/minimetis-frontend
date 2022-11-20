@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { Button } from "components/shared/Button";
-import { useGetWalletDetails } from "queries";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { connectWallet, switchNetwork } from "utils";
 
 export const ConnectButton: React.FC = () => {

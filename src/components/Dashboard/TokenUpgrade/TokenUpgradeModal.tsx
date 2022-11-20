@@ -8,10 +8,10 @@ import { Modal } from "components/shared/Modal";
 import { MINIME_CONTRACT_ADDRESS_V1 } from "config";
 import {
   useGetUpgradeTokenAllowance,
-  useGetWalletDetails,
   useUpgradeToken,
   useUpgradeTokenApproval,
-} from "queries";
+} from "queries/upgradeToken";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
 import { modalStyles } from "./styles";

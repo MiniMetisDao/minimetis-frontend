@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { useGetWalletDetails } from "queries";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { connectWallet, switchNetwork } from "utils";
 
 import { styles } from "./styles";

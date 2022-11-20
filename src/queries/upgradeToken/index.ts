@@ -1,3 +1,3 @@
-export { useUpgradeToken } from "./useUpgradeToken";
-export { useGetUpgradeTokenAllowance } from "./useGetUpgradeTokenAllowance";
-export { useUpgradeTokenApproval } from "./useUpgradeTokenApproval";
+export * from "./useGetUpgradeTokenAllowance";
+export * from "./useUpgradeToken";
+export * from "./useUpgradeTokenApproval";

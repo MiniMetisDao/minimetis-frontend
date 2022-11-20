@@ -1,1 +1,1 @@
-export { useGetTreasury } from "./useGetTreasury";
+export * from "./useGetTreasury";

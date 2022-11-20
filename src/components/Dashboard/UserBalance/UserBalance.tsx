@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE, MINIME_CONTRACT_ADDRESS } from "config";
-import { useGetWalletDetails, useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";
+import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
 import { styles } from "./styles";

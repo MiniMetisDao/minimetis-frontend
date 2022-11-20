@@ -2,7 +2,7 @@ import {
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_UPGRADE_CONTRACT_ADDRESS,
 } from "config";
-import { useGetWalletDetails } from "queries";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
 export const useGetUpgradeTokenAllowance = () => {

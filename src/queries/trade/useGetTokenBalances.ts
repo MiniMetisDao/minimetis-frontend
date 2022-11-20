@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useGetWalletDetails } from "queries";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { Token } from "types/common";
 import { useMultiCallContract } from "utils";
 

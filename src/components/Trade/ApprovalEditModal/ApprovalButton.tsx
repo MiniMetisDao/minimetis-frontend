@@ -3,7 +3,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import { Button } from "components/shared/Button";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
+import { useTokenApproval } from "queries/trade";
 import { Token } from "types/common";
 
 type ApprovalButton = {

@@ -10,8 +10,7 @@ import { IconButton } from "components/shared/IconButton";
 import { Input } from "components/shared/Input";
 import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
-import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
+import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { Token } from "types/common";
 import {
   getFormattedAmount,

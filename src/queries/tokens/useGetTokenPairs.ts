@@ -4,7 +4,7 @@ import {
   METIS_CONTRACT_ADDRESS,
   MINIME_CONTRACT_ADDRESS,
 } from "config";
-import { useMinimeConstants } from "queries";
+import { useMinimeConstants } from "queries/minimeConstants";
 import { TokenAmount } from "types/common";
 import { useMultiCallContract } from "utils";
 

@@ -9,7 +9,8 @@ import {
   MINIME_CONTRACT_ADDRESS_V1,
   MINIME_CONTRACT_ADDRESS_V2,
 } from "config";
-import { useGetWalletDetails, useMinimeConstants } from "queries";
+import { useMinimeConstants } from "queries/minimeConstants";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
 import { TokenUpgradeModal } from "./TokenUpgradeModal";

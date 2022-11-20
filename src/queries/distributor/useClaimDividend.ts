@@ -1,5 +1,5 @@
 import { distributorAbi } from "config";
-import { useMinimeConstants } from "queries";
+import { useMinimeConstants } from "queries/minimeConstants";
 import { type TransactionParams, useExecuteTransaction } from "utils";
 
 export const useClaimDividend = ({

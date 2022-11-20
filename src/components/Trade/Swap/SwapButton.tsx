@@ -8,10 +8,12 @@ import { Button } from "components/shared/Button";
 import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
 import { SWAP_METHODS } from "config/trade/constants";
-import { useGetWalletDetails } from "queries";
-import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
-import { useTokenSwap } from "queries/trade/useTokenSwap";
+import {
+  useGetTokenAllowance,
+  useTokenApproval,
+  useTokenSwap,
+} from "queries/trade";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { getAmount, getDeadlineTimestamp } from "utils";
 import { useStorage } from "utils/storage";
 

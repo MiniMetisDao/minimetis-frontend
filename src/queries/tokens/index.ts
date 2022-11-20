@@ -1,2 +1,2 @@
-export { useGetTokenPairs } from "./useGetTokenPairs";
-export { useGetTokenPrice } from "./useGetTokenPrice";
+export * from "./useGetTokenPairs";
+export * from "./useGetTokenPrice";

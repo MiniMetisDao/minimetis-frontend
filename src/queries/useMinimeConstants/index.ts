@@ -1,1 +1,0 @@
-export { useMinimeConstants } from "./useMinimeConstants";

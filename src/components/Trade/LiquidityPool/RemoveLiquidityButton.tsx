@@ -6,11 +6,13 @@ import { toast } from "react-toastify";
 import { Button } from "components/shared/Button";
 import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
-import { useGetWalletDetails } from "queries";
-import { useGetLiquidityPoolReserves } from "queries/trade/useGetLiquidityPoolReserves";
-import { useGetTokenAllowance } from "queries/trade/useGetTokenAllowance";
-import { useRemoveLiquidity } from "queries/trade/useRemoveLiquidity";
-import { useTokenApproval } from "queries/trade/useTokenApproval";
+import {
+  useGetLiquidityPoolReserves,
+  useGetTokenAllowance,
+  useRemoveLiquidity,
+  useTokenApproval,
+} from "queries/trade";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { getDeadlineTimestamp, getSlippageTolerance } from "utils";
 import { useStorage } from "utils/storage";
 import { get } from "utils/storage/storage";

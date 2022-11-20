@@ -1,5 +1,5 @@
 import { ROUTER_CONTRACT_ADDRESS } from "config";
-import { useGetWalletDetails } from "queries";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { useMultiCallContract } from "utils";
 
 export const useGetTokenAllowance = (tokenAddress: string) => {

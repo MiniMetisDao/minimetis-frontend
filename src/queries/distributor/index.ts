@@ -1,1 +1,2 @@
-export { useGetDividendShare } from "./useGetDividendShare";
+export * from "./useGetDividendShare";
+export * from "./useClaimDividend";

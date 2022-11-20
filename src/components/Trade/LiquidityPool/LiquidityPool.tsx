@@ -2,8 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout";
 import { DisplayPrice } from "components/shared/DisplayPrice";
-import { useGetLiquidityPoolBalances } from "queries/trade/useGetLiquidityPoolBalances";
-import { useGetLiquidityPools } from "queries/trade/useGetLiquidityPools";
+import {
+  useGetLiquidityPoolBalances,
+  useGetLiquidityPools,
+} from "queries/trade";
 
 import { RemoveLiquidityButton } from "./RemoveLiquidityButton";
 import { styles } from "./styles";

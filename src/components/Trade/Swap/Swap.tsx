@@ -11,7 +11,7 @@ import { Container } from "components/Layout";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/trade/tradingTokens.json";
-import { useGetTokenBalances } from "queries";
+import { useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
 import { Token } from "types/common";
 import {

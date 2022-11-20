@@ -4,10 +4,9 @@ import { toast } from "react-toastify";
 
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE } from "config";
-import { useGetWalletDetails } from "queries";
-import { useGetDividendShare } from "queries/distributor";
-import { useClaimDividend } from "queries/distributor/useClaimDividend";
+import { useClaimDividend, useGetDividendShare } from "queries/distributor";
 import { useGetTokenPrice } from "queries/tokens";
+import { useGetWalletDetails } from "queries/walletDetails";
 import { getHumanReadableAmount } from "utils";
 
 import { styles } from "./styles";

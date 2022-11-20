@@ -1,1 +1,1 @@
-export { useWalletConnector } from "./useWalletConnector";
+export * from "./useWalletConnector";

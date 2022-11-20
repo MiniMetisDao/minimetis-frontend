@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { BASE_CURRENCY_CODE } from "config";
-import { useMinimeConstants } from "queries";
 import { useGetDividendShare } from "queries/distributor";
+import { useMinimeConstants } from "queries/minimeConstants";
 import { useGetTokenPrice } from "queries/tokens";
 import { useGetTreasury } from "queries/treasury";
 import { getHumanReadableAmount } from "utils";
