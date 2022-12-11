@@ -103,14 +103,14 @@ export const styles =
         padding: 0;
         list-style: none;
         display: flex;
-        font-size: 20px;
+        font-size: 18px;
         flex-flow: wrap;
 
         ul {
           display: none;
         }
         li {
-          margin: 0 15px;
+          margin: 0 12px;
           :hover {
             > ul {
               display: block;

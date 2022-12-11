@@ -12,8 +12,8 @@ export const styles = ({ color }: Theme) => css`
     background: ${color.connectButton.primary};
     border: none;
     color: ${color.connectButton.text};
-    padding: 8px 21px;
-    font-size: 20px;
+    padding: 8px 16px;
+    font-size: 18px;
     font-weight: normal;
     line-height: 1.2;
     border-radius: 5px;
@@ -37,9 +37,9 @@ export const styles = ({ color }: Theme) => css`
     background: ${color.connectInfo.primary};
     color: ${color.connectInfo.text};
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
-    padding: 8px 21px;
+    padding: 8px 16px;
     line-height: 1.2;
     border-radius: 5px;
     margin-right: 10px;
