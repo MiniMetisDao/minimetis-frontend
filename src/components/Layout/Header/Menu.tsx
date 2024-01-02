@@ -51,9 +51,6 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
       <li>
         <Link to="/dashboard">{t("dashboard")}</Link>
       </li>
-      <li>
-        <Link to="/trade/liquidity-pool">{t("liquidityPool")}</Link>
-      </li>
     </ul>
   );
 };

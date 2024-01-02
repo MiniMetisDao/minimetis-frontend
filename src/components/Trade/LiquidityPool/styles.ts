@@ -1,6 +1,12 @@
 import { type Theme, css } from "@emotion/react";
 
 export const styles = ({ color }: Theme) => css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
   h2 {
     color: ${color.text.secondary};
     font-size: 40px;
@@ -8,14 +14,7 @@ export const styles = ({ color }: Theme) => css`
     margin: 0;
     text-align: center;
   }
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    width: 100%;
-  }
+
   .wrapper {
     display: flex;
     justify-content: center;

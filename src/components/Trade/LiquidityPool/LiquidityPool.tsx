@@ -20,20 +20,18 @@ export const LiquidityPool: React.FC = () => {
 
   return (
     <div css={styles}>
-      <Container topSection className="container">
-        <h2>{t("liquidityPool")}</h2>
-        <div className="wrapper">
-          <Button className="btn">ALL</Button>
-          <Button>MY POOL</Button>
-        </div>
-        <LiquidityDetails liquidity={false} />
-        <p className="text-information">
-          By adding liquidity you’ll earn 0.25% of all trades on this pair
-          proportional to your share of the pool. Try to add liquidity in
-          recommend pool.
-        </p>
-        <YourPools />
-        {/* {isLoading && <p>please wait while we fetch the liquidity pools</p>}
+      <div className="wrapper">
+        <Button className="btn">ALL</Button>
+        <Button>MY POOL</Button>
+      </div>
+      <LiquidityDetails liquidity={false} />
+      <p className="text-information">
+        By adding liquidity you’ll earn 0.25% of all trades on this pair
+        proportional to your share of the pool. Try to add liquidity in
+        recommend pool.
+      </p>
+      <YourPools />
+      {/* {isLoading && <p>please wait while we fetch the liquidity pools</p>}
         {data &&
           data.map((lp) => (
             <div className="pool-item" key={lp.address}>
@@ -54,7 +52,6 @@ export const LiquidityPool: React.FC = () => {
               )}{" "}
             </div>
           ))} */}
-      </Container>
     </div>
   );
 };

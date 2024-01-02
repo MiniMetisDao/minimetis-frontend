@@ -2,8 +2,6 @@ import { type Theme, css } from "@emotion/react";
 
 import bushLight from "assets/images/bush-light.png";
 import bush from "assets/images/bush.png";
-import floatingLandLight from "assets/images/floating-land-light.png";
-import floatingLand from "assets/images/floating-land.png";
 import minimePointingLight from "assets/images/minime-pointing-light.png";
 import minimePointing from "assets/images/minime-pointing.png";
 import { type Mode } from "theme";
@@ -12,12 +10,6 @@ export const styles =
   ({ theme }: { theme: Mode }) =>
   ({ color }: Theme) =>
     css`
-      background: ${color.alternative}
-        url(${theme === "light" ? floatingLandLight : floatingLand}) no-repeat
-        bottom center;
-      min-height: 480px;
-      margin: 0 0 40px;
-      padding: 20px 0;
       .swap-container {
         background: ${color.secondary};
         padding: 20px 20px 50px;

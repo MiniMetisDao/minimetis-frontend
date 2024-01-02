@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
 import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
-import { Container } from "components/Layout";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
 import tradingTokens from "config/trade/tradingTokens.json";
@@ -223,79 +222,76 @@ export const Swap: React.FC = () => {
 
   return (
     <div css={styles({ theme })}>
-      <Container topSection>
-        <h1>{t("miniSwap")}</h1>
-        <div className="swap-container">
-          <div className="title-wrapper">
-            <h2>{t("swap")}</h2>
-            <span>
-              {t("slippage")}
-              {": "}
-              {getSlippageToleranceInput(allowedSlippage)}%
-              <IconButton onClick={handleSettingsClick}>
-                <FaCog />
-              </IconButton>
-            </span>
-          </div>
-          <TokenInput
-            from
-            amount={swapTokens[0].amount}
-            balance={tradingPairBalances?.[swapTokens[0].token.address] || ""}
-            token={swapTokens[0].token}
-            estimated={swapTokens[0].estimated}
-            onChange={handleFromChange}
-            onTokenChange={handleFromTokenChange}
-          />
-          <button
-            className={cx("switch-input-btn", { flip: flipAnimation })}
-            onClick={handleFlipClick}
-            onAnimationEnd={() => setFlipAnimation(false)}
-          >
-            <IoIosRepeat />
-          </button>
-          <TokenInput
-            amount={swapTokens[1].amount}
-            balance={tradingPairBalances?.[swapTokens[1].token.address] || ""}
-            token={swapTokens[1].token}
-            estimated={swapTokens[1].estimated}
-            onChange={handleToChange}
-            onTokenChange={handleToTokenChange}
-          />
-          <p className="swap-warning">
-            {warningMessage && (
-              <>
-                <span className="icon">
-                  <IoIosWarning />
-                </span>
-                {warningMessage}
-              </>
-            )}
-          </p>
-          <div className="swap-btn-wrapper">
-            <SwapButton
-              hasInputError={hasInputError || !!warningMessage}
-              fromToken={swapTokens[0]}
-              userEnteredToken={userEnteredToken}
-              estimatedToken={estimatedToken}
-              slippageAdjustedInputAmount={slippageAdjustedAmounts[
-                Field.INPUT
-              ]?.toExact()}
-              slippageAdjustedOutputAmount={slippageAdjustedAmounts[
-                Field.OUTPUT
-              ]?.toExact()}
-              trade={trade}
-              onSuccess={() => tradingPairBalancesRefetch()}
-            />
-          </div>
-
-          <TradeInfo
+      <div className="swap-container">
+        <div className="title-wrapper">
+          <h2>{t("swap")}</h2>
+          <span>
+            {t("slippage")}
+            {": "}
+            {getSlippageToleranceInput(allowedSlippage)}%
+            <IconButton onClick={handleSettingsClick}>
+              <FaCog />
+            </IconButton>
+          </span>
+        </div>
+        <TokenInput
+          from
+          amount={swapTokens[0].amount}
+          balance={tradingPairBalances?.[swapTokens[0].token.address] || ""}
+          token={swapTokens[0].token}
+          estimated={swapTokens[0].estimated}
+          onChange={handleFromChange}
+          onTokenChange={handleFromTokenChange}
+        />
+        <button
+          className={cx("switch-input-btn", { flip: flipAnimation })}
+          onClick={handleFlipClick}
+          onAnimationEnd={() => setFlipAnimation(false)}
+        >
+          <IoIosRepeat />
+        </button>
+        <TokenInput
+          amount={swapTokens[1].amount}
+          balance={tradingPairBalances?.[swapTokens[1].token.address] || ""}
+          token={swapTokens[1].token}
+          estimated={swapTokens[1].estimated}
+          onChange={handleToChange}
+          onTokenChange={handleToTokenChange}
+        />
+        <p className="swap-warning">
+          {warningMessage && (
+            <>
+              <span className="icon">
+                <IoIosWarning />
+              </span>
+              {warningMessage}
+            </>
+          )}
+        </p>
+        <div className="swap-btn-wrapper">
+          <SwapButton
+            hasInputError={hasInputError || !!warningMessage}
+            fromToken={swapTokens[0]}
+            userEnteredToken={userEnteredToken}
+            estimatedToken={estimatedToken}
+            slippageAdjustedInputAmount={slippageAdjustedAmounts[
+              Field.INPUT
+            ]?.toExact()}
+            slippageAdjustedOutputAmount={slippageAdjustedAmounts[
+              Field.OUTPUT
+            ]?.toExact()}
             trade={trade}
-            swapTokens={swapTokens}
-            slippageAdjustedAmounts={slippageAdjustedAmounts}
+            onSuccess={() => tradingPairBalancesRefetch()}
           />
         </div>
-        {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
-      </Container>
+
+        <TradeInfo
+          trade={trade}
+          swapTokens={swapTokens}
+          slippageAdjustedAmounts={slippageAdjustedAmounts}
+        />
+      </div>
+      {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
     </div>
   );
 };
