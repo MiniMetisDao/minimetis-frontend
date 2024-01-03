@@ -29,22 +29,24 @@ export const styles =
         display: flex;
         justify-content: center;
         align-items: center;
+        justify-content: center;
         gap: 20px;
         font-size: 24px;
-
         margin-bottom: 60px;
         cursor: pointer;
       }
       .tabs > a {
-        width: 120px;
+        display: flex;
+        width: 140px;
+        align-items: center;
+        gap: 10px;
         text-align: center;
         text-decoration: none;
-        :focus {
-          color: ${color.connectInfo.text};
-        }
+        border-bottom: 3px solid transparent;
+        padding-bottom: 10px;
       }
       .selected-tab {
         color: ${color.color5};
-        border-bottom: 3px solid ${color.color5};
+        border-bottom: 3px solid ${color.color5} !important;
       }
     `;

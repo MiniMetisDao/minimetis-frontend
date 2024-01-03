@@ -2,30 +2,54 @@ import { Link, useMatch } from "@tanstack/react-location";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import coin_icon from "assets/images/coin.webp";
+import transfer_icon from "assets/images/transfer.webp";
 import { Container } from "components/Layout";
+import { useTradeNavigation } from "store/useTradeNavigation";
 import { useTheme } from "theme";
 
+import { ImportPool } from "./ImportPool";
 import { LiquidityPool } from "./LiquidityPool";
 import { Swap } from "./Swap";
 import { styles } from "./styles";
 
 export type TradeType = {
-  title: string;
   TradeComponent: React.ReactNode;
   showbg: boolean;
 };
 
+const SIZE = 30;
 export const Trade: React.FC = () => {
   const { pathname } = useMatch();
+  const { option, setOption } = useTradeNavigation();
   const [theme] = useTheme();
   const { t } = useTranslation("trade");
 
-  const { TradeComponent, title, showbg }: TradeType =
+  const renderComponent = () => {
+    if (option === "create") return <div>CREATE</div>;
+    if (option === "import") return <ImportPool />;
+
+    return (
+      <>
+        <h1>{t("liquidityPool")}</h1>
+        <LiquidityPool />
+      </>
+    );
+  };
+
+  const { TradeComponent, showbg }: TradeType =
     pathname === "/trade/swap-tokens"
-      ? { title: "miniSwap", TradeComponent: <Swap />, showbg: true }
+      ? {
+          TradeComponent: (
+            <>
+              <h1>{t("miniSwap")}</h1>
+              <Swap />
+            </>
+          ),
+          showbg: true,
+        }
       : {
-          title: "liquidityPool",
-          TradeComponent: <LiquidityPool />,
+          TradeComponent: renderComponent(),
           showbg: false,
         };
 
@@ -34,16 +58,19 @@ export const Trade: React.FC = () => {
       <Container topSection>
         <div className="tabs">
           <Link to="/trade" className={showbg ? "selected-tab" : ""}>
-            Mini Swap
+            <img src={transfer_icon} width={SIZE} height={SIZE} />
+            <span> Mini Swap</span>
           </Link>
           <Link
             to="/trade/liquidity-pool"
+            onClick={() => setOption(null)}
             className={showbg ? "" : "selected-tab"}
           >
-            Liquidity
+            <img src={coin_icon} width={SIZE} height={SIZE} />
+            <span>Liquidity</span>
           </Link>
         </div>
-        <h1>{t(title)}</h1>
+
         {TradeComponent}
       </Container>
     </div>
