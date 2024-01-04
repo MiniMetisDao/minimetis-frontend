@@ -10,6 +10,7 @@ import { useTheme } from "theme";
 
 import { ImportPool } from "./ImportPool";
 import { LiquidityPool } from "./LiquidityPool";
+import PoolSection from "./PoolSection";
 import { Swap } from "./Swap";
 import { styles } from "./styles";
 
@@ -26,7 +27,7 @@ export const Trade: React.FC = () => {
   const { t } = useTranslation("trade");
 
   const renderComponent = () => {
-    if (option === "create") return <div>CREATE</div>;
+    if (option === "create") return <PoolSection />;
     if (option === "import") return <ImportPool />;
 
     return (

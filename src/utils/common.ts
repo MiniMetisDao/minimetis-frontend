@@ -5,6 +5,8 @@ import { TRADE_SETTINGS } from "config";
 import { FixedNumber } from "ethers";
 import { type Token } from "types/common";
 
+import type { AmountType } from "./types";
+
 // amount = 1000000000000000000
 // decimals = 18
 // return 1
@@ -145,4 +147,79 @@ export const getSlippageTolerance = (slippage: string | number) => {
 
 export const getSlippageToleranceInput = (slippage: number) => {
   return BigNumber(slippage).dividedBy(100).toFixed(2);
+};
+
+/**
+ * Format a large number string to a concise representation.
+ * @param {string} stringValue - The number string to be formatted.
+ * @returns {string} - Formatted string, possibly appended with 'M'.
+ */
+export const formatLargeNumber = (value: string): string => {
+  const million = 1000000;
+
+  if (value.includes(".")) {
+    value = value.split(".")[0];
+  }
+  if (value.length >= 7) {
+    const millions = (parseFloat(value) / million).toFixed(0);
+
+    return millions + "M";
+  }
+
+  return value;
+};
+
+const ONLY_LETTERS = /[a-zA-Z]/;
+/**
+ * Formats an `amount` as a string with commas for the integer part and a period and `decimals` decimals (if any) for the decimal part.
+ * @param {string} amount - The amount to format as a string.
+ * @param {AmountType} type - The type of formatting to use ('price' for dollar formatting, 'percentage' for percentage formatting, or anything else for plain formatting).
+ * @param {number} decimals - The number of decimal places to show in the formatted amount (defaults to 2 if not specified).
+ * @returns {string} The formatted `amount` as a string.
+ */
+export const formatAmount = (
+  amount: string,
+  type: AmountType,
+  decimals = 2
+): string => {
+  try {
+    const amountNum = Number(amount);
+    let formatAmount = "";
+    if (amount) {
+      if (amountNum >= 10_000_000) return formatLargeNumber(amount);
+      if (ONLY_LETTERS.test(amount)) return amount;
+
+      const hasDecimal = amount.includes(".");
+
+      const [integerPart, decimalPart] = hasDecimal
+        ? amount.split(".")
+        : [amount, null];
+
+      const decimalPartWithoutZero =
+        decimalPart && decimalPart === "0" ? "" : decimalPart;
+
+      const formattedIntegerPart = integerPart.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+      );
+
+      const formattedDecimalPart = decimalPartWithoutZero
+        ? `.${decimalPartWithoutZero.slice(0, decimals)}`
+        : "";
+
+      formatAmount = `${formattedIntegerPart}${formattedDecimalPart}`;
+      if (decimals === 3 && amountNum > 0 && amountNum < 0.001) {
+        formatAmount = "<0.001";
+      } else if (decimals === 2 && amountNum > 0 && amountNum < 0.01) {
+        formatAmount = "<0.01";
+      }
+
+      if (type === "price") return `$${formatAmount}`;
+      if (type === "percentage") return `${formatAmount}%`;
+    }
+
+    return formatAmount;
+  } catch {
+    return "";
+  }
 };
