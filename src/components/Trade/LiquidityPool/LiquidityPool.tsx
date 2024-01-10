@@ -1,37 +1,51 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Container } from "components/Layout";
-import { Button } from "components/shared/Button";
-import { DisplayPrice } from "components/shared/DisplayPrice";
+import candies_icon from "assets/images/candies.webp";
+import start_icon from "assets/images/star.webp";
+import unicorn_icon from "assets/images/unicorn.webp";
+import Tabs from "components/shared/Tabs";
+import { TabOptions } from "config/trade/constants";
 import {
   useGetLiquidityPoolBalances,
   useGetLiquidityPools,
 } from "queries/trade";
 
 import LiquidityDetails from "./LiquidityDetails";
-import { RemoveLiquidityButton } from "./RemoveLiquidityButton";
 import YourPools from "./YourPools";
 import { styles } from "./styles";
 
+const { All, FAVORITES, MY } = TabOptions;
 export const LiquidityPool: React.FC = () => {
-  const { t } = useTranslation("trade");
+  const [selectedTab, setSelectedTab] = useState(All);
+
+  const onSelect = (newTab: TabOptions) => {
+    setSelectedTab(newTab);
+  };
+
   const { data, isLoading } = useGetLiquidityPools();
   const { data: balances } = useGetLiquidityPoolBalances();
 
   return (
     <div css={styles}>
-      <div className="wrapper">
-        <Button className="btn">ALL</Button>
-        <Button>MY POOL</Button>
-      </div>
-      <LiquidityDetails liquidity={false} />
+      <Tabs
+        tabs={[All, MY, FAVORITES]}
+        tabsIcons={[candies_icon, unicorn_icon, start_icon]}
+        onSelect={onSelect}
+      />
+      <LiquidityDetails selectedTab={selectedTab} />
       <p className="text-information">
         By adding liquidity you’ll earn 0.25% of all trades on this pair
         proportional to your share of the pool. Try to add liquidity in
         recommend pool.
       </p>
       <YourPools />
-      {/* {isLoading && <p>please wait while we fetch the liquidity pools</p>}
+    </div>
+  );
+};
+
+{
+  /* {isLoading && <p>please wait while we fetch the liquidity pools</p>}
         {data &&
           data.map((lp) => (
             <div className="pool-item" key={lp.address}>
@@ -51,7 +65,5 @@ export const LiquidityPool: React.FC = () => {
                 "loading..."
               )}{" "}
             </div>
-          ))} */}
-    </div>
-  );
-};
+          ))} */
+}

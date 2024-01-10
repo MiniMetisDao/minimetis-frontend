@@ -43,7 +43,7 @@
     "rodal": "1.8.3",
     "use-onclickoutside": "0.4.1",
     "util": "0.12.4",
-    "zustand": "4.1.4"
+    "zustand": "^4.1.4"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "11.10.5",

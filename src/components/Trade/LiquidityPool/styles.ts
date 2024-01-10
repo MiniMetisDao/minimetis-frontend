@@ -5,7 +5,7 @@ export const styles = ({ color }: Theme) => css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  gap: 25px;
   width: 100%;
   h2 {
     color: ${color.text.secondary};
@@ -86,5 +86,107 @@ export const styles = ({ color }: Theme) => css`
   }
   .buttons-wrapper > button {
     max-width: 200px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+  }
+
+  .table td:first-of-type {
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+  }
+
+  .table td:last-of-type {
+    border-bottom-right-radius: 11px;
+    border-top-right-radius: 11px;
+  }
+  .table th,
+  .table td {
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+  }
+
+  .table th:first-of-type,
+  .table td:first-of-type {
+    text-align: left;
+    width: 200px;
+  }
+
+  .table tr {
+    width: 100%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  table tr:hover {
+    background-color: gray;
+    border-radius: 11px;
+  }
+
+  .table .no-hover:hover {
+    background-color: transparent;
+    cursor: default;
+  }
+
+  .table th {
+    color: ${color.text.primary};
+  }
+
+  .table td {
+    color: ${color.text.primary};
+  }
+
+  .table img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+
+  .table .positive {
+    color: green;
+  }
+
+  .table .negative {
+    color: #b977ec;
+  }
+  .tokens {
+    position: relative;
+    width: 45px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .tokens > svg {
+    position: absolute;
+  }
+  .name-row {
+    display: flex;
+    width: 200px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .name-row .name {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .pagination {
+    list-style: none;
+    display: flex;
+    gap: 5px;
+  }
+
+  .pagination li {
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .pagination li.active {
+    color: ${color.actionButton.active};
   }
 `;
