@@ -7,11 +7,14 @@ import { IconButton } from "components/shared/IconButton";
 import { Tooltip } from "components/shared/Tooltip";
 import { ONE_BIPS } from "config/trade/constants";
 
+import { Field } from "../Swap/hooks/useDerivedSwapInfo";
+import {
+  computeTradePriceBreakdown,
+  getSignificantTradeAmount,
+} from "../Swap/utils";
 import { TradeLinkModal } from "../TradeLinkModal";
 
-import { Field } from "./hooks/useDerivedSwapInfo";
 import { type SwapToken } from "./types";
-import { computeTradePriceBreakdown, getSignificantTradeAmount } from "./utils";
 
 type TradeInfoProps = {
   trade?: Trade;
