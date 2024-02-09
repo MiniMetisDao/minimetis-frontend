@@ -35,10 +35,10 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
         </thead>
         <tbody>
           {visibleData.map((item, index) => (
-            <tr key={index} onClick={() => onSelectLP(item)}>
+            <tr key={index}>
               <td>
                 <div className="name-row">
-                  <div className="name">
+                  <div className="name" onClick={() => onSelectLP(item)}>
                     <div className="tokens">
                       <FaCircle size="30" />
                       <FaCircle size="30" color="blue" style={{ right: 0 }} />
@@ -48,9 +48,10 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
                   <Favorite data={item} />
                 </div>
               </td>
-              <td>${item.liquidity}</td>
-              <td>${item.volume24h}</td>
+              <td onClick={() => onSelectLP(item)}>${item.liquidity}</td>
+              <td onClick={() => onSelectLP(item)}>${item.volume24h}</td>
               <td
+                onClick={() => onSelectLP(item)}
                 className={
                   Number(item.lpRewardApr) >= 0 ? "positive" : "negative"
                 }

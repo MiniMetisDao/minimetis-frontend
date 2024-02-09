@@ -35,8 +35,6 @@ export const Trade: React.FC = () => {
     return selectedPool;
   }, [selectedPool]);
 
-  console.log(currentPool);
-
   const renderComponent = () => {
     if (option === "create") return <PoolSection lp={currentPool} />;
     if (option === "import") return <ImportPool />;
