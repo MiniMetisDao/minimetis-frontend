@@ -2,7 +2,9 @@ export type AmountType = "price" | "percentage" | "number";
 
 export type LiquidityType = {
   name: string;
-  liquidity: number;
-  volume24h: number;
-  lpRewardApr: number;
+  liquidity: string;
+  volume24h: string;
+  lpRewardApr: string;
+  totalFees: string;
+  address: string;
 };

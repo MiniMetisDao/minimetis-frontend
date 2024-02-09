@@ -1,10 +1,12 @@
 import { Link, useMatch } from "@tanstack/react-location";
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import coin_icon from "assets/images/coin.webp";
 import transfer_icon from "assets/images/transfer.webp";
 import { Container } from "components/Layout";
+import { EXAMPLE_DATA } from "config/trade/constants";
+import { useLiquidityStore } from "store/useLiquidityStore";
 import { useTradeNavigation } from "store/useTradeNavigation";
 import { useTheme } from "theme";
 
@@ -23,11 +25,20 @@ const SIZE = 30;
 export const Trade: React.FC = () => {
   const { pathname } = useMatch();
   const { option, setOption } = useTradeNavigation();
+  const { selectedPool } = useLiquidityStore();
   const [theme] = useTheme();
   const { t } = useTranslation("trade");
 
+  const currentPool = useMemo(() => {
+    if (!selectedPool) return EXAMPLE_DATA[0];
+
+    return selectedPool;
+  }, [selectedPool]);
+
+  console.log(currentPool);
+
   const renderComponent = () => {
-    if (option === "create") return <PoolSection />;
+    if (option === "create") return <PoolSection lp={currentPool} />;
     if (option === "import") return <ImportPool />;
 
     return (

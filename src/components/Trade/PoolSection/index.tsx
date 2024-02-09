@@ -1,11 +1,28 @@
 import { FaCircle, FaCopy } from "react-icons/fa";
+import { IoReturnDownBack } from "react-icons/io5";
+import type { LiquidityType } from "utils/types";
+
+import { Button } from "components/shared/Button";
+import { IconButton } from "components/shared/IconButton";
+import { useLiquidityStore } from "store/useLiquidityStore";
+import { useTradeNavigation } from "store/useTradeNavigation";
 
 import { CreateLiquidity } from "../CreateLiquidity";
 
 import PoolInformation from "./PoolInformation";
 import { styles } from "./styles";
 
-const PoolSection = () => {
+const PoolSection = ({ lp }: { lp: LiquidityType }) => {
+  const { address, liquidity, name, totalFees, volume24h, lpRewardApr } = lp;
+  const { selectLP } = useLiquidityStore();
+  const { setOption } = useTradeNavigation();
+  const [token1, token2] = name.split("/");
+
+  const returnBack = () => {
+    selectLP(null);
+    setOption(null);
+  };
+
   return (
     <div css={styles()}>
       <div>
@@ -13,7 +30,12 @@ const PoolSection = () => {
         <CreateLiquidity />
       </div>
       <div style={{ width: "100%" }}>
-        <h3 style={{ height: 20 }}>Pools</h3>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <IconButton onClick={returnBack}>
+            <IoReturnDownBack size="25px" />
+          </IconButton>
+          <h3 style={{ height: 20 }}>Pools</h3>
+        </div>
         <div className="wrapper">
           {/* HEADER */}
           <div className="header">
@@ -22,9 +44,11 @@ const PoolSection = () => {
               <FaCircle size="30" color="blue" style={{ right: 0 }} />
             </div>
             <div>
-              <p>NETT - Metis LP</p>
+              <p>{`${name} LP`}</p>
               <div className="text-copy">
-                <p>Pair Address: 0x6031...1Cbd</p>
+                <p>{`Pair Address: ${address.slice(0, 4)}...${address.slice(
+                  -4
+                )}`}</p>
                 <FaCopy size="15" />
               </div>
             </div>
@@ -42,36 +66,36 @@ const PoolSection = () => {
           <div className="pools-grid">
             <PoolInformation
               label="Liquidity"
-              amount="1401,609.599"
+              amount={liquidity}
               type="price"
             />
             <PoolInformation
               label="Volume (24H)"
-              amount="1401,609.599"
+              amount={volume24h}
               type="price"
             />
             <PoolInformation
               label="Total Fee (24H)"
-              amount="1401,609.599"
+              amount={totalFees}
               type="price"
             />
             <PoolInformation
               label="LP Reward APR"
-              amount="1401,609.599"
+              amount={lpRewardApr}
               type="price"
             />
             <PoolInformation
-              label="NETT per Metis"
+              label={`${token1} per ${token2}`}
               amount="66.143"
               type="number"
             />
             <PoolInformation
-              label="Metis per NETT"
+              label={`${token2} per ${token1}`}
               amount="0.015"
               type="number"
             />
-            <PoolInformation label="NETT" amount="528038.499" type="number" />
-            <PoolInformation label="Metis" amount="7983.253" type="number" />
+            <PoolInformation label={token1} amount="528038.499" type="number" />
+            <PoolInformation label={token2} amount="7983.253" type="number" />
           </div>
         </div>
       </div>

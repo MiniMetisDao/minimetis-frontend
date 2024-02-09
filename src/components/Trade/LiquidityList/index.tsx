@@ -2,16 +2,25 @@ import { FaCircle } from "react-icons/fa";
 import type { LiquidityType } from "utils/types";
 
 import Favorite from "components/shared/Favorite";
+import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
+import { useTradeNavigation } from "store/useTradeNavigation";
 
 import Pagination from "../Pagination";
 
 const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
   const { currentPage } = usePaginationStore();
   const itemsPerPage = 10;
+  const { setOption } = useTradeNavigation();
+  const { selectLP } = useLiquidityStore();
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const visibleData = list.slice(startIndex, startIndex + itemsPerPage);
+
+  const onSelectLP = (newLP: LiquidityType) => {
+    selectLP(newLP);
+    setOption("create");
+  };
 
   return (
     <>
@@ -26,7 +35,7 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
         </thead>
         <tbody>
           {visibleData.map((item, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => onSelectLP(item)}>
               <td>
                 <div className="name-row">
                   <div className="name">
@@ -41,7 +50,11 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
               </td>
               <td>${item.liquidity}</td>
               <td>${item.volume24h}</td>
-              <td className={item.lpRewardApr >= 0 ? "positive" : "negative"}>
+              <td
+                className={
+                  Number(item.lpRewardApr) >= 0 ? "positive" : "negative"
+                }
+              >
                 {item.lpRewardApr}%
               </td>
             </tr>
