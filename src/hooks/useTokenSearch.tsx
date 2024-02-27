@@ -42,8 +42,6 @@ const useTokenSearch = (search: string) => {
         const searchList = searchToken(tradingTokens, search);
         if (searchList.length === 0 && isAddress(searchTrim)) {
           const token = await getTokenDetail(searchTrim);
-
-          console.log(token);
           if (token) {
             const findToken = externalTokens.find(
               (externalToken) => externalToken.address === token.address
