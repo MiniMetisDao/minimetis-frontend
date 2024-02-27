@@ -55,7 +55,9 @@ export const unlisten = async (
   listener: ethers.providers.Listener
 ) => window.ethereum?.removeListener(eventName, listener);
 
-export const getTokenDetail = async (address: string): Promise<Token> => {
+export const getTokenDetail = async (
+  address: string
+): Promise<Token | null> => {
   const queryInfos = [
     {
       address: address,
@@ -74,6 +76,7 @@ export const getTokenDetail = async (address: string): Promise<Token> => {
   try {
     const [symbol, decimals, name] = await multicall(queryInfos);
 
+    if (!symbol || !decimals || !name) return null;
     const token: Token = {
       chainId: 1088,
       address,
@@ -87,6 +90,7 @@ export const getTokenDetail = async (address: string): Promise<Token> => {
     return token;
   } catch (error) {
     console.error("Error fetching token info:", error);
-    throw error;
+
+    return null;
   }
 };

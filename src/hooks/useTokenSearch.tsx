@@ -30,24 +30,31 @@ const useTokenSearch = (search: string) => {
 
   useEffect(() => {
     const getTokens = async () => {
-      if (search.length === 0) {
+      const searchTrim = search.trim();
+
+      if (searchTrim.length === 0) {
+        console.log(allTokens);
         setTokenList(allTokens);
         setNewTokenAdded(false);
       }
 
-      if (search.length) {
+      if (searchTrim.length) {
         const searchList = searchToken(tradingTokens, search);
-        if (searchList.length === 0 && isAddress(search)) {
-          const token = await getTokenDetail(search);
+        if (searchList.length === 0 && isAddress(searchTrim)) {
+          const token = await getTokenDetail(searchTrim);
 
-          const findToken = externalTokens.find(
-            (externalToken) => externalToken.address === token.address
-          );
-          if (!findToken) {
-            set("tradingTokens", [...externalTokens, token]);
+          console.log(token);
+          if (token) {
+            const findToken = externalTokens.find(
+              (externalToken) => externalToken.address === token.address
+            );
+
+            if (!findToken) {
+              set("tradingTokens", [...externalTokens, token]);
+            }
+            setTokenList([token]);
+            setNewTokenAdded(true);
           }
-          setTokenList([token]);
-          setNewTokenAdded(true);
         } else {
           setTokenList(searchList);
           setNewTokenAdded(false);
