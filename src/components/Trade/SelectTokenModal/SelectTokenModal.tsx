@@ -1,12 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { BsBookmarkXFill } from "react-icons/bs";
 
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { Modal } from "components/shared/Modal";
-import tradingTokens from "config/trade/tradingTokens.json";
 import { useGetTokenBalances } from "queries/trade";
 import { type Token } from "types/common";
-import { searchToken } from "utils/common";
+
+import useTokenSearch from "../../../hooks/useTokenSearch";
 
 import { listStyle, styles } from "./styles";
 
@@ -23,19 +24,12 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
 }) => {
   const { t } = useTranslation("trade");
   const [search, setSearch] = React.useState("");
+  const { tokenList, newTokenAdded, removeToken } = useTokenSearch(search);
 
   const { data: tradingTokensBalances } = useGetTokenBalances({
-    tokens: tradingTokens,
+    tokens: tokenList,
     refetchInterval: true,
   });
-
-  const tokensList = React.useMemo(() => {
-    if (!search) {
-      return tradingTokens;
-    }
-
-    return searchToken(tradingTokens, search);
-  }, [search]);
 
   return (
     <Modal onClose={onClose} title={t("trade:selectToken")}>
@@ -45,8 +39,9 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
 
+        {newTokenAdded && <div>New token added!</div>}
         <div className="token-list">
-          {tokensList.map((token) => (
+          {tokenList.map((token) => (
             <div
               key={token.address}
               css={listStyle({
@@ -56,11 +51,21 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
                 token.address !== selectedToken?.address && onSelect(token)
               }
             >
-              <img className="token-logo" src={token.logoURI} />
-
-              <div className="details">
-                <div>{token.name}</div>
-                <div className="token-symbol">{token.symbol}</div>
+              <div className="wrapper-detail">
+                <img className="token-logo" src={token.logoURI} />
+                <div className="details">
+                  <div>{token.name}</div>
+                  <div className="token-symbol">{token.symbol}</div>
+                </div>
+                {token.external && (
+                  <BsBookmarkXFill
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeToken(token);
+                    }}
+                    size="15px"
+                  />
+                )}
               </div>
 
               {tradingTokensBalances?.[token.address] && (

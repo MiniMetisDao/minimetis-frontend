@@ -9,7 +9,7 @@ import { IoIosRepeat, IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
-import tradingTokens from "config/trade/tradingTokens.json";
+import { tradingTokens } from "config/trade/tradingTokens";
 import { useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
 import { type Token } from "types/common";

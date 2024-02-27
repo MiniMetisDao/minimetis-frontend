@@ -5,7 +5,7 @@ import { FaArrowLeft, FaCog } from "react-icons/fa";
 import suggestion_icon from "assets/images/advise.png";
 import { Button } from "components/shared/Button";
 import { IconButton } from "components/shared/IconButton";
-import tradingTokens from "config/trade/tradingTokens.json";
+import { tradingTokens } from "config/trade/tradingTokens";
 import { useGetTokenBalances } from "queries/trade";
 import { useTradeNavigation } from "store/useTradeNavigation";
 import { useTheme } from "theme";

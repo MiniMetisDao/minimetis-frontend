@@ -1,14 +1,9 @@
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { AiOutlineEdit } from "react-icons/ai";
 import { FaChevronDown } from "react-icons/fa";
-import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
 
-import { DisplayPrice } from "components/shared/DisplayPrice";
-import { IconButton } from "components/shared/IconButton";
 import { Input } from "components/shared/Input";
-import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { type Token } from "types/common";

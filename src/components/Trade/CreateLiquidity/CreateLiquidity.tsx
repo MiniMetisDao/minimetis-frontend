@@ -1,15 +1,14 @@
-import { cx } from "@emotion/css";
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
 import { TradeType } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog, FaPlus } from "react-icons/fa";
-import { IoIosRepeat, IoIosWarning } from "react-icons/io";
+import { IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
-import tradingTokens from "config/trade/tradingTokens.json";
+import { tradingTokens } from "config/trade/tradingTokens";
 import { useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
 import { type Token } from "types/common";
@@ -27,7 +26,6 @@ import { SettingsModal } from "../SettingsModal";
 
 import { SwapButton } from "./SwapButton";
 import { TokenInput } from "./TokenInput";
-import { TradeInfo } from "./TradeInfo";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
 import { type SwapToken } from "./types";

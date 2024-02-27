@@ -7,6 +7,7 @@ export type Token = {
   logoURI: string;
   listInQuickView?: boolean;
   balance?: number;
+  external?: boolean;
 };
 
 export type TradeSettings = {

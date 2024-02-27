@@ -23,7 +23,6 @@ export const multicall = async (
 
     const data = await ethcallProvider?.tryAll(calls);
 
-    // TODO: Is this formatting fine this way?
     return data?.map((record: any) =>
       castToString ? record?.toString() : record
     );
