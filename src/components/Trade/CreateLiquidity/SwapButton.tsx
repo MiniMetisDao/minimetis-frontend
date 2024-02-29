@@ -13,6 +13,7 @@ import {
   useTokenApproval,
   useTokenSwap,
 } from "queries/trade";
+import { useCreatePair } from "queries/trade/useCreatePair";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { getAmount, getDeadlineTimestamp } from "utils/common";
 import { useStorage } from "utils/storage";
@@ -21,23 +22,13 @@ import { type SwapToken } from "./types";
 
 type SwapButtonProps = {
   hasInputError: boolean;
-  fromToken: SwapToken;
-  userEnteredToken: SwapToken;
-  estimatedToken: SwapToken;
-  slippageAdjustedInputAmount?: string;
-  slippageAdjustedOutputAmount?: string;
-  trade?: Trade;
+  pairTokens: SwapToken[];
   onSuccess?: () => void;
 };
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
   hasInputError,
-  fromToken,
-  userEnteredToken,
-  estimatedToken,
-  slippageAdjustedInputAmount = "",
-  slippageAdjustedOutputAmount = "",
-  trade,
+  pairTokens,
   onSuccess,
 }) => {
   const { t } = useTranslation("trade");
@@ -94,9 +85,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       },
     });
 
-  const { data: allowance } = useGetTokenAllowance(fromToken.token.address);
-
-  const { mutate: swapMutate, isLoading: isSwapLoading } = useTokenSwap({
+  const { mutate, isLoading } = useCreatePair({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
       toast.loading(
         <Trans
@@ -129,6 +118,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       });
     },
     onError: (error) => {
+      console.log(error);
       if (error?.code === 4001) {
         toast.error(t("transactionCancelled"));
       } else if (error?.code === 0) {
@@ -145,74 +135,20 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   });
 
   const handleSwapClick = () => {
-    const method =
-      trade?.tradeType === TradeType.EXACT_INPUT
-        ? SWAP_METHODS.EXACT_INPUT
-        : SWAP_METHODS.EXACT_OUTPUT;
+    const method = "createPair";
 
-    const amountNeeded = getAmount(
-      userEnteredToken.amount,
-      userEnteredToken.token.decimals
-    ).toFixed();
+    const params = [pairTokens[0].token.address, pairTokens[1].token.address];
 
-    const amountSwappable = getAmount(
-      trade?.tradeType === TradeType.EXACT_INPUT
-        ? slippageAdjustedOutputAmount
-        : slippageAdjustedInputAmount,
-      trade?.tradeType === TradeType.EXACT_INPUT
-        ? estimatedToken.token?.decimals
-        : userEnteredToken?.token?.decimals
-    ).toFixed();
-
-    if (
-      !trade ||
-      !trade.route.path.length ||
-      amountNeeded === "" ||
-      amountSwappable === "" ||
-      !walletDetails?.address
-    ) {
-      return;
-    }
-
-    const params = [
-      amountNeeded,
-      amountSwappable,
-      trade.route.path.map((token) => token.address),
-      walletDetails?.address,
-      getDeadlineTimestamp(transactionDeadline as number),
-    ];
-
-    swapMutate({ method, params });
+    mutate({ method, params });
   };
-
-  const handleApprovalClick = () => {
-    approvalMutate({
-      tokenAddress: fromToken.token?.address,
-    });
-  };
-
-  const hasApproved =
-    allowance &&
-    (fromToken.amount
-      ? BigNumber(allowance).isGreaterThanOrEqualTo(
-          getAmount(fromToken.amount, fromToken.token.decimals)
-        )
-      : false);
 
   if (walletDetails?.status !== "CONNECTED") {
     return <ConnectButton />;
   }
 
-  return !hasInputError && !hasApproved ? (
-    <Button
-      disabled={hasInputError || isApprovalLoading}
-      onClick={handleApprovalClick}
-    >
-      {!isApprovalLoading ? t("approve") : t("approving")}
-    </Button>
-  ) : (
-    <Button disabled={hasInputError || isSwapLoading} onClick={handleSwapClick}>
-      {!isSwapLoading ? t("swap") : t("swapping")}
+  return (
+    <Button disabled={hasInputError || isLoading} onClick={handleSwapClick}>
+      {!isLoading ? "CREATE PAIR" : "CREATING"}
     </Button>
   );
 };

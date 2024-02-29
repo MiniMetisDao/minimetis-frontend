@@ -6,9 +6,10 @@ import { useGetLiquidityPools } from "./useGetLiquidityPools";
 export const useGetLiquidityPoolBalances = () => {
   const { data: liquidityPools } = useGetLiquidityPools();
   const { data: walletDetails } = useGetWalletDetails();
+  const pools = liquidityPools?.validPairs;
 
   const query =
-    liquidityPools?.map((pool) => ({
+    pools?.map((pool) => ({
       method: "balanceOf",
       address: pool.address,
       params: walletDetails?.address ? [walletDetails.address] : [],
@@ -22,7 +23,7 @@ export const useGetLiquidityPoolBalances = () => {
       select: (response: string[]) =>
         response.reduce<Record<string, string>>((acc, balance, idx) => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          acc[liquidityPools![idx].address] = balance;
+          acc[pools![idx].address] = balance;
 
           return acc;
         }, {}),

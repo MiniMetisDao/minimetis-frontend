@@ -20,3 +20,9 @@ export type TokenAmount = {
   amount: string;
   decimals: number | string;
 };
+
+export type LP = {
+  name: string;
+  tokens: [Token, Token];
+  address: string;
+};

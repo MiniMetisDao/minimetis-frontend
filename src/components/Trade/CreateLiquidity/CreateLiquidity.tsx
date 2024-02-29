@@ -1,36 +1,28 @@
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
-import BigNumber from "bignumber.js";
-import { TradeType } from "minime-sdk";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog, FaPlus } from "react-icons/fa";
-import { IoIosWarning } from "react-icons/io";
 
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
+import { ADDRESS_ZERO } from "config/trade/constants";
 import { tradingTokens } from "config/trade/tradingTokens";
-import { useGetTokenBalances } from "queries/trade";
+import { useGetLiquidityPools, useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
 import { type Token } from "types/common";
 import {
-  getFormattedAmount,
   getSlippageTolerance,
   getSlippageToleranceInput,
-  isValidNumber,
   searchExactToken,
 } from "utils/common";
 import { useStorage } from "utils/storage";
-import { getSDKToken } from "utils/trade";
 
 import { SettingsModal } from "../SettingsModal";
 
 import { SwapButton } from "./SwapButton";
 import { TokenInput } from "./TokenInput";
-import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
 import { type SwapToken } from "./types";
-import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
-import { getSignificantTradeAmount } from "./utils/getSignificantTradeAmount";
 
 const getValidSwapTokens = (token0Search?: string, token1Search?: string) => {
   const validToken0 = token0Search
@@ -68,9 +60,8 @@ export const CreateLiquidity: React.FC = () => {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
   const search = useSearch<LocationGenerics>();
-
-  const [flipAnimation, setFlipAnimation] = React.useState(false);
-  const [warningMessage, setWarningMessage] = React.useState<string>("");
+  const { data } = useGetLiquidityPools();
+  const [isDisabled, setIsDisabled] = useState(true);
   const [showTradeSettings, setShowTradeSettings] = React.useState(false);
   const [slippageFromSearch, setSlippageFromSearch] = React.useState<string>();
 
@@ -93,23 +84,6 @@ export const CreateLiquidity: React.FC = () => {
       set("slippageTolerance", search.slippage);
     }
   }, [search, set, slippageFromSearch]);
-
-  const userEnteredToken = swapTokens[0]?.estimated
-    ? swapTokens[1]
-    : swapTokens[0];
-
-  const estimatedToken = swapTokens[0]?.estimated
-    ? swapTokens[0]
-    : swapTokens[1];
-
-  const { trade } = useDerivedSwapInfo({
-    independentField: swapTokens[0].estimated ? Field.OUTPUT : Field.INPUT,
-    inputCurrency: getSDKToken(swapTokens[0].token),
-    outputCurrency: getSDKToken(swapTokens[1].token),
-    typedValue: BigNumber(userEnteredToken.amount).isNaN()
-      ? ""
-      : BigNumber(userEnteredToken.amount).toFixed(),
-  });
 
   const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
 
@@ -134,7 +108,6 @@ export const CreateLiquidity: React.FC = () => {
 
   const handleFlipClick = () => {
     setSwapTokens(([token0, token1]) => [token1, token0]);
-    setFlipAnimation(true);
   };
 
   const handleFromTokenChange = (token: Token) => {
@@ -156,67 +129,41 @@ export const CreateLiquidity: React.FC = () => {
   const handleSettingsClick = () => setShowTradeSettings(true);
   const handleSettingsClose = () => setShowTradeSettings(false);
 
-  const hasInputError = swapTokens.some(
-    ({ amount }) => !isValidNumber(BigNumber(amount).toFixed())
-  );
-
   React.useEffect(() => {
-    if (!tradingPairBalances) return;
-    const fromToken = swapTokens[0];
+    const checkPair = () => {
+      if (!data) return;
+      const { allPairs } = data;
 
-    const fromTokenBalance = getFormattedAmount(
-      fromToken.token,
-      tradingPairBalances[fromToken.token.address]
-    );
+      const findPair = allPairs.find((pair) => {
+        const [pairTokenA, pairTokenB] = pair.tokens;
+        const [swapTokenA, swapTokenB] = swapTokens;
 
-    if (
-      BigNumber(fromToken.amount).isGreaterThan(BigNumber(fromTokenBalance))
-    ) {
-      setWarningMessage(t("insufficientBalance"));
-    } else {
-      setWarningMessage("");
-    }
-  }, [tradingPairBalances, swapTokens, t]);
+        const pairTokenALower = pairTokenA.address.toLowerCase();
+        const pairTokenBLower = pairTokenB.address.toLowerCase();
+        const swapTokenALower = swapTokenA.token.address.toLowerCase();
+        const swapTokenBLower = swapTokenB.token.address.toLowerCase();
 
-  React.useEffect(() => {
-    if (
-      trade?.tradeType === TradeType.EXACT_INPUT &&
-      swapTokens[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
-    ) {
-      setSwapTokens(([token0, token1]) => [
-        token0,
-        {
-          ...token1,
-          amount: getSignificantTradeAmount(trade?.outputAmount, 6),
-        },
-      ]);
-    }
-    if (
-      trade?.tradeType === TradeType.EXACT_OUTPUT &&
-      swapTokens[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
-    ) {
-      setSwapTokens(([token0, token1]) => [
-        { ...token0, amount: getSignificantTradeAmount(trade?.inputAmount, 6) },
-        token1,
-      ]);
-    }
-    if (
-      !trade &&
-      (BigNumber(userEnteredToken.amount).isNaN() ||
-        BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
-      estimatedToken.amount !== ""
-    ) {
-      setSwapTokens(([token0, token1]) => [
-        { ...token0, amount: token0?.estimated ? "" : token0.amount },
-        { ...token1, amount: token1?.estimated ? "" : token1.amount },
-      ]);
-    }
-  }, [estimatedToken, userEnteredToken, swapTokens, trade]);
+        const isPairIdentical =
+          (pairTokenALower === swapTokenALower &&
+            pairTokenBLower === swapTokenBLower) ||
+          (pairTokenALower === swapTokenBLower &&
+            pairTokenBLower === swapTokenALower);
 
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
-    trade,
-    allowedSlippage
-  );
+        return isPairIdentical;
+      });
+      if (findPair) {
+        const exist = findPair.address === ADDRESS_ZERO;
+
+        setIsDisabled(!exist);
+      } else {
+        setIsDisabled(false);
+      }
+    };
+
+    checkPair();
+  }, [swapTokens, data]);
+
+  console.log({ isDisabled });
 
   return (
     <div css={styles({ theme })}>
@@ -254,29 +201,10 @@ export const CreateLiquidity: React.FC = () => {
           onChange={handleToChange}
           onTokenChange={handleToTokenChange}
         />
-        <p className="swap-warning">
-          {warningMessage && (
-            <>
-              <span className="icon">
-                <IoIosWarning />
-              </span>
-              {warningMessage}
-            </>
-          )}
-        </p>
         <div className="swap-btn-wrapper">
           <SwapButton
-            hasInputError={hasInputError || !!warningMessage}
-            fromToken={swapTokens[0]}
-            userEnteredToken={userEnteredToken}
-            estimatedToken={estimatedToken}
-            slippageAdjustedInputAmount={slippageAdjustedAmounts[
-              Field.INPUT
-            ]?.toExact()}
-            slippageAdjustedOutputAmount={slippageAdjustedAmounts[
-              Field.OUTPUT
-            ]?.toExact()}
-            trade={trade}
+            hasInputError={isDisabled}
+            pairTokens={swapTokens}
             onSuccess={() => tradingPairBalancesRefetch()}
           />
         </div>

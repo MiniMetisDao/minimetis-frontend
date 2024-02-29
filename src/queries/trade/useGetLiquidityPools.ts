@@ -4,33 +4,42 @@ import { Pair, type Token as SDKToken } from "minime-sdk";
 import { CHAIN_ID, factoryAbi } from "config";
 import { BASES_TO_CHECK_TRADES_AGAINST } from "config/trade/constants";
 import { tradingTokens } from "config/trade/tradingTokens";
+import type { Token } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
+import { useStorage } from "utils/storage";
 import { getSDKToken } from "utils/trade";
 
 import { useGetRouterConstants } from "./useGetRouterConstants";
 
-const getAllLiquidityPairs = () => {
+const getAllLiquidityPairs = (tokens: Token[]) => {
   //TODO: dedupe duplicate pairs eg: [token1, token2] and [token2, token1]
-  const liquidityPairWithCommonBases: [SDKToken, SDKToken][] =
-    tradingTokens.flatMap((token) => {
+  const liquidityPairWithCommonBases: [SDKToken, SDKToken][] = tokens.flatMap(
+    (token) => {
       return BASES_TO_CHECK_TRADES_AGAINST[CHAIN_ID].map((base) =>
         base.address !== token.address ? [base, getSDKToken(token)] : undefined
       ).filter((pair) => pair) as [SDKToken, SDKToken][];
-    });
+    }
+  );
 
   return liquidityPairWithCommonBases.map((pair) => ({
     name: `${pair[0].name}/${pair[1].name}`,
     tokens: pair,
     address: Pair.getAddress(pair[0], pair[1]),
+    volume24h: "50000",
+    totalFees: "42",
+    lpRewardApr: "0.1",
   }));
 };
 
 export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
+  const { get } = useStorage();
+  const externalTokens = get("tradingTokens", []) as Token[];
+  const allTokens = [...tradingTokens, ...externalTokens];
 
   const { data: liquidityPairs, isLoading: isLiquidityPairsLoading } = useQuery(
     ["trade", "allLiquidityPairs"],
-    getAllLiquidityPairs,
+    () => getAllLiquidityPairs(allTokens),
     {
       cacheTime: Infinity,
       staleTime: 24 * 60 * 60 * 1000,
@@ -57,14 +66,30 @@ export const useGetLiquidityPools = () => {
     enabled: Boolean(query.length),
   });
 
-  const validLiquidityPairs = pairAddresses
-    ? liquidityPairs?.filter(
-        (pair, idx) => pairAddresses[idx] === pair.address // if pair is not created getPair will give 0x000..
-      )
-    : [];
+  const validLiquidityPairs =
+    pairAddresses && liquidityPairs
+      ? liquidityPairs?.filter(
+          (pair, idx) => pairAddresses[idx] === pair.address
+        )
+      : [];
+
+  const allPairs =
+    pairAddresses && liquidityPairs
+      ? liquidityPairs?.map((pair, idx) => ({
+          ...pair,
+          address: pairAddresses[idx],
+        }))
+      : [];
+
+  const data = pairAddresses
+    ? {
+        validPairs: validLiquidityPairs || [],
+        allPairs: allPairs || [],
+      }
+    : undefined;
 
   return {
-    data: pairAddresses ? validLiquidityPairs : undefined,
+    data,
     isLoading: isLiquidityPairsLoading || isPairAddressesLoading,
     ...rest,
   };

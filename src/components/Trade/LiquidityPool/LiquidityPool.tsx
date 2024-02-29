@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { LiquidityType } from "utils/types";
 
 import candies_icon from "assets/images/candies.webp";
 import start_icon from "assets/images/star.webp";
 import unicorn_icon from "assets/images/unicorn.webp";
 import Tabs from "components/shared/Tabs";
 import { TabOptions } from "config/trade/constants";
-import {
-  useGetLiquidityPoolBalances,
-  useGetLiquidityPools,
-} from "queries/trade";
+import { useGetLiquidityPools } from "queries/trade";
 
 import LiquidityDetails from "./LiquidityDetails";
 import YourPools from "./YourPools";
@@ -23,8 +20,10 @@ export const LiquidityPool: React.FC = () => {
     setSelectedTab(newTab);
   };
 
-  const { data, isLoading } = useGetLiquidityPools();
-  const { data: balances } = useGetLiquidityPoolBalances();
+  const { data } = useGetLiquidityPools();
+
+  if (!data) return null;
+  const liquidityPairs = data.validPairs as LiquidityType[];
 
   return (
     <div css={styles}>
@@ -33,7 +32,10 @@ export const LiquidityPool: React.FC = () => {
         tabsIcons={[candies_icon, unicorn_icon, start_icon]}
         onSelect={onSelect}
       />
-      <LiquidityDetails selectedTab={selectedTab} />
+      <LiquidityDetails
+        selectedTab={selectedTab}
+        liquidityPairs={liquidityPairs}
+      />
       <p className="text-information">
         By adding liquidity you’ll earn 0.25% of all trades on this pair
         proportional to your share of the pool. Try to add liquidity in
@@ -43,27 +45,3 @@ export const LiquidityPool: React.FC = () => {
     </div>
   );
 };
-
-{
-  /* {isLoading && <p>please wait while we fetch the liquidity pools</p>}
-        {data &&
-          data.map((lp) => (
-            <div className="pool-item" key={lp.address}>
-              {lp.name} → {lp.address} → Balance:{" "}
-              {balances ? (
-                <>
-                  <DisplayPrice amount={balances[lp.address]} decimals={18} />
-                  <div className="btn">
-                    <RemoveLiquidityButton
-                      hasInputError={balances[lp.address] === "0"}
-                      amount={balances[lp.address]}
-                      pairAddress={lp.address}
-                    />
-                  </div>
-                </>
-              ) : (
-                "loading..."
-              )}{" "}
-            </div>
-          ))} */
-}

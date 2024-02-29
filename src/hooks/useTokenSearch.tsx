@@ -33,7 +33,6 @@ const useTokenSearch = (search: string) => {
       const searchTrim = search.trim();
 
       if (searchTrim.length === 0) {
-        console.log(allTokens);
         setTokenList(allTokens);
         setNewTokenAdded(false);
       }
