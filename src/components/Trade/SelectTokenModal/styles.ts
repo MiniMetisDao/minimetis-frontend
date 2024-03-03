@@ -28,6 +28,20 @@ export const styles = ({ color }: Theme) => css`
     overflow-y: auto;
     padding-right: 20px;
   }
+  .new-token {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    border: 1px solid ${color.secondary};
+  }
+  .wrapper-detail {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
 `;
 
 type ListStylesProps = {
@@ -39,12 +53,12 @@ export const listStyle = ({ isSelected }: ListStylesProps) => css`
   margin: 0 0 20px;
   align-items: center;
   cursor: pointer;
+  justify-content: space-between;
   ${isSelected && `cursor: not-allowed; opacity: 0.7;`}
   &:last-child {
     margin: 0;
   }
   .details {
-    flex: 1;
     line-height: 1.2;
   }
   .token-symbol {

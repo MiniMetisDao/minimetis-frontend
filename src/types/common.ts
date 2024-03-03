@@ -7,6 +7,7 @@ export type Token = {
   logoURI: string;
   listInQuickView?: boolean;
   balance?: number;
+  external?: boolean;
 };
 
 export type TradeSettings = {
@@ -18,4 +19,10 @@ export type TradeSettings = {
 export type TokenAmount = {
   amount: string;
   decimals: number | string;
+};
+
+export type LP = {
+  name: string;
+  tokens: [Token, Token];
+  address: string;
 };

@@ -1,46 +1,47 @@
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import type { LiquidityType } from "utils/types";
 
-import { Container } from "components/Layout";
-import { DisplayPrice } from "components/shared/DisplayPrice";
-import {
-  useGetLiquidityPoolBalances,
-  useGetLiquidityPools,
-} from "queries/trade";
+import candies_icon from "assets/images/candies.webp";
+import start_icon from "assets/images/star.webp";
+import unicorn_icon from "assets/images/unicorn.webp";
+import Tabs from "components/shared/Tabs";
+import { TabOptions } from "config/trade/constants";
+import { useGetLiquidityPools } from "queries/trade";
 
-import { RemoveLiquidityButton } from "./RemoveLiquidityButton";
+import LiquidityDetails from "./LiquidityDetails";
+import YourPools from "./YourPools";
 import { styles } from "./styles";
 
+const { All, FAVORITES, MY } = TabOptions;
 export const LiquidityPool: React.FC = () => {
-  const { t } = useTranslation("trade");
-  const { data, isLoading } = useGetLiquidityPools();
-  const { data: balances } = useGetLiquidityPoolBalances();
+  const [selectedTab, setSelectedTab] = useState(All);
+
+  const onSelect = (newTab: TabOptions) => {
+    setSelectedTab(newTab);
+  };
+
+  const { data } = useGetLiquidityPools();
+
+  if (!data) return null;
+  const liquidityPairs = data.validPairs as LiquidityType[];
 
   return (
     <div css={styles}>
-      <Container topSection>
-        <h1>{t("liquidityPool")}</h1>
-        {isLoading && <p>please wait while we fetch the liquidity pools</p>}
-        {data &&
-          data.map((lp) => (
-            <div className="pool-item" key={lp.address}>
-              {lp.name} → {lp.address} → Balance:{" "}
-              {balances ? (
-                <>
-                  <DisplayPrice amount={balances[lp.address]} decimals={18} />
-                  <div className="btn">
-                    <RemoveLiquidityButton
-                      hasInputError={balances[lp.address] === "0"}
-                      amount={balances[lp.address]}
-                      pairAddress={lp.address}
-                    />
-                  </div>
-                </>
-              ) : (
-                "loading..."
-              )}{" "}
-            </div>
-          ))}
-      </Container>
+      <Tabs
+        tabs={[All, MY, FAVORITES]}
+        tabsIcons={[candies_icon, unicorn_icon, start_icon]}
+        onSelect={onSelect}
+      />
+      <LiquidityDetails
+        selectedTab={selectedTab}
+        liquidityPairs={liquidityPairs}
+      />
+      <p className="text-information">
+        By adding liquidity you’ll earn 0.25% of all trades on this pair
+        proportional to your share of the pool. Try to add liquidity in
+        recommend pool.
+      </p>
+      <YourPools />
     </div>
   );
 };

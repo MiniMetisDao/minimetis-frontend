@@ -45,6 +45,9 @@ export const darkTheme: Theme = {
       primary: "#ffffff",
       text: "#000000",
     },
+    box: {
+      primary: "#e7e7e7",
+    },
     primary: "#180623",
     primaryShadow: "#900dde59",
     secondary: "#38134F",
@@ -105,6 +108,9 @@ export const lightTheme: Theme = {
     tooltip: {
       primary: "#000000",
       text: "#ffffff",
+    },
+    box: {
+      primary: "#443247",
     },
     primary: "#ffffff",
     primaryShadow: "#00000059",

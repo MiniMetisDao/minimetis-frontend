@@ -3,6 +3,7 @@ export const Keys = {
   transactionDeadline: "transactionDeadline",
   enableMultiHops: "enableMultiHops",
   transactionIds: "transactionIds",
+  tradingTokens: "tradingTokens",
 };
 
 export type Keys = keyof typeof Keys;
