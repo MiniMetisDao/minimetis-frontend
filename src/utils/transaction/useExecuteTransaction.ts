@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { ERC20Abi, EXPLORER_URL } from "config";
-import { BigNumber, ethers } from "ethers";
+import { type BigNumber, ethers } from "ethers";
 import { useWalletConnector } from "queries/connect";
 import { getShortTransactionHash } from "utils/common";
 
@@ -28,6 +28,7 @@ export type TransactionParams = {
 export type MutateParams = {
   contractDetails: ContractDetails;
   params?: any;
+  value?: string;
 };
 export const useExecuteTransaction = (
   mutationKey: string[],
@@ -37,7 +38,7 @@ export const useExecuteTransaction = (
 ) => {
   const isConnected = useWalletConnector();
 
-  const execute = async ({ contractDetails, params }: MutateParams) => {
+  const execute = async ({ contractDetails, params, value }: MutateParams) => {
     const isWalletConnected = await isConnected();
     if (!isWalletConnected) {
       onError({ code: 4001 });
@@ -53,20 +54,12 @@ export const useExecuteTransaction = (
       signer.connectUnchecked()
     );
 
-    let gasEstimate = BigNumber.from(21000);
-    try {
-      gasEstimate = await contract.estimateGas[contractDetails.method](
-        ...(params ?? [])
-      );
-    } catch (error) {
-      onError({ code: 0 });
+    const txParams = value ? { value } : {};
 
-      return;
-    }
-
-    const tx = await contract[contractDetails.method](...(params ?? []), {
-      gasLimit: gasEstimate.toNumber(),
-    });
+    const tx = await contract[contractDetails.method](
+      ...(params ?? []),
+      txParams
+    );
 
     const txHash = tx.hash;
 

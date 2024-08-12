@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import type { LiquidityType } from "utils/types";
 
 import minimetisFace from "assets/images/minimetisFace.png";
 import { TabOptions } from "config/trade/constants";
 import { useLiquidityStore } from "store/useLiquidityStore";
+import { type LiquidityType } from "types/common";
 
-import LiquidityList from "../LiquidityList";
+import LiquidityList from "./List";
 
 const { All, FAVORITES } = TabOptions;
 

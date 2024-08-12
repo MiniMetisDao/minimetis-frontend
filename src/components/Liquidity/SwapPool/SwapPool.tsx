@@ -1,68 +1,42 @@
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
-import { TradeType } from "minime-sdk";
-import React, { useState } from "react";
+import { type Token, TradeType } from "minime-sdk";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog, FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 
+import DynamicButton from "components/Trade/CreateLiquidity/DynamicButton";
+import Title from "components/Trade/CreateLiquidity/Title";
+import { SettingsModal } from "components/Trade/SettingsModal";
+import { TokenInput } from "components/Trade/Swap/TokenInput";
+import { useDerivedSwapInfo } from "components/Trade/Swap/hooks/useDerivedSwapInfo";
+import {
+  computeSlippageAdjustedAmounts,
+  getSignificantTradeAmount,
+} from "components/Trade/Swap/utils";
+import { Field } from "components/Trade/Swap/utils/types";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
-import { tradingTokens } from "config/trade/tradingTokens";
-import { useGetLiquidityPools, useGetTokenBalances } from "queries/trade";
+import { useGetTokenBalances } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { useTheme } from "theme";
-import { type LiquidityType, type Token } from "types/common";
+import { type LiquidityType, type PoolSwap } from "types/common";
 import {
-  comparePairs,
   getFormattedAmount,
   getSlippageTolerance,
   getSlippageToleranceInput,
   isValidNumber,
 } from "utils/common";
 import { useStorage } from "utils/storage";
-import { getSDKToken } from "utils/trade";
 
-import { SettingsModal } from "../SettingsModal";
-
-import DynamicButton from "./DynamicButton";
-import Title from "./Title";
-import { TokenInput } from "./TokenInput";
-import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
-import { type SwapToken } from "./types";
-import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
-import { getSignificantTradeAmount } from "./utils/getSignificantTradeAmount";
 
-const getSwapTokens = (lp: LiquidityType | null): SwapToken[] => {
-  if (!lp)
-    return [
-      {
-        amount: "",
-        token: tradingTokens[0],
-        estimated: true,
-      },
-      {
-        amount: "",
-        token: tradingTokens[1],
-        estimated: true,
-      },
-    ];
-
-  return [
-    {
-      amount: "",
-      token: { ...lp.tokens[0], logoURI: lp.tokensLogos[0] },
-      estimated: true,
-    },
-    {
-      amount: "",
-      token: { ...lp.tokens[1], logoURI: lp.tokensLogos[1] },
-
-      estimated: true,
-    },
-  ];
-};
+interface SwapPoolProps {
+  lp: LiquidityType;
+  poolSwap: PoolSwap[];
+  pairs: LiquidityType[];
+}
 
 type LocationGenerics = MakeGenerics<{
   Search: {
@@ -73,26 +47,17 @@ type LocationGenerics = MakeGenerics<{
   };
 }>;
 
-interface CreateLiquidityProps {
-  lp: LiquidityType;
-}
-
-export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
+export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
+
   const search = useSearch<LocationGenerics>();
-  const { selectedPool, selectLP } = useLiquidityStore();
-  const { data } = useGetLiquidityPools();
-
-  const [flipAnimation, setFlipAnimation] = React.useState(false);
-  const [warningMessage, setWarningMessage] = React.useState<string>("");
-  const [showTradeSettings, setShowTradeSettings] = React.useState(false);
-  const [slippageFromSearch, setSlippageFromSearch] = React.useState<string>();
-
-  const [swapTokens, setSwapTokens] = useState<SwapToken[]>(
-    getSwapTokens(selectedPool)
-  );
-
+  const { selectLP, updateTokens } = useLiquidityStore();
+  // STATES
+  const [flipAnimation, setFlipAnimation] = useState(false);
+  const [warningMessage, setWarningMessage] = useState<string>("");
+  const [showTradeSettings, setShowTradeSettings] = useState(false);
+  const [slippageFromSearch, setSlippageFromSearch] = useState<string>();
   const { get, set } = useStorage();
 
   const storedSlippage = get(
@@ -102,31 +67,27 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
 
   const allowedSlippage = getSlippageTolerance(storedSlippage);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (slippageFromSearch === undefined && search?.slippage) {
       setSlippageFromSearch(search.slippage);
       set("slippageTolerance", search.slippage);
     }
   }, [search, set, slippageFromSearch]);
 
-  const userEnteredToken = swapTokens[0]?.estimated
-    ? swapTokens[1]
-    : swapTokens[0];
+  const userEnteredToken = poolSwap[0]?.estimated ? poolSwap[1] : poolSwap[0];
 
-  const estimatedToken = swapTokens[0]?.estimated
-    ? swapTokens[0]
-    : swapTokens[1];
+  const estimatedToken = poolSwap[0]?.estimated ? poolSwap[0] : poolSwap[1];
 
   const { trade } = useDerivedSwapInfo({
-    independentField: swapTokens[0].estimated ? Field.OUTPUT : Field.INPUT,
-    inputCurrency: getSDKToken(swapTokens[0].token),
-    outputCurrency: getSDKToken(swapTokens[1].token),
+    independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
+    inputCurrency: poolSwap[0].token,
+    outputCurrency: poolSwap[1].token,
     typedValue: BigNumber(userEnteredToken.amount).isNaN()
       ? ""
       : BigNumber(userEnteredToken.amount).toFixed(),
   });
 
-  const swapTokensList = swapTokens.map((swapToken) => swapToken.token);
+  const swapTokensList = poolSwap.map((poolToken) => poolToken.token);
 
   const { data: tradingPairBalances, refetch: tradingPairBalancesRefetch } =
     useGetTokenBalances({
@@ -135,49 +96,55 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
     });
 
   const handleFromChange = (amount: string) => {
-    setSwapTokens(([token0, token1]) => [
+    const [token0, token1] = poolSwap;
+    updateTokens([
       { ...token0, amount, estimated: false },
       { ...token1, estimated: true },
     ]);
   };
 
-  const handleToChange = (amount: string) =>
-    setSwapTokens(([token0, token1]) => [
-      { ...token0, estimated: true },
-      { ...token1, amount, estimated: false },
+  const handleToChange = (amount: string) => {
+    const [token0, token1] = poolSwap;
+    updateTokens([
+      { ...token0, amount, estimated: true },
+      { ...token1, estimated: false },
     ]);
+  };
 
   const handleFlipClick = () => {
-    setSwapTokens(([token0, token1]) => [token1, token0]);
+    const [token0, token1] = poolSwap;
+    updateTokens([token1, token0]);
     setFlipAnimation(true);
   };
 
   const handleFromTokenChange = (token: Token) => {
-    if (token.address === swapTokens[1].token.address) {
+    if (token.address === poolSwap[1].token.address) {
       handleFlipClick();
     } else {
-      setSwapTokens(([token0, token1]) => [{ ...token0, token }, token1]);
+      const [token0, token1] = poolSwap;
+      updateTokens([{ ...token0, token }, token1]);
     }
   };
 
   const handleToTokenChange = (token: Token) => {
-    if (token.address === swapTokens[0].token.address) {
+    if (token.address === poolSwap[0].token.address) {
       handleFlipClick();
     } else {
-      setSwapTokens(([token0, token1]) => [token0, { ...token1, token }]);
+      const [token0, token1] = poolSwap;
+      updateTokens([token0, { ...token1, token }]);
     }
   };
 
   const handleSettingsClick = () => setShowTradeSettings(true);
   const handleSettingsClose = () => setShowTradeSettings(false);
 
-  const hasInputError = swapTokens.some(
+  const hasInputError = poolSwap.some(
     ({ amount }) => !isValidNumber(BigNumber(amount).toFixed())
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!tradingPairBalances) return;
-    const fromToken = swapTokens[0];
+    const fromToken = poolSwap[0];
 
     const fromTokenBalance = getFormattedAmount(
       fromToken.token,
@@ -191,28 +158,31 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
     } else {
       setWarningMessage("");
     }
-  }, [tradingPairBalances, swapTokens, t]);
+  }, [tradingPairBalances, poolSwap, t]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       trade?.tradeType === TradeType.EXACT_INPUT &&
-      swapTokens[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
+      poolSwap[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
     ) {
-      setSwapTokens(([token0, token1]) => [
-        token0,
+      updateTokens([
+        poolSwap[0],
         {
-          ...token1,
+          ...poolSwap[1],
           amount: getSignificantTradeAmount(trade?.outputAmount, 6),
         },
       ]);
     }
     if (
       trade?.tradeType === TradeType.EXACT_OUTPUT &&
-      swapTokens[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
+      poolSwap[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
     ) {
-      setSwapTokens(([token0, token1]) => [
-        { ...token0, amount: getSignificantTradeAmount(trade?.inputAmount, 6) },
-        token1,
+      updateTokens([
+        {
+          ...poolSwap[0],
+          amount: getSignificantTradeAmount(trade?.inputAmount, 6),
+        },
+        poolSwap[1],
       ]);
     }
     if (
@@ -221,26 +191,24 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
         BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
       estimatedToken.amount !== ""
     ) {
-      setSwapTokens(([token0, token1]) => [
+      const [token0, token1] = poolSwap;
+      updateTokens([
         { ...token0, amount: token0?.estimated ? "" : token0.amount },
         { ...token1, amount: token1?.estimated ? "" : token1.amount },
       ]);
     }
-  }, [estimatedToken, userEnteredToken, swapTokens, trade]);
+  }, [estimatedToken, userEnteredToken, poolSwap, trade, updateTokens]);
 
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
     allowedSlippage
   );
 
-  if (data === undefined) return null;
-  const liquidityPairs = data.validPairs as unknown as LiquidityType[];
-
   return (
     <div css={styles({ theme })}>
       <div className="swap-container">
         <div className="title-wrapper">
-          <Title lp={lp} />
+          <Title lp={lp} pairs={pairs} />
           <span>
             {t("slippage")}
             {": "}
@@ -252,10 +220,10 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
         </div>
         <TokenInput
           from
-          amount={swapTokens[0].amount}
-          balance={tradingPairBalances?.[swapTokens[0].token.address] || ""}
-          token={swapTokens[0].token}
-          estimated={swapTokens[0].estimated}
+          amount={poolSwap[0].amount}
+          balance={tradingPairBalances?.[poolSwap[0].token.address] || ""}
+          token={poolSwap[0].token}
+          estimated={poolSwap[0].estimated}
           onChange={handleFromChange}
           onTokenChange={handleFromTokenChange}
         />
@@ -265,10 +233,10 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
         </div>
 
         <TokenInput
-          amount={swapTokens[1].amount}
-          balance={tradingPairBalances?.[swapTokens[1].token.address] || ""}
-          token={swapTokens[1].token}
-          estimated={swapTokens[1].estimated}
+          amount={poolSwap[1].amount}
+          balance={tradingPairBalances?.[poolSwap[1].token.address] || ""}
+          token={poolSwap[1].token}
+          estimated={poolSwap[1].estimated}
           onChange={handleToChange}
           onTokenChange={handleToTokenChange}
         />
@@ -284,10 +252,10 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
         </p>
         <div className="swap-btn-wrapper">
           <DynamicButton
-            liquidityPairs={liquidityPairs}
+            liquidityPairs={pairs}
             hasInputError={hasInputError || !!warningMessage}
-            fromToken={swapTokens[0]}
-            toToken={swapTokens[1]}
+            fromToken={poolSwap[0]}
+            toToken={poolSwap[1]}
             userEnteredToken={userEnteredToken}
             estimatedToken={estimatedToken}
             slippageAdjustedInputAmount={slippageAdjustedAmounts[
@@ -304,4 +272,4 @@ export const CreateLiquidity = ({ lp }: CreateLiquidityProps) => {
       {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
     </div>
   );
-};
+}

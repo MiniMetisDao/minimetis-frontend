@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import flatMap from "lodash.flatmap";
 import { type Currency, type Pair, type Token } from "minime-sdk";
 import React from "react";
@@ -92,6 +93,8 @@ export function useLpPairs(
       return cache;
     }, {});
 
-    return Object.values(pairValues ?? {});
+    const result = Object.values(pairValues ?? {});
+
+    return result;
   }, [allPairs]);
 }

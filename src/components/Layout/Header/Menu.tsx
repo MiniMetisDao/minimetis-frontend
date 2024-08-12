@@ -39,14 +39,9 @@ export const Menu: React.FC<MenuProps> = ({ isMobile, open }) => {
       </li>
       <li>
         <Link to="/trade">{t("trade")}</Link>
-        {/* <ul>
-          <li>
-            <Link to="/trade/liquidity-pool">{t("liquidityPool")}</Link>
-          </li>
-          <li>
-            <Link to="/trade/swap-tokens">{t("swapTokens")}</Link>
-          </li>
-        </ul> */}
+      </li>
+      <li>
+        <Link to="/pool">Pool</Link>
       </li>
       <li>
         <Link to="/dashboard">{t("dashboard")}</Link>

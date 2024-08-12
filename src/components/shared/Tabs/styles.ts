@@ -9,7 +9,7 @@ export const styles = () =>
 
     .tabs-list {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       gap: 1.5rem;
     }
 

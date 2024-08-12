@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { LiquidityType } from "utils/types";
 
 import candies_icon from "assets/images/candies.webp";
 import start_icon from "assets/images/star.webp";
@@ -7,6 +6,7 @@ import unicorn_icon from "assets/images/unicorn.webp";
 import Tabs from "components/shared/Tabs";
 import { TabOptions } from "config/trade/constants";
 import { useGetLiquidityPools } from "queries/trade";
+import { type LiquidityType } from "types/common";
 
 import LiquidityDetails from "./LiquidityDetails";
 import YourPools from "./YourPools";
@@ -20,10 +20,9 @@ export const LiquidityPool: React.FC = () => {
     setSelectedTab(newTab);
   };
 
-  const { data } = useGetLiquidityPools();
+  const { data: liquidityPairs } = useGetLiquidityPools();
 
-  if (!data) return null;
-  const liquidityPairs = data.validPairs as LiquidityType[];
+  if (!liquidityPairs) return <div css={styles}>Loading List</div>;
 
   return (
     <div css={styles}>
@@ -34,7 +33,7 @@ export const LiquidityPool: React.FC = () => {
       />
       <LiquidityDetails
         selectedTab={selectedTab}
-        liquidityPairs={liquidityPairs}
+        liquidityPairs={liquidityPairs as LiquidityType[]}
       />
       <p className="text-information">
         By adding liquidity you’ll earn 0.25% of all trades on this pair

@@ -1,3 +1,4 @@
+import { type Token as TokenSDK } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -10,6 +11,7 @@ import { IconButton } from "components/shared/IconButton";
 import { Input } from "components/shared/Input";
 import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
+import { LOGOS } from "config/trade/tradingTokens";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { type Token } from "types/common";
 import {
@@ -27,7 +29,7 @@ import { tokenInputStyles } from "./styles";
 type TokenInputProps = {
   amount?: string;
   balance?: string;
-  token: Token;
+  token: Token | TokenSDK;
   from?: boolean;
   estimated?: boolean;
   onChange: (input: string) => void;
@@ -123,6 +125,8 @@ export const TokenInput: React.FC<TokenInputProps> = ({
       APPROVAL_MAX_EDIT
     );
 
+  const img = LOGOS[token.address];
+
   return (
     <>
       <div css={tokenInputStyles({ from })}>
@@ -153,7 +157,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           >
             {token ? (
               <>
-                <img src={token.logoURI} /> {token.symbol}
+                <img src={img} /> {token.symbol}
               </>
             ) : (
               <span>{t("trade:selectToken")} </span>

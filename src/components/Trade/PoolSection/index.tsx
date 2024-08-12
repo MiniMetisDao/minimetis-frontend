@@ -2,7 +2,6 @@ import { FaCircle, FaCopy } from "react-icons/fa";
 import { IoReturnDownBack } from "react-icons/io5";
 import type { LiquidityType } from "utils/types";
 
-import { Button } from "components/shared/Button";
 import { IconButton } from "components/shared/IconButton";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { useTradeNavigation } from "store/useTradeNavigation";
@@ -27,7 +26,7 @@ const PoolSection = ({ lp }: { lp: LiquidityType }) => {
     <div css={styles()}>
       <div>
         <h3 style={{ height: 20 }}></h3>
-        <CreateLiquidity />
+        <CreateLiquidity lp={lp} />
       </div>
       <div style={{ width: "100%" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>

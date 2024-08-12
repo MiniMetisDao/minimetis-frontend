@@ -14,5 +14,13 @@
     "name": "USDC Token",
     "symbol": "m.USDC",
     "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDC/logo.png"
+  },
+  {
+    "chainId": 1088,
+    "address": "0x420000000000000000000000000000000000000A",
+    "decimals": 18,
+    "name": "Ether",
+    "symbol": "WETH",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/ETH/logo.png"
   }
 ]

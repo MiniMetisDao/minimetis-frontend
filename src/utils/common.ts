@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
+import { type Token as TokenSDK } from "minime-sdk";
 
 import { TRADE_SETTINGS } from "config";
 import { FixedNumber } from "ethers";
@@ -80,7 +81,10 @@ export const getTokenAmount = (token?: Token, amount?: string) => {
 };
 
 // human readable format
-export const getFormattedAmount = (token?: Token, amount?: string) => {
+export const getFormattedAmount = (
+  token?: TokenSDK | Token,
+  amount?: string
+) => {
   if (!token || !amount) {
     return "0";
   }
@@ -89,9 +93,12 @@ export const getFormattedAmount = (token?: Token, amount?: string) => {
 };
 
 // only to display finally on screen, do not do operations on this
-export const getFormattedAmountRounded = (token?: Token, amount?: string) => {
+export const getFormattedAmountRounded = (
+  token?: Token | TokenSDK,
+  amount?: string
+) => {
   const formattedAmount = getFormattedAmount(token, amount);
-  const roundedNumber = FixedNumber.from(formattedAmount).round(2);
+  const roundedNumber = FixedNumber.from(formattedAmount).round(6);
 
   return commify(roundedNumber.toString());
   // do we need to put 2 zero at ending everywhere?
@@ -129,7 +136,7 @@ export const truncateNumber = (value: string, decimals: number) => {
 };
 
 export const getDeadlineTimestamp = (deadline: number) => {
-  return Math.floor(Date.now() / 1000) + 60 * deadline;
+  return (Math.floor(Date.now() / 1000) + 60 * deadline).toString();
 };
 
 // max slippage allowed is 50%
@@ -222,4 +229,31 @@ export const formatAmount = (
   } catch {
     return "";
   }
+};
+
+/**
+ * Get the min Amount (0.5% less) to be used to add liquidity
+ * @param {string} amount - The amount on string parsed.
+ * @returns {string} The min amount to use `amount` as a string.
+ */
+export const getMinAmount = (amount: string) => {
+  const amountBN = new BigNumber(amount);
+  const minAmount = amountBN.multipliedBy(0.995).toFixed();
+
+  return minAmount;
+};
+
+/**
+ * Compare two arrays of addresses to check if match
+ * @param {string[]} pairs_A - The pairs of addresses to compare.
+ * @param {string[]} pairs_B - The pairs of addresses to compare.
+ * @returns {boolean} If a pair match or not
+ */
+export const comparePairs = (pairs_A: string[], pairs_B: string[]) => {
+  if (pairs_A.length !== pairs_B.length) return false;
+
+  return (
+    pairs_A.every((address) => pairs_B.includes(address)) &&
+    pairs_B.every((address) => pairs_A.includes(address))
+  );
 };

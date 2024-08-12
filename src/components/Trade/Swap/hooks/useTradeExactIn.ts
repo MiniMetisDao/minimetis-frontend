@@ -1,3 +1,4 @@
+import { checkTargetForNewValues } from "framer-motion";
 import { type Currency, type CurrencyAmount, Trade } from "minime-sdk";
 import React from "react";
 
@@ -42,6 +43,7 @@ export function useTradeExactIn(
             maxNumResults: 1,
           }
         )[0];
+
         // if current trade is best yet, save it
         if (
           isTradeBetter(

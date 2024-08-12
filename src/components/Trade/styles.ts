@@ -1,17 +1,11 @@
 import { type Theme, css } from "@emotion/react";
 
-import floatingLandLight from "assets/images/floating-land-light.png";
-import floatingLand from "assets/images/floating-land.png";
-import { type Mode } from "theme";
-
 export const styles =
-  ({ theme, showbg }: { theme: Mode; showbg: boolean }) =>
+  () =>
   ({ color }: Theme) =>
     css`
       background-color: ${color.alternative};
-      background: ${showbg &&
-      `url(${theme === "light" ? floatingLandLight : floatingLand})
-        no-repeat bottom center`};
+
       min-height: 480px;
       margin: 0 0 40px;
       padding: 20px 0;

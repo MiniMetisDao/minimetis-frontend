@@ -1,7 +1,7 @@
+import { type Token } from "minime-sdk";
 import React from "react";
 
 import { useGetWalletDetails } from "queries/walletDetails";
-import { type Token } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
 
 type Balance = { [token: string]: string };

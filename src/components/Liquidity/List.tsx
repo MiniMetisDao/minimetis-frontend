@@ -1,25 +1,40 @@
-import { FaCircle } from "react-icons/fa";
-import type { LiquidityType } from "utils/types";
+import { useNavigate } from "@tanstack/react-location";
 
 import Favorite from "components/shared/Favorite";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
-import { useTradeNavigation } from "store/useTradeNavigation";
+import { type LiquidityType, type PoolSwap } from "types/common";
 
-import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 
 const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
   const { currentPage } = usePaginationStore();
   const itemsPerPage = 10;
-  const { setOption } = useTradeNavigation();
   const { selectLP } = useLiquidityStore();
-
+  const navigate = useNavigate();
   const startIndex = (currentPage - 1) * itemsPerPage;
   const visibleData = list.slice(startIndex, startIndex + itemsPerPage);
 
   const onSelectLP = (newLP: LiquidityType) => {
-    selectLP(newLP);
-    setOption("create");
+    const swapTokens: PoolSwap[] = [
+      {
+        amount: "0",
+        token: newLP.tokens[0],
+        estimated: true,
+      },
+      {
+        amount: "0",
+        token: newLP.tokens[1],
+        estimated: true,
+      },
+    ];
+
+    selectLP(newLP, swapTokens);
+    navigate({
+      to: `add/${newLP.tokens[0].address}/${newLP.tokens[1].address}`,
+      replace: true,
+      fromCurrent: false,
+    });
   };
 
   return (
@@ -40,8 +55,16 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
                 <div className="name-row">
                   <div className="name" onClick={() => onSelectLP(item)}>
                     <div className="tokens">
-                      <FaCircle size="30" />
-                      <FaCircle size="30" color="blue" style={{ right: 0 }} />
+                      <img
+                        src={item.tokensLogos[0]}
+                        alt={item.tokens[0].symbol}
+                        style={{ width: "auto", height: 30 }}
+                      />
+                      <img
+                        src={item.tokensLogos[1]}
+                        alt={item.tokens[1].symbol}
+                        style={{ width: "auto", height: 30, translate: -10 }}
+                      />
                     </div>
                     <p>{item.name}</p>
                   </div>

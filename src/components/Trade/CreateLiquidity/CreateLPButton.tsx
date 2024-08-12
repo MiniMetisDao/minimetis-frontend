@@ -7,33 +7,41 @@ import { toast } from "react-toastify";
 import { Button } from "components/shared/Button";
 import { ConnectButton } from "components/shared/Connect";
 import { TRADE_SETTINGS } from "config";
-import { SWAP_METHODS } from "config/trade/constants";
 import {
+  useGetLiquidityPools,
   useGetTokenAllowance,
   useTokenApproval,
-  useTokenSwap,
 } from "queries/trade";
+import { useAddLiquidity } from "queries/trade/useAddLiquidity";
 import { useCreatePair } from "queries/trade/useCreatePair";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { getAmount, getDeadlineTimestamp } from "utils/common";
+import { getAmount, getDeadlineTimestamp, getMinAmount } from "utils/common";
 import { useStorage } from "utils/storage";
 
 import { type SwapToken } from "./types";
+import { isMetis } from "./utils/methods";
 
 type SwapButtonProps = {
   hasInputError: boolean;
-  pairTokens: SwapToken[];
+  fromToken: SwapToken;
+  toToken: SwapToken;
+  userEnteredToken: SwapToken;
+  estimatedToken: SwapToken;
+  slippageAdjustedInputAmount?: string;
+  slippageAdjustedOutputAmount?: string;
+  trade?: Trade;
   onSuccess?: () => void;
 };
 
-export const SwapButton: React.FC<SwapButtonProps> = ({
+export const CreateLPButton: React.FC<SwapButtonProps> = ({
   hasInputError,
-  pairTokens,
+  fromToken,
+  toToken,
   onSuccess,
 }) => {
   const { t } = useTranslation("trade");
-
   const { data: walletDetails } = useGetWalletDetails();
+  const { data } = useGetLiquidityPools();
 
   const transactionDeadline = useStorage().get(
     "transactionDeadline",
@@ -85,7 +93,10 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       },
     });
 
-  const { mutate, isLoading } = useCreatePair({
+  const { data: allowanceFrom } = useGetTokenAllowance(fromToken.token.address);
+  const { data: allowanceTo } = useGetTokenAllowance(toToken.token.address);
+
+  const { mutate: createLP, isLoading: isSwapLoading } = useCreatePair({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
       toast.loading(
         <Trans
@@ -96,13 +107,13 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
           }}
         />,
         {
-          toastId: "swap",
+          toastId: "liquidity",
           closeButton: true,
         }
       );
     },
     onTransactionSuccess: ({ shortHash, explorerUrl }) => {
-      toast.update("swap", {
+      toast.update("liquidity", {
         render: (
           <Trans
             i18nKey="transactionSuccess"
@@ -118,13 +129,12 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       });
     },
     onError: (error) => {
-      console.log(error);
       if (error?.code === 4001) {
         toast.error(t("transactionCancelled"));
       } else if (error?.code === 0) {
         toast.error(t("transactionError"));
       } else {
-        toast.update("swap", {
+        toast.update("liquidity", {
           render: t("transactionError"),
           type: toast.TYPE.ERROR,
           isLoading: false,
@@ -134,21 +144,67 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
     },
   });
 
-  const handleSwapClick = () => {
+  const handleAddLiquidityClick = () => {
+    if (!walletDetails) return;
+    if (!walletDetails.address) return;
     const method = "createPair";
 
-    const params = [pairTokens[0].token.address, pairTokens[1].token.address];
+    const params = [fromToken.token.address, toToken.token.address];
+    createLP({ method, params });
 
-    mutate({ method, params });
+    console.log("CREATE PAIR");
   };
+
+  const handleApprovalClick = () => {
+    if (!hasApprovedFrom)
+      approvalMutate({
+        tokenAddress: fromToken.token?.address,
+      });
+
+    if (!hasApprovedTo)
+      approvalMutate({
+        tokenAddress: toToken.token?.address,
+      });
+  };
+
+  const hasApprovedFrom =
+    allowanceFrom &&
+    (fromToken.amount
+      ? BigNumber(allowanceFrom).isGreaterThanOrEqualTo(
+          getAmount(fromToken.amount, fromToken.token.decimals)
+        )
+      : false);
+
+  const hasApprovedTo =
+    allowanceTo &&
+    (toToken.amount
+      ? BigNumber(allowanceTo).isGreaterThanOrEqualTo(
+          getAmount(toToken.amount, toToken.token.decimals)
+        )
+      : false);
+
+  const bothApproved = hasApprovedFrom && hasApprovedTo;
 
   if (walletDetails?.status !== "CONNECTED") {
     return <ConnectButton />;
   }
 
+  if (!hasInputError && !bothApproved)
+    return (
+      <Button
+        disabled={hasInputError || isApprovalLoading}
+        onClick={handleApprovalClick}
+      >
+        {!isApprovalLoading ? t("approve") : t("approving")}
+      </Button>
+    );
+
   return (
-    <Button disabled={hasInputError || isLoading} onClick={handleSwapClick}>
-      {!isLoading ? "CREATE PAIR" : "CREATING"}
+    <Button
+      disabled={hasInputError || isSwapLoading}
+      onClick={handleAddLiquidityClick}
+    >
+      {!isSwapLoading ? "Create" : "Creating"}
     </Button>
   );
 };
