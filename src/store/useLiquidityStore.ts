@@ -1,16 +1,16 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import { type LiquidityType, type PoolSwap } from "types/common";
+import { type LiquidityType, type SwapToken } from "types/common";
 
 interface LiquidityState {
   pools: LiquidityType[];
-  swapTokens: PoolSwap[];
+  swapTokens: SwapToken[];
   selectedPool: LiquidityType | null;
   saveLP: (data: LiquidityType) => void;
   deleteLP: (data: LiquidityType) => void;
-  selectLP: (newLP: LiquidityType | null, swapTokens: PoolSwap[]) => void;
-  updateTokens: (newTokens: PoolSwap[]) => void;
+  selectLP: (newLP: LiquidityType | null, swapTokens: SwapToken[]) => void;
+  updateTokens: (newTokens: SwapToken[]) => void;
 }
 
 export const useLiquidityStore = create<LiquidityState>()(

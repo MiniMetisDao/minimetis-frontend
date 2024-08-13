@@ -6,10 +6,6 @@ export type Token = {
   symbol: string;
   address: string;
   decimals: number;
-  logoURI: string;
-  listInQuickView?: boolean;
-  balance?: number;
-  external?: boolean;
 };
 
 export type TradeSettings = {
@@ -40,7 +36,7 @@ export type LiquidityType = {
   liquidity: string;
 };
 
-export type PoolSwap = {
+export type SwapToken = {
   amount: string;
   token: TokenSDK;
   estimated?: boolean;

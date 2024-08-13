@@ -13,7 +13,6 @@ import { Tooltip } from "components/shared/Tooltip";
 import { APPROVAL_MAX_EDIT } from "config";
 import { LOGOS } from "config/trade/tradingTokens";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
-import { type Token } from "types/common";
 import {
   getFormattedAmount,
   getFormattedAmountRounded,
@@ -29,11 +28,11 @@ import { tokenInputStyles } from "./styles";
 type TokenInputProps = {
   amount?: string;
   balance?: string;
-  token: Token | TokenSDK;
+  token: TokenSDK;
   from?: boolean;
   estimated?: boolean;
   onChange: (input: string) => void;
-  onTokenChange: (token: Token) => void;
+  onTokenChange: (token: TokenSDK) => void;
 };
 export const TokenInput: React.FC<TokenInputProps> = ({
   amount = "",
@@ -114,7 +113,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
       tokenAmount: "0",
     });
 
-  const handleTokenSelect = (token: Token) => {
+  const handleTokenSelect = (token: TokenSDK) => {
     onTokenChange(token);
     setShowTokenSelector(false);
   };

@@ -3,7 +3,7 @@ import React from "react";
 
 import { Button } from "components/shared/Button";
 import { MINIME_CONTRACT_ADDRESS } from "config";
-import { type LiquidityType, type PoolSwap } from "types/common";
+import { type LiquidityType, type SwapToken } from "types/common";
 
 import { CreateLPButton } from "./CreateLPButton";
 import { LiquidityButton } from "./LiquidityButton";
@@ -11,10 +11,10 @@ import { LiquidityButton } from "./LiquidityButton";
 interface DynamicButtonProps {
   liquidityPairs: LiquidityType[];
   hasInputError: boolean;
-  fromToken: PoolSwap;
-  toToken: PoolSwap;
-  userEnteredToken: PoolSwap;
-  estimatedToken: PoolSwap;
+  fromToken: SwapToken;
+  toToken: SwapToken;
+  userEnteredToken: SwapToken;
+  estimatedToken: SwapToken;
   slippageAdjustedInputAmount?: string;
   slippageAdjustedOutputAmount?: string;
   trade?: Trade;

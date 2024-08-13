@@ -1,11 +1,13 @@
+import { type Token } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { BsBookmarkXFill } from "react-icons/bs";
 
 import { DisplayPrice } from "components/shared/DisplayPrice";
 import { Modal } from "components/shared/Modal";
+import { LOGOS } from "config/trade/tradingTokens";
 import { useGetTokenBalances } from "queries/trade";
-import { type Token } from "types/common";
+import { isExternal } from "utils/common";
 
 import useTokenSearch from "../../../hooks/useTokenSearch";
 
@@ -52,12 +54,12 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
               }
             >
               <div className="wrapper-detail">
-                <img className="token-logo" src={token.logoURI} />
+                <img className="token-logo" src={LOGOS[token.address]} />
                 <div className="details">
                   <div>{token.name}</div>
                   <div className="token-symbol">{token.symbol}</div>
                 </div>
-                {token.external && (
+                {isExternal(token.symbol) && (
                   <BsBookmarkXFill
                     onClick={(e) => {
                       e.stopPropagation();

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { type Trade, TradeType } from "minime-sdk";
+import { type Trade } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -10,10 +10,10 @@ import { TRADE_SETTINGS } from "config";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { useAddLiquidity } from "queries/trade/useAddLiquidity";
 import { useGetWalletDetails } from "queries/walletDetails";
+import { type SwapToken } from "types/common";
 import { getAmount, getDeadlineTimestamp, getMinAmount } from "utils/common";
 import { useStorage } from "utils/storage";
 
-import { type SwapToken } from "./types";
 import { isMetis } from "./utils/methods";
 
 type SwapButtonProps = {

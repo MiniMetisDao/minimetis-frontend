@@ -1,4 +1,7 @@
+import { type Token as SDKToken } from "minime-sdk";
+
 import type { Token } from "types/common";
+import { getSDKToken } from "utils/trade";
 
 const LOGO_LINK =
   "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/";
@@ -10,15 +13,13 @@ export const LOGOS: Record<string, string> = {
   "0x420000000000000000000000000000000000000A": `${LOGO_LINK}ETH/logo.png`,
 };
 
-export const tradingTokens: Token[] = [
+const tokens: Token[] = [
   {
     chainId: 1088,
     address: "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
     decimals: 18,
     name: "Metis",
     symbol: "METIS",
-    logoURI:
-      "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/METIS/logo.png",
   },
   {
     chainId: 1088,
@@ -26,7 +27,6 @@ export const tradingTokens: Token[] = [
     decimals: 18,
     name: "MiniMe V2",
     symbol: "MINIME",
-    logoURI: "/logos/minime.png",
   },
   {
     chainId: 1088,
@@ -34,8 +34,6 @@ export const tradingTokens: Token[] = [
     decimals: 6,
     name: "USDC Token",
     symbol: "m.USDC",
-    logoURI:
-      "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDC/logo.png",
   },
   {
     chainId: 1088,
@@ -43,7 +41,14 @@ export const tradingTokens: Token[] = [
     decimals: 18,
     name: "Ether",
     symbol: "WETH",
-    logoURI:
-      "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/ETH/logo.png",
   },
 ];
+
+export const TOKENS: Record<string, SDKToken> = {
+  METIS: getSDKToken(tokens[0]),
+  MINIME: getSDKToken(tokens[1]),
+  "m.USDC": getSDKToken(tokens[2]),
+  WETH: getSDKToken(tokens[3]),
+};
+
+export const tradingTokens = Object.values(TOKENS);

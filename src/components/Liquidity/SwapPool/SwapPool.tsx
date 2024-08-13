@@ -1,4 +1,8 @@
-import { type MakeGenerics, useSearch } from "@tanstack/react-location";
+import {
+  type MakeGenerics,
+  useNavigate,
+  useSearch,
+} from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
 import { type Token, TradeType } from "minime-sdk";
 import { useEffect, useState } from "react";
@@ -21,11 +25,12 @@ import { TRADE_SETTINGS } from "config";
 import { useGetTokenBalances } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { useTheme } from "theme";
-import { type LiquidityType, type PoolSwap } from "types/common";
+import { type LiquidityType, type SwapToken } from "types/common";
 import {
   getFormattedAmount,
   getSlippageTolerance,
   getSlippageToleranceInput,
+  isPairOnList,
   isValidNumber,
 } from "utils/common";
 import { useStorage } from "utils/storage";
@@ -33,8 +38,8 @@ import { useStorage } from "utils/storage";
 import { styles } from "./styles";
 
 interface SwapPoolProps {
-  lp: LiquidityType;
-  poolSwap: PoolSwap[];
+  lp: LiquidityType | null;
+  poolSwap: SwapToken[];
   pairs: LiquidityType[];
 }
 
@@ -50,7 +55,7 @@ type LocationGenerics = MakeGenerics<{
 export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
-
+  const navigate = useNavigate();
   const search = useSearch<LocationGenerics>();
   const { selectLP, updateTokens } = useLiquidityStore();
   // STATES
@@ -97,6 +102,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
 
   const handleFromChange = (amount: string) => {
     const [token0, token1] = poolSwap;
+
     updateTokens([
       { ...token0, amount, estimated: false },
       { ...token1, estimated: true },
@@ -122,7 +128,16 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
       handleFlipClick();
     } else {
       const [token0, token1] = poolSwap;
-      updateTokens([{ ...token0, token }, token1]);
+      const newPair = isPairOnList(pairs, token, token1.token);
+      if (newPair) {
+        navigate({
+          to: `add/${newPair.tokens[0].address}/${newPair.tokens[1].address}`,
+          replace: true,
+        });
+      }
+      const swapTokens = [{ ...token0, token }, token1];
+
+      selectLP(newPair, swapTokens);
     }
   };
 
@@ -131,7 +146,15 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
       handleFlipClick();
     } else {
       const [token0, token1] = poolSwap;
-      updateTokens([token0, { ...token1, token }]);
+      const newPair = isPairOnList(pairs, token0.token, token);
+      if (newPair) {
+        navigate({
+          to: `add/${newPair.tokens[0].address}/${newPair.tokens[1].address}`,
+          replace: true,
+        });
+      }
+      const swapTokens = [token0, { ...token1, token }];
+      selectLP(newPair, swapTokens);
     }
   };
 
@@ -208,7 +231,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     <div css={styles({ theme })}>
       <div className="swap-container">
         <div className="title-wrapper">
-          <Title lp={lp} pairs={pairs} />
+          <Title lp={lp} />
           <span>
             {t("slippage")}
             {": "}
@@ -228,8 +251,12 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
           onTokenChange={handleFromTokenChange}
         />
 
-        <div className="middle-plus-wrapper" onClick={handleFlipClick}>
-          <FaPlus size="20" />
+        <div className="middle-plus-wrapper">
+          <FaPlus
+            size="20"
+            onClick={handleFlipClick}
+            style={{ cursor: "pointer" }}
+          />
         </div>
 
         <TokenInput

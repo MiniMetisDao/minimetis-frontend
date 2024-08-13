@@ -1,7 +1,7 @@
 import { cx } from "@emotion/css";
 import { type MakeGenerics, useSearch } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
-import { TradeType } from "minime-sdk";
+import { type Token, TradeType } from "minime-sdk";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog } from "react-icons/fa";
@@ -12,7 +12,7 @@ import { TRADE_SETTINGS } from "config";
 import { tradingTokens } from "config/trade/tradingTokens";
 import { useGetTokenBalances } from "queries/trade";
 import { useTheme } from "theme";
-import { type Token } from "types/common";
+import { type SwapToken } from "types/common";
 import {
   getFormattedAmount,
   getSlippageTolerance,
@@ -30,7 +30,6 @@ import { TokenInput } from "./TokenInput";
 import { TradeInfo } from "./TradeInfo";
 import { Field, useDerivedSwapInfo } from "./hooks/useDerivedSwapInfo";
 import { styles } from "./styles";
-import { type SwapToken } from "./types";
 import { computeSlippageAdjustedAmounts } from "./utils/computeSlippageAdjustedAmounts";
 import { getSignificantTradeAmount } from "./utils/getSignificantTradeAmount";
 

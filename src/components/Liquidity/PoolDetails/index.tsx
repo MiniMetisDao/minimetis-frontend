@@ -5,7 +5,14 @@ import { type LiquidityType } from "types/common";
 import PoolInformation from "./PoolInformation";
 import { styles } from "./styles";
 
-const PoolDetails = ({ lp }: { lp: LiquidityType }) => {
+const PoolDetails = ({ lp }: { lp: LiquidityType | null }) => {
+  if (!lp)
+    return (
+      <div className="w-full" css={styles()}>
+        <div className="wrapper w-full">YOU ARE THE FIRST</div>
+      </div>
+    );
+
   const {
     address,
     liquidity,

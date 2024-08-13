@@ -1,10 +1,11 @@
 import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
-import { type Token as TokenSDK } from "minime-sdk";
+import { type Token } from "minime-sdk";
 
 import { TRADE_SETTINGS } from "config";
+import { TOKENS } from "config/trade/tradingTokens";
 import { FixedNumber } from "ethers";
-import { type Token } from "types/common";
+import { type LiquidityType } from "types/common";
 
 import type { AmountType } from "./types";
 
@@ -81,10 +82,7 @@ export const getTokenAmount = (token?: Token, amount?: string) => {
 };
 
 // human readable format
-export const getFormattedAmount = (
-  token?: TokenSDK | Token,
-  amount?: string
-) => {
+export const getFormattedAmount = (token?: Token, amount?: string) => {
   if (!token || !amount) {
     return "0";
   }
@@ -93,10 +91,7 @@ export const getFormattedAmount = (
 };
 
 // only to display finally on screen, do not do operations on this
-export const getFormattedAmountRounded = (
-  token?: Token | TokenSDK,
-  amount?: string
-) => {
+export const getFormattedAmountRounded = (token?: Token, amount?: string) => {
   const formattedAmount = getFormattedAmount(token, amount);
   const roundedNumber = FixedNumber.from(formattedAmount).round(6);
 
@@ -256,4 +251,46 @@ export const comparePairs = (pairs_A: string[], pairs_B: string[]) => {
     pairs_A.every((address) => pairs_B.includes(address)) &&
     pairs_B.every((address) => pairs_A.includes(address))
   );
+};
+
+/**
+ * check if the token is on the list of tokens
+ * @param {symbol} symbol - symbol from the token
+ * @returns {boolean} If a pair match or not
+ */
+export const isExternal = (symbol: string) => {
+  return TOKENS[symbol] ? true : false;
+};
+
+/**
+ * check if the pair is on the list of pools
+ * @param {LiquidityType[]} pairs - pairs to check if the address exist
+ * @param {Token} token0 - token0 to check if the address exist
+ * @param {Token} token1 - token1 to check if the address exist
+ * @returns {LiquidityType} return the pair if exist
+ */
+export const isPairOnList = (
+  pairs: LiquidityType[],
+  token0: Token,
+  token1: Token
+): LiquidityType | null => {
+  // pairs is an array of pools that have a key that is an array of tokens with address
+  // I need to check if the token0 and token1 exist in any of the pools
+  // I need to check the addresses of the tokens 0 and 1  and the reverse of the addresses
+  let pair = null;
+  for (let i = 0; i < pairs.length; i++) {
+    const { tokens } = pairs[i];
+    const [pairToken0, pairToken1] = tokens;
+    if (
+      (token0.address === pairToken0.address &&
+        token1.address === pairToken1.address) ||
+      (token0.address === pairToken1.address &&
+        token1.address === pairToken0.address)
+    ) {
+      pair = pairs[i];
+      break;
+    }
+  }
+
+  return pair;
 };

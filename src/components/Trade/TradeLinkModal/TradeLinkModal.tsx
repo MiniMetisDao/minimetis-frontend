@@ -1,3 +1,4 @@
+import { type Token } from "minime-sdk";
 import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useTranslation } from "react-i18next";
@@ -8,7 +9,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import { InputCompact } from "components/shared/Input";
 import { Modal } from "components/shared/Modal";
 import { Switch } from "components/shared/Switch";
-import { type Token } from "types/common";
+import { LOGOS } from "config/trade/tradingTokens";
 
 import { SelectTokenModal } from "../SelectTokenModal";
 
@@ -76,7 +77,8 @@ export const TradeLinkModal: React.FC<TradeLinkModalProps> = ({
             >
               {fromTokenInput ? (
                 <>
-                  <img src={fromTokenInput.logoURI} /> {fromTokenInput.symbol}
+                  <img src={LOGOS[fromTokenInput.address]} />{" "}
+                  {fromTokenInput.symbol}
                 </>
               ) : (
                 <span>{t("selectToken")} </span>
@@ -94,7 +96,8 @@ export const TradeLinkModal: React.FC<TradeLinkModalProps> = ({
             >
               {toTokenInput ? (
                 <>
-                  <img src={toTokenInput.logoURI} /> {toTokenInput.symbol}
+                  <img src={LOGOS[toTokenInput.address]} />{" "}
+                  {toTokenInput.symbol}
                 </>
               ) : (
                 <span>{t("selectToken")} </span>

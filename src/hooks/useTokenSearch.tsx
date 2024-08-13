@@ -1,8 +1,8 @@
 import { isAddress } from "ethers/lib/utils";
+import { type Token } from "minime-sdk";
 import { useEffect, useState } from "react";
 
 import { tradingTokens } from "config/trade/tradingTokens";
-import type { Token } from "types/common";
 import { searchToken } from "utils/common";
 import { getTokenDetail } from "utils/ethers";
 import { useStorage } from "utils/storage";
@@ -10,6 +10,7 @@ import { useStorage } from "utils/storage";
 const useTokenSearch = (search: string) => {
   const { get, set } = useStorage();
   const externalTokens = get("tradingTokens", []) as Token[];
+
   const allTokens = [...tradingTokens, ...externalTokens];
   const [tokenList, setTokenList] = useState<Token[]>(allTokens);
   const [newTokenAdded, setNewTokenAdded] = useState(false);
@@ -49,6 +50,7 @@ const useTokenSearch = (search: string) => {
             if (!findToken) {
               set("tradingTokens", [...externalTokens, token]);
             }
+
             setTokenList([token]);
             setNewTokenAdded(true);
           }

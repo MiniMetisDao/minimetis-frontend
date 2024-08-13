@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Container } from "components/Layout";
 import { useGetLiquidityPools } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
-import { type PoolSwap } from "types/common";
+import { type SwapToken } from "types/common";
 
 import HeaderPool from "./HeaderPool";
 import { LiquidityPool } from "./LiquidityPool";
@@ -37,6 +37,7 @@ export const Pools: React.FC = () => {
   useEffect(() => {
     const getData = () => {
       if (liquidityPairs.length === 0) return;
+      if (swapTokens.length === 2) return;
       const urlPath = location.current.pathname;
       const addresses = extractAddressesFromUrl(urlPath);
 
@@ -50,7 +51,7 @@ export const Pools: React.FC = () => {
         });
         if (pool) {
           if (pool.address === selectedPool?.address) return;
-          const swapTokens: PoolSwap[] = [
+          const swapTokens: SwapToken[] = [
             {
               amount: "0",
               token: pool.tokens[0],
@@ -69,11 +70,11 @@ export const Pools: React.FC = () => {
     };
 
     getData();
-  }, [location, liquidityPairs, selectedPool, selectLP]);
+  }, [location, liquidityPairs, selectedPool, swapTokens, selectLP]);
 
   if (!liquidityPairs) return <div css={styles}>Loading List</div>;
 
-  if (selectedPool && swapTokens.length === 2)
+  if (swapTokens.length === 2)
     return (
       <div css={styles}>
         <Container topSection>

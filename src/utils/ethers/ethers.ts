@@ -1,6 +1,8 @@
+import { Token as TokenSDK } from "minime-sdk";
+
 import { CHAIN_ID } from "config";
 import { ethers } from "ethers";
-import type { Token } from "types/common";
+import { type Token } from "types/common";
 import { multicall } from "utils/multicall";
 
 import no_token_uri from "../../../public/logos/no-token.png";
@@ -57,7 +59,7 @@ export const unlisten = async (
 
 export const getTokenDetail = async (
   address: string
-): Promise<Token | null> => {
+): Promise<TokenSDK | null> => {
   const queryInfos = [
     {
       address: address,
@@ -77,17 +79,23 @@ export const getTokenDetail = async (
     const [symbol, decimals, name] = await multicall(queryInfos);
 
     if (!symbol || !decimals || !name) return null;
-    const token: Token = {
+    const token = {
       chainId: 1088,
       address,
       decimals,
       name,
       symbol,
-      logoURI: no_token_uri,
-      external: true,
     };
 
-    return token;
+    const SDKToken = new TokenSDK(
+      token.chainId,
+      token.address,
+      token.decimals,
+      token.symbol,
+      token.name
+    );
+
+    return SDKToken;
   } catch (error) {
     console.error("Error fetching token info:", error);
 

@@ -6,11 +6,11 @@ import { IoIosLink } from "react-icons/io";
 import { IconButton } from "components/shared/IconButton";
 import { Tooltip } from "components/shared/Tooltip";
 import { ONE_BIPS } from "config/trade/constants";
+import { type SwapToken } from "types/common";
 
 import { TradeLinkModal } from "../TradeLinkModal";
 
 import { Field } from "./hooks/useDerivedSwapInfo";
-import { type SwapToken } from "./types";
 import { computeTradePriceBreakdown, getSignificantTradeAmount } from "./utils";
 
 type TradeInfoProps = {

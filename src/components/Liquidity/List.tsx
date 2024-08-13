@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-location";
 import Favorite from "components/shared/Favorite";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
-import { type LiquidityType, type PoolSwap } from "types/common";
+import { type LiquidityType, type SwapToken } from "types/common";
 
 import Pagination from "./Pagination";
 
@@ -16,7 +16,7 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
   const visibleData = list.slice(startIndex, startIndex + itemsPerPage);
 
   const onSelectLP = (newLP: LiquidityType) => {
-    const swapTokens: PoolSwap[] = [
+    const swapTokens: SwapToken[] = [
       {
         amount: "0",
         token: newLP.tokens[0],
