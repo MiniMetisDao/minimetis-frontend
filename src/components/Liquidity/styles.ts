@@ -17,17 +17,6 @@ export const styles =
         font-size: 20px;
       }
 
-      .wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        width: 100%;
-        max-width: 500px;
-        @media (max-width: 1024px) {
-          flex-direction: column;
-        }
-      }
       .pool-item {
         display: flex;
         gap: 20px;
@@ -44,13 +33,7 @@ export const styles =
             0px 4px 25px ${color.button.shadow.end};
         }
       }
-      .flex-col-center {
-        color: ${color.text.primary};
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-      }
+
       .flex-col-center > h2 {
         color: ${color.text.primary};
       }
@@ -190,25 +173,141 @@ export const styles =
       .pagination li.active {
         color: ${color.actionButton.active};
       }
+
+      .selected_wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: start;
+        gap: 20px;
+        /* MOBILE FLEX COL */
+        @media (max-width: 1200px) {
+          flex-direction: column-reverse;
+          align-items: center;
+
+          gap: 20px;
+        }
+      }
+
+      .pool-wrapper {
+        display: flex;
+        flex-direction: column;
+        background: ${color.secondary};
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        gap: 10px;
+        @media (max-width: 1200px) {
+          width: 100%;
+        }
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+      }
+      .text-copy {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 700;
+      }
+      .text-copy > svg {
+        cursor: pointer;
+      }
+
+      p {
+        margin: 0;
+      }
+      .wrapper-information {
+        padding: 8px;
+        border-radius: 10px;
+        background: ${color.color12};
+      }
+      .pool-inf-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+      }
+      .pool-inf-wrapper > h4 {
+        margin: 0;
+        color: #ac7ab6;
+        text-align: center;
+      }
+      .pools-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        @media (max-width: 1200px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .w-full {
+        width: 100%;
+      }
+      .flex-col-center {
+        color: ${color.text.primary};
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
       .flex-row-start {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
       }
-      .selected_wrapper {
+      .flex-col {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: start;
-        /* MOBILE FLEX COL */
-        @media (max-width: 1200px) {
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-        }
+        flex-direction: column;
       }
-      .w-full {
-        width: 100%;
+      .justify-center {
+        justify-content: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .flex {
+        display: flex;
+      }
+      .new-pool-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .new-pool-disclaimer {
+        border-radius: 10px;
+        background: ${color.color12};
+        padding: 4px;
+      }
+      .new-pool-disclaimer > h4 {
+        margin: 0;
+      }
+      .pool-share {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        background: ${color.color13};
+        gap: 10px;
+        padding: 14px;
+      }
+      .pool-share > h4 {
+        margin: 0;
+      }
+      .share-amount {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .share-amount > h5 {
+        margin: 0;
       }
     `;

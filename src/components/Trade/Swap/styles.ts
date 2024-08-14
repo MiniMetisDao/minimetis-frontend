@@ -2,7 +2,7 @@ import { type Theme, css } from "@emotion/react";
 
 import bushLight from "assets/images/bush-light.png";
 import bush from "assets/images/bush.png";
-import minimePointingLight from "assets/images/minime-pointing-light.png";
+import pointingLight from "assets/images/minime-pointing-light.png";
 import minimePointing from "assets/images/minime-pointing.png";
 import { type Mode } from "theme";
 
@@ -34,10 +34,9 @@ export const styles =
           content: "";
           width: 172px;
           height: 234px;
-          background: url(${theme === "light"
-              ? minimePointingLight
-              : minimePointing})
+          background: url(${theme === "light" ? pointingLight : minimePointing})
             no-repeat right top;
+
           position: absolute;
           right: -169px;
           bottom: -30px;

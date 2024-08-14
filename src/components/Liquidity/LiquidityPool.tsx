@@ -10,7 +10,6 @@ import { type LiquidityType } from "types/common";
 
 import LiquidityDetails from "./LiquidityDetails";
 import YourPools from "./YourPools";
-import { styles } from "./styles";
 
 const { All, FAVORITES, MY } = TabOptions;
 export const LiquidityPool: React.FC = () => {
@@ -22,10 +21,17 @@ export const LiquidityPool: React.FC = () => {
 
   const { data: liquidityPairs } = useGetLiquidityPools();
 
-  if (!liquidityPairs) return <div css={styles}>Loading List</div>;
+  if (!liquidityPairs) return <div>Loading List</div>;
 
   return (
-    <div css={styles}>
+    <div
+      style={{
+        gap: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Tabs
         tabs={[All, MY, FAVORITES]}
         tabsIcons={[candies_icon, unicorn_icon, start_icon]}

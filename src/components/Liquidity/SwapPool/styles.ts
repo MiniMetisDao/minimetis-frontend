@@ -6,6 +6,7 @@ export const styles =
   ({ theme }: { theme: Mode }) =>
   ({ color }: Theme) =>
     css`
+      width: 100%;
       .swap-container {
         background: ${color.secondary};
         padding: 20px 20px 50px;

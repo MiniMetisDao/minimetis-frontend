@@ -22,7 +22,6 @@ const getAllLiquidityPairs = (tokens: Token[]) => {
   const liquidityPairs: Array<{
     name: string;
     tokens: [SDKToken, SDKToken];
-    tokensLogos: [string, string];
     address: string;
     volume24h: string;
     totalFees: string;
@@ -39,11 +38,6 @@ const getAllLiquidityPairs = (tokens: Token[]) => {
       if (base.address !== token.address) {
         const pair: [SDKToken, SDKToken] = [base, tokenSDK];
 
-        const tokensLogos: [string, string] = [
-          LOGOS[pair[0].address],
-          LOGOS[pair[1].address],
-        ];
-
         const key1 = createPairKey(pair[0], pair[1]);
         const key2 = createPairKey(pair[1], pair[0]);
 
@@ -53,7 +47,6 @@ const getAllLiquidityPairs = (tokens: Token[]) => {
           liquidityPairs.push({
             name: `${pair[0].symbol}/${pair[1].symbol}`,
             tokens: pair,
-            tokensLogos,
             address: Pair.getAddress(pair[0], pair[1]),
             volume24h: "0",
             totalFees: "0",

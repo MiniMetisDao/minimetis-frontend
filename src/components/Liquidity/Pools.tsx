@@ -1,11 +1,12 @@
-import { useLocation } from "@tanstack/react-location";
-import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "@tanstack/react-location";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout";
 import { useGetLiquidityPools } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { type SwapToken } from "types/common";
+import { getSDKToken } from "utils/trade";
 
 import HeaderPool from "./HeaderPool";
 import { LiquidityPool } from "./LiquidityPool";
@@ -30,16 +31,35 @@ const extractAddressesFromUrl = (url: string): string[] | null => {
 
 export const Pools: React.FC = () => {
   const { t } = useTranslation("trade");
-  const { selectedPool, swapTokens, selectLP } = useLiquidityStore();
+
+  const {
+    selectedPool,
+    swapTokens: swapTokensStore,
+    selectLP,
+  } = useLiquidityStore();
+
   const { data: liquidityPairs } = useGetLiquidityPools();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const swapTokens: SwapToken[] = useMemo(() => {
+    if (swapTokensStore.length === 0) return swapTokensStore;
+
+    return swapTokensStore.map((token) => ({
+      token: getSDKToken(token.token),
+      amount: token.amount,
+      estimated: token.estimated,
+    }));
+  }, [swapTokensStore]);
 
   useEffect(() => {
     const getData = () => {
       if (liquidityPairs.length === 0) return;
-      if (swapTokens.length === 2) return;
       const urlPath = location.current.pathname;
       const addresses = extractAddressesFromUrl(urlPath);
+      if (swapTokens.length === 2) {
+        return;
+      }
 
       if (addresses) {
         // Find the liquidityPair that include the two addresses
@@ -53,14 +73,14 @@ export const Pools: React.FC = () => {
           if (pool.address === selectedPool?.address) return;
           const swapTokens: SwapToken[] = [
             {
-              amount: "0",
+              amount: "",
               token: pool.tokens[0],
-              estimated: true,
+              estimated: false,
             },
             {
-              amount: "0",
+              amount: "",
               token: pool.tokens[1],
-              estimated: true,
+              estimated: false,
             },
           ];
 
@@ -70,7 +90,7 @@ export const Pools: React.FC = () => {
     };
 
     getData();
-  }, [location, liquidityPairs, selectedPool, swapTokens, selectLP]);
+  }, [location, liquidityPairs, selectedPool, swapTokens, selectLP, navigate]);
 
   if (!liquidityPairs) return <div css={styles}>Loading List</div>;
 
@@ -79,8 +99,8 @@ export const Pools: React.FC = () => {
       <div css={styles}>
         <Container topSection>
           <HeaderPool />
-          <div className="selected_wrapper">
-            <PoolDetails lp={selectedPool} />
+          <div className="selected_wrapper w-full">
+            <PoolDetails lp={selectedPool} poolSwap={swapTokens} />
             <SwapPool
               lp={selectedPool}
               poolSwap={swapTokens}

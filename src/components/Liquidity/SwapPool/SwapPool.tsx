@@ -8,10 +8,7 @@ import { type Token, TradeType } from "minime-sdk";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog, FaPlus } from "react-icons/fa";
-import { IoIosWarning } from "react-icons/io";
 
-import DynamicButton from "components/Trade/CreateLiquidity/DynamicButton";
-import Title from "components/Trade/CreateLiquidity/Title";
 import { SettingsModal } from "components/Trade/SettingsModal";
 import { TokenInput } from "components/Trade/Swap/TokenInput";
 import { useDerivedSwapInfo } from "components/Trade/Swap/hooks/useDerivedSwapInfo";
@@ -35,6 +32,9 @@ import {
 } from "utils/common";
 import { useStorage } from "utils/storage";
 
+import DynamicButton from "./DynamicButton";
+import PoolShare from "./PoolShare";
+import Title from "./Title";
 import { styles } from "./styles";
 
 interface SwapPoolProps {
@@ -51,6 +51,10 @@ type LocationGenerics = MakeGenerics<{
     slippage?: string;
   };
 }>;
+
+const isEnoughBalance = (balance: string, amount: string) => {
+  return BigNumber(balance).isGreaterThan(BigNumber(amount));
+};
 
 export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const { t } = useTranslation("trade");
@@ -112,8 +116,8 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const handleToChange = (amount: string) => {
     const [token0, token1] = poolSwap;
     updateTokens([
-      { ...token0, amount, estimated: true },
-      { ...token1, estimated: false },
+      { ...token0, estimated: true },
+      { ...token1, amount, estimated: false },
     ]);
   };
 
@@ -168,59 +172,71 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   useEffect(() => {
     if (!tradingPairBalances) return;
     const fromToken = poolSwap[0];
+    const toToken = poolSwap[1];
 
     const fromTokenBalance = getFormattedAmount(
       fromToken.token,
       tradingPairBalances[fromToken.token.address]
     );
 
+    const toTokenBalance = getFormattedAmount(
+      toToken.token,
+      tradingPairBalances[toToken.token.address]
+    );
+
     if (
-      BigNumber(fromToken.amount).isGreaterThan(BigNumber(fromTokenBalance))
+      isEnoughBalance(fromTokenBalance, fromToken.amount) &&
+      isEnoughBalance(toTokenBalance, toToken.amount)
     ) {
-      setWarningMessage(t("insufficientBalance"));
-    } else {
       setWarningMessage("");
+    } else {
+      setWarningMessage(t("insufficientBalance"));
     }
   }, [tradingPairBalances, poolSwap, t]);
 
   useEffect(() => {
-    if (
-      trade?.tradeType === TradeType.EXACT_INPUT &&
-      poolSwap[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
-    ) {
-      updateTokens([
-        poolSwap[0],
-        {
-          ...poolSwap[1],
-          amount: getSignificantTradeAmount(trade?.outputAmount, 6),
-        },
-      ]);
-    }
-    if (
-      trade?.tradeType === TradeType.EXACT_OUTPUT &&
-      poolSwap[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
-    ) {
-      updateTokens([
-        {
-          ...poolSwap[0],
-          amount: getSignificantTradeAmount(trade?.inputAmount, 6),
-        },
-        poolSwap[1],
-      ]);
-    }
-    if (
-      !trade &&
-      (BigNumber(userEnteredToken.amount).isNaN() ||
-        BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
-      estimatedToken.amount !== ""
-    ) {
-      const [token0, token1] = poolSwap;
-      updateTokens([
-        { ...token0, amount: token0?.estimated ? "" : token0.amount },
-        { ...token1, amount: token1?.estimated ? "" : token1.amount },
-      ]);
-    }
-  }, [estimatedToken, userEnteredToken, poolSwap, trade, updateTokens]);
+    const getTrade = () => {
+      if (!lp) return;
+      if (
+        trade?.tradeType === TradeType.EXACT_INPUT &&
+        poolSwap[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
+      ) {
+        updateTokens([
+          poolSwap[0],
+          {
+            ...poolSwap[1],
+            amount: getSignificantTradeAmount(trade?.outputAmount, 6),
+          },
+        ]);
+      }
+      if (
+        trade?.tradeType === TradeType.EXACT_OUTPUT &&
+        poolSwap[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
+      ) {
+        updateTokens([
+          {
+            ...poolSwap[0],
+            amount: getSignificantTradeAmount(trade?.inputAmount, 6),
+          },
+          poolSwap[1],
+        ]);
+      }
+      if (
+        !trade &&
+        (BigNumber(userEnteredToken.amount).isNaN() ||
+          BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
+        estimatedToken.amount !== ""
+      ) {
+        const [token0, token1] = poolSwap;
+        updateTokens([
+          { ...token0, amount: token0?.estimated ? "" : token0.amount },
+          { ...token1, amount: token1?.estimated ? "" : token1.amount },
+        ]);
+      }
+    };
+
+    getTrade();
+  }, [estimatedToken, userEnteredToken, poolSwap, trade, updateTokens, lp]);
 
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
@@ -267,19 +283,10 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
           onChange={handleToChange}
           onTokenChange={handleToTokenChange}
         />
-        <p className="swap-warning">
-          {warningMessage && (
-            <>
-              <span className="icon">
-                <IoIosWarning />
-              </span>
-              {warningMessage}
-            </>
-          )}
-        </p>
+        {!lp && <PoolShare token0={poolSwap[0]} token1={poolSwap[1]} />}
+
         <div className="swap-btn-wrapper">
           <DynamicButton
-            liquidityPairs={pairs}
             hasInputError={hasInputError || !!warningMessage}
             fromToken={poolSwap[0]}
             toToken={poolSwap[1]}
@@ -293,6 +300,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
             ]?.toExact()}
             trade={trade}
             onSuccess={() => tradingPairBalancesRefetch()}
+            lp={lp}
           />
         </div>
       </div>

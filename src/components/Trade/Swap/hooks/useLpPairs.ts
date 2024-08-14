@@ -1,7 +1,6 @@
-import { t } from "i18next";
 import flatMap from "lodash.flatmap";
 import { type Currency, type Pair, type Token } from "minime-sdk";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { wrappedCurrency } from "components/Trade/Swap/utils";
 import {
@@ -16,16 +15,18 @@ export function useLpPairs(
   currencyA?: Currency,
   currencyB?: Currency
 ): Pair[] | any {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const bases: Token[] = chainId
-    ? (BASES_TO_CHECK_TRADES_AGAINST as any)[chainId]
-    : [];
+  const bases: Token[] = (BASES_TO_CHECK_TRADES_AGAINST as any)[chainId];
 
-  const [tokenA, tokenB] = chainId
-    ? [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
-    : [undefined, undefined];
+  const [tokenA, tokenB] = useMemo(() => {
+    if (!chainId) return [undefined, undefined];
 
-  const basePairs: [Token, Token][] = React.useMemo(
+    return [
+      wrappedCurrency(currencyA, chainId),
+      wrappedCurrency(currencyB, chainId),
+    ];
+  }, [currencyA, currencyB]);
+
+  const basePairs: [Token, Token][] = useMemo(
     () =>
       flatMap(bases, (base): [Token, Token][] =>
         bases.map((otherBase) => [base, otherBase])
@@ -33,7 +34,7 @@ export function useLpPairs(
     [bases]
   );
 
-  const allPairCombinations: [Token, Token][] = React.useMemo(
+  const allPairCombinations: [Token, Token][] = useMemo(
     () =>
       tokenA && tokenB
         ? [

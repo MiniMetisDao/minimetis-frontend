@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
 import { type Token } from "minime-sdk";
 
-import { TRADE_SETTINGS } from "config";
+import { METIS_CONTRACT_ADDRESS, TRADE_SETTINGS } from "config";
 import { TOKENS } from "config/trade/tradingTokens";
 import { FixedNumber } from "ethers";
 import { type LiquidityType } from "types/common";
@@ -293,4 +293,8 @@ export const isPairOnList = (
   }
 
   return pair;
+};
+
+export const isMetis = (address: string) => {
+  return address.toLowerCase() === METIS_CONTRACT_ADDRESS.toLowerCase();
 };

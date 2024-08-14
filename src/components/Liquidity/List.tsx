@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-location";
 
 import Favorite from "components/shared/Favorite";
+import { LOGOS } from "config/trade/tradingTokens";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
 import { type LiquidityType, type SwapToken } from "types/common";
@@ -56,12 +57,12 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
                   <div className="name" onClick={() => onSelectLP(item)}>
                     <div className="tokens">
                       <img
-                        src={item.tokensLogos[0]}
+                        src={LOGOS[item.tokens[0].address]}
                         alt={item.tokens[0].symbol}
                         style={{ width: "auto", height: 30 }}
                       />
                       <img
-                        src={item.tokensLogos[1]}
+                        src={LOGOS[item.tokens[1].address]}
                         alt={item.tokens[1].symbol}
                         style={{ width: "auto", height: 30, translate: -10 }}
                       />
@@ -85,7 +86,7 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
           ))}
         </tbody>
       </table>
-      <Pagination itemsPerPage={10} totalItems={list.length} />
+      {/* <Pagination itemsPerPage={10} totalItems={list.length} /> */}
     </>
   );
 };

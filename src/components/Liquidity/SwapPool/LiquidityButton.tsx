@@ -11,10 +11,13 @@ import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { useAddLiquidity } from "queries/trade/useAddLiquidity";
 import { useGetWalletDetails } from "queries/walletDetails";
 import { type SwapToken } from "types/common";
-import { getAmount, getDeadlineTimestamp, getMinAmount } from "utils/common";
+import {
+  getAmount,
+  getDeadlineTimestamp,
+  getMinAmount,
+  isMetis,
+} from "utils/common";
 import { useStorage } from "utils/storage";
-
-import { isMetis } from "./utils/methods";
 
 type SwapButtonProps = {
   hasInputError: boolean;

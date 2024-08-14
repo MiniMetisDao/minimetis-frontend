@@ -1,4 +1,3 @@
-import { checkTargetForNewValues } from "framer-motion";
 import { type Currency, type CurrencyAmount, Trade } from "minime-sdk";
 import React from "react";
 

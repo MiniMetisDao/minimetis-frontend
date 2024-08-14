@@ -13,6 +13,14 @@ interface LiquidityState {
   updateTokens: (newTokens: SwapToken[]) => void;
 }
 
+const resetSwapTokens = (tokens: SwapToken[]): SwapToken[] =>
+  tokens.map((token) => ({
+    ...token,
+    amount: "",
+    estimated: true,
+  }));
+
+// Reset the swapTokens amounts to "" and put estivate into false
 export const useLiquidityStore = create<LiquidityState>()(
   devtools(
     persist(
@@ -29,7 +37,18 @@ export const useLiquidityStore = create<LiquidityState>()(
           })),
         updateTokens: (newTokens) => set(() => ({ swapTokens: newTokens })),
       }),
-      { name: "liquidityStore" }
+      {
+        name: "liquidityStore",
+        partialize: ({ pools, selectedPool, swapTokens }) => {
+          const resetTokens = resetSwapTokens(swapTokens);
+
+          return {
+            pools,
+            selectedPool,
+            swapTokens: resetTokens,
+          };
+        },
+      }
     )
   )
 );
