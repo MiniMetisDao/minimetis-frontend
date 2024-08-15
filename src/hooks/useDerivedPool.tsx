@@ -1,5 +1,12 @@
-import { type Currency, CurrencyAmount, JSBI, METIS } from "minime-sdk";
-import { useCallback, useMemo } from "react";
+import BigNumber from "bignumber.js";
+import {
+  type Currency,
+  CurrencyAmount,
+  METIS,
+  Percent,
+  TokenAmount,
+} from "minime-sdk";
+import { useMemo } from "react";
 
 import { usePair } from "components/Trade/Swap/hooks/usePairs";
 import {
@@ -9,12 +16,7 @@ import {
 } from "components/Trade/Swap/utils";
 import { chainId } from "config/trade/constants";
 import { useReserves } from "queries/trade/useReserves";
-import { type Balance, type LiquidityType } from "types/common";
-
-export enum Field {
-  INPUT = "INPUT",
-  OUTPUT = "OUTPUT",
-}
+import { type Balance, Field, type LiquidityType } from "types/common";
 
 type Options = {
   typedValue: string;
@@ -24,8 +26,6 @@ type Options = {
   lp: LiquidityType | null;
   balances: Balance | undefined;
 };
-
-const ZERO = JSBI.BigInt(0);
 
 export function useDerivedPool({
   independentField,
@@ -37,14 +37,13 @@ export function useDerivedPool({
   const pair = usePair(inputCurrency, outputCurrency);
   const totalSupply = useReserves(lp ? lp.address : null);
 
-  const noLiquidity = useCallback(() => {
-    if (!pair) return true;
-    if (totalSupply === "0") return true;
-    if (
-      JSBI.equal(pair.reserve0.quotient, ZERO) &&
-      JSBI.equal(pair.reserve1.quotient, ZERO)
-    )
+  const noLiquidity = useMemo(() => {
+    if (!pair) {
       return true;
+    }
+    if (BigNumber(totalSupply).isLessThanOrEqualTo(0)) {
+      return true;
+    }
 
     return false;
   }, [pair, totalSupply]);
@@ -58,9 +57,10 @@ export function useDerivedPool({
 
   const independtCurrency = isInput ? inputCurrency : outputCurrency;
   const dependentCurrency = isInput ? outputCurrency : inputCurrency;
+  const dependentField = isInput ? Field.OUTPUT : Field.INPUT;
 
   const dependentAmount = useMemo(() => {
-    if (noLiquidity()) {
+    if (noLiquidity) {
       if (typedValue) {
         return tryParseAmount(typedValue, dependentCurrency);
       }
@@ -73,21 +73,26 @@ export function useDerivedPool({
       );
 
       const [tokenA, tokenB] = [
-        wrappedCurrency(independtCurrency, chainId),
-        wrappedCurrency(dependentCurrency, chainId),
+        wrappedCurrency(inputCurrency, chainId),
+        wrappedCurrency(outputCurrency, chainId),
       ];
 
       if (tokenA && tokenB && wrappedIndependentAmount) {
         const priceOfA = pair.priceOf(tokenA);
         const priceOfB = pair.priceOf(tokenB);
 
-        const quoteA = priceOfA.quote(wrappedIndependentAmount);
-        const quoteB = priceOfA.quote(wrappedIndependentAmount);
-        const dependentTokenAmount = !isInput ? quoteA : quoteB;
+        const isOutput = dependentField === Field.OUTPUT;
+        try {
+          const dependentTokenAmount = isOutput
+            ? priceOfA.quote(wrappedIndependentAmount)
+            : priceOfB.quote(wrappedIndependentAmount);
 
-        return dependentCurrency === METIS
-          ? CurrencyAmount.ether(dependentTokenAmount.raw)
-          : dependentTokenAmount;
+          return dependentCurrency === METIS
+            ? CurrencyAmount.ether(dependentTokenAmount.raw)
+            : dependentTokenAmount;
+        } catch (error) {
+          return undefined;
+        }
       }
 
       return undefined;
@@ -98,16 +103,100 @@ export function useDerivedPool({
     dependentCurrency,
     independentAmount,
     pair,
-    independtCurrency,
-    isInput,
+    dependentField,
+    inputCurrency,
+    outputCurrency,
   ]);
 
-  const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = {
-    [Field.INPUT]:
-      independentField === Field.INPUT ? independentAmount : dependentAmount,
-    [Field.OUTPUT]:
-      independentField === Field.INPUT ? dependentAmount : independentAmount,
-  };
+  const parsedAmounts = useMemo(
+    () => ({
+      [independentField]: independentAmount,
+      [dependentField]: dependentAmount,
+    }),
+    [independentAmount, dependentAmount, dependentField, independentField]
+  );
 
-  return { parsedAmounts };
+  const prices: Record<string, string | undefined> = useMemo(() => {
+    const DEFAULT_PRICES = {
+      [independentField]: undefined,
+      [dependentField]: undefined,
+    };
+    if (!pair) return DEFAULT_PRICES;
+    const [tokenA, tokenB] = [
+      wrappedCurrency(independtCurrency, chainId),
+      wrappedCurrency(dependentCurrency, chainId),
+    ];
+    if (tokenA && tokenB) {
+      const priceOfA = pair.priceOf(tokenA);
+      const priceOfB = pair.priceOf(tokenB);
+
+      return {
+        [independentField]: priceOfA.toSignificant(6),
+        [dependentField]: priceOfB.toSignificant(6),
+      };
+    }
+
+    return DEFAULT_PRICES;
+  }, [
+    pair,
+    independtCurrency,
+    dependentCurrency,
+    dependentField,
+    independentField,
+  ]);
+
+  const liquidityMinted = useMemo(() => {
+    const { [Field.INPUT]: currencyAAmount, [Field.OUTPUT]: currencyBAmount } =
+      parsedAmounts;
+
+    const [tokenAmountA, tokenAmountB] = [
+      wrappedCurrencyAmount(currencyAAmount, chainId),
+      wrappedCurrencyAmount(currencyBAmount, chainId),
+    ];
+
+    if (pair && totalSupply && tokenAmountA && tokenAmountB) {
+      const tsAmount = new TokenAmount(
+        pair.liquidityToken,
+        totalSupply.toString()
+      );
+
+      try {
+        const result = pair.getLiquidityMinted(
+          tsAmount,
+          tokenAmountA,
+          tokenAmountB
+        );
+
+        return result;
+      } catch (error) {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }, [parsedAmounts, pair, totalSupply]);
+
+  const poolTokenPercentage = useMemo(() => {
+    if (liquidityMinted && totalSupply && pair) {
+      const tsAmount = new TokenAmount(
+        pair.liquidityToken,
+        totalSupply.toString()
+      );
+
+      return new Percent(
+        liquidityMinted.raw,
+        tsAmount.add(liquidityMinted).raw
+      );
+    } else {
+      return undefined;
+    }
+  }, [liquidityMinted, totalSupply, pair]);
+
+  return {
+    parsedAmounts,
+    dependentField,
+    noLiquidity,
+    prices,
+    poolTokenPercentage,
+  };
 }

@@ -43,3 +43,8 @@ export type SwapToken = {
 };
 
 export type Balance = { [token: string]: string };
+
+export enum Field {
+  INPUT = "INPUT",
+  OUTPUT = "OUTPUT",
+}

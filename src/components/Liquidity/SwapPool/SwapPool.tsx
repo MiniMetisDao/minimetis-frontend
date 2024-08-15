@@ -83,9 +83,9 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     }
   }, [search, set, slippageFromSearch]);
 
-  const userEnteredToken = poolSwap[0]?.estimated ? poolSwap[1] : poolSwap[0];
-
-  const estimatedToken = poolSwap[0]?.estimated ? poolSwap[0] : poolSwap[1];
+  const { userEnteredToken, estimatedToken } = poolSwap[0]?.estimated
+    ? { userEnteredToken: poolSwap[1], estimatedToken: poolSwap[0] }
+    : { userEnteredToken: poolSwap[0], estimatedToken: poolSwap[1] };
 
   const { trade } = useDerivedSwapInfo({
     independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
@@ -104,18 +104,37 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
       refetchInterval: true,
     });
 
-  const { parsedAmounts } = useDerivedPool({
+  const typedValue = BigNumber(userEnteredToken.amount).isNaN()
+    ? ""
+    : BigNumber(userEnteredToken.amount).toFixed();
+
+  const otherTypedValue = BigNumber(estimatedToken.amount).isNaN()
+    ? ""
+    : BigNumber(estimatedToken.amount).toFixed();
+
+  const {
+    parsedAmounts,
+    dependentField,
+    noLiquidity,
+    prices,
+    poolTokenPercentage,
+  } = useDerivedPool({
     independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
     inputCurrency: poolSwap[0].token,
     outputCurrency: poolSwap[1].token,
-    typedValue: BigNumber(userEnteredToken.amount).isNaN()
-      ? ""
-      : BigNumber(userEnteredToken.amount).toFixed(),
+    typedValue,
     lp,
     balances: tradingPairBalances,
   });
 
-  console.log(parsedAmounts);
+  const independentField = poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT;
+
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: noLiquidity
+      ? otherTypedValue
+      : parsedAmounts[dependentField]?.toSignificant(6),
+  };
 
   const handleFromChange = (amount: string) => {
     const [token0, token1] = poolSwap;
@@ -206,50 +225,6 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     }
   }, [tradingPairBalances, poolSwap, t]);
 
-  useEffect(() => {
-    const getTrade = () => {
-      if (!lp) return;
-      if (
-        trade?.tradeType === TradeType.EXACT_INPUT &&
-        poolSwap[1].amount !== getSignificantTradeAmount(trade?.outputAmount, 6)
-      ) {
-        updateTokens([
-          poolSwap[0],
-          {
-            ...poolSwap[1],
-            amount: getSignificantTradeAmount(trade?.outputAmount, 6),
-          },
-        ]);
-      }
-      if (
-        trade?.tradeType === TradeType.EXACT_OUTPUT &&
-        poolSwap[0].amount !== getSignificantTradeAmount(trade?.inputAmount, 6)
-      ) {
-        updateTokens([
-          {
-            ...poolSwap[0],
-            amount: getSignificantTradeAmount(trade?.inputAmount, 6),
-          },
-          poolSwap[1],
-        ]);
-      }
-      if (
-        !trade &&
-        (BigNumber(userEnteredToken.amount).isNaN() ||
-          BigNumber(userEnteredToken.amount).isEqualTo(0)) &&
-        estimatedToken.amount !== ""
-      ) {
-        const [token0, token1] = poolSwap;
-        updateTokens([
-          { ...token0, amount: token0?.estimated ? "" : token0.amount },
-          { ...token1, amount: token1?.estimated ? "" : token1.amount },
-        ]);
-      }
-    };
-
-    getTrade();
-  }, [estimatedToken, userEnteredToken, poolSwap, trade, updateTokens, lp]);
-
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
     allowedSlippage
@@ -295,7 +270,14 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
           onChange={handleToChange}
           onTokenChange={handleToTokenChange}
         />
-        {!lp && <PoolShare token0={poolSwap[0]} token1={poolSwap[1]} />}
+
+        <PoolShare
+          token0={poolSwap[0]}
+          token1={poolSwap[1]}
+          prices={prices}
+          noLiquidity={noLiquidity}
+          poolTokenPercentage={poolTokenPercentage}
+        />
 
         <div className="swap-btn-wrapper">
           <LiquidityButton
