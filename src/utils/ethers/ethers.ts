@@ -1,6 +1,6 @@
 import { Token as TokenSDK } from "minime-sdk";
 
-import { CHAIN_ID } from "config";
+import { CHAIN_ID, pairAbi } from "config";
 import { ethers } from "ethers";
 import { type Token } from "types/common";
 import { multicall } from "utils/multicall";
@@ -100,5 +100,25 @@ export const getTokenDetail = async (
     console.error("Error fetching token info:", error);
 
     return null;
+  }
+};
+
+export const getPoolReserves = async (lpAddress?: string) => {
+  if (!lpAddress) return "0";
+  const queryInfos = [
+    {
+      address: lpAddress,
+      method: "totalSupply",
+      abi: pairAbi,
+    },
+  ];
+  try {
+    const [totalSupply] = await multicall(queryInfos);
+
+    return totalSupply;
+  } catch (error) {
+    console.error("Error fetching pool reserves:", error);
+
+    return "0";
   }
 };

@@ -41,3 +41,5 @@ export type SwapToken = {
   token: TokenSDK;
   estimated?: boolean;
 };
+
+export type Balance = { [token: string]: string };

@@ -19,6 +19,7 @@ import {
 import { Field } from "components/Trade/Swap/utils/types";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
+import { useDerivedPool } from "hooks/useDerivedPool";
 import { useGetTokenBalances } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { useTheme } from "theme";
@@ -32,7 +33,7 @@ import {
 } from "utils/common";
 import { useStorage } from "utils/storage";
 
-import DynamicButton from "./DynamicButton";
+import { LiquidityButton } from "./LiquidityButton";
 import PoolShare from "./PoolShare";
 import Title from "./Title";
 import { styles } from "./styles";
@@ -63,7 +64,6 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const search = useSearch<LocationGenerics>();
   const { selectLP, updateTokens } = useLiquidityStore();
   // STATES
-  const [flipAnimation, setFlipAnimation] = useState(false);
   const [warningMessage, setWarningMessage] = useState<string>("");
   const [showTradeSettings, setShowTradeSettings] = useState(false);
   const [slippageFromSearch, setSlippageFromSearch] = useState<string>();
@@ -104,6 +104,19 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
       refetchInterval: true,
     });
 
+  const { parsedAmounts } = useDerivedPool({
+    independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
+    inputCurrency: poolSwap[0].token,
+    outputCurrency: poolSwap[1].token,
+    typedValue: BigNumber(userEnteredToken.amount).isNaN()
+      ? ""
+      : BigNumber(userEnteredToken.amount).toFixed(),
+    lp,
+    balances: tradingPairBalances,
+  });
+
+  console.log(parsedAmounts);
+
   const handleFromChange = (amount: string) => {
     const [token0, token1] = poolSwap;
 
@@ -124,7 +137,6 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const handleFlipClick = () => {
     const [token0, token1] = poolSwap;
     updateTokens([token1, token0]);
-    setFlipAnimation(true);
   };
 
   const handleFromTokenChange = (token: Token) => {
@@ -286,8 +298,8 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
         {!lp && <PoolShare token0={poolSwap[0]} token1={poolSwap[1]} />}
 
         <div className="swap-btn-wrapper">
-          <DynamicButton
-            hasInputError={hasInputError || !!warningMessage}
+          <LiquidityButton
+            hasInputError={hasInputError || warningMessage !== ""}
             fromToken={poolSwap[0]}
             toToken={poolSwap[1]}
             userEnteredToken={userEnteredToken}
@@ -300,7 +312,6 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
             ]?.toExact()}
             trade={trade}
             onSuccess={() => tradingPairBalancesRefetch()}
-            lp={lp}
           />
         </div>
       </div>

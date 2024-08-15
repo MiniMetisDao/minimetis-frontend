@@ -2,9 +2,9 @@ import { type Token } from "minime-sdk";
 import React from "react";
 
 import { useGetWalletDetails } from "queries/walletDetails";
+import { type Balance } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
 
-type Balance = { [token: string]: string };
 const balanceQueryMapper = (tokenAddress: string, userAddress?: string) => ({
   address: tokenAddress,
   method: "balanceOf",
