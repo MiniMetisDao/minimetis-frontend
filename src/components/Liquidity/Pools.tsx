@@ -100,7 +100,9 @@ export const Pools: React.FC = () => {
         <Container topSection>
           <HeaderPool />
           <div className="selected_wrapper w-full">
-            <PoolDetails lp={selectedPool} poolSwap={swapTokens} />
+            {swapTokens.length > 0 && (
+              <PoolDetails lp={selectedPool} poolSwap={swapTokens} />
+            )}
             <SwapPool
               lp={selectedPool}
               poolSwap={swapTokens}

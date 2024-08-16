@@ -1,5 +1,5 @@
 import { type Token } from "minime-sdk";
-import React from "react";
+import React, { useMemo } from "react";
 import { FaCopy } from "react-icons/fa";
 
 import { LOGOS } from "config/trade/tradingTokens";
@@ -12,21 +12,33 @@ interface HeaderProps {
 }
 
 export default function Header({ token0, token1, lp }: HeaderProps) {
-  const token0Symbol = token0.symbol;
-  const token1Symbol = token1.symbol;
-  const lpName = `${token0Symbol} - ${token1Symbol} LP`;
+  const { lpName, tokenA, tokenB } = useMemo(() => {
+    const token0Symbol = token0.symbol;
+    const token1Symbol = token1.symbol;
+    if (lp) {
+      const { tokens } = lp;
+      const [token0, token1] = tokens;
+
+      const lpName = `${token0.symbol} - ${token1.symbol} LP`;
+
+      return { lpName, tokenA: token0, tokenB: token1 };
+    }
+    const lpName = `${token0Symbol} - ${token1Symbol} LP`;
+
+    return { lpName, tokenA: token0, tokenB: token1 };
+  }, [lp, token0, token1]);
 
   return (
     <div className="header">
       <div className="tokens">
         <img
-          src={LOGOS[token0.address]}
-          alt={token0Symbol}
+          src={LOGOS[tokenA.address]}
+          alt={tokenA.symbol}
           style={{ width: "auto", height: 30 }}
         />
         <img
-          src={LOGOS[token1.address]}
-          alt={token1Symbol}
+          src={LOGOS[tokenB.address]}
+          alt={tokenB.symbol}
           style={{ width: "auto", height: 30, translate: -10 }}
         />
       </div>

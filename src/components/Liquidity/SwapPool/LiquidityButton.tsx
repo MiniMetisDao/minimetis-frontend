@@ -158,6 +158,8 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
     const amountNeededFrom = parsedAmounts[Field.INPUT].raw.toString();
     const amountNeededTo = parsedAmounts[Field.OUTPUT].raw.toString();
 
+    console.log({ amountNeededFrom, amountNeededTo });
+
     const amountsMin = {
       [Field.INPUT]: calculateSlippageAmount(
         parsedAmounts[Field.INPUT],
@@ -168,6 +170,8 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
         noLiquidity ? 0 : slippage
       )[0],
     };
+
+    console.log({ amountNeededFrom, amountNeededTo, amountsMin });
 
     const amountMinFrom = amountsMin[Field.INPUT].toString();
     const amountMinTo = amountsMin[Field.OUTPUT].toString();

@@ -6,7 +6,7 @@ import { useGetLiquidityPools } from "./useGetLiquidityPools";
 export const useGetLiquidityPoolBalances = () => {
   const { data: liquidityPools } = useGetLiquidityPools();
   const { data: walletDetails } = useGetWalletDetails();
-  const pools = liquidityPools?.validPairs;
+  const pools = liquidityPools;
 
   const query =
     pools?.map((pool) => ({

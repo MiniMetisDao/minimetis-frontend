@@ -1,4 +1,5 @@
 import PointingImg from "assets/components/PointingImg";
+import usePoolDetails from "hooks/usePoolDetails";
 import { type LiquidityType, type SwapToken } from "types/common";
 
 import Header from "./Header";
@@ -11,8 +12,12 @@ const PoolDetails = ({
   lp: LiquidityType | null;
   poolSwap: SwapToken[];
 }) => {
-  if (poolSwap.length === 0) return null;
   const [token0, token1] = poolSwap;
+
+  const { poolDetails } = usePoolDetails({
+    tokenA: token0.token,
+    tokenB: token1.token,
+  });
 
   if (!lp) {
     return (
@@ -40,10 +45,16 @@ const PoolDetails = ({
       </div>
     );
   }
-
-  const { liquidity, name, totalFees, volume24h, lpRewardApr } = lp;
+  const { liquidity, balances, lpReward, prices } = poolDetails;
+  const { name, tokens } = lp;
 
   const [token1Name, token2Name] = name.split("/");
+  const pricesAmounts = [prices[tokens[0].address], prices[tokens[1].address]];
+
+  const balancesAmounts = [
+    balances[tokens[0].address],
+    balances[tokens[1].address],
+  ];
 
   return (
     <div className="pool-wrapper w-full">
@@ -61,29 +72,28 @@ const PoolDetails = ({
       {/* Pools information */}
       <div className="pools-grid">
         <PoolInformation label="Liquidity" amount={liquidity} type="price" />
-        <PoolInformation label="Volume (24H)" amount={volume24h} type="price" />
+
+        <PoolInformation label="LP Reward APR" amount={lpReward} type="price" />
         <PoolInformation
-          label="Total Fee (24H)"
-          amount={totalFees}
-          type="price"
-        />
-        <PoolInformation
-          label="LP Reward APR"
-          amount={lpRewardApr}
-          type="price"
+          label={`${token2Name} per ${token1Name}`}
+          amount={pricesAmounts[0]}
+          type="number"
         />
         <PoolInformation
           label={`${token1Name} per ${token2Name}`}
-          amount="66.143"
+          amount={pricesAmounts[1]}
           type="number"
         />
         <PoolInformation
-          label={`${token2Name} per ${token1Name}`}
-          amount="0.015"
+          label={token2Name}
+          amount={balancesAmounts[0]}
           type="number"
         />
-        <PoolInformation label={token1Name} amount="528038.499" type="number" />
-        <PoolInformation label={token2Name} amount="7983.253" type="number" />
+        <PoolInformation
+          label={token1Name}
+          amount={balancesAmounts[1]}
+          type="number"
+        />
       </div>
     </div>
   );

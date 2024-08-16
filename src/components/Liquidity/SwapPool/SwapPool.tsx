@@ -49,7 +49,7 @@ type LocationGenerics = MakeGenerics<{
 }>;
 
 const isEnoughBalance = (balance: string, amount: string) => {
-  return BigNumber(balance).isGreaterThan(BigNumber(amount));
+  return BigNumber(balance).isGreaterThanOrEqualTo(BigNumber(amount));
 };
 
 export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
@@ -106,7 +106,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     outputCurrency: poolSwap[1].token,
     typedValue,
     lp,
-    balances: tradingPairBalances,
+    inputs: [poolSwap[0].amount, poolSwap[1].amount],
   });
 
   const independentField = poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT;
@@ -218,10 +218,10 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
       tradingPairBalances[toToken.token.address]
     );
 
-    if (
-      isEnoughBalance(fromTokenBalance, fromInput) &&
-      isEnoughBalance(toTokenBalance, toInput)
-    ) {
+    const isFromBalanceEnough = isEnoughBalance(fromTokenBalance, fromInput);
+    const isToBalanceEnough = isEnoughBalance(toTokenBalance, toInput);
+
+    if (isFromBalanceEnough && isToBalanceEnough) {
       setWarningMessage("");
     } else {
       setWarningMessage(t("insufficientBalance"));

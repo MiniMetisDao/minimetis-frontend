@@ -6,7 +6,6 @@ import unicorn_icon from "assets/images/unicorn.webp";
 import Tabs from "components/shared/Tabs";
 import { TabOptions } from "config/trade/constants";
 import { useGetLiquidityPools } from "queries/trade";
-import { type LiquidityType } from "types/common";
 
 import LiquidityDetails from "./LiquidityDetails";
 import YourPools from "./YourPools";
@@ -39,14 +38,14 @@ export const LiquidityPool: React.FC = () => {
       />
       <LiquidityDetails
         selectedTab={selectedTab}
-        liquidityPairs={liquidityPairs as LiquidityType[]}
+        liquidityPairs={liquidityPairs}
       />
       <p className="text-information">
         By adding liquidity you’ll earn 0.25% of all trades on this pair
         proportional to your share of the pool. Try to add liquidity in
         recommend pool.
       </p>
-      <YourPools />
+      <YourPools liquidityPairs={liquidityPairs} />
     </div>
   );
 };

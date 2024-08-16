@@ -28,14 +28,17 @@ export type LP = {
 export type LiquidityType = {
   name: string;
   tokens: [TokenSDK, TokenSDK];
-  tokensLogos: [string, string];
   address: string;
-  volume24h: string;
-  totalFees: string;
-  lpRewardApr: string;
-  liquidity: string;
 };
 
+export type PoolDetails = {
+  prices: Record<string, string>;
+  balances: Record<string, string>;
+  liquidity: string;
+  lpReward: string;
+  address: string;
+  symbols: Record<string, string>;
+};
 export type SwapToken = {
   amount: string;
   token: TokenSDK;

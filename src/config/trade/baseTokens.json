@@ -17,6 +17,14 @@
   },
   {
     "chainId": 1088,
+    "address": "0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC",
+    "decimals": 6,
+    "name": "USDT Token",
+    "symbol": "m.USDT",
+    "logoURI": "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/USDT/logo.png"
+  },
+  {
+    "chainId": 1088,
     "address": "0x420000000000000000000000000000000000000A",
     "decimals": 18,
     "name": "Ether",

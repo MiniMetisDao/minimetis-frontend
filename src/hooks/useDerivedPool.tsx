@@ -16,12 +16,7 @@ import {
 } from "components/Trade/Swap/utils";
 import { chainId } from "config/trade/constants";
 import { useReserves } from "queries/trade/useReserves";
-import {
-  type Balance,
-  Field,
-  type LiquidityType,
-  type ParsedAmounts,
-} from "types/common";
+import { Field, type LiquidityType, type ParsedAmounts } from "types/common";
 
 type Options = {
   typedValue: string;
@@ -29,7 +24,7 @@ type Options = {
   inputCurrency: Currency;
   outputCurrency: Currency;
   lp: LiquidityType | null;
-  balances: Balance | undefined;
+  inputs: string[];
 };
 
 export function useDerivedPool({
@@ -38,6 +33,7 @@ export function useDerivedPool({
   outputCurrency,
   typedValue,
   lp,
+  inputs,
 }: Options) {
   const pair = usePair(inputCurrency, outputCurrency);
   const totalSupply = useReserves(lp ? lp.address : null);
@@ -66,8 +62,9 @@ export function useDerivedPool({
 
   const dependentAmount = useMemo(() => {
     if (noLiquidity) {
-      if (typedValue) {
-        return tryParseAmount(typedValue, dependentCurrency);
+      const inputValue = isInput ? inputs[1] : inputs[0];
+      if (inputValue) {
+        return tryParseAmount(inputValue, dependentCurrency);
       }
 
       return undefined;
@@ -104,13 +101,14 @@ export function useDerivedPool({
     }
   }, [
     noLiquidity,
-    typedValue,
     dependentCurrency,
     independentAmount,
     pair,
     dependentField,
     inputCurrency,
     outputCurrency,
+    isInput,
+    inputs,
   ]);
 
   const parsedAmounts: ParsedAmounts = useMemo(

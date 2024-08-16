@@ -3,7 +3,7 @@ import { Pair, type Token as SDKToken } from "minime-sdk";
 
 import { CHAIN_ID, factoryAbi } from "config";
 import { BASES_TO_CHECK_TRADES_AGAINST } from "config/trade/constants";
-import { LOGOS, tradingTokens } from "config/trade/tradingTokens";
+import { tradingTokens } from "config/trade/tradingTokens";
 import type { LiquidityType, Token } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
 import { useStorage } from "utils/storage";
@@ -14,19 +14,10 @@ import { useGetRouterConstants } from "./useGetRouterConstants";
 const createPairKey = (tokenA: SDKToken, tokenB: SDKToken) =>
   `${tokenA.address}-${tokenB.address}`;
 
-// Function to get all liquidity pairs
-
 const getAllLiquidityPairs = (tokens: Token[]) => {
   const seenPairs = new Set<string>();
 
-  const liquidityPairs: Array<{
-    name: string;
-    tokens: [SDKToken, SDKToken];
-    address: string;
-    volume24h: string;
-    totalFees: string;
-    lpRewardApr: string;
-  }> = [];
+  const liquidityPairs: LiquidityType[] = [];
 
   const trade_list = BASES_TO_CHECK_TRADES_AGAINST[CHAIN_ID];
 
@@ -48,9 +39,6 @@ const getAllLiquidityPairs = (tokens: Token[]) => {
             name: `${pair[0].symbol}/${pair[1].symbol}`,
             tokens: pair,
             address: Pair.getAddress(pair[0], pair[1]),
-            volume24h: "0",
-            totalFees: "0",
-            lpRewardApr: "0.1",
           });
         }
       }
@@ -102,10 +90,8 @@ export const useGetLiquidityPools = () => {
         )
       : [];
 
-  const dataTyped = data as LiquidityType[];
-
   return {
-    data: dataTyped,
+    data,
     isLoading: isLiquidityPairsLoading || isPairAddressesLoading,
     ...rest,
   };
