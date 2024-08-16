@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { type Trade } from "minime-sdk";
+import { type Token } from "minime-sdk";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -10,24 +10,23 @@ import { TRADE_SETTINGS } from "config";
 import { useGetTokenAllowance, useTokenApproval } from "queries/trade";
 import { useAddLiquidity } from "queries/trade/useAddLiquidity";
 import { useGetWalletDetails } from "queries/walletDetails";
-import { type SwapToken } from "types/common";
+import { Field, type ParsedAmounts } from "types/common";
 import {
-  getAmount,
+  calculateSlippageAmount,
   getDeadlineTimestamp,
-  getMinAmount,
   isMetis,
 } from "utils/common";
 import { useStorage } from "utils/storage";
 
 type SwapButtonProps = {
   hasInputError: boolean;
-  fromToken: SwapToken;
-  toToken: SwapToken;
-  userEnteredToken: SwapToken;
-  estimatedToken: SwapToken;
-  slippageAdjustedInputAmount?: string;
-  slippageAdjustedOutputAmount?: string;
-  trade?: Trade;
+  fromToken: Token;
+  toToken: Token;
+  fromInput: string;
+  toInput: string;
+  slippage: number;
+  noLiquidity: boolean;
+  parsedAmounts: ParsedAmounts;
   onSuccess?: () => void;
 };
 
@@ -35,6 +34,11 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
   hasInputError,
   fromToken,
   toToken,
+  fromInput,
+  slippage,
+  toInput,
+  noLiquidity,
+  parsedAmounts,
   onSuccess,
 }) => {
   const { t } = useTranslation("trade");
@@ -90,8 +94,8 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
       },
     });
 
-  const { data: allowanceFrom } = useGetTokenAllowance(fromToken.token.address);
-  const { data: allowanceTo } = useGetTokenAllowance(toToken.token.address);
+  const { data: allowanceFrom } = useGetTokenAllowance(fromToken.address);
+  const { data: allowanceTo } = useGetTokenAllowance(toToken.address);
 
   const { mutate: addLpMutate, isLoading: isSwapLoading } = useAddLiquidity({
     onTransactionStart: ({ shortHash, explorerUrl }) => {
@@ -145,28 +149,32 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
     if (!walletDetails) return;
     if (!walletDetails.address) return;
 
-    const isMetisFrom = isMetis(fromToken.token.address);
-    const isMetisTo = isMetis(toToken.token.address);
+    const isMetisFrom = isMetis(fromToken.address);
+    const isMetisTo = isMetis(toToken.address);
 
     const method =
       isMetisFrom || isMetisTo ? "addLiquidityMetis" : "addLiquidity";
 
-    const amountNeededFrom = getAmount(
-      fromToken.amount,
-      fromToken.token.decimals
-    ).toFixed();
+    const amountNeededFrom = parsedAmounts[Field.INPUT].raw.toString();
+    const amountNeededTo = parsedAmounts[Field.OUTPUT].raw.toString();
 
-    const amountNeededTo = getAmount(
-      toToken.amount,
-      toToken.token.decimals
-    ).toFixed();
+    const amountsMin = {
+      [Field.INPUT]: calculateSlippageAmount(
+        parsedAmounts[Field.INPUT],
+        noLiquidity ? 0 : slippage
+      )[0],
+      [Field.OUTPUT]: calculateSlippageAmount(
+        parsedAmounts[Field.OUTPUT],
+        noLiquidity ? 0 : slippage
+      )[0],
+    };
 
-    const amountMinFrom = getMinAmount(amountNeededFrom);
-    const amountMinTo = getMinAmount(amountNeededTo);
+    const amountMinFrom = amountsMin[Field.INPUT].toString();
+    const amountMinTo = amountsMin[Field.OUTPUT].toString();
 
     const deadline = getDeadlineTimestamp(transactionDeadline as number);
     if (method === "addLiquidityMetis") {
-      const { token } = !isMetisFrom ? fromToken : toToken;
+      const token = !isMetisFrom ? fromToken : toToken;
 
       const amountTokenDesired = !isMetisFrom
         ? amountNeededFrom
@@ -187,8 +195,8 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
       addLpMutate({ method, params, value });
     } else {
       const params = [
-        fromToken.token.address,
-        toToken.token.address,
+        fromToken.address,
+        toToken.address,
         amountNeededFrom,
         amountNeededTo,
         amountMinFrom,
@@ -203,29 +211,29 @@ export const LiquidityButton: React.FC<SwapButtonProps> = ({
 
   const hasApprovedFrom =
     allowanceFrom &&
-    (fromToken.amount
+    (fromInput
       ? BigNumber(allowanceFrom).isGreaterThanOrEqualTo(
-          getAmount(fromToken.amount, fromToken.token.decimals)
+          parsedAmounts[Field.INPUT].raw.toString()
         )
       : false);
 
   const hasApprovedTo =
     allowanceTo &&
-    (toToken.amount
+    (toInput
       ? BigNumber(allowanceTo).isGreaterThanOrEqualTo(
-          getAmount(toToken.amount, toToken.token.decimals)
+          parsedAmounts[Field.OUTPUT].raw.toString()
         )
       : false);
 
   const handleApprovalClick = () => {
     if (!hasApprovedFrom)
       approvalMutate({
-        tokenAddress: fromToken.token?.address,
+        tokenAddress: fromToken.address,
       });
 
     if (!hasApprovedTo)
       approvalMutate({
-        tokenAddress: toToken.token?.address,
+        tokenAddress: toToken.address,
       });
   };
 

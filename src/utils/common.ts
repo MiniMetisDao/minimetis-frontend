@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils";
-import { type Token } from "minime-sdk";
+import { type CurrencyAmount, JSBI, type Token } from "minime-sdk";
 
 import { METIS_CONTRACT_ADDRESS, TRADE_SETTINGS } from "config";
 import { TOKENS } from "config/trade/tradingTokens";
@@ -227,18 +227,6 @@ export const formatAmount = (
 };
 
 /**
- * Get the min Amount (0.5% less) to be used to add liquidity
- * @param {string} amount - The amount on string parsed.
- * @returns {string} The min amount to use `amount` as a string.
- */
-export const getMinAmount = (amount: string) => {
-  const amountBN = new BigNumber(amount);
-  const minAmount = amountBN.multipliedBy(0.995).toFixed();
-
-  return minAmount;
-};
-
-/**
  * Compare two arrays of addresses to check if match
  * @param {string[]} pairs_A - The pairs of addresses to compare.
  * @param {string[]} pairs_B - The pairs of addresses to compare.
@@ -298,3 +286,23 @@ export const isPairOnList = (
 export const isMetis = (address: string) => {
   return address.toLowerCase() === METIS_CONTRACT_ADDRESS.toLowerCase();
 };
+
+export function calculateSlippageAmount(
+  value: CurrencyAmount,
+  slippage: number
+): [JSBI, JSBI] {
+  if (slippage < 0 || slippage > 10000) {
+    throw Error(`Unexpected slippage value: ${slippage}`);
+  }
+
+  return [
+    JSBI.divide(
+      JSBI.multiply(value.raw, JSBI.BigInt(10000 - slippage)),
+      JSBI.BigInt(10000)
+    ),
+    JSBI.divide(
+      JSBI.multiply(value.raw, JSBI.BigInt(10000 + slippage)),
+      JSBI.BigInt(10000)
+    ),
+  ];
+}

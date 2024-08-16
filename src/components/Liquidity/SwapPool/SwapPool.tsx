@@ -4,18 +4,13 @@ import {
   useSearch,
 } from "@tanstack/react-location";
 import BigNumber from "bignumber.js";
-import { type Token, TradeType } from "minime-sdk";
-import { useEffect, useState } from "react";
+import { type Token } from "minime-sdk";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCog, FaPlus } from "react-icons/fa";
 
 import { SettingsModal } from "components/Trade/SettingsModal";
 import { TokenInput } from "components/Trade/Swap/TokenInput";
-import { useDerivedSwapInfo } from "components/Trade/Swap/hooks/useDerivedSwapInfo";
-import {
-  computeSlippageAdjustedAmounts,
-  getSignificantTradeAmount,
-} from "components/Trade/Swap/utils";
 import { Field } from "components/Trade/Swap/utils/types";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
@@ -83,18 +78,9 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     }
   }, [search, set, slippageFromSearch]);
 
-  const { userEnteredToken, estimatedToken } = poolSwap[0]?.estimated
-    ? { userEnteredToken: poolSwap[1], estimatedToken: poolSwap[0] }
-    : { userEnteredToken: poolSwap[0], estimatedToken: poolSwap[1] };
-
-  const { trade } = useDerivedSwapInfo({
-    independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
-    inputCurrency: poolSwap[0].token,
-    outputCurrency: poolSwap[1].token,
-    typedValue: BigNumber(userEnteredToken.amount).isNaN()
-      ? ""
-      : BigNumber(userEnteredToken.amount).toFixed(),
-  });
+  const { userEnteredToken } = poolSwap[0]?.estimated
+    ? { userEnteredToken: poolSwap[1] }
+    : { userEnteredToken: poolSwap[0] };
 
   const swapTokensList = poolSwap.map((poolToken) => poolToken.token);
 
@@ -107,10 +93,6 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const typedValue = BigNumber(userEnteredToken.amount).isNaN()
     ? ""
     : BigNumber(userEnteredToken.amount).toFixed();
-
-  const otherTypedValue = BigNumber(estimatedToken.amount).isNaN()
-    ? ""
-    : BigNumber(estimatedToken.amount).toFixed();
 
   const {
     parsedAmounts,
@@ -129,12 +111,29 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
 
   const independentField = poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT;
 
-  const formattedAmounts = {
-    [independentField]: typedValue,
-    [dependentField]: noLiquidity
-      ? otherTypedValue
-      : parsedAmounts[dependentField]?.toSignificant(6),
-  };
+  const { fromInput, toInput } = useMemo(() => {
+    const independientAmount =
+      independentField === Field.INPUT
+        ? poolSwap[0].amount
+        : poolSwap[1].amount;
+
+    const dependiendAmount =
+      independentField === Field.INPUT
+        ? poolSwap[1].amount
+        : poolSwap[0].amount;
+
+    const formattedAmounts = {
+      [independentField]: independientAmount,
+      [dependentField]: noLiquidity
+        ? dependiendAmount
+        : parsedAmounts[dependentField]?.toSignificant(6) ?? "",
+    };
+
+    return {
+      fromInput: formattedAmounts[Field.INPUT],
+      toInput: formattedAmounts[Field.OUTPUT],
+    };
+  }, [dependentField, noLiquidity, parsedAmounts, poolSwap, independentField]);
 
   const handleFromChange = (amount: string) => {
     const [token0, token1] = poolSwap;
@@ -196,9 +195,13 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   const handleSettingsClick = () => setShowTradeSettings(true);
   const handleSettingsClose = () => setShowTradeSettings(false);
 
-  const hasInputError = poolSwap.some(
-    ({ amount }) => !isValidNumber(BigNumber(amount).toFixed())
-  );
+  const hasInputError = useMemo(() => {
+    if (fromInput === "" || toInput === "") return true;
+    if (fromInput === "0" || toInput === "0") return true;
+    if (!isValidNumber(fromInput) || !isValidNumber(toInput)) return true;
+
+    return false;
+  }, [fromInput, toInput]);
 
   useEffect(() => {
     if (!tradingPairBalances) return;
@@ -216,19 +219,14 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     );
 
     if (
-      isEnoughBalance(fromTokenBalance, fromToken.amount) &&
-      isEnoughBalance(toTokenBalance, toToken.amount)
+      isEnoughBalance(fromTokenBalance, fromInput) &&
+      isEnoughBalance(toTokenBalance, toInput)
     ) {
       setWarningMessage("");
     } else {
       setWarningMessage(t("insufficientBalance"));
     }
-  }, [tradingPairBalances, poolSwap, t]);
-
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
-    trade,
-    allowedSlippage
-  );
+  }, [tradingPairBalances, poolSwap, t, fromInput, toInput]);
 
   return (
     <div css={styles({ theme })}>
@@ -246,7 +244,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
         </div>
         <TokenInput
           from
-          amount={poolSwap[0].amount}
+          amount={fromInput}
           balance={tradingPairBalances?.[poolSwap[0].token.address] || ""}
           token={poolSwap[0].token}
           estimated={poolSwap[0].estimated}
@@ -263,7 +261,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
         </div>
 
         <TokenInput
-          amount={poolSwap[1].amount}
+          amount={toInput}
           balance={tradingPairBalances?.[poolSwap[1].token.address] || ""}
           token={poolSwap[1].token}
           estimated={poolSwap[1].estimated}
@@ -282,17 +280,13 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
         <div className="swap-btn-wrapper">
           <LiquidityButton
             hasInputError={hasInputError || warningMessage !== ""}
-            fromToken={poolSwap[0]}
-            toToken={poolSwap[1]}
-            userEnteredToken={userEnteredToken}
-            estimatedToken={estimatedToken}
-            slippageAdjustedInputAmount={slippageAdjustedAmounts[
-              Field.INPUT
-            ]?.toExact()}
-            slippageAdjustedOutputAmount={slippageAdjustedAmounts[
-              Field.OUTPUT
-            ]?.toExact()}
-            trade={trade}
+            fromToken={poolSwap[0].token}
+            toToken={poolSwap[1].token}
+            fromInput={fromInput}
+            toInput={toInput}
+            slippage={allowedSlippage}
+            noLiquidity={noLiquidity}
+            parsedAmounts={parsedAmounts}
             onSuccess={() => tradingPairBalancesRefetch()}
           />
         </div>

@@ -1,4 +1,4 @@
-import { type Token as TokenSDK } from "minime-sdk";
+import { type CurrencyAmount, type Token as TokenSDK } from "minime-sdk";
 
 export type Token = {
   chainId: number;
@@ -48,3 +48,5 @@ export enum Field {
   INPUT = "INPUT",
   OUTPUT = "OUTPUT",
 }
+
+export type ParsedAmounts = { [x: string]: CurrencyAmount };

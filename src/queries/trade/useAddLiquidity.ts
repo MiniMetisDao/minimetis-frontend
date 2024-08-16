@@ -26,8 +26,6 @@ export const useAddLiquidity = ({
       params: any;
       value?: string;
     }) => {
-      console.log({ params, value });
-
       return mutate({
         contractDetails: {
           address: ROUTER_CONTRACT_ADDRESS,
