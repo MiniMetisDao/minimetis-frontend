@@ -2,10 +2,12 @@ import { useNavigate } from "@tanstack/react-location";
 
 import Favorite from "components/shared/Favorite";
 import { LOGOS } from "config/trade/tradingTokens";
+import usePoolsDetails from "hooks/usePoolsDetails.";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
 import { type LiquidityType, type SwapToken } from "types/common";
 
+import ListRow from "./ListRow";
 import Pagination from "./Pagination";
 
 const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
@@ -15,6 +17,7 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
   const navigate = useNavigate();
   const startIndex = (currentPage - 1) * itemsPerPage;
   const visibleData = list.slice(startIndex, startIndex + itemsPerPage);
+  const { poolsMap } = usePoolsDetails({ list: visibleData });
 
   const onSelectLP = (newLP: LiquidityType) => {
     const swapTokens: SwapToken[] = [
@@ -51,42 +54,16 @@ const LiquidityList = ({ list }: { list: LiquidityType[] }) => {
         </thead>
         <tbody>
           {visibleData.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <div className="name-row">
-                  <div className="name" onClick={() => onSelectLP(item)}>
-                    <div className="tokens">
-                      <img
-                        src={LOGOS[item.tokens[0].address]}
-                        alt={item.tokens[0].symbol}
-                        style={{ width: "auto", height: 30 }}
-                      />
-                      <img
-                        src={LOGOS[item.tokens[1].address]}
-                        alt={item.tokens[1].symbol}
-                        style={{ width: "auto", height: 30, translate: -10 }}
-                      />
-                    </div>
-                    <p>{item.name}</p>
-                  </div>
-                  <Favorite data={item} />
-                </div>
-              </td>
-              <td onClick={() => onSelectLP(item)}>${item.liquidity}</td>
-              <td onClick={() => onSelectLP(item)}>${item.volume24h}</td>
-              <td
-                onClick={() => onSelectLP(item)}
-                className={
-                  Number(item.lpRewardApr) >= 0 ? "positive" : "negative"
-                }
-              >
-                {item.lpRewardApr}%
-              </td>
-            </tr>
+            <ListRow
+              key={`${item.address}-${index}`}
+              item={item}
+              details={poolsMap[item.address]}
+              onSelectLP={onSelectLP}
+            />
           ))}
         </tbody>
       </table>
-      {/* <Pagination itemsPerPage={10} totalItems={list.length} /> */}
+      <Pagination itemsPerPage={10} totalItems={list.length} />
     </>
   );
 };

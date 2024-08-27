@@ -3,7 +3,10 @@ import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Container } from "components/Layout";
-import { useGetLiquidityPools } from "queries/trade";
+import {
+  useGetLiquidityPoolBalances,
+  useGetLiquidityPools,
+} from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { type SwapToken } from "types/common";
 import { getSDKToken } from "utils/trade";
@@ -39,6 +42,7 @@ export const Pools: React.FC = () => {
   } = useLiquidityStore();
 
   const { data: liquidityPairs } = useGetLiquidityPools();
+  const { data: liquidityBalances } = useGetLiquidityPoolBalances();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -107,6 +111,7 @@ export const Pools: React.FC = () => {
               lp={selectedPool}
               poolSwap={swapTokens}
               pairs={liquidityPairs}
+              liquidityBalances={liquidityBalances}
             />
           </div>
         </Container>

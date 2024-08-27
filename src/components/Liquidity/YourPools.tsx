@@ -9,8 +9,6 @@ interface YourPoolsProps {
 const YourPools = ({ liquidityPairs }: YourPoolsProps) => {
   const { selectLP } = useLiquidityStore();
 
-  console.log(liquidityPairs);
-
   const handleCreatePool = () => {
     // Find Metis/MINIME pair
     const MINIME_METIS_LP = liquidityPairs.find(

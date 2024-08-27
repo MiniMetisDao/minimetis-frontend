@@ -12,11 +12,13 @@ interface LiquidityState {
   swapTokens: SwapToken[];
   selectedPool: LiquidityType | null;
   poolDetails: PoolDetails | null;
+  poolsMap: Record<string, PoolDetails>;
   saveLP: (data: LiquidityType) => void;
   deleteLP: (data: LiquidityType) => void;
   selectLP: (newLP: LiquidityType | null, swapTokens: SwapToken[]) => void;
   updateTokens: (newTokens: SwapToken[]) => void;
   updatePoolDetails: (newDetails: PoolDetails) => void;
+  updatePoolsMap: (newMap: Record<string, PoolDetails>) => void;
 }
 
 const resetSwapTokens = (tokens: SwapToken[]): SwapToken[] =>
@@ -26,7 +28,6 @@ const resetSwapTokens = (tokens: SwapToken[]): SwapToken[] =>
     estimated: true,
   }));
 
-// Reset the swapTokens amounts to "" and put estivate into false
 export const useLiquidityStore = create<LiquidityState>()(
   devtools(
     persist(
@@ -35,6 +36,7 @@ export const useLiquidityStore = create<LiquidityState>()(
         swapTokens: [],
         selectedPool: null,
         poolDetails: null,
+        poolsMap: {},
         saveLP: (data) => set(({ pools }) => ({ pools: [...pools, data] })),
         selectLP: (newLP, swapTokens) =>
           set(() => ({ selectedPool: newLP, swapTokens })),
@@ -45,6 +47,10 @@ export const useLiquidityStore = create<LiquidityState>()(
         updateTokens: (newTokens) => set(() => ({ swapTokens: newTokens })),
         updatePoolDetails: (newDetails) =>
           set(() => ({ poolDetails: newDetails })),
+        updatePoolsMap: (newMap) =>
+          set(({ poolsMap }) => {
+            return { poolsMap: { ...poolsMap, ...newMap } };
+          }),
       }),
       {
         name: "liquidityStore",

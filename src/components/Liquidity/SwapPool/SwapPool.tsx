@@ -17,6 +17,7 @@ import { TRADE_SETTINGS } from "config";
 import { useDerivedPool } from "hooks/useDerivedPool";
 import { useGetTokenBalances } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
+import { useWalletStore } from "store/wallet";
 import { useTheme } from "theme";
 import { type LiquidityType, type SwapToken } from "types/common";
 import {
@@ -31,12 +32,14 @@ import { useStorage } from "utils/storage";
 import { LiquidityButton } from "./LiquidityButton";
 import PoolShare from "./PoolShare";
 import Title from "./Title";
+import YourPosition from "./YourPosition";
 import { styles } from "./styles";
 
 interface SwapPoolProps {
   lp: LiquidityType | null;
   poolSwap: SwapToken[];
   pairs: LiquidityType[];
+  liquidityBalances: Record<string, string> | undefined;
 }
 
 type LocationGenerics = MakeGenerics<{
@@ -52,12 +55,18 @@ const isEnoughBalance = (balance: string, amount: string) => {
   return BigNumber(balance).isGreaterThanOrEqualTo(BigNumber(amount));
 };
 
-export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
+export default function SwapPool({
+  lp,
+  pairs,
+  poolSwap,
+  liquidityBalances,
+}: SwapPoolProps) {
   const { t } = useTranslation("trade");
   const [theme] = useTheme();
   const navigate = useNavigate();
   const search = useSearch<LocationGenerics>();
   const { selectLP, updateTokens } = useLiquidityStore();
+  const { connected } = useWalletStore();
   // STATES
   const [warningMessage, setWarningMessage] = useState<string>("");
   const [showTradeSettings, setShowTradeSettings] = useState(false);
@@ -70,6 +79,15 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
   ) as number;
 
   const allowedSlippage = getSlippageTolerance(storedSlippage);
+
+  const lpBalance = useMemo(() => {
+    if (!lp) return "0";
+    if (!liquidityBalances) return "0";
+    const balanceAmount = liquidityBalances[lp.address];
+    if (!liquidityBalances) return "0";
+
+    return balanceAmount;
+  }, [liquidityBalances, lp]);
 
   useEffect(() => {
     if (slippageFromSearch === undefined && search?.slippage) {
@@ -100,6 +118,8 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
     noLiquidity,
     prices,
     poolTokenPercentage,
+    totalSupply,
+    pair,
   } = useDerivedPool({
     independentField: poolSwap[0].estimated ? Field.OUTPUT : Field.INPUT,
     inputCurrency: poolSwap[0].token,
@@ -253,11 +273,7 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
         />
 
         <div className="middle-plus-wrapper">
-          <FaPlus
-            size="20"
-            onClick={handleFlipClick}
-            style={{ cursor: "pointer" }}
-          />
+          <FaPlus size="20" />
         </div>
 
         <TokenInput
@@ -277,19 +293,26 @@ export default function SwapPool({ lp, pairs, poolSwap }: SwapPoolProps) {
           poolTokenPercentage={poolTokenPercentage}
         />
 
-        <div className="swap-btn-wrapper">
-          <LiquidityButton
-            hasInputError={hasInputError || warningMessage !== ""}
-            fromToken={poolSwap[0].token}
-            toToken={poolSwap[1].token}
-            fromInput={fromInput}
-            toInput={toInput}
-            slippage={allowedSlippage}
-            noLiquidity={noLiquidity}
-            parsedAmounts={parsedAmounts}
-            onSuccess={() => tradingPairBalancesRefetch()}
+        <LiquidityButton
+          hasInputError={hasInputError || warningMessage !== ""}
+          fromToken={poolSwap[0].token}
+          toToken={poolSwap[1].token}
+          fromInput={fromInput}
+          toInput={toInput}
+          slippage={allowedSlippage}
+          noLiquidity={noLiquidity}
+          parsedAmounts={parsedAmounts}
+          onSuccess={() => tradingPairBalancesRefetch()}
+        />
+        {connected && (
+          <YourPosition
+            tokenA={poolSwap[0].token}
+            tokenB={poolSwap[1].token}
+            lpBalance={lpBalance}
+            totalSupply={totalSupply}
+            pair={pair}
           />
-        </div>
+        )}
       </div>
       {showTradeSettings && <SettingsModal onClose={handleSettingsClose} />}
     </div>

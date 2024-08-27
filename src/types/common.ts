@@ -53,3 +53,9 @@ export enum Field {
 }
 
 export type ParsedAmounts = { [x: string]: CurrencyAmount };
+
+export type TokenPrices = {
+  readonly METIS: string;
+  readonly MINIME: string;
+  readonly WETH: string;
+};

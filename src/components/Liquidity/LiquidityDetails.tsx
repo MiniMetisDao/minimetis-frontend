@@ -25,6 +25,7 @@ const LiquidityDetails = ({
     // Default is My Pools
     return liquidityPairs;
   }, [selectedTab, favoritePools, liquidityPairs]);
+
   if (selectedList.length === 0)
     return (
       <div className="flex-col-center">

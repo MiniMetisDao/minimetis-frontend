@@ -146,6 +146,8 @@ export const styles =
       }
       .tokens > img {
         margin: 0;
+
+        border-radius: 50%;
       }
       .name-row {
         display: flex;

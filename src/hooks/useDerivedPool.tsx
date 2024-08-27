@@ -201,5 +201,7 @@ export function useDerivedPool({
     noLiquidity,
     prices,
     poolTokenPercentage,
+    totalSupply,
+    pair,
   };
 }

@@ -52,7 +52,7 @@ export const UserBalance: React.FC = () => {
             <span>
               <DisplayPrice
                 amount={userBalanceData}
-                baseFactor={tokenPrice?.miniMe}
+                baseFactor={tokenPrice?.MINIME}
                 isBasePrice
                 decimals={minimeConstants?.decimals}
               />

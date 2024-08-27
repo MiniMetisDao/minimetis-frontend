@@ -84,9 +84,30 @@ export const styles =
           display: inline-flex;
         }
       }
-
-      .swap-btn-wrapper {
-        margin: 0 0 20px;
+      .your-position-wrapper {
+        width: 100%;
+        padding: 20px 0 0 0;
+      }
+      .your-position-card {
+        width: 100%;
+        padding: 14px;
+        background: ${color.color13};
+        border-radius: 10px;
+      }
+      .your-position-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .tokens-logos {
+        display: flex;
+        align-items: center;
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
       }
     `;
 

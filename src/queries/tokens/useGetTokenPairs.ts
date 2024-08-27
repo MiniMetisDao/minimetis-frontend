@@ -3,7 +3,10 @@ import {
   METIS_BASE_TOKEN_LP_CONTRACT_ADDRESS,
   METIS_CONTRACT_ADDRESS,
   MINIME_CONTRACT_ADDRESS,
+  MINIME_METIS_LP,
 } from "config";
+import { BASE_TOKENS_PAIRS } from "config/trade/basePairs";
+import { TOKENS } from "config/trade/tradingTokens";
 import { useGetMinimeConstants } from "queries/minimeConstants";
 import { type TokenAmount } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
@@ -16,6 +19,10 @@ type TokenPairs = {
   metisMinimePair: {
     metisAmount: TokenAmount;
     miniMeAmount: TokenAmount;
+  };
+  metisEthPair: {
+    metisAmount: TokenAmount;
+    ethAmount: TokenAmount;
   };
 };
 
@@ -32,32 +39,16 @@ const metisBaseTokenPairQuery = [
   },
 ];
 
-//assumption that the pair is metis-minime
-const metisMinimePairQuery = (metisMinimeLpContractAddress: string) => [
+const getPairQuery = (lpAddress: string, tokenA: string, tokenB: string) => [
   {
-    address: METIS_CONTRACT_ADDRESS,
+    address: tokenA,
     method: "balanceOf",
-    params: [metisMinimeLpContractAddress],
+    params: [lpAddress],
   },
   {
-    address: MINIME_CONTRACT_ADDRESS,
+    address: tokenB,
     method: "balanceOf",
-    params: [metisMinimeLpContractAddress],
-  },
-];
-
-const tokenDecimalsQuery = [
-  {
-    address: METIS_CONTRACT_ADDRESS,
-    method: "decimals",
-  },
-  {
-    address: BASE_TOKEN_CONTRACT_ADDRESS,
-    method: "decimals",
-  },
-  {
-    address: MINIME_CONTRACT_ADDRESS,
-    method: "decimals",
+    params: [lpAddress],
   },
 ];
 
@@ -65,21 +56,31 @@ const selector = (response: string[]): TokenPairs => ({
   metisBaseTokenPair: {
     metisAmount: {
       amount: response[0],
-      decimals: response[4],
+      decimals: TOKENS.METIS.decimals,
     },
     baseTokenAmount: {
       amount: response[1],
-      decimals: response[5],
+      decimals: TOKENS["m.USDC"].decimals,
     },
   },
   metisMinimePair: {
     metisAmount: {
       amount: response[2],
-      decimals: response[4],
+      decimals: TOKENS.METIS.decimals,
     },
     miniMeAmount: {
       amount: response[3],
-      decimals: response[6],
+      decimals: TOKENS.MINIME.decimals,
+    },
+  },
+  metisEthPair: {
+    metisAmount: {
+      amount: response[4],
+      decimals: TOKENS.METIS.decimals,
+    },
+    ethAmount: {
+      amount: response[5],
+      decimals: TOKENS.WETH.decimals,
     },
   },
 });
@@ -87,13 +88,21 @@ const selector = (response: string[]): TokenPairs => ({
 export const useGetTokenPairs = () => {
   const { data: minimeConstants } = useGetMinimeConstants();
 
+  const metisMinimePairQuery = getPairQuery(
+    MINIME_METIS_LP,
+    METIS_CONTRACT_ADDRESS,
+    MINIME_CONTRACT_ADDRESS
+  );
+
+  const metisEthQuery = getPairQuery(
+    BASE_TOKENS_PAIRS.WETH,
+    METIS_CONTRACT_ADDRESS,
+    TOKENS.WETH.address
+  );
+
   return useMultiCallContract<TokenPairs>(
     ["tokenQuery", "tokenPairs"],
-    [
-      ...metisBaseTokenPairQuery,
-      ...metisMinimePairQuery(minimeConstants?.pair),
-      ...tokenDecimalsQuery,
-    ],
+    [...metisBaseTokenPairQuery, ...metisMinimePairQuery, ...metisEthQuery],
     {
       select: selector,
       enabled: Boolean(minimeConstants?.pair),

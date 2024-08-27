@@ -1,7 +1,9 @@
-import { type Token } from "minime-sdk";
+import { parseUnits } from "ethers/lib/utils";
+import { JSBI, type Pair, type Token, TokenAmount } from "minime-sdk";
 import { useEffect } from "react";
 
 import { usePair } from "components/Trade/Swap/hooks/usePairs";
+import { useGetTokenPrice } from "queries/tokens";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { type PoolDetails } from "types/common";
 
@@ -19,8 +21,50 @@ const INITIAL_DETAILS: PoolDetails = {
   symbols: {},
 };
 
+const isStable = (symbol: string) => {
+  if (symbol.includes("m.")) return true;
+
+  return symbol === "USDC" || symbol === "USDT";
+};
+
+const createTokenAmount = (token: Token, amount: string) => {
+  const newAmount = JSBI.BigInt(parseUnits(amount, token.decimals).toString());
+
+  return new TokenAmount(token, newAmount);
+};
+
+const getLiquidity = (pair: Pair, tokenPrices: Record<string, string>) => {
+  const token0Symbol = pair.token0.symbol;
+  const token1Symbol = pair.token1.symbol;
+
+  const isStable0 = isStable(token0Symbol);
+  const isStable1 = isStable(token1Symbol);
+
+  const price0 = createTokenAmount(
+    pair.token0,
+    isStable0 ? "1" : tokenPrices[token0Symbol]
+  );
+
+  const price1 = createTokenAmount(
+    pair.token1,
+    isStable1 ? "1" : tokenPrices[token1Symbol]
+  );
+
+  const reservesA = pair.reserve0;
+  const reservesB = pair.reserve1;
+
+  const liquidityA = reservesA.multiply(price0);
+  const liquidityB = reservesB.multiply(price1);
+  const totalLiquidity = liquidityA.add(liquidityB);
+
+  return totalLiquidity.toSignificant(6);
+};
+
 export default function usePoolDetails({ tokenA, tokenB }: Props) {
   const { updatePoolDetails, poolDetails } = useLiquidityStore();
+
+  const { data: tokenPrice } = useGetTokenPrice();
+
   const pair = usePair(tokenA, tokenB);
 
   useEffect(() => {
@@ -29,6 +73,7 @@ export default function usePoolDetails({ tokenA, tokenB }: Props) {
         useLiquidityStore.setState({ poolDetails: null });
       }
       if (!pair) return;
+      if (!tokenPrice) return;
       if (poolDetails) {
         const { address } = poolDetails;
         if (address === pair.liquidityToken.address) return;
@@ -37,12 +82,14 @@ export default function usePoolDetails({ tokenA, tokenB }: Props) {
       const priceOfB = pair.priceOf(tokenB);
       const prices = [priceOfA.toSignificant(6), priceOfB.toSignificant(6)];
 
-      const reservesA = pair.reserve0.toSignificant(6);
-      const reservesB = pair.reserve1.toSignificant(6);
+      const liquidity = getLiquidity(pair, tokenPrice);
+
+      const reservesA = pair.reserve0.toFixed();
+      const reservesB = pair.reserve1.toFixed();
 
       const newPoolDetails: PoolDetails = {
         balances: { [tokenA.address]: reservesA, [tokenB.address]: reservesB },
-        liquidity: "0",
+        liquidity,
         lpReward: "0",
         symbols: {
           [tokenA.address]: tokenA.symbol,
@@ -56,7 +103,7 @@ export default function usePoolDetails({ tokenA, tokenB }: Props) {
     };
 
     getData();
-  }, [tokenA, tokenB, pair, poolDetails, updatePoolDetails]);
+  }, [tokenA, tokenB, pair, poolDetails, updatePoolDetails, tokenPrice]);
 
   return { poolDetails: poolDetails || INITIAL_DETAILS };
 }
