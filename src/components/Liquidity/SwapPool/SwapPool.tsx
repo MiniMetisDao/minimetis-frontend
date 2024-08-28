@@ -7,10 +7,9 @@ import BigNumber from "bignumber.js";
 import { type Token } from "minime-sdk";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCog, FaPlus } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 
 import { SettingsModal } from "components/Trade/SettingsModal";
-import { TokenInput } from "components/Trade/Swap/TokenInput";
 import { Field } from "components/Trade/Swap/utils/types";
 import { IconButton } from "components/shared/IconButton";
 import { TRADE_SETTINGS } from "config";
@@ -27,10 +26,11 @@ import {
   isPairOnList,
   isValidNumber,
 } from "utils/common";
+import { PoolAction } from "utils/enums";
 import { useStorage } from "utils/storage";
 
-import { LiquidityButton } from "./LiquidityButton";
-import PoolShare from "./PoolShare";
+import AddPool from "./AddPool";
+import RemovePool from "./RemovePool";
 import Title from "./Title";
 import YourPosition from "./YourPosition";
 import { styles } from "./styles";
@@ -71,6 +71,7 @@ export default function SwapPool({
   const [warningMessage, setWarningMessage] = useState<string>("");
   const [showTradeSettings, setShowTradeSettings] = useState(false);
   const [slippageFromSearch, setSlippageFromSearch] = useState<string>();
+  const [poolAction, setPoolAction] = useState(PoolAction.ADD);
   const { get, set } = useStorage();
 
   const storedSlippage = get(
@@ -223,6 +224,10 @@ export default function SwapPool({
     return false;
   }, [fromInput, toInput]);
 
+  const handlePoolAction = (action: PoolAction) => {
+    setPoolAction(action);
+  };
+
   useEffect(() => {
     if (!tradingPairBalances) return;
     const fromToken = poolSwap[0];
@@ -252,7 +257,7 @@ export default function SwapPool({
     <div css={styles({ theme })}>
       <div className="swap-container">
         <div className="title-wrapper">
-          <Title lp={lp} />
+          <Title lp={lp} onAction={handlePoolAction} selected={poolAction} />
           <span>
             {t("slippage")}
             {": "}
@@ -262,48 +267,28 @@ export default function SwapPool({
             </IconButton>
           </span>
         </div>
-        <TokenInput
-          from
-          amount={fromInput}
-          balance={tradingPairBalances?.[poolSwap[0].token.address] || ""}
-          token={poolSwap[0].token}
-          estimated={poolSwap[0].estimated}
-          onChange={handleFromChange}
-          onTokenChange={handleFromTokenChange}
-        />
-
-        <div className="middle-plus-wrapper">
-          <FaPlus size="20" />
-        </div>
-
-        <TokenInput
-          amount={toInput}
-          balance={tradingPairBalances?.[poolSwap[1].token.address] || ""}
-          token={poolSwap[1].token}
-          estimated={poolSwap[1].estimated}
-          onChange={handleToChange}
-          onTokenChange={handleToTokenChange}
-        />
-
-        <PoolShare
-          token0={poolSwap[0]}
-          token1={poolSwap[1]}
-          prices={prices}
-          noLiquidity={noLiquidity}
-          poolTokenPercentage={poolTokenPercentage}
-        />
-
-        <LiquidityButton
-          hasInputError={hasInputError || warningMessage !== ""}
-          fromToken={poolSwap[0].token}
-          toToken={poolSwap[1].token}
-          fromInput={fromInput}
-          toInput={toInput}
-          slippage={allowedSlippage}
-          noLiquidity={noLiquidity}
-          parsedAmounts={parsedAmounts}
-          onSuccess={() => tradingPairBalancesRefetch()}
-        />
+        {poolAction === PoolAction.ADD ? (
+          <AddPool
+            fromInput={fromInput}
+            handleFromChange={handleFromChange}
+            handleFromTokenChange={handleFromTokenChange}
+            handleToChange={handleToChange}
+            handleToTokenChange={handleToTokenChange}
+            hasInputError={hasInputError}
+            noLiquidity={noLiquidity}
+            parsedAmounts={parsedAmounts}
+            poolSwap={poolSwap}
+            poolTokenPercentage={poolTokenPercentage}
+            prices={prices}
+            toInput={toInput}
+            tradingPairBalances={tradingPairBalances}
+            tradingPairBalancesRefetch={tradingPairBalancesRefetch}
+            warningMessage={warningMessage}
+            allowedSlippage={allowedSlippage}
+          />
+        ) : (
+          <RemovePool />
+        )}
         {connected && (
           <YourPosition
             tokenA={poolSwap[0].token}

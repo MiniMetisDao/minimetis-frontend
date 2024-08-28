@@ -109,6 +109,29 @@ export const styles =
           border-radius: 50%;
         }
       }
+      .tab-pool > button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: rgb(192, 192, 192);
+        font-size: 16px;
+        font-family: "Rambla", -apple-system, BlinkMacSystemFont, Segoe UI,
+          Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+          Helvetica Neue, sans-serif;
+      }
+      .tab-pool > button:hover {
+        color: white;
+        transition: 0.1s;
+      }
+      .btn-active {
+        color: white;
+      }
+      .warning-remove {
+        border: 1px solid ${color.color14};
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
     `;
 
 export const tokenInputStyles =
