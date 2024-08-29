@@ -258,14 +258,16 @@ export default function SwapPool({
       <div className="swap-container">
         <div className="title-wrapper">
           <Title lp={lp} onAction={handlePoolAction} selected={poolAction} />
-          <span>
-            {t("slippage")}
-            {": "}
-            {getSlippageToleranceInput(allowedSlippage)}%
-            <IconButton onClick={handleSettingsClick}>
-              <FaCog />
-            </IconButton>
-          </span>
+          {poolAction === PoolAction.ADD && (
+            <span>
+              {t("slippage")}
+              {": "}
+              {getSlippageToleranceInput(allowedSlippage)}%
+              <IconButton onClick={handleSettingsClick}>
+                <FaCog />
+              </IconButton>
+            </span>
+          )}
         </div>
         {poolAction === PoolAction.ADD ? (
           <AddPool
@@ -287,7 +289,14 @@ export default function SwapPool({
             allowedSlippage={allowedSlippage}
           />
         ) : (
-          <RemovePool />
+          <RemovePool
+            tokenA={poolSwap[0].token}
+            tokenB={poolSwap[1].token}
+            lpBalance={lpBalance}
+            prices={prices}
+            pair={pair}
+            totalSupply={totalSupply}
+          />
         )}
         {connected && (
           <YourPosition

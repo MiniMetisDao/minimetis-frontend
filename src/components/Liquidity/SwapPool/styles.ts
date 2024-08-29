@@ -132,6 +132,79 @@ export const styles =
         border-radius: 10px;
         font-size: 14px;
       }
+
+      .slider-wrapper {
+        width: 100%;
+        padding: 14px;
+        background: ${color.color13};
+        border-radius: 10px;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .slider-wrapper > p {
+        margin: 0;
+        width: 100%;
+      }
+      #text-xl {
+        font-size: 50px;
+      }
+      .percentage-wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 100%;
+      }
+      .percentage-wrapper > button {
+        background: ${color.color15};
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        text-transform: uppercase;
+        color: white;
+        cursor: pointer;
+        width: 50px;
+        border: 1px solid transparent;
+      }
+      .percentage-wrapper > button:hover {
+        border: 1px solid ${color.color7Shadow2};
+
+        transition: 0.1s;
+      }
+      .arrow-center {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .pool-amounts-wrapper {
+        width: 100%;
+        padding: 14px;
+        background: ${color.color13};
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .token-label-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .token-label-wrapper > p {
+        margin: 0;
+        min-width: 60px;
+      }
+
+      .pool-amounts-wrapper > p {
+        margin: 0;
+      }
+      .pool-row-amount {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
     `;
 
 export const tokenInputStyles =
