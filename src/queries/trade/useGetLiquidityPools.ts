@@ -3,34 +3,60 @@ import { Pair, type Token as SDKToken } from "minime-sdk";
 
 import { CHAIN_ID, factoryAbi } from "config";
 import { BASES_TO_CHECK_TRADES_AGAINST } from "config/trade/constants";
-import tradingTokens from "config/trade/tradingTokens.json";
+import { tradingTokens } from "config/trade/tradingTokens";
+import type { LiquidityType, Token } from "types/common";
 import { useMultiCallContract } from "utils/multicall";
+import { useStorage } from "utils/storage";
 import { getSDKToken } from "utils/trade";
 
 import { useGetRouterConstants } from "./useGetRouterConstants";
 
-const getAllLiquidityPairs = () => {
-  //TODO: dedupe duplicate pairs eg: [token1, token2] and [token2, token1]
-  const liquidityPairWithCommonBases: [SDKToken, SDKToken][] =
-    tradingTokens.flatMap((token) => {
-      return BASES_TO_CHECK_TRADES_AGAINST[CHAIN_ID].map((base) =>
-        base.address !== token.address ? [base, getSDKToken(token)] : undefined
-      ).filter((pair) => pair) as [SDKToken, SDKToken][];
-    });
+const createPairKey = (tokenA: SDKToken, tokenB: SDKToken) =>
+  `${tokenA.address}-${tokenB.address}`;
 
-  return liquidityPairWithCommonBases.map((pair) => ({
-    name: `${pair[0].name}/${pair[1].name}`,
-    tokens: pair,
-    address: Pair.getAddress(pair[0], pair[1]),
-  }));
+const getAllLiquidityPairs = (tokens: Token[]) => {
+  const seenPairs = new Set<string>();
+
+  const liquidityPairs: LiquidityType[] = [];
+
+  const trade_list = BASES_TO_CHECK_TRADES_AGAINST[CHAIN_ID];
+
+  for (const token of tokens) {
+    const tokenSDK = getSDKToken(token);
+
+    for (let index = 0; index < trade_list.length; index++) {
+      const base = trade_list[index];
+      if (base.address !== token.address) {
+        const pair: [SDKToken, SDKToken] = [base, tokenSDK];
+
+        const key1 = createPairKey(pair[0], pair[1]);
+        const key2 = createPairKey(pair[1], pair[0]);
+
+        if (!seenPairs.has(key1) && !seenPairs.has(key2)) {
+          seenPairs.add(key1);
+
+          liquidityPairs.push({
+            name: `${pair[0].symbol}/${pair[1].symbol}`,
+            tokens: pair,
+            address: Pair.getAddress(pair[0], pair[1]),
+          });
+        }
+      }
+    }
+  }
+
+  return liquidityPairs;
 };
 
 export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
+  const { get } = useStorage();
+  const externalTokens = get("tradingTokens", []) as Token[];
+  const allTokens = [...tradingTokens, ...externalTokens];
 
   const { data: liquidityPairs, isLoading: isLiquidityPairsLoading } = useQuery(
     ["trade", "allLiquidityPairs"],
-    getAllLiquidityPairs,
+    () => getAllLiquidityPairs(allTokens),
     {
       cacheTime: Infinity,
       staleTime: 24 * 60 * 60 * 1000,
@@ -57,14 +83,15 @@ export const useGetLiquidityPools = () => {
     enabled: Boolean(query.length),
   });
 
-  const validLiquidityPairs = pairAddresses
-    ? liquidityPairs?.filter(
-        (pair, idx) => pairAddresses[idx] === pair.address // if pair is not created getPair will give 0x000..
-      )
-    : [];
+  const data =
+    pairAddresses && liquidityPairs
+      ? liquidityPairs?.filter(
+          (pair, idx) => pairAddresses[idx] === pair.address
+        )
+      : [];
 
   return {
-    data: pairAddresses ? validLiquidityPairs : undefined,
+    data,
     isLoading: isLiquidityPairsLoading || isPairAddressesLoading,
     ...rest,
   };

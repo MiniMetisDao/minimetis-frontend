@@ -104,7 +104,7 @@ export const UserDividends: React.FC = () => {
               <DisplayPrice
                 amount={dividendShare?.userData?.claimedDividend.amount}
                 decimals={dividendShare?.userData?.claimedDividend.decimals}
-                baseFactor={tokenPrice?.metis}
+                baseFactor={tokenPrice?.METIS}
                 isBasePrice
               />
             </span>
@@ -132,7 +132,7 @@ export const UserDividends: React.FC = () => {
             <DisplayPrice
               amount={dividendShare?.userData?.unclaimedDividend.amount}
               decimals={dividendShare?.userData?.unclaimedDividend.decimals}
-              baseFactor={tokenPrice?.metis}
+              baseFactor={tokenPrice?.METIS}
               isBasePrice
             />
           </span>

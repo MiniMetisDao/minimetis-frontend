@@ -21,12 +21,12 @@ export const TokenStats: React.FC = () => {
   const totalTeasuryInBasePrice =
     treasury && tokenPrice
       ? getHumanReadableAmount(treasury?.metis.amount, treasury?.metis.decimals)
-          .multipliedBy(tokenPrice?.metis)
+          .multipliedBy(tokenPrice?.METIS)
           .plus(
             getHumanReadableAmount(
               treasury?.miniMe.amount,
               treasury?.miniMe.decimals
-            ).multipliedBy(tokenPrice?.miniMe)
+            ).multipliedBy(tokenPrice?.MINIME)
           )
           .toFixed()
       : undefined;
@@ -39,7 +39,7 @@ export const TokenStats: React.FC = () => {
           <div className="stat">
             <h4>{t("miniMetisPrice")}</h4>
             <span>
-              {t("currency", { value: tokenPrice?.miniMe })}{" "}
+              {t("currency", { value: tokenPrice?.MINIME })}{" "}
               {BASE_CURRENCY_CODE}
             </span>
           </div>
@@ -57,7 +57,7 @@ export const TokenStats: React.FC = () => {
               <DisplayPrice
                 amount={dividendShare?.totalDistributed.amount}
                 decimals={dividendShare?.totalDistributed.decimals}
-                baseFactor={tokenPrice?.metis}
+                baseFactor={tokenPrice?.METIS}
                 isBasePrice
                 roundingDecimal={0}
               />{" "}
@@ -81,7 +81,7 @@ export const TokenStats: React.FC = () => {
                 <DisplayPrice
                   amount={treasury?.metis.amount}
                   decimals={treasury?.metis.decimals}
-                  baseFactor={tokenPrice?.metis}
+                  baseFactor={tokenPrice?.METIS}
                   isBasePrice
                   roundingDecimal={0}
                 />{" "}
@@ -101,7 +101,7 @@ export const TokenStats: React.FC = () => {
                 <DisplayPrice
                   amount={treasury?.miniMe.amount}
                   decimals={treasury?.miniMe.decimals}
-                  baseFactor={tokenPrice?.miniMe}
+                  baseFactor={tokenPrice?.MINIME}
                   isBasePrice
                   roundingDecimal={0}
                 />{" "}
@@ -127,7 +127,7 @@ export const TokenStats: React.FC = () => {
               <DisplayPrice
                 amount={minimeConstants?.getCirculatingSupply}
                 decimals={minimeConstants?.decimals}
-                baseFactor={tokenPrice?.miniMe}
+                baseFactor={tokenPrice?.MINIME}
                 isBasePrice
                 isCompact
               />{" "}
@@ -153,7 +153,7 @@ export const TokenStats: React.FC = () => {
                   .minus(minimeConstants?.getCirculatingSupply)
                   .toFixed()}
                 decimals={minimeConstants?.decimals}
-                baseFactor={tokenPrice?.miniMe}
+                baseFactor={tokenPrice?.MINIME}
                 isBasePrice
                 roundingDecimal={0}
               />{" "}

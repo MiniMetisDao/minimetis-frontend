@@ -14,10 +14,9 @@ import {
   useTokenSwap,
 } from "queries/trade";
 import { useGetWalletDetails } from "queries/walletDetails";
+import { type SwapToken } from "types/common";
 import { getAmount, getDeadlineTimestamp } from "utils/common";
 import { useStorage } from "utils/storage";
-
-import { type SwapToken } from "./types";
 
 type SwapButtonProps = {
   hasInputError: boolean;

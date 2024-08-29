@@ -1,3 +1,4 @@
+import { type TokenPrices } from "types/common";
 import { getHumanReadableAmount } from "utils/common";
 
 import { useGetTokenPairs } from "./useGetTokenPairs";
@@ -9,7 +10,7 @@ export const useGetTokenPrice = () => {
     return { data, ...rest };
   }
 
-  const { metisBaseTokenPair, metisMinimePair } = data;
+  const { metisBaseTokenPair, metisMinimePair, metisEthPair } = data;
 
   const metisPriceInDollars = getHumanReadableAmount(
     metisBaseTokenPair.baseTokenAmount.amount,
@@ -31,14 +32,29 @@ export const useGetTokenPrice = () => {
     )
   );
 
+  const ethPriceInMetis = getHumanReadableAmount(
+    metisEthPair.metisAmount.amount,
+    metisEthPair.metisAmount.decimals
+  ).div(
+    getHumanReadableAmount(
+      metisEthPair.ethAmount.amount,
+      metisEthPair.ethAmount.decimals
+    )
+  );
+
+  const ethPriceInDollars = metisPriceInDollars.multipliedBy(ethPriceInMetis);
+
   const miniMePriceInDollars =
     miniMePriceInMetis.multipliedBy(metisPriceInDollars);
 
+  const tokenPrices: TokenPrices = {
+    METIS: metisPriceInDollars.toFixed(18),
+    MINIME: miniMePriceInDollars.toFixed(18),
+    WETH: ethPriceInDollars.toFixed(18),
+  };
+
   return {
-    data: {
-      metis: metisPriceInDollars.toFixed(),
-      miniMe: miniMePriceInDollars.toFixed(),
-    },
+    data: tokenPrices,
     ...rest,
   };
 };

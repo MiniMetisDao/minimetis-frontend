@@ -13,6 +13,7 @@ import { ComingSoonPage } from "pages/ComingSoonPage";
 import { DashboardPage } from "pages/DashboardPage";
 import { HugsNotRugsPage } from "pages/HugsNotRugsPage";
 import { NotFoundPage } from "pages/NotFoundPage";
+import { PoolPage } from "pages/PoolPage";
 import { TradePage } from "pages/TradePage";
 import { queryClient } from "queryClient";
 import { Theme } from "theme";
@@ -42,13 +43,11 @@ export const App: React.FC = () => (
                   path: "swap-tokens",
                   element: <TradePage />,
                 },
-                {
-                  path: "liquidity-pool",
-                  element: <TradePage />,
-                },
+
                 { path: "*", element: <Navigate to="/trade/swap-tokens" /> },
               ],
             },
+            { path: "pool", element: <PoolPage /> },
             { path: "stake", element: <ComingSoonPage /> },
             { path: "dashboard", element: <DashboardPage /> },
             { path: "hugs-not-rugs", element: <HugsNotRugsPage /> },

@@ -49,6 +49,9 @@ declare module "@emotion/react" {
         primary: string;
         text: string;
       };
+      box: {
+        primary: string;
+      };
       // colors used as background colors
       primary: string;
       primaryShadow: string;

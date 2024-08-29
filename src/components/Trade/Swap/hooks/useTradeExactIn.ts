@@ -42,6 +42,7 @@ export function useTradeExactIn(
             maxNumResults: 1,
           }
         )[0];
+
         // if current trade is best yet, save it
         if (
           isTradeBetter(

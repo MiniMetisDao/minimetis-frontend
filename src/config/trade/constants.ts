@@ -67,7 +67,15 @@ export const MAX_HOPS = 3;
 
 export const independentField = "INPUT";
 
+export enum TabOptions {
+  All = "ALL",
+  MY = "MY POOLS",
+  FAVORITES = "FAVORITES",
+}
+
 export enum SWAP_METHODS {
   EXACT_INPUT = "swapExactTokensForTokensSupportingFeeOnTransferTokens",
   EXACT_OUTPUT = "swapTokensForExactTokens",
 }
+
+export const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";

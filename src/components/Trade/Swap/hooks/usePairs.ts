@@ -1,5 +1,5 @@
 import { type Currency, Pair, TokenAmount } from "minime-sdk";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { wrappedCurrency } from "components/Trade/Swap/utils";
 import { DEFAULT_BATCH_SIZE, pairAbi } from "config";
@@ -77,4 +77,13 @@ export function usePairs(
   );
 
   return reserves;
+}
+
+export function usePair(tokenA?: Currency, tokenB?: Currency) {
+  const inputs: [[Currency | undefined, Currency | undefined]] = useMemo(
+    () => [[tokenA, tokenB]],
+    [tokenA, tokenB]
+  );
+
+  return usePairs(inputs)[0];
 }
