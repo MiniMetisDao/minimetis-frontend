@@ -1,9 +1,7 @@
 import { type Theme, css } from "@emotion/react";
 
-import { type Mode } from "theme";
-
 export const styles =
-  ({ theme }: { theme: Mode }) =>
+  () =>
   ({ color }: Theme) =>
     css`
       width: 100%;

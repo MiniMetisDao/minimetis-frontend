@@ -1,4 +1,4 @@
-import { JSBI, type Pair, Percent, type Token, TokenAmount } from "minime-sdk";
+import { JSBI, type Pair, type Token, TokenAmount } from "minime-sdk";
 import { useMemo, useState } from "react";
 import { BsArrowDown } from "react-icons/bs";
 
@@ -23,7 +23,6 @@ const EMPTY_BALANCE = {
 
 export default function RemovePool({
   lpBalance,
-  prices,
   tokenA,
   tokenB,
   pair,
@@ -87,6 +86,8 @@ export default function RemovePool({
       <div className="arrow-center">
         <BsArrowDown size={24} />
       </div>
+      <div>{token0Deposited && "A"}</div>
+      <div>{token1Deposited && "B"}</div>
       <PoolAmounts tokenA={tokenA} tokenB={tokenB} />
       <Button>Removee</Button>
     </>

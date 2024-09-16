@@ -17,7 +17,6 @@ import { useDerivedPool } from "hooks/useDerivedPool";
 import { useGetTokenBalances } from "queries/trade";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { useWalletStore } from "store/wallet";
-import { useTheme } from "theme";
 import { type LiquidityType, type SwapToken } from "types/common";
 import {
   getFormattedAmount,
@@ -62,7 +61,6 @@ export default function SwapPool({
   liquidityBalances,
 }: SwapPoolProps) {
   const { t } = useTranslation("trade");
-  const [theme] = useTheme();
   const navigate = useNavigate();
   const search = useSearch<LocationGenerics>();
   const { selectLP, updateTokens } = useLiquidityStore();
@@ -254,7 +252,7 @@ export default function SwapPool({
   }, [tradingPairBalances, poolSwap, t, fromInput, toInput]);
 
   return (
-    <div css={styles({ theme })}>
+    <div css={styles()}>
       <div className="swap-container">
         <div className="title-wrapper">
           <Title lp={lp} onAction={handlePoolAction} selected={poolAction} />
