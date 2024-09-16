@@ -2,6 +2,8 @@ import { JSBI, type Pair, Percent, type Token, TokenAmount } from "minime-sdk";
 import { useMemo, useState } from "react";
 import { BsArrowDown } from "react-icons/bs";
 
+import { Button } from "components/shared/Button";
+
 import PoolAmounts from "./PoolAmounts";
 import SliderAmount from "./SliderAmount";
 
@@ -86,6 +88,7 @@ export default function RemovePool({
         <BsArrowDown size={24} />
       </div>
       <PoolAmounts tokenA={tokenA} tokenB={tokenB} />
+      <Button>Remove</Button>
     </>
   );
 }
