@@ -1,8 +1,7 @@
-import type { LiquidityType } from "utils/types";
-
 import star_empty from "assets/images/star-empty.webp";
 import star_full from "assets/images/star.webp";
 import { useLiquidityStore } from "store/useLiquidityStore";
+import { type LiquidityType } from "types/common";
 
 const Favorite = ({ data }: { data: LiquidityType }) => {
   const { pools, deleteLP, saveLP } = useLiquidityStore();

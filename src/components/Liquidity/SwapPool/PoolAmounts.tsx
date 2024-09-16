@@ -29,11 +29,11 @@ export default function PoolAmounts({ tokenA, tokenB }: PoolAmountsProps) {
     <div className="pool-amounts-wrapper">
       <div className="pool-row-amount">
         <p>-</p>
-        <TokenLabel address={tokenA.address} symbol={tokenA.symbol} />
+        <TokenLabel address={tokenA.address} symbol={tokenA.symbol ?? ""} />
       </div>
       <div className="pool-row-amount">
         <p>-</p>
-        <TokenLabel address={tokenB.address} symbol={tokenB.symbol} />
+        <TokenLabel address={tokenB.address} symbol={tokenB.symbol ?? ""} />
       </div>
     </div>
   );
