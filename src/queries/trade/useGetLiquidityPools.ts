@@ -14,7 +14,7 @@ import { useGetRouterConstants } from "./useGetRouterConstants";
 const createPairKey = (tokenA: SDKToken, tokenB: SDKToken) =>
   `${tokenA.address}-${tokenB.address}`;
 
-const getAllLiquidityPairs = (tokens: Token[]) => {
+const getAllLiquidityPairs = (tokens: SDKToken[]) => {
   const seenPairs = new Set<string>();
 
   const liquidityPairs: LiquidityType[] = [];
@@ -52,7 +52,7 @@ export const useGetLiquidityPools = () => {
   const { data: routerConstants } = useGetRouterConstants();
   const { get } = useStorage();
   const externalTokens = get("tradingTokens", []) as Token[];
-  const allTokens = [...tradingTokens, ...externalTokens];
+  const allTokens = [...tradingTokens, ...externalTokens] as SDKToken[];
 
   const { data: liquidityPairs, isLoading: isLiquidityPairsLoading } = useQuery(
     ["trade", "allLiquidityPairs"],

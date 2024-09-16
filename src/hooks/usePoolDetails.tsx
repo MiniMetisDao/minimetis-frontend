@@ -21,7 +21,8 @@ const INITIAL_DETAILS: PoolDetails = {
   symbols: {},
 };
 
-const isStable = (symbol: string) => {
+const isStable = (symbol: string | undefined) => {
+  if (!symbol) return false;
   if (symbol.includes("m.")) return true;
 
   return symbol === "USDC" || symbol === "USDT";
@@ -36,18 +37,17 @@ const createTokenAmount = (token: Token, amount: string) => {
 const getLiquidity = (pair: Pair, tokenPrices: Record<string, string>) => {
   const token0Symbol = pair.token0.symbol;
   const token1Symbol = pair.token1.symbol;
-
   const isStable0 = isStable(token0Symbol);
   const isStable1 = isStable(token1Symbol);
 
   const price0 = createTokenAmount(
     pair.token0,
-    isStable0 ? "1" : tokenPrices[token0Symbol]
+    isStable0 ? "1" : tokenPrices[token0Symbol ?? "ETH"]
   );
 
   const price1 = createTokenAmount(
     pair.token1,
-    isStable1 ? "1" : tokenPrices[token1Symbol]
+    isStable1 ? "1" : tokenPrices[token1Symbol ?? "ETH"]
   );
 
   const reservesA = pair.reserve0;
@@ -92,8 +92,8 @@ export default function usePoolDetails({ tokenA, tokenB }: Props) {
         liquidity,
         lpReward: "0",
         symbols: {
-          [tokenA.address]: tokenA.symbol,
-          [tokenB.address]: tokenB.symbol,
+          [tokenA.address]: tokenA.symbol ?? "",
+          [tokenB.address]: tokenB.symbol ?? "",
         },
         prices: { [tokenA.address]: prices[0], [tokenB.address]: prices[1] },
         address: pair.liquidityToken.address,

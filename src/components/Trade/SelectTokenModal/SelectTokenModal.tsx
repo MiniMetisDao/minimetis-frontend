@@ -59,7 +59,7 @@ export const SelectTokenModal: React.FC<SelectTokenModalProps> = ({
                   <div>{token.name}</div>
                   <div className="token-symbol">{token.symbol}</div>
                 </div>
-                {isExternal(token.symbol) && (
+                {isExternal(token.symbol ?? "") && (
                   <BsBookmarkXFill
                     onClick={(e) => {
                       e.stopPropagation();

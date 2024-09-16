@@ -55,8 +55,8 @@ export const getShortTransactionHash = (address: string) =>
 export const searchExactToken = (tokenList: Token[], searchString: string) => {
   return tokenList.find((token: Token) =>
     Boolean(
-      token.symbol.toLowerCase() === searchString.toLowerCase() ||
-        token.name.toLowerCase() === searchString.toLowerCase() ||
+      (token.name ?? "").toLowerCase() === searchString.toLowerCase() ||
+        (token.symbol ?? "").toLowerCase() === searchString.toLowerCase() ||
         token.address === searchString
     )
   );
@@ -66,8 +66,8 @@ export const searchToken = (tokenList: Token[], searchString: string) => {
   return tokenList.filter((token: Token) =>
     Boolean(
       token.address.indexOf(searchString) === 0 ||
-        token.name.toLowerCase().includes(searchString.toLowerCase()) ||
-        token.symbol.toLowerCase().includes(searchString.toLowerCase())
+        (token.name ?? "").toLowerCase().includes(searchString.toLowerCase()) ||
+        (token.symbol ?? "").toLowerCase().includes(searchString.toLowerCase())
     )
   );
 };

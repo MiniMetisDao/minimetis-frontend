@@ -1,7 +1,7 @@
 import { type Token as SDKToken } from "minime-sdk";
 
 import type { Token } from "types/common";
-import { getSDKToken } from "utils/trade";
+import { convertSDKToken } from "utils/trade";
 
 const LOGO_LINK =
   "https://raw.githubusercontent.com/MetisProtocol/metis-bridge-resources/master/tokens/";
@@ -53,11 +53,11 @@ const tokens: Token[] = [
 ];
 
 export const TOKENS: Record<string, SDKToken> = {
-  METIS: getSDKToken(tokens[0]),
-  MINIME: getSDKToken(tokens[1]),
-  "m.USDC": getSDKToken(tokens[2]),
-  WETH: getSDKToken(tokens[3]),
-  "m.USDT": getSDKToken(tokens[4]),
+  METIS: convertSDKToken(tokens[0]),
+  MINIME: convertSDKToken(tokens[1]),
+  "m.USDC": convertSDKToken(tokens[2]),
+  WETH: convertSDKToken(tokens[3]),
+  "m.USDT": convertSDKToken(tokens[4]),
 };
 
 export const tradingTokens = Object.values(TOKENS);
