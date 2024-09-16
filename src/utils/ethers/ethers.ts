@@ -2,10 +2,7 @@ import { Token as TokenSDK } from "minime-sdk";
 
 import { CHAIN_ID, pairAbi } from "config";
 import { ethers } from "ethers";
-import { type Token } from "types/common";
 import { multicall } from "utils/multicall";
-
-import no_token_uri from "../../../public/logos/no-token.png";
 
 export const getNetwork = async () =>
   await new ethers.providers.Web3Provider(window.ethereum).getNetwork();

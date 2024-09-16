@@ -1,7 +1,5 @@
 import { useNavigate } from "@tanstack/react-location";
 
-import Favorite from "components/shared/Favorite";
-import { LOGOS } from "config/trade/tradingTokens";
 import usePoolsDetails from "hooks/usePoolsDetails.";
 import { useLiquidityStore } from "store/useLiquidityStore";
 import { usePaginationStore } from "store/usePaginationStore";
