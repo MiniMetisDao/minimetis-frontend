@@ -88,7 +88,7 @@ export default function RemovePool({
         <BsArrowDown size={24} />
       </div>
       <PoolAmounts tokenA={tokenA} tokenB={tokenB} />
-      <Button>Remove</Button>
+      <Button>Removee</Button>
     </>
   );
 }
