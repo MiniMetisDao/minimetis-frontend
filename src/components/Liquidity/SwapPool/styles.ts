@@ -203,6 +203,10 @@ export const styles =
         align-items: center;
         width: 100%;
       }
+      .button-wrapper {
+        display: flex;
+        gap: 10px;
+      }
     `;
 
 export const tokenInputStyles =

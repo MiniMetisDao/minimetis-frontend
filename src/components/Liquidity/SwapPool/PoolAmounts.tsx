@@ -10,6 +10,8 @@ type TokenLabelProps = {
 type PoolAmountsProps = {
   tokenA: Token;
   tokenB: Token;
+  amountA: string;
+  amountB: string;
 };
 const TokenLabel = ({ address, symbol }: TokenLabelProps) => {
   return (
@@ -24,15 +26,20 @@ const TokenLabel = ({ address, symbol }: TokenLabelProps) => {
   );
 };
 
-export default function PoolAmounts({ tokenA, tokenB }: PoolAmountsProps) {
+export default function PoolAmounts({
+  tokenA,
+  tokenB,
+  amountA,
+  amountB,
+}: PoolAmountsProps) {
   return (
     <div className="pool-amounts-wrapper">
       <div className="pool-row-amount">
-        <p>-</p>
+        <p>{amountA}</p>
         <TokenLabel address={tokenA.address} symbol={tokenA.symbol ?? ""} />
       </div>
       <div className="pool-row-amount">
-        <p>-</p>
+        <p>{amountB}</p>
         <TokenLabel address={tokenB.address} symbol={tokenB.symbol ?? ""} />
       </div>
     </div>

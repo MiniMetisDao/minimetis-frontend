@@ -1,8 +1,10 @@
-import { JSBI, type Pair, type Token, TokenAmount } from "minime-sdk";
+import { Fraction, JSBI, type Pair, type Token, TokenAmount } from "minime-sdk";
 import { useMemo, useState } from "react";
 import { BsArrowDown } from "react-icons/bs";
 
 import { Button } from "components/shared/Button";
+
+import { RemoveLiquidityButton } from "../RemoveLiquidityButton";
 
 import PoolAmounts from "./PoolAmounts";
 import SliderAmount from "./SliderAmount";
@@ -71,6 +73,48 @@ export default function RemovePool({
     return { token0Deposited, token1Deposited };
   }, [lpBalance, pair, totalSupply]);
 
+  const { removeToken0, removeToken1, amountToRemove } = useMemo(() => {
+    const bigIntValue = JSBI.BigInt(value);
+    if (!token0Deposited || !token1Deposited) {
+      const DEFAULT_0 = new TokenAmount(tokenA, JSBI.BigInt(0));
+      const DEFAULT_1 = new TokenAmount(tokenB, JSBI.BigInt(0));
+
+      const DEFAULT_AMOUNT = new TokenAmount(
+        pair.liquidityToken,
+        JSBI.BigInt(0)
+      );
+
+      return {
+        removeToken0: DEFAULT_0,
+        removeToken1: DEFAULT_1,
+        amountToRemove: DEFAULT_AMOUNT,
+      };
+    }
+    const removeToken0 = token0Deposited
+      .multiply(bigIntValue)
+      .divide(JSBI.BigInt("100"));
+
+    const removeToken1 = token1Deposited
+      .multiply(bigIntValue)
+      .divide(JSBI.BigInt("100"));
+
+    const lpBalanceAmount = new TokenAmount(pair.liquidityToken, lpBalance);
+
+    const amountToRemove = lpBalanceAmount
+      .multiply(bigIntValue)
+      .divide(JSBI.BigInt("100"));
+
+    return { removeToken0, removeToken1, amountToRemove };
+  }, [
+    token0Deposited,
+    token1Deposited,
+    value,
+    tokenA,
+    tokenB,
+    pair,
+    lpBalance,
+  ]);
+
   return (
     <>
       <div className="warning-remove">
@@ -86,10 +130,20 @@ export default function RemovePool({
       <div className="arrow-center">
         <BsArrowDown size={24} />
       </div>
-      <div>{token0Deposited && "A"}</div>
-      <div>{token1Deposited && "B"}</div>
-      <PoolAmounts tokenA={tokenA} tokenB={tokenB} />
-      <Button>Removee</Button>
+
+      <PoolAmounts
+        tokenA={tokenA}
+        tokenB={tokenB}
+        amountA={removeToken0.toFixed(6)}
+        amountB={removeToken1.toFixed(6)}
+      />
+      <div className="button-wrapper">
+        <RemoveLiquidityButton
+          pairAddress={pair.liquidityToken.address}
+          amount={amountToRemove.toFixed(pair.liquidityToken.decimals) ?? ""}
+          hasInputError={false}
+        />
+      </div>
     </>
   );
 }

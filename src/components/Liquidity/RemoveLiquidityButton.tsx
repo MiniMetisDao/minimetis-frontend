@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { parseEther } from "ethers/lib/utils";
 import React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -173,10 +174,12 @@ export const RemoveLiquidityButton: React.FC<RemoveLiquidityButtonProps> = ({
       return;
     }
 
+    const parsedAmount = parseEther(amountToRemove);
+
     const params = [
       reservesData?.tokenA,
       reservesData?.tokenB,
-      amountToRemove,
+      parsedAmount,
       amountAMin.toFixed(0),
       amountBMin.toFixed(0),
       walletDetails?.address,
