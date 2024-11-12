@@ -53,6 +53,8 @@ export const useGetTokenPrice = () => {
     WETH: ethPriceInDollars.toFixed(18),
   };
 
+  console.log(tokenPrices);
+
   return {
     data: tokenPrices,
     ...rest,
